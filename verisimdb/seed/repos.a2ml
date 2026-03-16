@@ -1,0 +1,1724 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Master repo registry — all hyperpolymath repositories with clade assignments
+# Primary key: GitHub. Foreign keys: GitLab, Bitbucket, Codeberg, SourceHut.
+#
+# Each entry: [repo.{name}] with primary clade, secondary clades, lineage type,
+# and monorepo parent (if applicable).
+#
+# Lineage types: standalone, monorepo, monorepo-child, inflated, deflated
+
+[meta]
+version = "1.0.0"
+created = "2026-03-16"
+author = "Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"
+total-repos = 200
+format = "repo-registry"
+
+# ============================================================================
+# fv — Formal Verification & Proofs
+# ============================================================================
+
+[repo.proven]
+primary = "fv"
+secondary = []
+description = "Formally verified safety library — Idris2 dependent types + Zig FFI + 120+ bindings"
+lineage = "standalone"
+parent = ""
+completion = 65
+
+[repo.proven-servers]
+primary = "fv"
+secondary = []
+description = "MCP servers exposing proven library operations"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.januskey]
+primary = "fv"
+secondary = ["sc"]
+description = "Provably reversible file operations via Maximal Principle Reduction"
+lineage = "standalone"
+parent = ""
+completion = 100
+
+[repo.valence-shell]
+primary = "fv"
+secondary = ["ix"]
+description = "Formally verified shell — 250+ theorems across 6 proof systems"
+lineage = "standalone"
+parent = ""
+completion = 72
+
+[repo.ochrance]
+primary = "fv"
+secondary = []
+description = "Neurosymbolic filesystem verification — Idris2 dependent types"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.ochrance-framework]
+primary = "fv"
+secondary = []
+description = "Modular verification framework for subsystem integrity — Idris2"
+lineage = "standalone"
+parent = ""
+completion = 5
+
+[repo.echidna]
+primary = "fv"
+secondary = ["ax"]
+description = "Neurosymbolic theorem proving — neural proof synthesis"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.polyglot-formalisms-elixir]
+primary = "fv"
+secondary = ["dx"]
+description = "Formal methods bindings for Elixir"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.polyglot-formalisms-gleam]
+primary = "fv"
+secondary = ["dx"]
+description = "Formal methods bindings for Gleam"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.proof-of-work]
+primary = "fv"
+secondary = []
+description = "Proof-of-work verification tooling"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.HOL]
+primary = "fv"
+secondary = []
+description = "Higher-Order Logic proof assistant integration"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+# ============================================================================
+# nl — Nextgen Languages
+# ============================================================================
+
+[repo.nextgen-languages]
+primary = "nl"
+secondary = []
+description = "Monorepo — anvomidav, ephapax, wokelang, eclexia, affinescript, betlang, etc."
+lineage = "monorepo"
+parent = ""
+completion = 30
+
+[repo.ephapax]
+primary = "nl"
+secondary = ["fv"]
+description = "Linear type language with uniqueness types"
+lineage = "standalone"
+parent = ""
+completion = 25
+
+[repo.anvomidav]
+primary = "nl"
+secondary = []
+description = "Nextgen language — anvomidav"
+lineage = "monorepo-child"
+parent = "nextgen-languages"
+completion = 15
+
+[repo.wokelang]
+primary = "nl"
+secondary = []
+description = "Social-justice-aware programming language"
+lineage = "monorepo-child"
+parent = "nextgen-languages"
+completion = 10
+
+[repo.typell]
+primary = "nl"
+secondary = ["fv"]
+description = "Type-level programming language — PanLL integration"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.panll]
+primary = "nl"
+secondary = ["ap"]
+description = "Panel-based UI framework — TEA architecture, workspace layer"
+lineage = "standalone"
+parent = ""
+completion = 50
+
+[repo.metadata-grammar]
+primary = "nl"
+secondary = ["gv"]
+description = "Grammar definitions for metadata formats"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.modshells]
+primary = "nl"
+secondary = ["ix"]
+description = "Modular shell framework"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+# ============================================================================
+# rm — Repo Management & Tooling
+# ============================================================================
+
+[repo.reposystem]
+primary = "rm"
+secondary = []
+description = "Monorepo — graph engine for repository ecosystem management"
+lineage = "monorepo"
+parent = ""
+completion = 95
+
+[repo.grim-repo]
+primary = "rm"
+secondary = []
+description = "Repo standards toolkit — GrimRepo Scripts (ReScript)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.rsr-template-repo]
+primary = "rm"
+secondary = ["gv"]
+description = "RSR template — scaffold for new repos"
+lineage = "standalone"
+parent = ""
+completion = 100
+
+[repo.gitbot-fleet]
+primary = "rm"
+secondary = ["ax"]
+description = "Bot orchestration — rhodibot, echidnabot, sustainabot, glambot, seambot, finishbot"
+lineage = "standalone"
+parent = ""
+completion = 60
+
+[repo.robot-vacuum-cleaner]
+primary = "rm"
+secondary = []
+description = "Automated repo cleanup tool"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.polysafe-gitfixer]
+primary = "rm"
+secondary = ["sc"]
+description = "Safe git fix operations across repos"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.tree-navigator]
+primary = "rm"
+secondary = []
+description = "Repository tree navigation tool"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.empty-linter]
+primary = "rm"
+secondary = []
+description = "Lint for empty or placeholder files"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.mtpc-template-repo]
+primary = "rm"
+secondary = []
+description = "MTPC template repository"
+lineage = "standalone"
+parent = ""
+completion = 50
+
+[repo.v3-templater]
+primary = "rm"
+secondary = []
+description = "V3 template generation tool"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+# ============================================================================
+# gv — Governance & Standards
+# ============================================================================
+
+[repo.gv-clade-index]
+primary = "gv"
+secondary = ["db"]
+description = "THIS REPO — clade taxonomy + VeriSimDB portal registry"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.palimpsest-license]
+primary = "gv"
+secondary = []
+description = "PMPL-1.0 license text, exhibits, governance model, Rust tooling"
+lineage = "standalone"
+parent = ""
+completion = 100
+
+[repo.palimpsest-plasma]
+primary = "gv"
+secondary = ["rm"]
+description = "Governance automation engine — OCaml policy AST"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.standards]
+primary = "gv"
+secondary = []
+description = "Monorepo — axel-protocol, a2ml, rhodium-standard-repositories, etc."
+lineage = "monorepo"
+parent = ""
+completion = 60
+
+[repo.seamstress]
+primary = "gv"
+secondary = ["rm"]
+description = "Architectural seams as first-class artifacts"
+lineage = "standalone"
+parent = ""
+completion = 50
+
+[repo.ensaid-spec]
+primary = "gv"
+secondary = ["pt"]
+description = "ENSAID specification"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.explicit-trust-plane]
+primary = "gv"
+secondary = ["sc"]
+description = "Explicit trust plane framework"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.manifesto]
+primary = "gv"
+secondary = []
+description = "Project manifesto and principles"
+lineage = "standalone"
+parent = ""
+completion = 80
+
+[repo.hyperpolymath-sovereign-registry]
+primary = "gv"
+secondary = []
+description = "Sovereign registry for hyperpolymath ecosystem"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.pandoc-a2ml]
+primary = "gv"
+secondary = ["dx"]
+description = "Pandoc readers/writers for A2ML and K9 formats"
+lineage = "standalone"
+parent = ""
+completion = 70
+
+[repo.hyperpolymath.github.io]
+primary = "gv"
+secondary = ["ap"]
+description = "Public portfolio — will become ReScript/WASM portal"
+lineage = "standalone"
+parent = ""
+completion = 100
+
+# ============================================================================
+# db — Databases
+# ============================================================================
+
+[repo.nextgen-databases]
+primary = "db"
+secondary = []
+description = "Monorepo — verisimdb, quandledb, lithoglyph"
+lineage = "monorepo"
+parent = ""
+completion = 60
+
+[repo.verisimdb-data]
+primary = "db"
+secondary = []
+description = "VeriSimDB data repository — scan results, patterns, recipes"
+lineage = "standalone"
+parent = ""
+completion = 50
+
+[repo.statistease]
+primary = "db"
+secondary = []
+description = "Statistical analysis tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+# ============================================================================
+# ap — Applications
+# ============================================================================
+
+[repo.nexia-list]
+primary = "ap"
+secondary = []
+description = "Personal knowledge management — ReScript TEA + Tauri 2.0"
+lineage = "standalone"
+parent = ""
+completion = 70
+
+[repo.boj-server]
+primary = "ap"
+secondary = ["ax"]
+description = "BoJ MCP server — cartridge system, multi-cloud"
+lineage = "standalone"
+parent = ""
+completion = 60
+
+[repo.boj-server-gemini]
+primary = "ap"
+secondary = ["ax"]
+description = "BoJ server Gemini variant"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.burble]
+primary = "ap"
+secondary = ["pt"]
+description = "Voice platform — Elixir control plane, WebRTC media"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.branch-newspaper]
+primary = "ap"
+secondary = ["pt"]
+description = "Citizen journalism — Phoenix LiveView + IPFS"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.civic-connect]
+primary = "ap"
+secondary = []
+description = "Civic engagement platform"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.lcb-website]
+primary = "ap"
+secondary = []
+description = "LCB union website"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.nafa-app]
+primary = "ap"
+secondary = []
+description = "NAFA application"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.docmatrix]
+primary = "ap"
+secondary = []
+description = "Document matrix tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.docudactyl]
+primary = "ap"
+secondary = []
+description = "Documentation tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.dictask]
+primary = "ap"
+secondary = []
+description = "Dictionary-based task management"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.blocky-writer]
+primary = "ap"
+secondary = []
+description = "Block-based writing tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.raze-tui]
+primary = "ap"
+secondary = []
+description = "TUI application framework"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.double-track-browser]
+primary = "ap"
+secondary = []
+description = "Dual-pane browser"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.universal-chat-extractor]
+primary = "ap"
+secondary = []
+description = "Chat export/extraction tool"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.voyage-enterprise-decision-system]
+primary = "ap"
+secondary = []
+description = "Enterprise decision support system"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.feedback-o-tron]
+primary = "ap"
+secondary = []
+description = "Feedback collection and management"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.excel-economic-numbers-tool]
+primary = "ap"
+secondary = []
+description = "Economic data analysis in Excel"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.dotmatrix-fileprinter]
+primary = "ap"
+secondary = []
+description = "Dot-matrix style file printer"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.live-files]
+primary = "ap"
+secondary = []
+description = "Live file synchronisation tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.flat-mate]
+primary = "ap"
+secondary = []
+description = "Flat/apartment sharing management"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.preference-injector]
+primary = "ap"
+secondary = []
+description = "User preference injection tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.presswerk]
+primary = "ap"
+secondary = []
+description = "Publishing/press tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.snapcreate]
+primary = "ap"
+secondary = []
+description = "Snapshot creation tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.misinformation-defence-platform]
+primary = "ap"
+secondary = ["sc"]
+description = "Counter-misinformation platform"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+# ============================================================================
+# ix — Infrastructure & Cloud
+# ============================================================================
+
+[repo.ambientops]
+primary = "ix"
+secondary = []
+description = "Monorepo — volumod, personal-sysadmin, displace, etc."
+lineage = "monorepo"
+parent = ""
+completion = 30
+
+[repo.cloudflare-dns-terraform]
+primary = "ix"
+secondary = []
+description = "Cloudflare DNS management via Terraform"
+lineage = "standalone"
+parent = ""
+completion = 60
+
+[repo.cloudguard-cli]
+primary = "ix"
+secondary = ["sc"]
+description = "Cloud security guard CLI"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.cloudguard-server]
+primary = "ix"
+secondary = ["sc"]
+description = "Cloud security guard server"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.stapeln]
+primary = "ix"
+secondary = []
+description = "Container layer management — verified builds"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.infrastructure-automation]
+primary = "ix"
+secondary = []
+description = "Infrastructure automation scripts and tools"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.twingate-helm-deploy]
+primary = "ix"
+secondary = []
+description = "Twingate deployment via Helm"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.zerotier-k8s-link]
+primary = "ix"
+secondary = []
+description = "ZeroTier integration with Kubernetes"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.cloud-sync-tuner]
+primary = "ix"
+secondary = []
+description = "Cloud synchronisation tuning"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.sdp-hkdf-deployment]
+primary = "ix"
+secondary = ["sc"]
+description = "SDP HKDF deployment tooling"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.hesiod-dns-map]
+primary = "ix"
+secondary = []
+description = "DNS mapping via Hesiod"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.ipfs-overlay]
+primary = "ix"
+secondary = []
+description = "IPFS overlay network tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.ipv6-tools]
+primary = "ix"
+secondary = []
+description = "IPv6 networking tools"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.ssg-collection]
+primary = "ix"
+secondary = ["ap"]
+description = "Static site generator collection"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.scripts]
+primary = "ix"
+secondary = []
+description = "General automation scripts"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+# ============================================================================
+# dx — Developer Ecosystem
+# ============================================================================
+
+[repo.developer-ecosystem]
+primary = "dx"
+secondary = []
+description = "Monorepo — julia/deno/zig/rescript/elixir/idris2/v-ecosystem, etc."
+lineage = "monorepo"
+parent = ""
+completion = 50
+
+[repo.asdf-tool-plugins]
+primary = "dx"
+secondary = []
+description = "Monorepo — 74 asdf plugin dirs + asdf-augmenters"
+lineage = "monorepo"
+parent = ""
+completion = 40
+
+[repo.nickel-augmentation]
+primary = "dx"
+secondary = []
+description = "Monorepo — Nickel language augmentation tools"
+lineage = "monorepo"
+parent = ""
+completion = 20
+
+[repo.rescript]
+primary = "dx"
+secondary = ["nl"]
+description = "ReScript tooling and contributions"
+lineage = "standalone"
+parent = ""
+completion = 50
+
+[repo.rescript-dom-mounter]
+primary = "dx"
+secondary = []
+description = "ReScript DOM mounting utility"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.rescript-tea]
+primary = "dx"
+secondary = []
+description = "ReScript TEA (The Elm Architecture) framework"
+lineage = "standalone"
+parent = ""
+completion = 60
+
+[repo.rescript-vite]
+primary = "dx"
+secondary = []
+description = "ReScript + Vite integration"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.bunsenite]
+primary = "dx"
+secondary = []
+description = "Nickel configuration tool"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.mcp-servers]
+primary = "dx"
+secondary = ["ap"]
+description = "MCP server collection"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.elixir-mcp-server]
+primary = "dx"
+secondary = []
+description = "MCP server for Elixir — BEAM layer for BoJ"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.universal-language-server-plugin]
+primary = "dx"
+secondary = []
+description = "Universal LSP plugin"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.universal-extension-format]
+primary = "dx"
+secondary = []
+description = "Universal browser extension format"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.universal-project-manager]
+primary = "dx"
+secondary = []
+description = "Universal project management tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.ffmpeg-ffi]
+primary = "dx"
+secondary = []
+description = "FFI bindings for FFmpeg"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.filesoup]
+primary = "dx"
+secondary = []
+description = "Monorepo — fslint plugin API + SDK"
+lineage = "monorepo"
+parent = ""
+completion = 20
+
+[repo.formatrix-docs]
+primary = "dx"
+secondary = []
+description = "Formatrix documentation"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.thunderbird-template-reloaded]
+primary = "dx"
+secondary = []
+description = "Thunderbird email template extension"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.zotero-tools]
+primary = "dx"
+secondary = []
+description = "Zotero reference management tools"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.wordpress-tools]
+primary = "dx"
+secondary = []
+description = "WordPress development tools"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.odds-and-sods-package-manager]
+primary = "dx"
+secondary = []
+description = "Miscellaneous package manager"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.patallm-gallery]
+primary = "dx"
+secondary = ["ax"]
+description = "Monorepo — echomesh, elegant-state, claude-integrations, etc."
+lineage = "monorepo"
+parent = ""
+completion = 30
+
+[repo.im-docs]
+primary = "dx"
+secondary = []
+description = "Instant messaging documentation"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.polyglot-i18n]
+primary = "dx"
+secondary = []
+description = "Polyglot internationalisation library"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.vexometer]
+primary = "dx"
+secondary = ["rm"]
+description = "Vexation measurement tool"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+# ============================================================================
+# pt — Protocols & Interop
+# ============================================================================
+
+[repo.intsoc-transactor]
+primary = "pt"
+secondary = ["gv"]
+description = "Internet Society Transactor — IETF/IRTF/IANA draft management"
+lineage = "standalone"
+parent = ""
+completion = 40
+
+[repo.maa-framework]
+primary = "pt"
+secondary = ["gv"]
+description = "Mutually Assured Accountability Framework"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.http-capability-gateway]
+primary = "pt"
+secondary = ["sc"]
+description = "HTTP capability-based gateway"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.protocol-squisher]
+primary = "pt"
+secondary = []
+description = "Protocol compression and squishing"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.squisher-corpus]
+primary = "pt"
+secondary = []
+description = "Test corpus for protocol-squisher"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.resource-record-fluctuator]
+primary = "pt"
+secondary = ["ix"]
+description = "DNS resource record management"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.rrecord-verity]
+primary = "pt"
+secondary = []
+description = "Resource record verification"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.no-nonsense-nntps]
+primary = "pt"
+secondary = []
+description = "Usenet/NNTP tooling"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.unified-dataset-vocab]
+primary = "pt"
+secondary = []
+description = "Unified dataset vocabulary standard"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.v-graphql]
+primary = "pt"
+secondary = ["dx"]
+description = "V-lang GraphQL implementation"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.v-grpc]
+primary = "pt"
+secondary = ["dx"]
+description = "V-lang gRPC implementation"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.v-rest]
+primary = "pt"
+secondary = ["dx"]
+description = "V-lang REST implementation"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+# ============================================================================
+# ax — AI & Neurosymbolic
+# ============================================================================
+
+[repo.neural-foundations]
+primary = "ax"
+secondary = ["fv"]
+description = "Neural foundations — neurosymbolic infrastructure"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.hypatia]
+primary = "ax"
+secondary = ["sc"]
+description = "Neurosymbolic CI/CD intelligence — rule-based scanning"
+lineage = "standalone"
+parent = ""
+completion = 50
+
+[repo.conative-gating]
+primary = "ax"
+secondary = ["gv"]
+description = "SLM-as-Cerebellum for LLM policy enforcement"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.conflow]
+primary = "ax"
+secondary = []
+description = "Conversational flow engine"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.neurophone]
+primary = "ax"
+secondary = ["ap"]
+description = "Neural phone interface"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.i-human]
+primary = "ax"
+secondary = []
+description = "Human-AI interaction framework"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+# ============================================================================
+# gm — Games & Interactive
+# ============================================================================
+
+[repo.idaptik]
+primary = "gm"
+secondary = []
+description = "Main game — asymmetric co-op, Jessica + Q, escape rooms"
+lineage = "monorepo"
+parent = ""
+completion = 60
+
+[repo.idaptik-rescript13-staging]
+primary = "gm"
+secondary = []
+description = "IDApTIK ReScript 13 staging environment"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo."games & trivia"]
+primary = "gm"
+secondary = []
+description = "Monorepo — phantom-metal-taste, dicti0nary-attack, candy-crash, etc."
+lineage = "monorepo"
+parent = ""
+completion = 20
+
+[repo.checky-monkey]
+primary = "gm"
+secondary = ["sc", "rm"]
+description = "Userscript/userstyle validation platform (Haskell)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.chimichanga]
+primary = "gm"
+secondary = []
+description = "Game project"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+# ============================================================================
+# sc — Security
+# ============================================================================
+
+[repo.panic-attacker]
+primary = "sc"
+secondary = ["rm"]
+description = "Security scanning tool — static analysis"
+lineage = "standalone"
+parent = ""
+completion = 70
+
+[repo.svalinn]
+primary = "sc"
+secondary = ["ix"]
+description = "Edge security gateway"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.session-sentinel]
+primary = "sc"
+secondary = []
+description = "Session security monitoring"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.reasonably-good-token-vault]
+primary = "sc"
+secondary = []
+description = "Token/secret management vault"
+lineage = "standalone"
+parent = ""
+completion = 30
+
+[repo.sanctify-php]
+primary = "sc"
+secondary = ["dx"]
+description = "PHP security hardening"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.php-aegis]
+primary = "sc"
+secondary = ["dx"]
+description = "PHP security framework"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.pimcore-fortress]
+primary = "sc"
+secondary = []
+description = "Pimcore security hardening"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.project-wharf]
+primary = "sc"
+secondary = ["ix"]
+description = "Secure project deployment"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.fireflag]
+primary = "sc"
+secondary = []
+description = "Feature flag security tool"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+# ============================================================================
+# Julia Packages (jl) — tagged in VeriSimDB, no prefix rename
+# Keep PascalCase.jl naming per Julia convention.
+# Clade assigned based on primary domain.
+# ============================================================================
+
+[repo."AcceleratorGate.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — accelerator gate"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Axiology.jl"]
+primary = "dx"
+secondary = ["gv"]
+description = "Julia package — value theory"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Axiom.jl"]
+primary = "dx"
+secondary = ["fv"]
+description = "Julia package — axiom systems"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."BowtieRisk.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — bowtie risk analysis"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Causals.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — causal inference"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Cladistics.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — phylogenetic analysis"
+lineage = "standalone"
+parent = ""
+completion = 40
+julia = true
+
+[repo."Cliodynamics.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — mathematical history"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Cliometrics.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — quantitative economic history"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Exnovation.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — technology phase-out analysis"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."FirmwareAudit.jl"]
+primary = "sc"
+secondary = []
+description = "Julia package — firmware security auditing"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."HackenbushGames.jl"]
+primary = "gm"
+secondary = []
+description = "Julia package — combinatorial game theory"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."HardwareResilience.jl"]
+primary = "ix"
+secondary = []
+description = "Julia package — hardware resilience testing"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Hyperpolymath.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — hyperpolymath core library"
+lineage = "standalone"
+parent = ""
+completion = 30
+julia = true
+
+[repo.HyperpolymathRegistry]
+primary = "dx"
+secondary = []
+description = "Julia package registry"
+lineage = "standalone"
+parent = ""
+completion = 60
+julia = true
+
+[repo."InvestigativeJournalist.jl"]
+primary = "ap"
+secondary = []
+description = "Julia package — investigative journalism tools"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."JuliaKids.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — educational Julia for children"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."JuliaPackage-Reuse-Audit.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — dependency reuse auditing"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."KnotTheory.jl"]
+primary = "dx"
+secondary = ["db"]
+description = "Julia package — knot theory (relates to QuandleDB)"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Lithoglyph.jl"]
+primary = "db"
+secondary = []
+description = "Julia package — graph database"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."LowLevel.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — low-level systems"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."MacroPower.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — macro metaprogramming"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."MinixSDK.jl"]
+primary = "dx"
+secondary = ["ix"]
+description = "Julia package — Minix SDK bindings"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."PolyglotFormalisms.jl"]
+primary = "fv"
+secondary = []
+description = "Julia package — formal methods"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."PostDisciplinary.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — post-disciplinary research tools"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."PRComms.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — PR/communications analysis"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."ProvenCrypto.jl"]
+primary = "fv"
+secondary = ["sc"]
+description = "Julia package — verified cryptography"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."QuantumCircuit.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — quantum circuit simulation"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."ShellIntegration.jl"]
+primary = "dx"
+secondary = ["ix"]
+description = "Julia package — shell integration"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."SiliconCore.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — hardware abstraction"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."Skein.jl"]
+primary = "fv"
+secondary = []
+description = "Julia package — Skein hash function"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."SMTLib.jl"]
+primary = "fv"
+secondary = []
+description = "Julia package — SMT-LIB interface"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."SoftwareSovereign.jl"]
+primary = "gv"
+secondary = []
+description = "Julia package — software sovereignty analysis"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."TradeUnionist.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — trade union data analysis"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."ViableSystems.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — viable systems model"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+[repo."ZeroProb.jl"]
+primary = "dx"
+secondary = []
+description = "Julia package — zero-probability analysis"
+lineage = "standalone"
+parent = ""
+completion = 20
+julia = true
+
+# ============================================================================
+# Remaining repos — assigned to best-fit clades
+# ============================================================================
+
+[repo.academic-workflow-suite]
+primary = "dx"
+secondary = []
+description = "Academic workflow tools"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.accessibility-everywhere]
+primary = "gv"
+secondary = ["ap"]
+description = "Accessibility standards and tooling"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.aerie]
+primary = "dx"
+secondary = []
+description = "Development environment tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.amethe]
+primary = "dx"
+secondary = []
+description = "Developer tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.anamnesis]
+primary = "ap"
+secondary = []
+description = "Memory/recall application"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.aspasia]
+primary = "dx"
+secondary = []
+description = "Developer tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.bofig]
+primary = "dx"
+secondary = []
+description = "Configuration tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.boinc-boinc]
+primary = "ix"
+secondary = []
+description = "BOINC distributed computing integration"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.cccp]
+primary = "ix"
+secondary = []
+description = "Cloud/container coordination"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.defiant]
+primary = "sc"
+secondary = []
+description = "Defiance/resistance security tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.flatracoon]
+primary = "dx"
+secondary = []
+description = "Flatpak tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.heterogenous-mobile-computing]
+primary = "ix"
+secondary = []
+description = "Heterogeneous mobile computing research"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.hybrid-automation-router]
+primary = "ix"
+secondary = ["ax"]
+description = "Hybrid automation routing"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.hyperpolymath]
+primary = "gv"
+secondary = []
+description = "Organisation profile repository"
+lineage = "standalone"
+parent = ""
+completion = 80
+
+[repo.kaldor-iiot]
+primary = "ix"
+secondary = []
+description = "Industrial IoT tooling"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.kea]
+primary = "dx"
+secondary = []
+description = "Developer tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.laminar]
+primary = "ix"
+secondary = []
+description = "Laminar flow/pipeline tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.laniakea]
+primary = "ix"
+secondary = []
+description = "Large-scale infrastructure"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.megadog]
+primary = "rm"
+secondary = []
+description = "Large-scale repo management"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.polystack]
+primary = "dx"
+secondary = []
+description = "DELETED from GitHub — superseded by boj-server. Archived to OneDrive."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.refugia]
+primary = "ap"
+secondary = []
+description = "Refuge/safe-space platform"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.robodog-ecm]
+primary = "rm"
+secondary = ["ax"]
+description = "Robot dog enterprise content management"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.rpa-elysium]
+primary = "dx"
+secondary = ["ax"]
+description = "Robotic Process Automation framework"
+lineage = "standalone"
+parent = ""
+completion = 20
+
+[repo.social-media-tools]
+primary = "dx"
+secondary = []
+description = "Monorepo — social media integrations"
+lineage = "monorepo"
+parent = ""
+completion = 20
+
+[repo.supernorma]
+primary = "gv"
+secondary = []
+description = "Normalisation/standards tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.tma-mark2]
+primary = "dx"
+secondary = []
+description = "TMA mark 2 tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.ubicity]
+primary = "ix"
+secondary = []
+description = "Ubiquitous computing tool"
+lineage = "standalone"
+parent = ""
+completion = 10
+
+[repo.zerostep]
+primary = "dx"
+secondary = []
+description = "Zero-step automation"
+lineage = "standalone"
+parent = ""
+completion = 10
