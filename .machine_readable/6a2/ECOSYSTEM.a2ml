@@ -1,26 +1,46 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
-# Copyright (c) {{CURRENT_YEAR}} {{AUTHOR}} ({{OWNER}}) <{{AUTHOR_EMAIL}}>
-#
-# ECOSYSTEM.a2ml — Project ecosystem position
-# Relationships, dependencies, integration points.
+# Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 
-[metadata]
-version = "0.1.0"
-last-updated = "{{CURRENT_DATE}}"
-
-[project]
-name = "{{PROJECT_NAME}}"
-purpose = "{{PROJECT_PURPOSE}}"
-role = "{{PROJECT_ROLE}}"  # e.g. ffi-infrastructure, cli-tool, library, service
-
-[position-in-ecosystem]
-tier = "infrastructure"  # 1 | 2 | infrastructure
+[ecosystem]
+version = "1.0.0"
+name = "gv-clade-index"
+type = "registry"
+purpose = "Central taxonomy and registry for 200+ hyperpolymath repositories"
+position-in-ecosystem = "Core governance — single source of truth for repo identity, clades, work items, bot findings"
 
 [related-projects]
-# relationship types: sibling-standard, dependency, dependent, inspiration, potential-consumer
-# - { name = "language-bridges", relationship = "sibling-standard" }
-# - { name = "hypatia", relationship = "potential-consumer" }
 
-[integration-points]
-# External systems this project connects to
-# - { system = "gitbot-fleet", direction = "outbound", protocol = "repository_dispatch" }
+[related-projects.verisimdb]
+relationship = "depends-on"
+description = "Uses VeriSimDB as the database engine"
+repo = "nextgen-databases/verisimdb"
+
+[related-projects.hyperpolymath-github-io]
+relationship = "feeds-into"
+description = "Portal frontend queries this registry"
+repo = "hyperpolymath.github.io"
+
+[related-projects.reposystem]
+relationship = "sibling"
+description = "Reposystem is graph engine; clade-index is identity registry"
+repo = "reposystem"
+
+[related-projects.palimpsest-plasma]
+relationship = "sibling"
+description = "PMPL governance engine; consumes clade-index for compliance"
+repo = "palimpsest-plasma"
+
+[related-projects.gitbot-fleet]
+relationship = "feeds-into"
+description = "Bots write observations to VeriSimDB"
+repo = "gitbot-fleet"
+
+[related-projects.hypatia]
+relationship = "feeds-into"
+description = "Hypatia scan results feed observation octads"
+repo = "hypatia"
+
+[related-projects.seamstress]
+relationship = "sibling"
+description = "Seam definitions validate cross-clade boundaries"
+repo = "seamstress"

@@ -1,165 +1,135 @@
-= RSR Template Repository
-:toc: preamble
+// SPDX-License-Identifier: PMPL-1.0-or-later
+// Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+= gv-clade-index
+Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+v0.1.0, 2026-03-16
+:toc: left
+:toclevels: 3
 :icons: font
-
-[TIP]
-====
-**AI-Assisted Install:** Just tell any AI assistant: +
-`Set up {{PROJECT_NAME}} from https://{{FORGE}}/{{OWNER}}/{{REPO}}` +
-The AI reads the manifest, asks you a few questions, and handles everything.
-====
 
 == Overview
 
-**The canonical template for RSR (Rhodium Standard Repository) projects.**
+The *clade-index* is the central registry for the entire hyperpolymath ecosystem.
+It provides a VeriSimDB-backed taxonomy of 200+ repositories organised into 12 clades,
+with a pointer authority system for tracking data ownership, and VQL queries for
+dashboards, drift detection, and work tracking.
 
-This project follows a **Dual-Track** architecture:
-* **Root:** High-level orientation and rich documentation for humans.
-* **Sub-directories:** Machine-readable metadata and technical implementation.
+*Map and territory*: This registry is the map — queryable, presentable, always clean.
+Repositories are the territory. Editing the map never damages the territory.
 
-== ABI/FFI Standard (Verified Interface Seams)
+== Clade Taxonomy
 
-All projects with foreign function interfaces MUST follow this consolidated standard:
-
-* **ABI (Idris2):** `src/interface/abi/*.idr` (The Specification)
-* **FFI (Zig):** `src/interface/ffi/src/*.zig` (The Implementation)
-* **Generated:** `src/interface/generated/*.h` (The Artifacts)
-
-This unification ensures that the "Truth," the "Bridge," and the "Result" are managed as a single architectural unit.
-
-== AI Gatekeeper Protocol
-
-All projects MUST include a root `0-AI-MANIFEST.a2ml`. This is the mandatory entry point for all AI agents. It prevents duplicate file errors and preserves architectural invariants across sessions.
-
-== Repository Structure
-
-[cols="1,3"]
+[cols="1,3,4"]
 |===
-|Directory |Purpose
+| Code | Clade | Description
 
-|`.github/`
-|Forge-specific metadata (CODEOWNERS, SECURITY.md, workflows).
-
-|`.machine_readable/`
-|Canonical project state (6 a2ml files), bot directives, and AI guides.
-
-|`container/`
-|Stapeln container ecosystem (selur-compose, vordr, rokur).
-
-|`docs/`
-|Technical documentation sorted by tracks (Theory, Practice, Architecture).
-
-|`docs/legal/`
-|Consolidated legal exhibits and full license texts.
-
-|`src/interface/`
-|Unified ABI/FFI/Generated interface unit.
+| `fv` | Formal Verification & Proofs | Provable correctness, reversibility, dependent types
+| `nl` | Nextgen Languages | Compilers, runtimes, language tooling
+| `rm` | Repo Management & Tooling | Scaffolding, graph analysis, bot orchestration
+| `gv` | Governance & Standards | Licensing, compliance, policy enforcement
+| `db` | Databases | Database engines, query languages
+| `ap` | Applications | End-user apps, web, desktop, services
+| `ix` | Infrastructure & Cloud | Containers, deployment, sysadmin
+| `dx` | Developer Ecosystem | Dev tools, editor integrations, bindings
+| `pt` | Protocols & Interop | Internet standards, protocol implementations
+| `ax` | AI & Neurosymbolic | ML, neural proof synthesis, AI governance
+| `gm` | Games & Interactive | Game engines, interactive experiences
+| `sc` | Security | Scanning, vulnerability management, access control
 |===
 
-== Container Ecosystem (Stapeln)
-
-This template includes a complete `container/` directory for the **Stapeln Six** tools:
-1. **selur** (Orchestration)
-2. **cerro-torre** (Verified Packaging)
-3. **svalinn** (Edge Gateway)
-4. **vordr** (Monitoring)
-5. **rokur** (Secrets)
-6. **k9-svc** (Deployment Contracts)
-
-== Quick Start
-
-[source,bash]
-----
-just init              # Interactive bootstrap
-just build             # Unified build
-just test              # Unified test
-just container-build   # Build verified OCI image
-----
-
-== Contractile System
-
-This template includes five **contractile files** in `.machine_readable/contractiles/` that make your repository's rules executable:
-
-[cols="1,2,3"]
-|===
-| Tool | File | Purpose
-
-| `must check`
-| `Mustfile.a2ml`
-| Physical state invariants (files exist, code compiles, no secrets)
-
-| `trust verify`
-| `Trustfile.a2ml`
-| Integrity verification (hashes valid, signatures correct, provenance traceable)
-
-| `dust status`
-| `Dustfile.a2ml`
-| Cleanup tasks (stale files, build artifacts, expired tokens)
-
-| `intend list`
-| `Intentfile.a2ml`
-| Design intent and roadmap tracking
-
-| `k9 eval`
-| `*.k9.ncl`
-| Nickel-based deployment validation
-|===
-
-=== Installation
-
-[source,bash]
-----
-cargo install contractile
-
-# Create symlinks for individual commands
-for cmd in must trust dust intend k9; do
-  ln -sf $(which contractile) ~/.local/bin/$cmd
-done
-----
-
-=== Usage
-
-[source,bash]
-----
-# Symlink contractiles to project root (CLI searches ./contractiles/)
-ln -sf .machine_readable/contractiles contractiles
-
-# Run checks
-must check           # Verify physical state (23 checks in typical RSR project)
-trust verify         # Verify integrity and provenance
-dust status          # Show cleanup items
-intend list          # Show design intents and roadmap
-
-# Generate Just recipes from contractile files
-contractile gen-just # Creates contractile.just (already imported by Justfile)
-
-# Then use via Just:
-just must-check
-just trust-verify
-----
-
-=== Writing Checks
-
-Contractile files use A2ML format — simple, line-oriented:
+== Structure
 
 [source]
 ----
-### check-name
-- description: Human-readable description
-- run: shell command (exit 0 = pass, non-zero = fail)
-- severity: critical | warning | info
+gv-clade-index/
+├── 0-AI-MANIFEST.a2ml           # AI agent entry point
+├── .machine_readable/           # State, meta, ecosystem, clade declaration
+├── verisimdb/
+│   ├── config.a2ml              # VeriSimDB instance config
+│   ├── schema/                  # VQL schemas (7 entity types)
+│   │   ├── repo.vql             # Repository octad
+│   │   ├── clade.vql            # Clade definition
+│   │   ├── todo.vql             # Work items
+│   │   ├── observation.vql      # Bot/agent findings
+│   │   ├── feedback.vql         # External feedback
+│   │   ├── lineage.vql          # Inflate/deflate history
+│   │   └── forge-identity.vql   # PK/FK forge mapping
+│   ├── seed/                    # Initial data
+│   │   ├── clades.a2ml          # 12 clade definitions
+│   │   ├── repos.a2ml           # 200 repo registrations
+│   │   └── forges.a2ml          # Forge account definitions
+│   └── queries/                 # Pre-built VQL queries
+│       ├── dashboard.vql        # Ecosystem overview
+│       ├── stale.vql            # Inactive repos
+│       ├── orphans.vql          # Unclassified repos
+│       ├── drift.vql            # State divergence
+│       ├── bot-findings.vql     # Unacknowledged bot observations
+│       ├── blocked.vql          # Blocked work items
+│       ├── cross-clade-deps.vql # Cross-boundary dependencies
+│       └── feedback-status.vql  # Feedback resolution tracking
+├── sync/                        # Sync tooling (Phase 2)
+├── views/                       # Generated outputs (not committed)
+└── contractiles/
+    └── must/
+        └── clade-hygiene.a2ml   # Every repo MUST have CLADE.a2ml
 ----
 
-See link:https://github.com/hyperpolymath/contractiles[contractiles documentation] for the full specification.
+== Portal Architecture
 
-== Documentation
+[source]
+----
+hyperpolymath.github.io          Cloudflare Worker         VeriSimDB (VPS)
+(ReScript/WASM)            -->   (API Gateway)       -->   (Rust + Elixir)
+                                                              |
+Public read --------------------------------------------------> KV snapshot
+LLM query  ------------------- API key ---------------------> Read-only
+Contributor ------------------ OAuth -----------------------> Scoped access
+Bot writes ------------------- Signed JWT ------------------> Write observations
+----
 
-* link:CONTRIBUTING.adoc[Contributing Guide]
-* link:GOVERNANCE.adoc[Governance Model]
-* link:docs/attribution/MAINTAINERS.adoc[Maintainers & Citations]
-* link:SECURITY.adoc[Security Policy]
+== Identity Model
+
+Every repo has:
+
+* *Primary key*: GitHub (`gh:hyperpolymath/{name}`)
+* *Foreign keys*: GitLab, Bitbucket, Codeberg, SourceHut mirrors
+* *UUID*: Deterministic v5, derived from `github.com/hyperpolymath/{name}`
+* *Clade*: Primary (1) + secondary (0+)
+* *Lineage*: standalone, monorepo, monorepo-child, inflated, deflated
+
+== Pointer Authority
+
+Every cached value in VeriSimDB declares its canonical source:
+
+* `pointer` -- value lives in the repo (VeriSimDB caches + drift-detects)
+* `local` -- VeriSimDB owns it (TODOs, bot observations)
+* `derived` -- computed from other values (clade health scores)
+
+== Contractile System
+
+This repo includes a `clade-hygiene.a2ml` contractile:
+
+* **CLADE-001**: Every repo must have `.machine_readable/CLADE.a2ml`
+* **CLADE-002**: CLADE.a2ml must declare a primary clade code
+* **CLADE-003**: Primary clade code must be one of the 12 valid codes
+
+== Implementation Phases
+
+[cols="1,3,4"]
+|===
+| Phase | Deliverable | Status
+
+| 0 | Clade taxonomy, repo seed, VQL schema | *Complete*
+| 1 | Deploy CLADE.a2ml to all 200 repos | Pending
+| 2 | VeriSimDB instance on VPS | Pending
+| 3 | Cloudflare Worker API | Pending
+| 4 | ReScript/WASM portal | Pending
+| 5 | LLM query endpoint | Pending
+| 6 | Bot write endpoints | Pending
+| 7 | Contributor OAuth | Pending
+| 8 | Repo lockdown | Pending
+|===
 
 == License
 
-SPDX-License-Identifier: PMPL-1.0-or-later
-See link:LICENSE[LICENSE] and link:docs/legal/[docs/legal/] for details.
+link:LICENSE[PMPL-1.0-or-later] (Palimpsest License)

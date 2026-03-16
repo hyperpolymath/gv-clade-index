@@ -103,3 +103,6 @@ sync_report*.txt
 
 # Hypatia scan cache (local-only)
 .hypatia/
+
+# Generated views (not committed)
+views/

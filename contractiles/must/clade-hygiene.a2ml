@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Mustfile: clade hygiene — every repo MUST have a CLADE.a2ml
+
+[must]
+id = "CLADE-001"
+name = "clade-declaration"
+description = "Every hyperpolymath repo must have .machine_readable/CLADE.a2ml"
+severity = "BLOCK"
+scope = "pre-commit"
+
+[must.check]
+command = "test -f .machine_readable/CLADE.a2ml"
+message = "Missing .machine_readable/CLADE.a2ml — run 'contractile init-clade' to generate"
+
+[must]
+id = "CLADE-002"
+name = "clade-primary-set"
+description = "CLADE.a2ml must declare a primary clade code"
+severity = "BLOCK"
+scope = "pre-commit"
+
+[must.check]
+command = "grep -q 'primary = ' .machine_readable/CLADE.a2ml"
+message = "CLADE.a2ml missing primary clade assignment"
+
+[must]
+id = "CLADE-003"
+name = "clade-code-valid"
+description = "Primary clade code must be one of the 12 defined codes"
+severity = "BLOCK"
+scope = "pre-commit"
+
+[must.check]
+command = "grep 'primary = ' .machine_readable/CLADE.a2ml | grep -qE '\"(fv|nl|rm|gv|db|ap|ix|dx|pt|ax|gm|sc)\"'"
+message = "CLADE.a2ml primary clade code not in valid set: fv nl rm gv db ap ix dx pt ax gm sc"
