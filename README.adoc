@@ -1,0 +1,165 @@
+= RSR Template Repository
+:toc: preamble
+:icons: font
+
+[TIP]
+====
+**AI-Assisted Install:** Just tell any AI assistant: +
+`Set up {{PROJECT_NAME}} from https://{{FORGE}}/{{OWNER}}/{{REPO}}` +
+The AI reads the manifest, asks you a few questions, and handles everything.
+====
+
+== Overview
+
+**The canonical template for RSR (Rhodium Standard Repository) projects.**
+
+This project follows a **Dual-Track** architecture:
+* **Root:** High-level orientation and rich documentation for humans.
+* **Sub-directories:** Machine-readable metadata and technical implementation.
+
+== ABI/FFI Standard (Verified Interface Seams)
+
+All projects with foreign function interfaces MUST follow this consolidated standard:
+
+* **ABI (Idris2):** `src/interface/abi/*.idr` (The Specification)
+* **FFI (Zig):** `src/interface/ffi/src/*.zig` (The Implementation)
+* **Generated:** `src/interface/generated/*.h` (The Artifacts)
+
+This unification ensures that the "Truth," the "Bridge," and the "Result" are managed as a single architectural unit.
+
+== AI Gatekeeper Protocol
+
+All projects MUST include a root `0-AI-MANIFEST.a2ml`. This is the mandatory entry point for all AI agents. It prevents duplicate file errors and preserves architectural invariants across sessions.
+
+== Repository Structure
+
+[cols="1,3"]
+|===
+|Directory |Purpose
+
+|`.github/`
+|Forge-specific metadata (CODEOWNERS, SECURITY.md, workflows).
+
+|`.machine_readable/`
+|Canonical project state (6 a2ml files), bot directives, and AI guides.
+
+|`container/`
+|Stapeln container ecosystem (selur-compose, vordr, rokur).
+
+|`docs/`
+|Technical documentation sorted by tracks (Theory, Practice, Architecture).
+
+|`docs/legal/`
+|Consolidated legal exhibits and full license texts.
+
+|`src/interface/`
+|Unified ABI/FFI/Generated interface unit.
+|===
+
+== Container Ecosystem (Stapeln)
+
+This template includes a complete `container/` directory for the **Stapeln Six** tools:
+1. **selur** (Orchestration)
+2. **cerro-torre** (Verified Packaging)
+3. **svalinn** (Edge Gateway)
+4. **vordr** (Monitoring)
+5. **rokur** (Secrets)
+6. **k9-svc** (Deployment Contracts)
+
+== Quick Start
+
+[source,bash]
+----
+just init              # Interactive bootstrap
+just build             # Unified build
+just test              # Unified test
+just container-build   # Build verified OCI image
+----
+
+== Contractile System
+
+This template includes five **contractile files** in `.machine_readable/contractiles/` that make your repository's rules executable:
+
+[cols="1,2,3"]
+|===
+| Tool | File | Purpose
+
+| `must check`
+| `Mustfile.a2ml`
+| Physical state invariants (files exist, code compiles, no secrets)
+
+| `trust verify`
+| `Trustfile.a2ml`
+| Integrity verification (hashes valid, signatures correct, provenance traceable)
+
+| `dust status`
+| `Dustfile.a2ml`
+| Cleanup tasks (stale files, build artifacts, expired tokens)
+
+| `intend list`
+| `Intentfile.a2ml`
+| Design intent and roadmap tracking
+
+| `k9 eval`
+| `*.k9.ncl`
+| Nickel-based deployment validation
+|===
+
+=== Installation
+
+[source,bash]
+----
+cargo install contractile
+
+# Create symlinks for individual commands
+for cmd in must trust dust intend k9; do
+  ln -sf $(which contractile) ~/.local/bin/$cmd
+done
+----
+
+=== Usage
+
+[source,bash]
+----
+# Symlink contractiles to project root (CLI searches ./contractiles/)
+ln -sf .machine_readable/contractiles contractiles
+
+# Run checks
+must check           # Verify physical state (23 checks in typical RSR project)
+trust verify         # Verify integrity and provenance
+dust status          # Show cleanup items
+intend list          # Show design intents and roadmap
+
+# Generate Just recipes from contractile files
+contractile gen-just # Creates contractile.just (already imported by Justfile)
+
+# Then use via Just:
+just must-check
+just trust-verify
+----
+
+=== Writing Checks
+
+Contractile files use A2ML format — simple, line-oriented:
+
+[source]
+----
+### check-name
+- description: Human-readable description
+- run: shell command (exit 0 = pass, non-zero = fail)
+- severity: critical | warning | info
+----
+
+See link:https://github.com/hyperpolymath/contractiles[contractiles documentation] for the full specification.
+
+== Documentation
+
+* link:CONTRIBUTING.adoc[Contributing Guide]
+* link:GOVERNANCE.adoc[Governance Model]
+* link:docs/attribution/MAINTAINERS.adoc[Maintainers & Citations]
+* link:SECURITY.adoc[Security Policy]
+
+== License
+
+SPDX-License-Identifier: PMPL-1.0-or-later
+See link:LICENSE[LICENSE] and link:docs/legal/[docs/legal/] for details.

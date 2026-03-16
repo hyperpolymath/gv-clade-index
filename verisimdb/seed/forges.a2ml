@@ -1,0 +1,47 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Forge account definitions — primary and mirror targets
+
+[meta]
+version = "1.0.0"
+created = "2026-03-16"
+author = "Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"
+
+[forge.github]
+name = "GitHub"
+url = "https://github.com"
+owner = "hyperpolymath"
+profile = "https://github.com/hyperpolymath"
+role = "primary"
+api = "https://api.github.com"
+
+[forge.gitlab]
+name = "GitLab"
+url = "https://gitlab.com"
+owner = "hyperpolymath"
+profile = "https://gitlab.com/hyperpolymath"
+role = "mirror"
+api = "https://gitlab.com/api/v4"
+
+[forge.bitbucket]
+name = "Bitbucket"
+url = "https://bitbucket.org"
+owner = "hyperpolymath"
+profile = "https://bitbucket.org/hyperpolymath"
+role = "mirror"
+api = "https://api.bitbucket.org/2.0"
+
+[forge.codeberg]
+name = "Codeberg"
+url = "https://codeberg.org"
+owner = "hyperpolymath"
+profile = "https://codeberg.org/hyperpolymath"
+role = "mirror"
+api = "https://codeberg.org/api/v1"
+
+[forge.sourcehut]
+name = "SourceHut"
+url = "https://sr.ht"
+owner = "~hyperpolymath"
+profile = "https://sr.ht/~hyperpolymath"
+role = "mirror"
+api = "https://meta.sr.ht/api"

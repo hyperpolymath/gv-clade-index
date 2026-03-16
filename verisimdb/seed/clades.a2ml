@@ -1,0 +1,137 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Clade taxonomy definitions for the hyperpolymath ecosystem
+# 12 top-level clades — each repo gets exactly one primary clade
+
+[meta]
+version = "1.0.0"
+created = "2026-03-16"
+author = "Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"
+format = "clade-definitions"
+
+## Formal Verification & Proofs
+## Repositories focused on provable correctness, reversibility, dependent types,
+## theorem proving, and mathematically verified operations.
+[clade.fv]
+name = "Formal Verification & Proofs"
+code = "fv"
+description = "Provable correctness, reversibility, dependent types, theorem proving"
+colour = "#7c3aed"
+icon = "shield-check"
+keywords = ["idris2", "lean4", "coq", "agda", "reversible", "proven", "verified", "proofs"]
+
+## Nextgen Languages
+## Programming language implementations, compilers, runtimes, and language tooling.
+[clade.nl]
+name = "Nextgen Languages"
+code = "nl"
+description = "Programming language implementations, compilers, runtimes"
+colour = "#f59e0b"
+icon = "code"
+keywords = ["compiler", "parser", "runtime", "grammar", "ast", "language"]
+
+## Repo Management & Tooling
+## Repository scaffolding, graph analysis, bot orchestration, template systems,
+## and tools for managing the hyperpolymath repository ecosystem.
+[clade.rm]
+name = "Repo Management & Tooling"
+code = "rm"
+description = "Repository scaffolding, graph analysis, bot orchestration, templates"
+colour = "#06b6d4"
+icon = "git-branch"
+keywords = ["repo", "scaffold", "template", "bot", "graph", "git", "rsr"]
+
+## Governance & Standards
+## Licensing, compliance, architectural boundaries, policy enforcement,
+## and specification documents.
+[clade.gv]
+name = "Governance & Standards"
+code = "gv"
+description = "Licensing, compliance, architectural boundaries, policy enforcement"
+colour = "#10b981"
+icon = "scale"
+keywords = ["license", "policy", "compliance", "standard", "governance", "seam"]
+
+## Databases
+## Database engines, query languages, data storage systems, and data management tools.
+[clade.db]
+name = "Databases"
+code = "db"
+description = "Database engines, query languages, data storage systems"
+colour = "#ec4899"
+icon = "database"
+keywords = ["database", "query", "storage", "vql", "drift", "modality"]
+
+## Applications
+## End-user applications, web apps, desktop apps, and services.
+[clade.ap]
+name = "Applications"
+code = "ap"
+description = "End-user applications, web apps, desktop apps, services"
+colour = "#3b82f6"
+icon = "layout"
+keywords = ["app", "web", "desktop", "service", "ui", "frontend"]
+
+## Infrastructure & Cloud
+## Cloud management, containers, deployment, system administration,
+## and operational tooling.
+[clade.ix]
+name = "Infrastructure & Cloud"
+code = "ix"
+description = "Cloud management, containers, deployment, system administration"
+colour = "#6366f1"
+icon = "cloud"
+keywords = ["cloud", "container", "deploy", "infra", "ops", "dns", "k8s"]
+
+## Developer Ecosystem
+## Developer tools, package managers, editor integrations, language bindings,
+## and ecosystem tooling.
+[clade.dx]
+name = "Developer Ecosystem"
+code = "dx"
+description = "Developer tools, package managers, editor integrations, bindings"
+colour = "#8b5cf6"
+icon = "wrench"
+keywords = ["tool", "plugin", "editor", "binding", "sdk", "ecosystem"]
+
+## Protocols & Interop
+## Internet standards, protocol implementations, interoperability frameworks,
+## and standards submissions.
+[clade.pt]
+name = "Protocols & Interop"
+code = "pt"
+description = "Internet standards, protocol implementations, interoperability"
+colour = "#14b8a6"
+icon = "globe"
+keywords = ["protocol", "http", "rfc", "ietf", "interop", "consent", "standard"]
+
+## AI & Neurosymbolic
+## Machine learning, neural proof synthesis, AI governance, and neurosymbolic
+## integration tools.
+[clade.ax]
+name = "AI & Neurosymbolic"
+code = "ax"
+description = "Machine learning, neural proof synthesis, AI governance"
+colour = "#f43f5e"
+icon = "brain"
+keywords = ["ai", "neural", "neurosymbolic", "llm", "proof-synthesis"]
+
+## Games & Interactive
+## Game engines, interactive experiences, gamified tools, and entertainment software.
+[clade.gm]
+name = "Games & Interactive"
+code = "gm"
+description = "Game engines, interactive experiences, gamified tools"
+colour = "#eab308"
+icon = "gamepad"
+keywords = ["game", "interactive", "player", "level", "escape"]
+
+## Security
+## Security scanning, vulnerability management, access control, and
+## security-focused infrastructure.
+[clade.sc]
+name = "Security"
+code = "sc"
+description = "Security scanning, vulnerability management, access control"
+colour = "#ef4444"
+icon = "lock"
+keywords = ["security", "scan", "vulnerability", "auth", "vault", "sentinel"]
