@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+name = "clade-registry-api"
+main = "src/index.js"
+compatibility_date = "2026-03-16"
+
+[vars]
+ENVIRONMENT = "production"
+
+[[kv_namespaces]]
+binding = "CLADE_KV"
+id = "e34a9970a5684c3fb8bc2f1fa5a6ca77"

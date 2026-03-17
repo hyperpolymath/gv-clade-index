@@ -1,0 +1,14 @@
+[
+  {"code":"fv","name":"Formal Verification & Proofs","description":"Provable correctness, reversibility, dependent types, theorem proving","colour":"#7c3aed","icon":"shield-check","keywords":["idris2", "lean4", "coq", "agda", "reversible", "proven", "verified", "proofs"]},
+  {"code":"nl","name":"Nextgen Languages","description":"Programming language implementations, compilers, runtimes","colour":"#f59e0b","icon":"code","keywords":["compiler", "parser", "runtime", "grammar", "ast", "language"]},
+  {"code":"rm","name":"Repo Management & Tooling","description":"Repository scaffolding, graph analysis, bot orchestration, templates","colour":"#06b6d4","icon":"git-branch","keywords":["repo", "scaffold", "template", "bot", "graph", "git", "rsr"]},
+  {"code":"gv","name":"Governance & Standards","description":"Licensing, compliance, architectural boundaries, policy enforcement","colour":"#10b981","icon":"scale","keywords":["license", "policy", "compliance", "standard", "governance", "seam"]},
+  {"code":"db","name":"Databases","description":"Database engines, query languages, data storage systems","colour":"#ec4899","icon":"database","keywords":["database", "query", "storage", "vql", "drift", "modality"]},
+  {"code":"ap","name":"Applications","description":"End-user applications, web apps, desktop apps, services","colour":"#3b82f6","icon":"layout","keywords":["app", "web", "desktop", "service", "ui", "frontend"]},
+  {"code":"ix","name":"Infrastructure & Cloud","description":"Cloud management, containers, deployment, system administration","colour":"#6366f1","icon":"cloud","keywords":["cloud", "container", "deploy", "infra", "ops", "dns", "k8s"]},
+  {"code":"dx","name":"Developer Ecosystem","description":"Developer tools, package managers, editor integrations, bindings","colour":"#8b5cf6","icon":"wrench","keywords":["tool", "plugin", "editor", "binding", "sdk", "ecosystem"]},
+  {"code":"pt","name":"Protocols & Interop","description":"Internet standards, protocol implementations, interoperability","colour":"#14b8a6","icon":"globe","keywords":["protocol", "http", "rfc", "ietf", "interop", "consent", "standard"]},
+  {"code":"ax","name":"AI & Neurosymbolic","description":"Machine learning, neural proof synthesis, AI governance","colour":"#f43f5e","icon":"brain","keywords":["ai", "neural", "neurosymbolic", "llm", "proof-synthesis"]},
+  {"code":"gm","name":"Games & Interactive","description":"Game engines, interactive experiences, gamified tools","colour":"#eab308","icon":"gamepad","keywords":["game", "interactive", "player", "level", "escape"]},
+  {"code":"sc","name":"Security","description":"Security scanning, vulnerability management, access control","colour":"#ef4444","icon":"lock","keywords":["security", "scan", "vulnerability", "auth", "vault", "sentinel"]}
+]
