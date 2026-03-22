@@ -200,5 +200,6 @@
   {"name":"supernorma","uuid":"34ae62e5-8224-5264-ad0a-17a8d7c4788a","clade":"gv","secondary":[],"lineage":"standalone","parent":"","description":"Normalisation/standards tool","prefixed":"gv-supernorma","github":"hyperpolymath/supernorma"},
   {"name":"tma-mark2","uuid":"60c10dfb-4ba2-5d36-9dd1-9a38329e1b96","clade":"dx","secondary":[],"lineage":"standalone","parent":"","description":"TMA mark 2 tool","prefixed":"dx-tma-mark2","github":"hyperpolymath/tma-mark2"},
   {"name":"ubicity","uuid":"500896b6-edc4-5449-823c-810603b786fe","clade":"ix","secondary":[],"lineage":"standalone","parent":"","description":"Ubiquitous computing tool","prefixed":"ix-ubicity","github":"hyperpolymath/ubicity"},
-  {"name":"zerostep","uuid":"0f6e4a31-3064-578b-bbcf-2ed96ce64846","clade":"dx","secondary":[],"lineage":"standalone","parent":"","description":"Zero-step automation","prefixed":"dx-zerostep","github":"hyperpolymath/zerostep"}
+  {"name":"zerostep","uuid":"0f6e4a31-3064-578b-bbcf-2ed96ce64846","clade":"dx","secondary":[],"lineage":"standalone","parent":"","description":"Zero-step automation","prefixed":"dx-zerostep","github":"hyperpolymath/zerostep"},
+  {"name":"game-server-admin","uuid":"b7e3f1a2-c4d5-5678-9abc-def012345678","clade":"ix","secondary":["gm","db"],"lineage":"standalone","parent":"","description":"Universal game server probe, config management, and administration via Gossamer + VeriSimDB","prefixed":"ix-game-server-admin","github":"hyperpolymath/game-server-admin"}
 ]

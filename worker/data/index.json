@@ -2768,6 +2768,17 @@
       "description": "Zero-step automation",
       "prefixed": "dx-zerostep",
       "github": "hyperpolymath/zerostep"
+    },
+    "game-server-admin": {
+      "name": "game-server-admin",
+      "uuid": "b7e3f1a2-c4d5-5678-9abc-def012345678",
+      "clade": "ix",
+      "secondary": ["gm", "db"],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Universal game server probe, config management, and administration via Gossamer + VeriSimDB",
+      "prefixed": "ix-game-server-admin",
+      "github": "hyperpolymath/game-server-admin"
     }
   }
 }
