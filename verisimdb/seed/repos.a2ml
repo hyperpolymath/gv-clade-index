@@ -1722,3 +1722,12 @@ description = "Zero-step automation"
 lineage = "standalone"
 parent = ""
 completion = 10
+
+[repo.game-server-admin]
+primary = "ix"
+secondary = ["gm", "db"]
+description = "Universal game server probe, config management, and administration via Gossamer + VeriSimDB"
+lineage = "standalone"
+parent = ""
+completion = 75
+evolved-from = "gossamer/examples/game-server-admin"
