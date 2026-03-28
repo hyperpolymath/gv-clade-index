@@ -9,7 +9,7 @@
 
 set -uo pipefail
 
-REPOS_DIR="/var/mnt/eclipse/repos"
+REPOS_DIR="/var$REPOS_DIR"
 SEED_FILE="$REPOS_DIR/gv-clade-index/verisimdb/seed/repos.a2ml"
 DRY_RUN="${1:-}"
 COMMIT_MSG="feat: add CLADE.a2ml — clade taxonomy declaration
