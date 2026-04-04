@@ -11,6 +11,13 @@
 //   GET /v1/llm?q=...           — Structured output for LLM consumption
 //   GET /v1/dashboard           — Ecosystem overview
 //   GET /v1/health              — Health check
+//   GET /v1/query/language?q=.. — Query repos by language (VeriSimDB-backed)
+//   GET /v1/query/tag?q=...     — Query repos by tag (VeriSimDB-backed)
+//
+// Storage: Dual-write pattern — Cloudflare KV (primary cache) + VeriSimDB
+// (persistent store). loadIndex() prefers VeriSimDB, falls back to KV.
+
+import { loadIndex as vdbLoadIndex, queryByLanguage, queryByTag } from './verisimdb.js';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -34,13 +41,10 @@ function error(message, status = 404) {
   return json({ error: message }, status);
 }
 
-// Load index data from KV (cached in-memory per request)
+// Load index data — prefers VeriSimDB, falls back to Cloudflare KV.
+// Uses the unified loadIndex from verisimdb.js (dual-store aware).
 async function loadIndex(env) {
-  const cached = await env.CLADE_KV.get('index', { type: 'json' });
-  if (!cached) {
-    return null;
-  }
-  return cached;
+  return vdbLoadIndex(env);
 }
 
 // Search repos by query string (simple text matching across name + description)
@@ -263,11 +267,47 @@ export default {
           '/v1/repos': 'All repos (params: clade, page, limit)',
           '/v1/search?q=...': 'Full-text search across repos',
           '/v1/llm?q=...': 'Structured output for LLM consumption',
+          '/v1/query/language?q=...': 'Query repos by language keyword (VeriSimDB)',
+          '/v1/query/tag?q=...': 'Query repos by tag (VeriSimDB)',
           '/v1/health': 'Health check',
         },
         total_repos: index ? index.total_repos : 'loading',
         total_clades: index ? index.total_clades : 'loading',
         source: 'https://github.com/hyperpolymath/gv-clade-index',
+      });
+    }
+
+    // Route: GET /v1/query/language?q=rust
+    // Query repos by primary language keyword (VeriSimDB-backed, falls back to KV)
+    if (path === '/v1/query/language') {
+      const q = url.searchParams.get('q');
+      if (!q || q.trim().length === 0) {
+        return error('Query parameter q is required', 400);
+      }
+      const results = await queryByLanguage(env, q.trim());
+      return json({
+        query: q.trim(),
+        type: 'language',
+        results,
+        total: results.length,
+        source: 'verisimdb',
+      });
+    }
+
+    // Route: GET /v1/query/tag?q=security
+    // Query repos by tag / keyword (VeriSimDB-backed, falls back to KV)
+    if (path === '/v1/query/tag') {
+      const q = url.searchParams.get('q');
+      if (!q || q.trim().length === 0) {
+        return error('Query parameter q is required', 400);
+      }
+      const results = await queryByTag(env, q.trim());
+      return json({
+        query: q.trim(),
+        type: 'tag',
+        results,
+        total: results.length,
+        source: 'verisimdb',
       });
     }
 
