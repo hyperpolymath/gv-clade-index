@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
 # deploy-clade-a2ml.sh — Batch deploy CLADE.a2ml to all repos in the seed file
 #
-# Reads verisimdb/seed/repos.a2ml, extracts repo name + clade assignments,
+# Reads verisim/seed/repos.a2ml, extracts repo name + clade assignments,
 # writes .machine_readable/CLADE.a2ml to each repo, commits, and pushes.
 #
 # Usage: ./sync/deploy-clade-a2ml.sh [--dry-run]
@@ -10,7 +10,7 @@
 set -uo pipefail
 
 REPOS_DIR="/var$REPOS_DIR"
-SEED_FILE="$REPOS_DIR/gv-clade-index/verisimdb/seed/repos.a2ml"
+SEED_FILE="$REPOS_DIR/gv-clade-index/verisim/seed/repos.a2ml"
 DRY_RUN="${1:-}"
 COMMIT_MSG="feat: add CLADE.a2ml — clade taxonomy declaration
 

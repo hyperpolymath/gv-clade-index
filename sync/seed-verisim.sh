@@ -5,7 +5,7 @@
 # Seed VeriSimDB with the static JSON data files.
 #
 # Usage:
-#   ./sync/seed-verisimdb.sh [VERISIMDB_URL]
+#   ./sync/seed-verisim.sh [VERISIMDB_URL]
 #
 # VERISIMDB_URL defaults to http://localhost:8080
 #
@@ -26,8 +26,8 @@ DATA_DIR="${REPO_ROOT}/worker/data"
 VERISIMDB_URL="${1:-${VERISIMDB_URL:-http://localhost:8080}}"
 API_BASE="${VERISIMDB_URL}/api/v1"
 
-echo "[seed-verisimdb] Base URL: ${VERISIMDB_URL}"
-echo "[seed-verisimdb] Data dir: ${DATA_DIR}"
+echo "[seed-verisim] Base URL: ${VERISIMDB_URL}"
+echo "[seed-verisim] Data dir: ${DATA_DIR}"
 
 # ── Helper ────────────────────────────────────────────────────────────────
 
@@ -47,17 +47,17 @@ put_doc() {
   if [[ "$http_code" =~ ^(200|201|204)$ ]]; then
     return 0
   else
-    echo "[seed-verisimdb] WARN: PUT ${url} returned ${http_code}" >&2
+    echo "[seed-verisim] WARN: PUT ${url} returned ${http_code}" >&2
     return 1
   fi
 }
 
 # ── Seed clades ───────────────────────────────────────────────────────────
 
-echo "[seed-verisimdb] Seeding clade:clades ..."
+echo "[seed-verisim] Seeding clade:clades ..."
 CLADES_JSON="${DATA_DIR}/clades.json"
 if [[ ! -f "${CLADES_JSON}" ]]; then
-  echo "[seed-verisimdb] ERROR: ${CLADES_JSON} not found" >&2
+  echo "[seed-verisim] ERROR: ${CLADES_JSON} not found" >&2
   exit 1
 fi
 
@@ -74,14 +74,14 @@ while IFS= read -r clade_doc; do
   fi
 done < <(jq -c '.[]' "${CLADES_JSON}")
 
-echo "[seed-verisimdb] Clades: seeded=${seeded_clades} errors=${error_clades}"
+echo "[seed-verisim] Clades: seeded=${seeded_clades} errors=${error_clades}"
 
 # ── Seed repos ────────────────────────────────────────────────────────────
 
-echo "[seed-verisimdb] Seeding clade:repos ..."
+echo "[seed-verisim] Seeding clade:repos ..."
 REPOS_JSON="${DATA_DIR}/repos.json"
 if [[ ! -f "${REPOS_JSON}" ]]; then
-  echo "[seed-verisimdb] ERROR: ${REPOS_JSON} not found" >&2
+  echo "[seed-verisim] ERROR: ${REPOS_JSON} not found" >&2
   exit 1
 fi
 
@@ -97,20 +97,20 @@ while IFS= read -r repo_doc; do
   fi
 done < <(jq -c '.[]' "${REPOS_JSON}")
 
-echo "[seed-verisimdb] Repos: seeded=${seeded_repos} errors=${error_repos}"
+echo "[seed-verisim] Repos: seeded=${seeded_repos} errors=${error_repos}"
 
 # ── Seed index ────────────────────────────────────────────────────────────
 
-echo "[seed-verisimdb] Seeding clade:index/latest ..."
+echo "[seed-verisim] Seeding clade:index/latest ..."
 INDEX_JSON="${DATA_DIR}/index.json"
 if [[ -f "${INDEX_JSON}" ]]; then
   if put_doc "clade:index" "latest" "$(cat "${INDEX_JSON}")"; then
-    echo "[seed-verisimdb] Index: seeded=1"
+    echo "[seed-verisim] Index: seeded=1"
   else
-    echo "[seed-verisimdb] Index: errors=1"
+    echo "[seed-verisim] Index: errors=1"
   fi
 else
-  echo "[seed-verisimdb] WARN: ${INDEX_JSON} not found — skipping index seed" >&2
+  echo "[seed-verisim] WARN: ${INDEX_JSON} not found — skipping index seed" >&2
 fi
 
 # ── Summary ───────────────────────────────────────────────────────────────
@@ -119,9 +119,9 @@ total_seeded=$((seeded_clades + seeded_repos))
 total_errors=$((error_clades + error_repos))
 
 echo ""
-echo "[seed-verisimdb] Done. total_seeded=${total_seeded} total_errors=${total_errors}"
+echo "[seed-verisim] Done. total_seeded=${total_seeded} total_errors=${total_errors}"
 
 if [[ "${total_errors}" -gt 0 ]]; then
-  echo "[seed-verisimdb] Some documents failed to seed. Check VeriSimDB logs." >&2
+  echo "[seed-verisim] Some documents failed to seed. Check VeriSimDB logs." >&2
   exit 1
 fi

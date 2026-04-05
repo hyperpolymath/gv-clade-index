@@ -138,14 +138,14 @@
         "database",
         "query",
         "storage",
-        "vql",
+        "vcl",
         "drift",
         "modality"
       ],
       "member_count": 4,
       "members": [
         "nextgen-databases",
-        "verisimdb-data",
+        "verisim-data",
         "statistease",
         "Lithoglyph.jl"
       ]
@@ -913,20 +913,20 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 verisimdb, quandledb, lithoglyph",
+      "description": "Monorepo \u2014 verisim, quandledb, lithoglyph",
       "prefixed": "db-nextgen-databases",
       "github": "hyperpolymath/nextgen-databases"
     },
-    "verisimdb-data": {
-      "name": "verisimdb-data",
+    "verisim-data": {
+      "name": "verisim-data",
       "uuid": "22772417-fc00-5263-a78a-7567aee04984",
       "clade": "db",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "VeriSimDB data repository \u2014 scan results, patterns, recipes",
-      "prefixed": "db-verisimdb-data",
-      "github": "hyperpolymath/verisimdb-data"
+      "prefixed": "db-verisim-data",
+      "github": "hyperpolymath/verisim-data"
     },
     "statistease": {
       "name": "statistease",

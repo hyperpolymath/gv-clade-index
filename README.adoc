@@ -11,7 +11,7 @@ v0.1.0, 2026-03-16
 
 The *clade-index* is the central registry for the entire hyperpolymath ecosystem.
 It provides a VeriSimDB-backed taxonomy of 200+ repositories organised into 12 clades,
-with a pointer authority system for tracking data ownership, and VQL queries for
+with a pointer authority system for tracking data ownership, and VCL queries for
 dashboards, drift detection, and work tracking.
 
 *Map and territory*: This registry is the map — queryable, presentable, always clean.
@@ -44,29 +44,29 @@ Repositories are the territory. Editing the map never damages the territory.
 gv-clade-index/
 ├── 0-AI-MANIFEST.a2ml           # AI agent entry point
 ├── .machine_readable/           # State, meta, ecosystem, clade declaration
-├── verisimdb/
+├── verisim/
 │   ├── config.a2ml              # VeriSimDB instance config
-│   ├── schema/                  # VQL schemas (7 entity types)
-│   │   ├── repo.vql             # Repository octad
-│   │   ├── clade.vql            # Clade definition
-│   │   ├── todo.vql             # Work items
-│   │   ├── observation.vql      # Bot/agent findings
-│   │   ├── feedback.vql         # External feedback
-│   │   ├── lineage.vql          # Inflate/deflate history
-│   │   └── forge-identity.vql   # PK/FK forge mapping
+│   ├── schema/                  # VCL schemas (7 entity types)
+│   │   ├── repo.vcl             # Repository octad
+│   │   ├── clade.vcl            # Clade definition
+│   │   ├── todo.vcl             # Work items
+│   │   ├── observation.vcl      # Bot/agent findings
+│   │   ├── feedback.vcl         # External feedback
+│   │   ├── lineage.vcl          # Inflate/deflate history
+│   │   └── forge-identity.vcl   # PK/FK forge mapping
 │   ├── seed/                    # Initial data
 │   │   ├── clades.a2ml          # 12 clade definitions
 │   │   ├── repos.a2ml           # 200 repo registrations
 │   │   └── forges.a2ml          # Forge account definitions
-│   └── queries/                 # Pre-built VQL queries
-│       ├── dashboard.vql        # Ecosystem overview
-│       ├── stale.vql            # Inactive repos
-│       ├── orphans.vql          # Unclassified repos
-│       ├── drift.vql            # State divergence
-│       ├── bot-findings.vql     # Unacknowledged bot observations
-│       ├── blocked.vql          # Blocked work items
-│       ├── cross-clade-deps.vql # Cross-boundary dependencies
-│       └── feedback-status.vql  # Feedback resolution tracking
+│   └── queries/                 # Pre-built VCL queries
+│       ├── dashboard.vcl        # Ecosystem overview
+│       ├── stale.vcl            # Inactive repos
+│       ├── orphans.vcl          # Unclassified repos
+│       ├── drift.vcl            # State divergence
+│       ├── bot-findings.vcl     # Unacknowledged bot observations
+│       ├── blocked.vcl          # Blocked work items
+│       ├── cross-clade-deps.vcl # Cross-boundary dependencies
+│       └── feedback-status.vcl  # Feedback resolution tracking
 ├── sync/                        # Sync tooling (Phase 2)
 ├── views/                       # Generated outputs (not committed)
 └── contractiles/
@@ -119,7 +119,7 @@ This repo includes a `clade-hygiene.a2ml` contractile:
 |===
 | Phase | Deliverable | Status
 
-| 0 | Clade taxonomy, repo seed, VQL schema | *Complete*
+| 0 | Clade taxonomy, repo seed, VCL schema | *Complete*
 | 1 | Deploy CLADE.a2ml to all 200 repos | Pending
 | 2 | VeriSimDB instance on VPS | Pending
 | 3 | Cloudflare Worker API | Pending

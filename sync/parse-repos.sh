@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: PMPL-1.0-or-later
 # Parse repos.a2ml and emit TSV: name\tprimary\tsecondary\tlineage\tparent\tdescription
 
-SEED_FILE="${1:-/var$REPOS_DIR/gv-clade-index/verisimdb/seed/repos.a2ml}"
+SEED_FILE="${1:-/var$REPOS_DIR/gv-clade-index/verisim/seed/repos.a2ml}"
 
 awk '
 BEGIN { FS="=" }

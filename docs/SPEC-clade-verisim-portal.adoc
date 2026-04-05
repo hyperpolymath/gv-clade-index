@@ -47,7 +47,7 @@ system ensures every datum knows where its canonical value lives.
 * Every repository has a unique, persistent identity with primary key (GitHub) and foreign
   keys (GitLab, Bitbucket, Codeberg, SourceHut, Radicle)
 * Alphabetical sorting of repo names reveals organisational structure
-* A single VQL query replaces multi-agent exploration
+* A single VCL query replaces multi-agent exploration
 * Public visitors see everything they need without visiting individual repositories
 * LLMs can query the ecosystem via a structured read-only API
 * Contributors get scoped access to exactly what they need
@@ -240,7 +240,7 @@ A ReScript application compiled to WASM, statically hosted on GitHub Pages.
 hyperpolymath.github.io/
   src/                    # ReScript source
     App.res               # Main TEA application
-    VQLClient.res         # WASM VQL query builder
+    VQLClient.res         # WASM VCL query builder
     pages/                # Page components
     components/           # Shared components (CladeTree, DependencyGraph, etc.)
     bindings/             # Typed bindings to API
@@ -261,7 +261,7 @@ of the public snapshot.
 |===
 | Route | Auth | Purpose
 
-| `GET /v1/query` | Public | VQL read-only queries (rate-limited)
+| `GET /v1/query` | Public | VCL read-only queries (rate-limited)
 | `GET /v1/repo/:id` | Public | Single repo status
 | `GET /v1/clade/:code` | Public | All repos in a clade
 | `GET /v1/roadmap` | Public | Aggregated roadmap
@@ -270,7 +270,7 @@ of the public snapshot.
 | `GET /v1/contrib/repos` | OAuth | Contributor's accessible repos
 | `POST /v1/bot/observation` | Signed JWT | Bot writes finding
 | `POST /v1/bot/todo` | Signed JWT | Bot creates TODO
-| `POST /v1/admin/query` | Admin | Full VQL including writes
+| `POST /v1/admin/query` | Admin | Full VCL including writes
 |===
 
 ==== Authentication Tiers
@@ -283,7 +283,7 @@ of the public snapshot.
 | LLM | API key (issued per consumer) | Structured output, higher limits | 1000 req/min
 | CONTRIB | GitHub OAuth | Scoped repo access, write TODOs | 500 req/min
 | BOT | Signed JWT (per bot) | Write observations, findings | 2000 req/min
-| ADMIN | Personal token | Full VQL, all writes | Unlimited
+| ADMIN | Personal token | Full VCL, all writes | Unlimited
 |===
 
 ==== LLM Endpoint Response Format
@@ -388,29 +388,29 @@ gv-clade-index/
     META.a2ml
     ECOSYSTEM.a2ml
     CLADE.a2ml
-  verisimdb/
+  verisim/
     config.a2ml              # DB config
     schema/
-      repo.vql               # Repo octad schema
-      clade.vql              # Clade definitions
-      todo.vql               # Work items
-      observation.vql        # Bot findings
-      feedback.vql           # External feedback
-      forge-identity.vql     # PK/FK forge mapping
-      lineage.vql            # Inflate/deflate history
+      repo.vcl               # Repo octad schema
+      clade.vcl              # Clade definitions
+      todo.vcl               # Work items
+      observation.vcl        # Bot findings
+      feedback.vcl           # External feedback
+      forge-identity.vcl     # PK/FK forge mapping
+      lineage.vcl            # Inflate/deflate history
     seed/
       clades.a2ml            # 12 clade definitions
       repos.a2ml             # Initial 202 repo registrations
       forges.a2ml            # GitHub/GitLab/Bitbucket accounts
     queries/
-      dashboard.vql          # Full ecosystem overview
-      stale.vql              # Repos with no activity in 90+ days
-      orphans.vql            # Repos without clade assignment
-      drift.vql              # STATE.a2ml diverged from reality
-      bot-findings.vql       # Unacknowledged bot observations
-      blocked.vql            # TODOs blocked by other TODOs
-      cross-clade-deps.vql   # Dependencies crossing clade boundaries
-      feedback-status.vql    # All feedback with resolution status
+      dashboard.vcl          # Full ecosystem overview
+      stale.vcl              # Repos with no activity in 90+ days
+      orphans.vcl            # Repos without clade assignment
+      drift.vcl              # STATE.a2ml diverged from reality
+      bot-findings.vcl       # Unacknowledged bot observations
+      blocked.vcl            # TODOs blocked by other TODOs
+      cross-clade-deps.vcl   # Dependencies crossing clade boundaries
+      feedback-status.vcl    # All feedback with resolution status
   sync/
     ingest-state.rs          # Pull STATE.a2ml from repos -> octads
     ingest-git.rs            # Pull git metadata -> temporal modality
@@ -443,7 +443,7 @@ gv-clade-index/
 Phases 0-3 are the foundation. Phase 4 is where the portal becomes real. Phases 5-8 are
 the access control layer. Each phase is independently valuable.
 
-== Appendix A: Example VQL Queries
+== Appendix A: Example VCL Queries
 
 === Ecosystem Overview
 
@@ -526,11 +526,11 @@ SELECT identity.canonical_name,
 |===
 | Task | Current Cost | VeriSimDB Approach | New Cost
 
-| Find all repos in reversibility stack | ~400K tokens (5 agents) | VQL on clade.primary = 'fv' | ~500 tokens
-| Check what's stale | ~200K tokens (git log on 202 repos) | VQL WHERE days_since_activity > 90 | ~300 tokens
-| Read bot findings | ~150K tokens (grep bot logs) | VQL WHERE provenance.actor_type = 'bot' | ~300 tokens
-| Load session context | ~80K tokens (read 53 memory files) | VQL WHERE temporal.updated > last_session | ~1K tokens
-| Resolve repo identity question | ~50K tokens (read both repos) | VQL WHERE canonical = true | ~200 tokens
+| Find all repos in reversibility stack | ~400K tokens (5 agents) | VCL on clade.primary = 'fv' | ~500 tokens
+| Check what's stale | ~200K tokens (git log on 202 repos) | VCL WHERE days_since_activity > 90 | ~300 tokens
+| Read bot findings | ~150K tokens (grep bot logs) | VCL WHERE provenance.actor_type = 'bot' | ~300 tokens
+| Load session context | ~80K tokens (read 53 memory files) | VCL WHERE temporal.updated > last_session | ~1K tokens
+| Resolve repo identity question | ~50K tokens (read both repos) | VCL WHERE canonical = true | ~200 tokens
 |===
 
 == Appendix C: Repo Assessment Summary

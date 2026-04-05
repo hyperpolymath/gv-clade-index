@@ -11,7 +11,7 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-SEED="$ROOT/verisimdb/seed"
+SEED="$ROOT/verisim/seed"
 OUT="$ROOT/worker/data"
 
 mkdir -p "$OUT"

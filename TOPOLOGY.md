@@ -4,27 +4,27 @@
 
 ## Purpose
 
-gv-clade-index is the central registry for the hyperpolymath ecosystem, providing a VeriSimDB-backed taxonomy of 200+ repositories organised into 12 clades (fv, nl, rm, gv, db, ap, ix, dx, pt, ax, gm, sc). It exposes a Cloudflare Worker API for dashboards, drift detection, and work-tracking VQL queries. The index is the canonical map of the ecosystem — editing it never modifies the repositories it describes.
+gv-clade-index is the central registry for the hyperpolymath ecosystem, providing a VeriSimDB-backed taxonomy of 200+ repositories organised into 12 clades (fv, nl, rm, gv, db, ap, ix, dx, pt, ax, gm, sc). It exposes a Cloudflare Worker API for dashboards, drift detection, and work-tracking VCL queries. The index is the canonical map of the ecosystem — editing it never modifies the repositories it describes.
 
 ## Module Map
 
 ```
 gv-clade-index/
-├── verisimdb/                     # VeriSimDB instance (clade data store)
+├── verisim/                     # VeriSimDB instance (clade data store)
 │   ├── config.a2ml                # Database instance configuration
-│   ├── schema/                    # VQL schemas (repo, clade, pointer, etc.)
-│   ├── queries/                   # Named VQL queries for dashboards
+│   ├── schema/                    # VCL schemas (repo, clade, pointer, etc.)
+│   ├── queries/                   # Named VCL queries for dashboards
 │   └── seed/                      # Initial seed data (200+ repos)
 ├── worker/                        # Cloudflare Worker (edge API)
 │   ├── wrangler.toml              # CF Worker deployment config
 │   └── src/
 │       ├── index.js               # Worker entry point + request routing
-│       └── verisimdb.js           # VeriSimDB client for the worker
+│       └── verisim.js           # VeriSimDB client for the worker
 ├── sync/                          # Sync scripts (GitHub → VeriSimDB)
 │   ├── deploy-clade-a2ml.sh       # Deploy A2ML manifests to clades
 │   ├── export-json.sh             # Export registry as JSON
 │   ├── parse-repos.sh             # Parse repo metadata
-│   └── seed-verisimdb.sh          # Seed the VeriSimDB instance
+│   └── seed-verisim.sh          # Seed the VeriSimDB instance
 ├── src/                           # Idris2 ABI + source contracts
 │   ├── core/                      # Core clade index logic
 │   ├── contracts/                 # API contract definitions
@@ -41,10 +41,10 @@ gv-clade-index/
 [GitHub repos / CI events]
         │  sync scripts (sync/*.sh)
         ▼
-[VeriSimDB instance] ──► [verisimdb/schema/ VQL] ──► [verisimdb/queries/ named queries]
+[VeriSimDB instance] ──► [verisim/schema/ VCL] ──► [verisim/queries/ named queries]
         │
         ▼
-[worker/src/verisimdb.js] ──► [worker/src/index.js] ──► [Cloudflare Worker edge]
+[worker/src/verisim.js] ──► [worker/src/index.js] ──► [Cloudflare Worker edge]
                                                                 │
                                               ┌─────────────────┴─────────────────┐
                                               ▼                                    ▼
