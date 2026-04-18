@@ -246,7 +246,7 @@ hyperpolymath.github.io/
     bindings/             # Typed bindings to API
   index.html              # Shell (loads WASM)
   rescript.json
-  justfile
+  Justfile
 ----
 
 === Layer 2: API Gateway (Cloudflare Worker)
@@ -420,7 +420,7 @@ gv-clade-index/
   contractiles/
     must/
       clade-hygiene.a2ml     # Every repo MUST have CLADE.a2ml
-  justfile
+  Justfile
 ----
 
 == Implementation Phases
