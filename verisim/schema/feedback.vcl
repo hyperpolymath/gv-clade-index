@@ -1,4 +1,4 @@
--- SPDX-License-Identifier: PMPL-1.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
 -- VQL schema: External feedback octad
 -- Tracks feedback from contributors, users, and external parties
 

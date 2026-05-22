@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 name = "clade-registry-api"
 main = "src/index.js"
 compatibility_date = "2026-03-16"

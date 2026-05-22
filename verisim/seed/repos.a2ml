@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 # Master repo registry — all hyperpolymath repositories with clade assignments
 # Primary key: GitHub. Foreign keys: GitLab, Bitbucket, Codeberg, SourceHut.
 #
@@ -981,7 +981,7 @@ completion = 20
 [repo.v-graphql]
 primary = "pt"
 secondary = ["dx"]
-description = "V-lang GraphQL implementation"
+description = "zig GraphQL implementation"
 lineage = "standalone"
 parent = ""
 completion = 20
@@ -989,7 +989,7 @@ completion = 20
 [repo.v-grpc]
 primary = "pt"
 secondary = ["dx"]
-description = "V-lang gRPC implementation"
+description = "zig gRPC implementation"
 lineage = "standalone"
 parent = ""
 completion = 20
@@ -997,7 +997,7 @@ completion = 20
 [repo.v-rest]
 primary = "pt"
 secondary = ["dx"]
-description = "V-lang REST implementation"
+description = "zig REST implementation"
 lineage = "standalone"
 parent = ""
 completion = 20

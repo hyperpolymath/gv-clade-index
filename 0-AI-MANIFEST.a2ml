@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 # 0-AI-MANIFEST.a2ml — Universal entry point for ALL AI agents
 
 # STOP — CRITICAL READING REQUIRED
@@ -48,7 +48,7 @@ gv-clade-index is the **map** of the hyperpolymath territory. It contains:
 2. **Single source of truth** — `.machine_readable/` is authoritative for this repo's state
 3. **VeriSimDB is the map, not the territory** — Editing VeriSimDB never modifies source repos
 4. **Pointer authority** — Every cached value has a pointer declaring its canonical source
-5. **License** — All code PMPL-1.0-or-later
+5. **License** — All code MPL-2.0
 6. **Author** — "Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"
 
 ## CLADE CODES (for reference)

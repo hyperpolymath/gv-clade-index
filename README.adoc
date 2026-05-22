@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: PMPL-1.0-or-later
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 = gv-clade-index
 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
@@ -132,4 +132,4 @@ This repo includes a `clade-hygiene.a2ml` contractile:
 
 == License
 
-link:LICENSE[PMPL-1.0-or-later] (Palimpsest License)
+link:LICENSE[MPL-2.0] (Palimpsest License)

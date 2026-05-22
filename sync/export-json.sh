@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 # export-json.sh — Convert seed A2ML to JSON for Cloudflare KV
 #
 # Produces:

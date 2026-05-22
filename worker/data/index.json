@@ -1785,7 +1785,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "V-lang GraphQL implementation",
+      "description": "zig GraphQL implementation",
       "prefixed": "pt-v-graphql",
       "github": "hyperpolymath/v-graphql"
     },
@@ -1798,7 +1798,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "V-lang gRPC implementation",
+      "description": "zig gRPC implementation",
       "prefixed": "pt-v-grpc",
       "github": "hyperpolymath/v-grpc"
     },
@@ -1811,7 +1811,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "V-lang REST implementation",
+      "description": "zig REST implementation",
       "prefixed": "pt-v-rest",
       "github": "hyperpolymath/v-rest"
     },

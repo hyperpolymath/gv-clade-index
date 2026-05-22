@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 # Parse repos.a2ml and emit TSV: name\tprimary\tsecondary\tlineage\tparent\tdescription
 
 SEED_FILE="${1:-/var$REPOS_DIR/gv-clade-index/verisim/seed/repos.a2ml}"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 # deploy-clade-a2ml.sh — Batch deploy CLADE.a2ml to all repos in the seed file
 #
 # Reads verisim/seed/repos.a2ml, extracts repo name + clade assignments,
@@ -79,7 +79,7 @@ deploy_clade() {
 
     # Write CLADE.a2ml
     cat > "$repo_path/.machine_readable/CLADE.a2ml" <<CLADE_EOF
-# SPDX-License-Identifier: PMPL-1.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 # Clade declaration — part of the gv-clade-index registry
 # See: https://github.com/hyperpolymath/gv-clade-index
 

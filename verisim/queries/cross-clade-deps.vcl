@@ -1,4 +1,4 @@
--- SPDX-License-Identifier: PMPL-1.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
 -- Cross-Clade Dependencies: repos depending on repos in a different clade
 
 SELECT

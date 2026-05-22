@@ -1,4 +1,4 @@
--- SPDX-License-Identifier: PMPL-1.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
 -- VQL schema: Repository octad
 -- Each repository is an 8-modality entity in VeriSimDB
 

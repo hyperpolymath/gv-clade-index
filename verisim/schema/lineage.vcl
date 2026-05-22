@@ -1,4 +1,4 @@
--- SPDX-License-Identifier: PMPL-1.0-or-later
+-- SPDX-License-Identifier: MPL-2.0
 -- VQL schema: Lineage event octad
 -- Tracks inflate/deflate/rename/merge/split operations
 
