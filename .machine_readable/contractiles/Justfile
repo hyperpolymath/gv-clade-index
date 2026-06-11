@@ -410,7 +410,6 @@ deps-audit:
     #   cargo audit
     #   mix audit
     @command -v trivy >/dev/null && trivy fs --severity HIGH,CRITICAL --quiet . || true
-    @command -v gitleaks >/dev/null && gitleaks detect --source . --no-git --quiet || true
     @echo "Audit complete"
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -644,7 +643,6 @@ install-hooks:
 # Run security audit
 security: deps-audit
     @echo "=== Security Audit ==="
-    @command -v gitleaks >/dev/null && gitleaks detect --source . --verbose || true
     @command -v trivy >/dev/null && trivy fs --severity HIGH,CRITICAL . || true
     @echo "Security audit complete"
 
@@ -972,3 +970,6 @@ crg-badge:
       D) color="orange" ;; E) color="red" ;; F) color="critical" ;; \
       *) color="lightgrey" ;; esac; \
     echo "[![CRG $$grade](https://img.shields.io/badge/CRG-$$grade-$$color?style=flat-square)](https://github.com/hyperpolymath/standards/tree/main/component-readiness-grades)"
+
+secret-scan-trufflehog:
+    @command -v trufflehog >/dev/null && trufflehog filesystem . --only-verified || true
