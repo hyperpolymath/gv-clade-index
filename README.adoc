@@ -123,7 +123,7 @@ This repo includes a `clade-hygiene.a2ml` contractile:
 | 1 | Deploy CLADE.a2ml to all 200 repos | Pending
 | 2 | VeriSimDB instance on VPS | Pending
 | 3 | Cloudflare Worker API | Pending
-| 4 | ReScript/WASM portal | Pending
+| 4 | AffineScript/typed-WASM portal | Pending
 | 5 | LLM query endpoint | Pending
 | 6 | Bot write endpoints | Pending
 | 7 | Contributor OAuth | Pending
@@ -132,4 +132,4 @@ This repo includes a `clade-hygiene.a2ml` contractile:
 
 == License
 
-link:LICENSE[MPL-2.0] (Palimpsest License)
+link:LICENSE[MPL-2.0]
