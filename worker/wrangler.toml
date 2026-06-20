@@ -3,9 +3,55 @@ name = "clade-registry-api"
 main = "src/index.js"
 compatibility_date = "2026-03-16"
 
+# Structured logs → Cloudflare Logpush / `wrangler tail`.
+[observability]
+enabled = true
+
 [vars]
 ENVIRONMENT = "production"
+# Base URL of the live VeriSimDB instance (Phase 2). Until it is reachable the
+# Worker serves from the Cloudflare KV snapshot. Override per-env / via secret.
+VERISIMDB_URL = "http://localhost:8080"
+# Canonical JSON snapshot base URL used by the scheduled refresh (raw worker/data/).
+DATA_SOURCE_URL = "https://raw.githubusercontent.com/hyperpolymath/gv-clade-index/main/worker/data"
 
 [[kv_namespaces]]
 binding = "CLADE_KV"
 id = "e34a9970a5684c3fb8bc2f1fa5a6ca77"
+
+# Hourly snapshot refresh (matches verisim/config.a2ml sync interval = "1h").
+[triggers]
+crons = ["0 * * * *"]
+
+# Native edge rate limiting for the expensive endpoints (search / llm / query).
+# The Worker fails open when this binding is absent (local dev / tests).
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 120, period = 60 }
+
+# ── Environments ───────────────────────────────────────────────────────────
+# Production is the top-level config (deploy with `wrangler deploy`).
+# Staging is deployed with `wrangler deploy --env staging`.
+# TODO(ops): create a dedicated KV namespace for staging and replace the id below.
+[env.staging]
+name = "clade-registry-api-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+VERISIMDB_URL = "http://localhost:8080"
+DATA_SOURCE_URL = "https://raw.githubusercontent.com/hyperpolymath/gv-clade-index/main/worker/data"
+
+[[env.staging.kv_namespaces]]
+binding = "CLADE_KV"
+id = "e34a9970a5684c3fb8bc2f1fa5a6ca77"
+
+[env.staging.observability]
+enabled = true
+
+[[env.staging.unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1002"
+simple = { limit = 120, period = 60 }

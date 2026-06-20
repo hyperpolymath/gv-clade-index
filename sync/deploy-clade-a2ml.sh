@@ -9,15 +9,23 @@
 
 set -uo pipefail
 
-REPOS_DIR="/var$REPOS_DIR"
+# REPOS_DIR is the directory that contains all hyperpolymath repo clones,
+# including gv-clade-index itself. Defaults to the parent of this checkout
+# (repos checked out as siblings); override by exporting REPOS_DIR.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPOS_DIR="${REPOS_DIR:-$(cd "$SCRIPT_DIR/../.." && pwd)}"
 SEED_FILE="$REPOS_DIR/gv-clade-index/verisim/seed/repos.a2ml"
 DRY_RUN="${1:-}"
+
+if [[ ! -d "$REPOS_DIR" ]]; then
+    echo "ERROR: REPOS_DIR '$REPOS_DIR' is not a directory." >&2
+    echo "Export REPOS_DIR to the folder containing your repo clones." >&2
+    exit 1
+fi
 COMMIT_MSG="feat: add CLADE.a2ml — clade taxonomy declaration
 
 Part of gv-clade-index Phase 1: every repo declares its identity,
-primary clade, and forge mappings for the VeriSimDB central registry.
-
-Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+primary clade, and forge mappings for the VeriSimDB central registry."
 
 SUCCESS=0
 SKIPPED=0

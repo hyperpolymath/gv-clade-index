@@ -1,0 +1,31 @@
+{
+  "groove_version": "1.0.0",
+  "service_id": "gv-clade-index",
+  "name": "Hyperpolymath Clade Registry API",
+  "description": "Read-only API and central registry — the map of the hyperpolymath ecosystem (12 clades, 200+ repos).",
+  "clade": "gv",
+  "repository": "https://github.com/hyperpolymath/gv-clade-index",
+  "license": "MPL-2.0",
+  "maintainer": "hyperpolymath",
+  "protocol": "https",
+  "api": {
+    "base_path": "/v1",
+    "health": "/v1/health",
+    "readiness": "/v1/ready",
+    "endpoints": [
+      { "method": "GET", "path": "/v1/dashboard", "description": "Ecosystem overview with clade stats" },
+      { "method": "GET", "path": "/v1/clades", "description": "List all 12 clades" },
+      { "method": "GET", "path": "/v1/clade/:code", "description": "Single clade with member repos" },
+      { "method": "GET", "path": "/v1/repo/:name", "description": "Single repo detail" },
+      { "method": "GET", "path": "/v1/repos", "description": "All repos (params: clade, page, limit)" },
+      { "method": "GET", "path": "/v1/search", "description": "Full-text search across repos" },
+      { "method": "GET", "path": "/v1/llm", "description": "Structured output for LLM consumption" },
+      { "method": "GET", "path": "/v1/query/language", "description": "Query repos by language keyword" },
+      { "method": "GET", "path": "/v1/query/tag", "description": "Query repos by tag" }
+    ]
+  },
+  "auth": {
+    "public_read": true,
+    "tiers": ["public-read", "llm-key", "bot-jwt", "contributor-oauth"]
+  }
+}

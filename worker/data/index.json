@@ -1,7 +1,7 @@
 {
-  "total_repos": 202,
+  "total_repos": 203,
   "total_clades": 12,
-  "generated": "2026-03-16T14:45:43Z",
+  "generated": "2026-06-20T18:09:58.001Z",
   "clades": [
     {
       "code": "fv",
@@ -19,7 +19,6 @@
         "verified",
         "proofs"
       ],
-      "member_count": 15,
       "members": [
         "proven",
         "proven-servers",
@@ -36,7 +35,8 @@
         "ProvenCrypto.jl",
         "Skein.jl",
         "SMTLib.jl"
-      ]
+      ],
+      "member_count": 15
     },
     {
       "code": "nl",
@@ -52,7 +52,6 @@
         "ast",
         "language"
       ],
-      "member_count": 8,
       "members": [
         "nextgen-languages",
         "ephapax",
@@ -62,7 +61,8 @@
         "panll",
         "metadata-grammar",
         "modshells"
-      ]
+      ],
+      "member_count": 8
     },
     {
       "code": "rm",
@@ -79,7 +79,6 @@
         "git",
         "rsr"
       ],
-      "member_count": 12,
       "members": [
         "reposystem",
         "grim-repo",
@@ -93,7 +92,8 @@
         "v3-templater",
         "megadog",
         "robodog-ecm"
-      ]
+      ],
+      "member_count": 12
     },
     {
       "code": "gv",
@@ -109,7 +109,6 @@
         "governance",
         "seam"
       ],
-      "member_count": 15,
       "members": [
         "gv-clade-index",
         "palimpsest-license",
@@ -126,7 +125,8 @@
         "accessibility-everywhere",
         "hyperpolymath",
         "supernorma"
-      ]
+      ],
+      "member_count": 15
     },
     {
       "code": "db",
@@ -142,13 +142,13 @@
         "drift",
         "modality"
       ],
-      "member_count": 4,
       "members": [
         "nextgen-databases",
         "verisim-data",
         "statistease",
         "Lithoglyph.jl"
-      ]
+      ],
+      "member_count": 4
     },
     {
       "code": "ap",
@@ -164,7 +164,6 @@
         "ui",
         "frontend"
       ],
-      "member_count": 28,
       "members": [
         "nexia-list",
         "boj-server",
@@ -194,7 +193,8 @@
         "InvestigativeJournalist.jl",
         "anamnesis",
         "refugia"
-      ]
+      ],
+      "member_count": 28
     },
     {
       "code": "ix",
@@ -211,7 +211,6 @@
         "dns",
         "k8s"
       ],
-      "member_count": 24,
       "members": [
         "ambientops",
         "cloudflare-dns-terraform",
@@ -236,8 +235,10 @@
         "kaldor-iiot",
         "laminar",
         "laniakea",
-        "ubicity"
-      ]
+        "ubicity",
+        "game-server-admin"
+      ],
+      "member_count": 25
     },
     {
       "code": "dx",
@@ -253,7 +254,6 @@
         "sdk",
         "ecosystem"
       ],
-      "member_count": 61,
       "members": [
         "developer-ecosystem",
         "asdf-tool-plugins",
@@ -316,7 +316,8 @@
         "social-media-tools",
         "tma-mark2",
         "zerostep"
-      ]
+      ],
+      "member_count": 61
     },
     {
       "code": "pt",
@@ -333,7 +334,6 @@
         "consent",
         "standard"
       ],
-      "member_count": 12,
       "members": [
         "intsoc-transactor",
         "maa-framework",
@@ -347,7 +347,8 @@
         "v-graphql",
         "v-grpc",
         "v-rest"
-      ]
+      ],
+      "member_count": 12
     },
     {
       "code": "ax",
@@ -362,7 +363,6 @@
         "llm",
         "proof-synthesis"
       ],
-      "member_count": 6,
       "members": [
         "neural-foundations",
         "hypatia",
@@ -370,7 +370,8 @@
         "conflow",
         "neurophone",
         "i-human"
-      ]
+      ],
+      "member_count": 6
     },
     {
       "code": "gm",
@@ -385,7 +386,6 @@
         "level",
         "escape"
       ],
-      "member_count": 6,
       "members": [
         "idaptik",
         "idaptik-rescript13-staging",
@@ -393,7 +393,8 @@
         "checky-monkey",
         "chimichanga",
         "HackenbushGames.jl"
-      ]
+      ],
+      "member_count": 6
     },
     {
       "code": "sc",
@@ -409,7 +410,6 @@
         "vault",
         "sentinel"
       ],
-      "member_count": 11,
       "members": [
         "panic-attacker",
         "svalinn",
@@ -422,7 +422,8 @@
         "fireflag",
         "FirmwareAudit.jl",
         "defiant"
-      ]
+      ],
+      "member_count": 11
     }
   ],
   "by_name": {
@@ -433,7 +434,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Formally verified safety library \u2014 Idris2 dependent types + Zig FFI + 120+ bindings",
+      "description": "Formally verified safety library — Idris2 dependent types + Zig FFI + 120+ bindings",
       "prefixed": "fv-proven",
       "github": "hyperpolymath/proven"
     },
@@ -470,7 +471,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Formally verified shell \u2014 250+ theorems across 6 proof systems",
+      "description": "Formally verified shell — 250+ theorems across 6 proof systems",
       "prefixed": "fv-valence-shell",
       "github": "hyperpolymath/valence-shell"
     },
@@ -481,7 +482,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Neurosymbolic filesystem verification \u2014 Idris2 dependent types",
+      "description": "Neurosymbolic filesystem verification — Idris2 dependent types",
       "prefixed": "fv-ochrance",
       "github": "hyperpolymath/ochrance"
     },
@@ -492,7 +493,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Modular verification framework for subsystem integrity \u2014 Idris2",
+      "description": "Modular verification framework for subsystem integrity — Idris2",
       "prefixed": "fv-ochrance-framework",
       "github": "hyperpolymath/ochrance-framework"
     },
@@ -505,7 +506,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Neurosymbolic theorem proving \u2014 neural proof synthesis",
+      "description": "Neurosymbolic theorem proving — neural proof synthesis",
       "prefixed": "fv-echidna",
       "github": "hyperpolymath/echidna"
     },
@@ -564,7 +565,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 anvomidav, ephapax, wokelang, eclexia, affinescript, betlang, etc.",
+      "description": "Monorepo — anvomidav, ephapax, wokelang, eclexia, affinescript, betlang, etc.",
       "prefixed": "nl-nextgen-languages",
       "github": "hyperpolymath/nextgen-languages"
     },
@@ -588,7 +589,7 @@
       "secondary": [],
       "lineage": "monorepo-child",
       "parent": "nextgen-languages",
-      "description": "Nextgen language \u2014 anvomidav",
+      "description": "Nextgen language — anvomidav",
       "prefixed": "nl-anvomidav",
       "github": "hyperpolymath/anvomidav"
     },
@@ -612,7 +613,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Type-level programming language \u2014 PanLL integration",
+      "description": "Type-level programming language — PanLL integration",
       "prefixed": "nl-typell",
       "github": "hyperpolymath/typell"
     },
@@ -625,7 +626,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Panel-based UI framework \u2014 TEA architecture, workspace layer",
+      "description": "Panel-based UI framework — TEA architecture, workspace layer",
       "prefixed": "nl-panll",
       "github": "hyperpolymath/panll"
     },
@@ -662,7 +663,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 graph engine for repository ecosystem management",
+      "description": "Monorepo — graph engine for repository ecosystem management",
       "prefixed": "rm-reposystem",
       "github": "hyperpolymath/reposystem"
     },
@@ -673,7 +674,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Repo standards toolkit \u2014 GrimRepo Scripts (ReScript)",
+      "description": "Repo standards toolkit — GrimRepo Scripts (ReScript)",
       "prefixed": "rm-grim-repo",
       "github": "hyperpolymath/grim-repo"
     },
@@ -686,7 +687,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "RSR template \u2014 scaffold for new repos",
+      "description": "RSR template — scaffold for new repos",
       "prefixed": "rm-rsr-template-repo",
       "github": "hyperpolymath/rsr-template-repo"
     },
@@ -699,7 +700,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Bot orchestration \u2014 rhodibot, echidnabot, sustainabot, glambot, seambot, finishbot",
+      "description": "Bot orchestration — rhodibot, echidnabot, sustainabot, glambot, seambot, finishbot",
       "prefixed": "rm-gitbot-fleet",
       "github": "hyperpolymath/gitbot-fleet"
     },
@@ -780,7 +781,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "THIS REPO \u2014 clade taxonomy + VeriSimDB portal registry",
+      "description": "THIS REPO — clade taxonomy + VeriSimDB portal registry",
       "prefixed": "gv-gv-clade-index",
       "github": "hyperpolymath/gv-clade-index"
     },
@@ -804,7 +805,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Governance automation engine \u2014 OCaml policy AST",
+      "description": "Governance automation engine — OCaml policy AST",
       "prefixed": "gv-palimpsest-plasma",
       "github": "hyperpolymath/palimpsest-plasma"
     },
@@ -815,7 +816,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 axel-protocol, a2ml, rhodium-standard-repositories, etc.",
+      "description": "Monorepo — axel-protocol, a2ml, rhodium-standard-repositories, etc.",
       "prefixed": "gv-standards",
       "github": "hyperpolymath/standards"
     },
@@ -902,7 +903,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Public portfolio \u2014 will become ReScript/WASM portal",
+      "description": "Public portfolio — will become ReScript/WASM portal",
       "prefixed": "gv-hyperpolymath.github.io",
       "github": "hyperpolymath/hyperpolymath.github.io"
     },
@@ -913,7 +914,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 verisim, quandledb, lithoglyph",
+      "description": "Monorepo — verisim, quandledb, lithoglyph",
       "prefixed": "db-nextgen-databases",
       "github": "hyperpolymath/nextgen-databases"
     },
@@ -924,7 +925,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "VeriSimDB data repository \u2014 scan results, patterns, recipes",
+      "description": "VeriSimDB data repository — scan results, patterns, recipes",
       "prefixed": "db-verisim-data",
       "github": "hyperpolymath/verisim-data"
     },
@@ -946,7 +947,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Personal knowledge management \u2014 ReScript TEA + Tauri 2.0",
+      "description": "Personal knowledge management — ReScript TEA + Tauri 2.0",
       "prefixed": "ap-nexia-list",
       "github": "hyperpolymath/nexia-list"
     },
@@ -959,7 +960,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "BoJ MCP server \u2014 cartridge system, multi-cloud",
+      "description": "BoJ MCP server — cartridge system, multi-cloud",
       "prefixed": "ap-boj-server",
       "github": "hyperpolymath/boj-server"
     },
@@ -985,7 +986,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Voice platform \u2014 Elixir control plane, WebRTC media",
+      "description": "Voice platform — Elixir control plane, WebRTC media",
       "prefixed": "ap-burble",
       "github": "hyperpolymath/burble"
     },
@@ -998,7 +999,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Citizen journalism \u2014 Phoenix LiveView + IPFS",
+      "description": "Citizen journalism — Phoenix LiveView + IPFS",
       "prefixed": "ap-branch-newspaper",
       "github": "hyperpolymath/branch-newspaper"
     },
@@ -1231,7 +1232,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 volumod, personal-sysadmin, displace, etc.",
+      "description": "Monorepo — volumod, personal-sysadmin, displace, etc.",
       "prefixed": "ix-ambientops",
       "github": "hyperpolymath/ambientops"
     },
@@ -1279,7 +1280,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Container layer management \u2014 verified builds",
+      "description": "Container layer management — verified builds",
       "prefixed": "ix-stapeln",
       "github": "hyperpolymath/stapeln"
     },
@@ -1404,7 +1405,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 julia/deno/zig/rescript/elixir/idris2/v-ecosystem, etc.",
+      "description": "Monorepo — julia/deno/zig/rescript/elixir/idris2/v-ecosystem, etc.",
       "prefixed": "dx-developer-ecosystem",
       "github": "hyperpolymath/developer-ecosystem"
     },
@@ -1415,7 +1416,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 74 asdf plugin dirs + asdf-augmenters",
+      "description": "Monorepo — 74 asdf plugin dirs + asdf-augmenters",
       "prefixed": "dx-asdf-tool-plugins",
       "github": "hyperpolymath/asdf-tool-plugins"
     },
@@ -1426,7 +1427,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 Nickel language augmentation tools",
+      "description": "Monorepo — Nickel language augmentation tools",
       "prefixed": "dx-nickel-augmentation",
       "github": "hyperpolymath/nickel-augmentation"
     },
@@ -1507,7 +1508,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "MCP server for Elixir \u2014 BEAM layer for BoJ",
+      "description": "MCP server for Elixir — BEAM layer for BoJ",
       "prefixed": "dx-elixir-mcp-server",
       "github": "hyperpolymath/elixir-mcp-server"
     },
@@ -1562,7 +1563,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 fslint plugin API + SDK",
+      "description": "Monorepo — fslint plugin API + SDK",
       "prefixed": "dx-filesoup",
       "github": "hyperpolymath/filesoup"
     },
@@ -1630,7 +1631,7 @@
       ],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 echomesh, elegant-state, claude-integrations, etc.",
+      "description": "Monorepo — echomesh, elegant-state, claude-integrations, etc.",
       "prefixed": "dx-patallm-gallery",
       "github": "hyperpolymath/patallm-gallery"
     },
@@ -1678,7 +1679,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Internet Society Transactor \u2014 IETF/IRTF/IANA draft management",
+      "description": "Internet Society Transactor — IETF/IRTF/IANA draft management",
       "prefixed": "pt-intsoc-transactor",
       "github": "hyperpolymath/intsoc-transactor"
     },
@@ -1824,7 +1825,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Neural foundations \u2014 neurosymbolic infrastructure",
+      "description": "Neural foundations — neurosymbolic infrastructure",
       "prefixed": "ax-neural-foundations",
       "github": "hyperpolymath/neural-foundations"
     },
@@ -1837,7 +1838,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Neurosymbolic CI/CD intelligence \u2014 rule-based scanning",
+      "description": "Neurosymbolic CI/CD intelligence — rule-based scanning",
       "prefixed": "ax-hypatia",
       "github": "hyperpolymath/hypatia"
     },
@@ -1896,7 +1897,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Main game \u2014 asymmetric co-op, Jessica + Q, escape rooms",
+      "description": "Main game — asymmetric co-op, Jessica + Q, escape rooms",
       "prefixed": "gm-idaptik",
       "github": "hyperpolymath/idaptik"
     },
@@ -1918,7 +1919,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 phantom-metal-taste, dicti0nary-attack, candy-crash, etc.",
+      "description": "Monorepo — phantom-metal-taste, dicti0nary-attack, candy-crash, etc.",
       "prefixed": "gm-games & trivia",
       "github": "hyperpolymath/games & trivia"
     },
@@ -1956,7 +1957,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Security scanning tool \u2014 static analysis",
+      "description": "Security scanning tool — static analysis",
       "prefixed": "sc-panic-attacker",
       "github": "hyperpolymath/panic-attacker"
     },
@@ -2063,7 +2064,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 accelerator gate",
+      "description": "Julia package — accelerator gate",
       "prefixed": "dx-AcceleratorGate.jl",
       "github": "hyperpolymath/AcceleratorGate.jl"
     },
@@ -2076,7 +2077,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 value theory",
+      "description": "Julia package — value theory",
       "prefixed": "dx-Axiology.jl",
       "github": "hyperpolymath/Axiology.jl"
     },
@@ -2089,7 +2090,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 axiom systems",
+      "description": "Julia package — axiom systems",
       "prefixed": "dx-Axiom.jl",
       "github": "hyperpolymath/Axiom.jl"
     },
@@ -2100,7 +2101,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 bowtie risk analysis",
+      "description": "Julia package — bowtie risk analysis",
       "prefixed": "dx-BowtieRisk.jl",
       "github": "hyperpolymath/BowtieRisk.jl"
     },
@@ -2111,7 +2112,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 causal inference",
+      "description": "Julia package — causal inference",
       "prefixed": "dx-Causals.jl",
       "github": "hyperpolymath/Causals.jl"
     },
@@ -2122,7 +2123,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 phylogenetic analysis",
+      "description": "Julia package — phylogenetic analysis",
       "prefixed": "dx-Cladistics.jl",
       "github": "hyperpolymath/Cladistics.jl"
     },
@@ -2133,7 +2134,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 mathematical history",
+      "description": "Julia package — mathematical history",
       "prefixed": "dx-Cliodynamics.jl",
       "github": "hyperpolymath/Cliodynamics.jl"
     },
@@ -2144,7 +2145,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 quantitative economic history",
+      "description": "Julia package — quantitative economic history",
       "prefixed": "dx-Cliometrics.jl",
       "github": "hyperpolymath/Cliometrics.jl"
     },
@@ -2155,7 +2156,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 technology phase-out analysis",
+      "description": "Julia package — technology phase-out analysis",
       "prefixed": "dx-Exnovation.jl",
       "github": "hyperpolymath/Exnovation.jl"
     },
@@ -2166,7 +2167,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 firmware security auditing",
+      "description": "Julia package — firmware security auditing",
       "prefixed": "sc-FirmwareAudit.jl",
       "github": "hyperpolymath/FirmwareAudit.jl"
     },
@@ -2177,7 +2178,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 combinatorial game theory",
+      "description": "Julia package — combinatorial game theory",
       "prefixed": "gm-HackenbushGames.jl",
       "github": "hyperpolymath/HackenbushGames.jl"
     },
@@ -2188,7 +2189,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 hardware resilience testing",
+      "description": "Julia package — hardware resilience testing",
       "prefixed": "ix-HardwareResilience.jl",
       "github": "hyperpolymath/HardwareResilience.jl"
     },
@@ -2199,7 +2200,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 hyperpolymath core library",
+      "description": "Julia package — hyperpolymath core library",
       "prefixed": "dx-Hyperpolymath.jl",
       "github": "hyperpolymath/Hyperpolymath.jl"
     },
@@ -2221,7 +2222,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 investigative journalism tools",
+      "description": "Julia package — investigative journalism tools",
       "prefixed": "ap-InvestigativeJournalist.jl",
       "github": "hyperpolymath/InvestigativeJournalist.jl"
     },
@@ -2232,7 +2233,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 educational Julia for children",
+      "description": "Julia package — educational Julia for children",
       "prefixed": "dx-JuliaKids.jl",
       "github": "hyperpolymath/JuliaKids.jl"
     },
@@ -2243,7 +2244,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 dependency reuse auditing",
+      "description": "Julia package — dependency reuse auditing",
       "prefixed": "dx-JuliaPackage-Reuse-Audit.jl",
       "github": "hyperpolymath/JuliaPackage-Reuse-Audit.jl"
     },
@@ -2256,7 +2257,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 knot theory (relates to QuandleDB)",
+      "description": "Julia package — knot theory (relates to QuandleDB)",
       "prefixed": "dx-KnotTheory.jl",
       "github": "hyperpolymath/KnotTheory.jl"
     },
@@ -2267,7 +2268,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 graph database",
+      "description": "Julia package — graph database",
       "prefixed": "db-Lithoglyph.jl",
       "github": "hyperpolymath/Lithoglyph.jl"
     },
@@ -2278,7 +2279,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 low-level systems",
+      "description": "Julia package — low-level systems",
       "prefixed": "dx-LowLevel.jl",
       "github": "hyperpolymath/LowLevel.jl"
     },
@@ -2289,7 +2290,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 macro metaprogramming",
+      "description": "Julia package — macro metaprogramming",
       "prefixed": "dx-MacroPower.jl",
       "github": "hyperpolymath/MacroPower.jl"
     },
@@ -2302,7 +2303,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 Minix SDK bindings",
+      "description": "Julia package — Minix SDK bindings",
       "prefixed": "dx-MinixSDK.jl",
       "github": "hyperpolymath/MinixSDK.jl"
     },
@@ -2313,7 +2314,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 formal methods",
+      "description": "Julia package — formal methods",
       "prefixed": "fv-PolyglotFormalisms.jl",
       "github": "hyperpolymath/PolyglotFormalisms.jl"
     },
@@ -2324,7 +2325,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 post-disciplinary research tools",
+      "description": "Julia package — post-disciplinary research tools",
       "prefixed": "dx-PostDisciplinary.jl",
       "github": "hyperpolymath/PostDisciplinary.jl"
     },
@@ -2335,7 +2336,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 PR/communications analysis",
+      "description": "Julia package — PR/communications analysis",
       "prefixed": "dx-PRComms.jl",
       "github": "hyperpolymath/PRComms.jl"
     },
@@ -2348,7 +2349,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 verified cryptography",
+      "description": "Julia package — verified cryptography",
       "prefixed": "fv-ProvenCrypto.jl",
       "github": "hyperpolymath/ProvenCrypto.jl"
     },
@@ -2359,7 +2360,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 quantum circuit simulation",
+      "description": "Julia package — quantum circuit simulation",
       "prefixed": "dx-QuantumCircuit.jl",
       "github": "hyperpolymath/QuantumCircuit.jl"
     },
@@ -2372,7 +2373,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 shell integration",
+      "description": "Julia package — shell integration",
       "prefixed": "dx-ShellIntegration.jl",
       "github": "hyperpolymath/ShellIntegration.jl"
     },
@@ -2383,7 +2384,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 hardware abstraction",
+      "description": "Julia package — hardware abstraction",
       "prefixed": "dx-SiliconCore.jl",
       "github": "hyperpolymath/SiliconCore.jl"
     },
@@ -2394,7 +2395,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 Skein hash function",
+      "description": "Julia package — Skein hash function",
       "prefixed": "fv-Skein.jl",
       "github": "hyperpolymath/Skein.jl"
     },
@@ -2405,7 +2406,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 SMT-LIB interface",
+      "description": "Julia package — SMT-LIB interface",
       "prefixed": "fv-SMTLib.jl",
       "github": "hyperpolymath/SMTLib.jl"
     },
@@ -2416,7 +2417,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 software sovereignty analysis",
+      "description": "Julia package — software sovereignty analysis",
       "prefixed": "gv-SoftwareSovereign.jl",
       "github": "hyperpolymath/SoftwareSovereign.jl"
     },
@@ -2427,7 +2428,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 trade union data analysis",
+      "description": "Julia package — trade union data analysis",
       "prefixed": "dx-TradeUnionist.jl",
       "github": "hyperpolymath/TradeUnionist.jl"
     },
@@ -2438,7 +2439,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 viable systems model",
+      "description": "Julia package — viable systems model",
       "prefixed": "dx-ViableSystems.jl",
       "github": "hyperpolymath/ViableSystems.jl"
     },
@@ -2449,7 +2450,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package \u2014 zero-probability analysis",
+      "description": "Julia package — zero-probability analysis",
       "prefixed": "dx-ZeroProb.jl",
       "github": "hyperpolymath/ZeroProb.jl"
     },
@@ -2673,7 +2674,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "DELETED from GitHub \u2014 superseded by boj-server. Archived to OneDrive.",
+      "description": "DELETED from GitHub — superseded by boj-server. Archived to OneDrive.",
       "prefixed": "dx-polystack",
       "github": "hyperpolymath/polystack"
     },
@@ -2721,7 +2722,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo \u2014 social media integrations",
+      "description": "Monorepo — social media integrations",
       "prefixed": "dx-social-media-tools",
       "github": "hyperpolymath/social-media-tools"
     },
@@ -2773,7 +2774,10 @@
       "name": "game-server-admin",
       "uuid": "b7e3f1a2-c4d5-5678-9abc-def012345678",
       "clade": "ix",
-      "secondary": ["gm", "db"],
+      "secondary": [
+        "gm",
+        "db"
+      ],
       "lineage": "standalone",
       "parent": "",
       "description": "Universal game server probe, config management, and administration via Gossamer + VeriSimDB",

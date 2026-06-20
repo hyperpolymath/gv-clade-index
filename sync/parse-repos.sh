@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: MPL-2.0
 # Parse repos.a2ml and emit TSV: name\tprimary\tsecondary\tlineage\tparent\tdescription
 
-SEED_FILE="${1:-/var$REPOS_DIR/gv-clade-index/verisim/seed/repos.a2ml}"
+# Default to this repo's seed file (script lives in sync/, seed in verisim/seed/).
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SEED_FILE="${1:-$SCRIPT_DIR/../verisim/seed/repos.a2ml}"
 
 awk '
 BEGIN { FS="=" }
