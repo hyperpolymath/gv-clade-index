@@ -1,22 +1,45 @@
 // SPDX-License-Identifier: MPL-2.0
-= Gv Clade Index Roadmap
+= gv-clade-index Roadmap
 
-== Current Status
+Mirrors the canonical phase plan in `.machine_readable/6a2/STATE.a2ml`. The registry
+is the *map* of the hyperpolymath ecosystem; "production" means a hardened, observable,
+CI-deployed Cloudflare Worker API backed by a live VeriSimDB.
 
-Initial development phase.
+== Current status
 
-== Milestones
+* Maturity: *alpha*. Phase 0 complete; Phase 3 (Worker API) in progress.
+* The Cloudflare Worker is import-fixed, hardened, tested (Vitest) and CI-gated.
+  Automated deploy and live VeriSimDB backing are the remaining external steps.
 
-=== v0.1.0 - Foundation
-* [ ] Core functionality
-* [ ] Basic documentation
-* [ ] CI/CD pipeline
+== Phases
 
-=== v1.0.0 - Stable Release
-* [ ] Full feature set
-* [ ] Comprehensive tests
-* [ ] Production ready
+[cols="1,4,2"]
+|===
+| Phase | Deliverable | Status
 
-== Future Directions
+| 0 | Clade taxonomy, repo seed, VCL schema, named queries | *Complete*
+| 1 | Deploy CLADE.a2ml to all ~200 repos | Pending
+| 2 | VeriSimDB instance on VPS + ingest | Pending (external infra)
+| 3 | Cloudflare Worker API (hardened, tested, deployed) | In progress (~60%)
+| 4 | ReScript/typed-WASM portal on github.io | Pending
+| 5 | LLM query endpoint (API-key tier) | Pending
+| 6 | Bot write endpoints (signed JWT) + TODO octads | Pending
+| 7 | Contributor OAuth + scoped access | Pending
+| 8 | Repo lockdown (visibility management) | Pending
+|===
 
-_To be determined based on community feedback._
+== Cross-cutting workstreams
+
+* *Engineering hygiene* — toolchain, tests, linting, docs/reality alignment.
+* *Worker hardening* — input validation, security headers, rate limiting, structured logs, readiness.
+* *Observability & ops* — logging, metrics, backups, drift detection, runbook.
+* *Security* — tiered auth (public / LLM key / bot JWT / contributor OAuth), secrets, supply chain.
+* *CI/CD* — test-gated CI + automated Cloudflare deploy (staging → production).
+
+== External prerequisites (owner-provided)
+
+* `CLOUDFLARE_API_TOKEN` secret — enables automated Worker deploys (Phase 3).
+* VeriSimDB instance on a VPS — the declared source of truth (Phase 2).
+* GitHub OAuth app + JWT signing key — Phases 6–7.
+
+See `.machine_readable/6a2/STATE.a2ml` for live status and blockers.

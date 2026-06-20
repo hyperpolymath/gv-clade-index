@@ -21,7 +21,7 @@
 // loadIndex() prefers VeriSimDB and falls back to KV.
 
 import { loadIndex, queryByLanguage, queryByTag, refreshFromSource, ping } from './verisim.js';
-import { json, error, makeRequestId, CORS_HEADERS, SECURITY_HEADERS } from './http.js';
+import { json, error, makeRequestId, corsHeaders, SECURITY_HEADERS, withCors } from './http.js';
 import { isValidClade, VALID_CLADES, positiveInt, safeDecode, boundedQuery } from './validate.js';
 import { allow } from './ratelimit.js';
 import { createLogger } from './log.js';
@@ -65,9 +65,9 @@ async function route(request, env, log, requestId) {
   const path = url.pathname;
   const clientIp = request.headers.get('CF-Connecting-IP') || 'anon';
 
-  // CORS preflight
+  // CORS preflight — CORS headers are added by the fetch() wrapper.
   if (request.method === 'OPTIONS') {
-    return new Response(null, { headers: { ...CORS_HEADERS, ...SECURITY_HEADERS } });
+    return new Response(null, { headers: { ...SECURITY_HEADERS } });
   }
 
   // Read-only API
@@ -322,6 +322,7 @@ export default {
     const log = createLogger({ reqId: requestId });
     const start = Date.now();
     const url = new URL(request.url);
+    const cors = corsHeaders(env, request);
     try {
       const res = await route(request, env, log, requestId);
       log.info('request', {
@@ -330,7 +331,7 @@ export default {
         status: res.status,
         ms: Date.now() - start,
       });
-      return res;
+      return withCors(res, cors);
     } catch (err) {
       log.error('unhandled', {
         method: request.method,
@@ -338,7 +339,7 @@ export default {
         error: err && err.message,
         stack: err && err.stack,
       });
-      return error('Internal error', { status: 500, requestId });
+      return withCors(error('Internal error', { status: 500, requestId }), cors);
     }
   },
 

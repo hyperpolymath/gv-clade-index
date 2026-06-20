@@ -31,8 +31,8 @@ function makeKv(initial = {}) {
 
 const envWithKv = () => ({ CLADE_KV: makeKv({ index: JSON.stringify(INDEX) }) });
 
-async function call(pathAndQuery, { env = envWithKv(), method = 'GET' } = {}) {
-  const req = new Request(`https://api.test${pathAndQuery}`, { method });
+async function call(pathAndQuery, { env = envWithKv(), method = 'GET', headers } = {}) {
+  const req = new Request(`https://api.test${pathAndQuery}`, { method, headers });
   const res = await worker.fetch(req, env);
   let body = null;
   try {
@@ -214,6 +214,32 @@ describe('method & routing', () => {
   it('503 when registry data is absent', async () => {
     const { res } = await call('/v1/dashboard', { env: { CLADE_KV: makeKv({}) } });
     expect(res.status).toBe(503);
+  });
+});
+
+describe('CORS', () => {
+  it('defaults Access-Control-Allow-Origin to the portal origin', async () => {
+    const { res } = await call('/v1/health');
+    expect(res.headers.get('Access-Control-Allow-Origin')).toBe('https://hyperpolymath.github.io');
+  });
+
+  it('echoes an explicitly allowed Origin', async () => {
+    const env = {
+      CLADE_KV: makeKv({ index: JSON.stringify(INDEX) }),
+      CORS_ALLOW_ORIGIN: 'https://example.test,https://hyperpolymath.github.io',
+    };
+    const { res } = await call('/v1/health', {
+      env,
+      headers: { Origin: 'https://example.test' },
+    });
+    expect(res.headers.get('Access-Control-Allow-Origin')).toBe('https://example.test');
+  });
+
+  it('does not echo a disallowed Origin and never returns a wildcard', async () => {
+    const { res } = await call('/v1/health', { headers: { Origin: 'https://evil.test' } });
+    const acao = res.headers.get('Access-Control-Allow-Origin');
+    expect(acao).toBe('https://hyperpolymath.github.io');
+    expect(acao).not.toBe('*');
   });
 });
 

@@ -34,6 +34,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     # Manual dispatch picks the env (production requires approval if the
     # "production" GitHub Environment has protection rules); push → staging.
     environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'staging' }}
@@ -45,11 +46,10 @@ jobs:
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: worker/package-lock.json
 
+      # No tracked package-lock.json (npm-avoidant policy) → npm install, not npm ci.
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Test before deploy
         run: npm test
