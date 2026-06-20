@@ -1,0 +1,7 @@
+# Node toolchain (dev-only; not part of the deployed Worker)
+node_modules/
+# Wrangler local dev / Miniflare state
+.wrangler/
+# Test coverage
+coverage/
+*.log

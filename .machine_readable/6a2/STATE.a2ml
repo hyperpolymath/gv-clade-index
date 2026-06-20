@@ -6,13 +6,13 @@
 [metadata]
 project = "gv-clade-index"
 version = "0.1.0"
-last-updated = "2026-03-16"
+last-updated = "2026-06-20"
 status = "active"
 
 [project-context]
 name = "gv-clade-index"
 purpose = "VeriSimDB-backed clade taxonomy and central registry for the hyperpolymath ecosystem (200+ repos)"
-completion-percentage = 10
+completion-percentage = 18
 
 [position]
 phase = "implementation"
@@ -23,7 +23,7 @@ milestones = [
   { name = "Phase 0: Clade taxonomy, repo seed, VQL schema, queries", completion = 100 },
   { name = "Phase 1: Deploy CLADE.a2ml to all 200 repos", completion = 0 },
   { name = "Phase 2: VeriSimDB instance on VPS, ingest data", completion = 0 },
-  { name = "Phase 3: Cloudflare Worker API endpoints", completion = 0 },
+  { name = "Phase 3: Cloudflare Worker API endpoints", completion = 60 },
   { name = "Phase 4: ReScript/WASM portal on github.io", completion = 0 },
   { name = "Phase 5: LLM query endpoint", completion = 0 },
   { name = "Phase 6: Bot write endpoints + TODO octads", completion = 0 },
@@ -32,11 +32,15 @@ milestones = [
 ]
 
 [blockers-and-issues]
-# None at Phase 0
+blockers = [
+  "Phase 3 deploy: CLOUDFLARE_API_TOKEN repo secret required to enable automated Worker deploys",
+  "Phase 3 live data + Phases 5-8: VeriSimDB instance (Phase 2) not yet stood up on a VPS",
+]
 
 [critical-next-actions]
 actions = [
-  "Deploy CLADE.a2ml to all 200 repos (batch script)",
-  "Stand up VeriSimDB instance on Verpex VPS",
+  "Add CLOUDFLARE_API_TOKEN secret to enable Worker auto-deploy to staging/production",
+  "Stand up VeriSimDB instance on Verpex VPS (Phase 2) so the Worker reads live data",
+  "Deploy CLADE.a2ml to all 200 repos (sync/deploy-clade-a2ml.sh)",
   "Write sync/ingest tooling in Rust",
 ]

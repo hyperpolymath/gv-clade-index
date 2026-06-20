@@ -1,0 +1,76 @@
+# SPDX-License-Identifier: MPL-2.0
+# Worker Deploy — push the Cloudflare Worker to staging on merge to main, and
+# to production via manual dispatch (gated by the "production" GitHub Environment).
+#
+# Required repository secret: CLOUDFLARE_API_TOKEN (Workers Scripts:Edit).
+# Optional: CLOUDFLARE_ACCOUNT_ID (if the token spans multiple accounts).
+# Until CLOUDFLARE_API_TOKEN is set, the deploy step is skipped (workflow stays green).
+name: Worker Deploy
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'worker/**'
+      - '.github/workflows/worker-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        type: choice
+        options:
+          - staging
+          - production
+        default: staging
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: worker
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    # Manual dispatch picks the env (production requires approval if the
+    # "production" GitHub Environment has protection rules); push → staging.
+    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'staging' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test before deploy
+        run: npm test
+
+      - name: Check deploy credentials
+        id: gate
+        run: echo "have_token=${{ secrets.CLOUDFLARE_API_TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy (wrangler)
+        if: steps.gate.outputs.have_token == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          TARGET_ENV: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'staging' }}
+        run: |
+          if [ "$TARGET_ENV" = "production" ]; then
+            npx wrangler deploy
+          else
+            npx wrangler deploy --env staging
+          fi
+
+      - name: Skipped (no credentials)
+        if: steps.gate.outputs.have_token != 'true'
+        run: echo "::notice::CLOUDFLARE_API_TOKEN not set — skipping deploy. Add the secret to enable automated deploys."
