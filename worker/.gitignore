@@ -1,5 +1,8 @@
 # Node toolchain (dev-only; not part of the deployed Worker)
 node_modules/
+# npm lockfiles are not tracked (hyperpolymath npm-avoidant policy);
+# devDependencies are pinned to exact versions in package.json instead.
+package-lock.json
 # Wrangler local dev / Miniflare state
 .wrangler/
 # Test coverage
