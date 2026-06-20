@@ -122,8 +122,8 @@ This repo includes a `clade-hygiene.a2ml` contractile:
 | 0 | Clade taxonomy, repo seed, VCL schema | *Complete*
 | 1 | Deploy CLADE.a2ml to all 200 repos | Pending
 | 2 | VeriSimDB instance on VPS | Pending
-| 3 | Cloudflare Worker API | Pending
-| 4 | AffineScript/typed-WASM portal | Pending
+| 3 | Cloudflare Worker API (hardened, tested, CI-gated) | In progress (~60%)
+| 4 | ReScript/typed-WASM portal | Pending
 | 5 | LLM query endpoint | Pending
 | 6 | Bot write endpoints | Pending
 | 7 | Contributor OAuth | Pending

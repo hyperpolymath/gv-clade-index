@@ -1,1 +1,14 @@
-= ffi Logic
+// SPDX-License-Identifier: MPL-2.0
+= FFI surface
+
+gv-clade-index has *no native/FFI surface*. It is a data + edge project: the runtime
+artifact is a Cloudflare Worker (JavaScript, see `worker/`) backed by VeriSimDB; there
+is no compiled library exposing a C ABI.
+
+The `src/interface/{abi,ffi,generated}` directories are retained only to satisfy the RSR
+repository structure (`just validate-rsr`). Their previous contents were non-compiling
+`{{project}}` Zig/Idris template stubs and have been removed to avoid implying a
+verification or FFI surface that does not exist (cf. `PROOF-NEEDS.md`).
+
+If a native surface is ever introduced, restore `build.zig`, `src/main.zig` and
+`test/integration_test.zig` from the RSR template and wire them into CI.
