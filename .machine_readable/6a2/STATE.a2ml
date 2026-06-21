@@ -6,7 +6,7 @@
 [metadata]
 project = "gv-clade-index"
 version = "0.1.0"
-last-updated = "2026-06-20"
+last-updated = "2026-06-21"
 status = "active"
 
 [project-context]
@@ -48,4 +48,32 @@ actions = [
   "Stand up VeriSimDB instance on Verpex VPS (Phase 2) so the Worker reads live data",
   "Deploy CLADE.a2ml to all 200 repos (sync/deploy-clade-a2ml.sh)",
   "Write sync/ingest tooling in Rust",
+]
+
+[recent-changes]
+notes = [
+  "2026-06-21: CI/docs hardening — standards reusables bumped (#26); Hypatia advisory findings cleared (#27, 11->3, all remaining are scanner false-positives); upstream fixes tracked in #28.",
+  "2026-06-21: Docs close-out — branch cleanup; added sketch guides + ADRs (see [documentation.sketches]); marked empty RSR scaffold dirs as planned; seeded docs/wikis/.",
+]
+
+# Sketch/planned docs scaffolded 2026-06-21 — honest outlines present, content to be filled.
+[documentation.sketches]
+developer = [
+  "docs/developer/VERISIM-QUERY-GUIDE.adoc",
+  "docs/developer/REPO-ONBOARDING.adoc",
+]
+user = ["docs/USER-API-GUIDE.adoc"]
+maintainer = ["docs/governance/INCIDENT-RESPONSE.adoc"]
+decisions = [
+  "docs/decisions/0001-pointer-authority.adoc (accepted; expand)",
+  "docs/decisions/0002-clade-taxonomy.adoc (accepted; expand)",
+  "docs/decisions/0003-verisimdb-kv-architecture.adoc (accepted; expand)",
+  "docs/decisions/0004-api-versioning.adoc (open)",
+  "docs/decisions/0005-governance-exceptions.adoc (open)",
+]
+wiki = ["docs/wikis/Core-Concepts.adoc", "docs/wikis/Workflows.adoc", "docs/wikis/Glossary.adoc"]
+tracked-issues = [
+  "Worker HTTP API contract (OpenAPI 3.1)",
+  "Release runbook: Phases 3-8",
+  "Wiki sync automation",
 ]

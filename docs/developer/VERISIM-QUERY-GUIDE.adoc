@@ -1,0 +1,43 @@
+// SPDX-License-Identifier: MPL-2.0
+= VeriSimDB Query Guide (VCL)
+:toc:
+:icons: font
+
+[NOTE]
+====
+*Status: SKETCH / planned — not yet complete.* This is a scaffolded outline that
+captures the intended structure so it can be filled in (by a contributor or
+agent) as Phases 2–3 land. Source material already in the repo:
+`verisim/schema/*.vcl`, `verisim/queries/*.vcl`, and
+`docs/SPEC-clade-verisim-portal.adoc`.
+====
+
+== Purpose
+
+Teach a developer to read the registry schema and write VCL queries against
+VeriSimDB — going beyond the pre-built queries in `verisim/queries/`.
+
+== Audience
+
+Developers extending the registry, or building dashboards / drift detection.
+
+== Outline (to be completed)
+
+. *The entity model* — how a repository is represented (`verisim/schema/repo.vcl`)
+  and the seven entity types: repo, clade, todo, observation, feedback, lineage,
+  forge-identity.
+. *Reading the seed data* — `verisim/seed/{clades,repos,forges}.a2ml`.
+. *Basic queries* — filter repos by clade / language / status; walk through
+  `dashboard.vcl`, `stale.vcl`, `orphans.vcl`.
+. *Pointer authority in practice* — `pointer` vs `local` vs `derived`, and how
+  drift detection uses it (`drift.vcl`).
+. *Authoring a new query* — naming conventions, where it lives, and how the
+  Worker surfaces it.
+. *Cross-clade analysis* — `cross-clade-deps.vcl`, `bot-findings.vcl`,
+  `blocked.vcl`, `feedback-status.vcl`.
+
+== See also
+
+* `docs/SPEC-clade-verisim-portal.adoc` — full data model
+* `README.adoc` — identity & pointer-authority overview
+* `docs/developer/REPO-ONBOARDING.adoc` — registering a new repo

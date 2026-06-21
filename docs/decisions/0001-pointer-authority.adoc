@@ -1,0 +1,40 @@
+// SPDX-License-Identifier: MPL-2.0
+= ADR 0001 — Pointer Authority Model
+
+Date: 2026-06-21
+
+[NOTE]
+====
+*Status: SKETCH — documents an already-implemented decision; expand context &
+consequences, then ratify.*
+====
+
+== Status
+
+Accepted (retroactively documented).
+
+== Context
+
+The registry caches values that actually live in 200+ repositories. Without a
+declared canonical source, cached data drifts silently and it becomes unclear
+who may write what.
+
+== Decision
+
+Every cached value in VeriSimDB declares its authority:
+
+* `pointer` — the value lives in the repo; VeriSimDB caches it and drift-detects.
+* `local` — VeriSimDB owns it (TODOs, bot observations).
+* `derived` — computed from other values (e.g. clade health scores).
+
+"Map vs territory": the registry is the map; repos are the territory; editing the
+map never mutates the territory.
+
+== Consequences
+
+=== Positive
+- Drift detection is well-defined (`verisim/queries/drift.vcl`).
+- Clear write-ownership per field.
+
+=== Negative / Neutral
+- _To be completed: caching staleness windows, conflict resolution._

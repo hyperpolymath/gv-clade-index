@@ -1,1 +1,16 @@
-= decisions Unit
+// SPDX-License-Identifier: MPL-2.0
+= Architecture Decision Records (ADRs)
+
+Records of significant architectural decisions. New ADRs follow
+link:0000-template.adoc[the template].
+
+[cols="1,4,2"]
+|===
+| ADR | Title | Status
+
+| link:0001-pointer-authority.adoc[0001] | Pointer Authority Model | Accepted _(sketch)_
+| link:0002-clade-taxonomy.adoc[0002] | Clade Taxonomy (12 codes) | Accepted _(sketch)_
+| link:0003-verisimdb-kv-architecture.adoc[0003] | VeriSimDB + KV Architecture | Accepted _(sketch)_
+| link:0004-api-versioning.adoc[0004] | API Versioning Strategy | Proposed _(open)_
+| link:0005-governance-exceptions.adoc[0005] | Org-wide Governance Exceptions | Proposed _(open)_
+|===

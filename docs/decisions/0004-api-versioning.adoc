@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: MPL-2.0
+= ADR 0004 — API Versioning Strategy
+
+Date: 2026-06-21
+
+[NOTE]
+====
+*Status: SKETCH — OPEN decision, not yet made. Outline only.*
+====
+
+== Status
+
+Proposed (needs a decision before the API is published).
+
+== Context
+
+Once the Worker API is public (Phase 3+) and consumed by LLMs, dashboards, and
+external contributors, the response shapes become a contract. We need a
+versioning approach decided *before* publication to avoid breaking consumers.
+
+== Decision
+
+_To be decided._ Options to weigh:
+
+* URL-path versioning (`/v1/...`).
+* Header/content-negotiation versioning.
+* Additive-only evolution with no explicit version.
+
+Should be settled alongside the OpenAPI 3.1 contract (tracked issue).
+
+== Consequences
+
+_To be completed once decided._

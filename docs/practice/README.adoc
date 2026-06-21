@@ -1,1 +1,9 @@
-= practice Unit
+// SPDX-License-Identifier: MPL-2.0
+= Practice
+
+Operational and implementation material.
+
+* link:AI-CONVENTIONS.adoc[AI Conventions] — rules and banned patterns for agents working in this repo
+* link:STATE-VISUALIZER-GUIDE.adoc[State Visualizer Guide] — how project status is tracked
+
+See also: link:../governance/SOFTWARE-DEVELOPMENT-APPROACH.adoc[Software Development Approach].

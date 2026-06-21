@@ -1,1 +1,16 @@
+// SPDX-License-Identifier: MPL-2.0
 = Governance Pillar (TSDM)
+
+Policy, decision gates, and operational runbooks for the project.
+
+* link:SOFTWARE-DEVELOPMENT-APPROACH.adoc[Software Development Approach] — policy & priority rules
+* link:TSDM.adoc[TSDM] — the three-scale development model
+* link:CRG-CRITERIA.adoc[CRG Criteria] — change-review gates
+* link:MAINTENANCE-CHECKLIST.adoc[Maintenance Checklist] — three-axis maintenance runbook
+* link:INCIDENT-RESPONSE.adoc[Incident Response & Rollback] _(sketch)_
+
+Sub-areas (planned scaffolding):
+
+* `planning/` — must / should / could work prioritisation
+* `audit/` — systems / compliance / effects audit outputs
+* `maintenance/` — adaptive / corrective / perfective maintenance records

@@ -1,1 +1,6 @@
 = Corrective Unit
+
+[NOTE]
+====
+*Planned - not yet written.* RSR scaffold slot reserved for future content; intentionally empty for now. See `.machine_readable/6a2/STATE.a2ml` for roadmap status.
+====

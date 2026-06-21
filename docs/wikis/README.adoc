@@ -1,15 +1,26 @@
+// SPDX-License-Identifier: MPL-2.0
 = Project Wikis
 :toc: preamble
 :icons: font
 
-This directory contains the source files for the project wiki. It is intended for long-form documentation, deep-dives, and community-maintained knowledge.
+[NOTE]
+====
+*Status: SKETCH.* The pages below are seeded starters. Deeper content and
+automated synchronisation to the forge-hosted wiki are tracked as a follow-up
+(see the "wiki sync" issue).
+====
 
-== Structure
+This directory holds the source files for the project wiki — long-form
+documentation, deep-dives, and community-maintained knowledge. It is the source
+of truth; the forge-hosted wiki (GitHub/GitLab) is a published mirror.
 
-* **Core Concepts:** Fundamental architectural ideas.
-* **Workflows:** Step-by-step guides for contributors.
-* **Glossary:** Definitions of project-specific terminology.
+== Pages
 
-== Wiki Synchronization
+* link:Core-Concepts.adoc[Core Concepts] — the fundamental architectural ideas
+* link:Workflows.adoc[Workflows] — step-by-step contributor guides
+* link:Glossary.adoc[Glossary] — project terminology
 
-Changes made here should be synchronised with the forge-hosted wiki (GitHub/GitLab) using the project's sync scripts.
+== Wiki synchronisation
+
+Content here should be synchronised to the forge-hosted wiki. The sync
+automation is *not yet wired up* — tracked as a follow-up task.

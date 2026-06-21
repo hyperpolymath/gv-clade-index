@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: MPL-2.0
+= ADR 0005 — Org-wide Governance Exceptions
+
+Date: 2026-06-21
+
+[NOTE]
+====
+*Status: SKETCH — OPEN decision, not yet made. Outline only.*
+====
+
+== Status
+
+Proposed.
+
+== Context
+
+As the central registry for the ecosystem, this repo's standards (clade hygiene,
+contractiles, reusable workflows) are applied org-wide. Some repos will need
+sanctioned, recorded exceptions — and there must be a principled way to grant
+and review them rather than silent drift.
+
+== Decision
+
+_To be decided._ Outline: who may grant an exception, where it is recorded
+(per-repo `CLADE.a2ml`? a central `local` table in VeriSimDB?), expiry/review
+cadence, and how exceptions surface in governance queries.
+
+== Consequences
+
+_To be completed once decided._

@@ -1,0 +1,41 @@
+// SPDX-License-Identifier: MPL-2.0
+= Registry API — User Guide
+:toc:
+:icons: font
+
+[NOTE]
+====
+*Status: SKETCH / planned — and alpha.* The HTTP API is Phase 3 (~60% built) and
+is *not yet publicly deployed* (blocked on a `CLOUDFLARE_API_TOKEN` secret and a
+VeriSimDB instance — see `.machine_readable/6a2/STATE.a2ml`). This guide
+describes the *intended* consumer experience; treat endpoints/shapes as
+provisional until the OpenAPI contract is published.
+====
+
+== Purpose
+
+For external consumers who want to *query* the clade registry over HTTP
+(the read-only public tier) — not to run it locally (for that, see
+`QUICKSTART-DEV.adoc`).
+
+== What this is
+
+The clade index is a queryable registry — the *map* of the hyperpolymath
+ecosystem (200+ repos, 12 clades). It is read-only and always clean; editing the
+map never touches the repositories themselves.
+
+== Outline (to be completed)
+
+. *Base URL & status* — currently in development; no public endpoint yet.
+. *Endpoints* — enumerated authoritatively once the OpenAPI 3.1 contract lands
+  (tracked separately). The handlers live in `worker/src/index.js`.
+. *Common queries* — list repos by clade, find stale/orphan repos, fetch the
+  dashboard snapshot.
+. *Response shapes & error codes.*
+. *Auth tiers & rate limits* — public-read (no key) / LLM (API key) /
+  bot (signed JWT) / contributor (OAuth).
+
+== See also
+
+* `README.adoc` — what the registry is and the portal architecture
+* `docs/SPEC-clade-verisim-portal.adoc` — data model & auth tiers
