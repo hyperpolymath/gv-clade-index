@@ -54,7 +54,7 @@ cd worker && npm test
 ----
 gv-clade-index/
 ├── src/                  # Source code
-├── src/abi/              # Idris2 ABI definitions (if applicable)
+├── src/interface/abi/    # Idris2 ABI definitions (if applicable)
 ├── ffi/zig/              # Zig FFI bridge (if applicable)
 ├── tests/                # Test suite
 ├── docs/                 # Documentation
