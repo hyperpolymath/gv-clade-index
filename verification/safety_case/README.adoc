@@ -1,1 +1,7 @@
-= Safety case Unit
+// SPDX-License-Identifier: MPL-2.0
+= Safety Case Unit
+
+Not applicable as a high-assurance safety case: this is a read-only governance
+registry (JavaScript Worker + VeriSimDB), not safety-critical software. Operational
+assurance is provided by the test suite, the CI gate, structured logging, and the
+`/v1/health` + `/v1/ready` probes. See `../README.adoc`.

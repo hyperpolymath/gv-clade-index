@@ -56,3 +56,35 @@ describe('index.json consistency', () => {
     }
   });
 });
+
+// Registry data-integrity invariants — the "proofs" a governance/registry repo can
+// actually guarantee (this project has no formal ABI/FFI surface; see
+// verification/README.adoc and PROOF-NEEDS.md).
+describe('registry invariants', () => {
+  it('every repo prefixed name is "<clade>-<name>"', () => {
+    for (const r of repos) {
+      expect(r.prefixed).toBe(`${r.clade}-${r.name}`);
+    }
+  });
+
+  it('secondary clade codes are valid and exclude the primary', () => {
+    for (const r of repos) {
+      for (const code of r.secondary || []) {
+        expect(VALID_CLADES).toContain(code);
+        expect(code).not.toBe(r.clade);
+      }
+    }
+  });
+
+  it('forge primary keys (github slugs) are unique', () => {
+    const slugs = repos.map((r) => r.github);
+    expect(new Set(slugs).size).toBe(slugs.length);
+  });
+
+  it('uuids are present, well-formed and unique', () => {
+    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const uuids = repos.map((r) => r.uuid);
+    for (const u of uuids) expect(u).toMatch(uuidRe);
+    expect(new Set(uuids).size).toBe(uuids.length);
+  });
+});

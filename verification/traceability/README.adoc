@@ -1,1 +1,7 @@
+// SPDX-License-Identifier: MPL-2.0
 = Traceability Unit
+
+No requirements-to-proof traceability matrix: there are no formal proofs to trace
+(see `../README.adoc`). Phase/requirement tracking lives in
+`.machine_readable/6a2/STATE.a2ml` and `ROADMAP.adoc`; the registry's data invariants
+are traced by `worker/test/data.test.js`.

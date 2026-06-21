@@ -1,1 +1,29 @@
-= Verification Pillar
+// SPDX-License-Identifier: MPL-2.0
+= Verification Pillar — gv-clade-index
+
+== Status: no formal-proof surface
+
+gv-clade-index is a `gv`/`db` project — a JavaScript Cloudflare Worker over a
+VeriSimDB/KV registry. It has *no native ABI/FFI surface*, so there are no Idris2 /
+Lean / Coq / Agda proofs to maintain here, and none are outstanding. The template
+ABI proofs that once implied otherwise were removed; see `PROOF-NEEDS.md`.
+
+== What stands in for "proofs" here
+
+Correctness is assured by executable evidence appropriate to a data/edge service:
+
+* *Worker test suite* — `worker/test/worker.test.js`: routing, input validation,
+  security headers, CORS, error paths, and a fuzz sweep (no uncontrolled 5xx).
+* *Data-integrity invariants* — `worker/test/data.test.js` asserts the registry's
+  "theorems": the 12-clade invariant; count consistency
+  (`total_repos == |by_name| == Σ member_count`); every clade member resolves;
+  `prefixed == "<clade>-<name>"`; valid secondary codes; and forge primary-key
+  (`github`) + `uuid` uniqueness.
+* *CI gate* — `.github/workflows/worker-ci.yml` runs these on every PR.
+
+== When real proofs would apply
+
+Only if a native/compiled ABI surface is introduced. At that point, add
+domain-specific Idris2 proofs per the pattern referenced in `PROOF-NEEDS.md`
+(e.g. `proven`, `typed-wasm`, `echidna`). The `proofs/`, `safety_case/`, and
+`traceability/` units are retained for RSR structure until then.
