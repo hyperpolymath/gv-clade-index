@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: MPL-2.0
+= Workflows
+:icons: font
+
+[NOTE]
+====
+*Status: SKETCH — index of contributor workflows; each links to its guide.*
+====
+
+* *Add a repository to the registry* → `docs/developer/REPO-ONBOARDING.adoc`
+* *Write a registry query* → `docs/developer/VERISIM-QUERY-GUIDE.adoc`
+* *Consume the API as a user* → `docs/USER-API-GUIDE.adoc`
+* *Respond to an incident / roll back* → `docs/governance/INCIDENT-RESPONSE.adoc`,
+  `docs/governance/MAINTENANCE-CHECKLIST.adoc`
+* *Contribute code* → `CONTRIBUTING.md`, `docs/practice/AI-CONVENTIONS.adoc`

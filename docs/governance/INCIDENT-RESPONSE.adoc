@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: MPL-2.0
+= Incident Response & Rollback
+:toc:
+:icons: font
+
+[NOTE]
+====
+*Status: SKETCH / planned — not yet complete.* Scaffolded outline for
+maintainers. Complements the STRIDE analysis in
+`docs/architecture/THREAT-MODEL.adoc` and the runbook in
+`docs/governance/MAINTENANCE-CHECKLIST.adoc`.
+====
+
+== Purpose
+
+Recovery procedures for the registry and its Cloudflare Worker.
+
+== Outline (to be completed)
+
+. *Architecture recap* — Worker → VeriSimDB (VPS), with a KV snapshot as the
+  read fallback.
+. *VeriSimDB unavailable* — expected KV-fallback behaviour and how to confirm it
+  (handlers in `worker/src/`).
+. *Stale KV snapshot* — detection and refresh procedure.
+. *Seed / data corruption* — restore from the repositories themselves; pointer
+  authority means repos are the source of truth, the registry only caches.
+. *Bad Worker deploy* — rollback (`wrangler rollback`) or revert-and-redeploy.
+. *Escalation & ownership* — see `docs/attribution/MAINTAINERS.adoc`.
+
+== See also
+
+* `docs/architecture/THREAT-MODEL.adoc`
+* `docs/governance/MAINTENANCE-CHECKLIST.adoc`

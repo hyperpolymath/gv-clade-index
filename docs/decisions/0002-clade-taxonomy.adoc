@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: MPL-2.0
+= ADR 0002 — Clade Taxonomy (12 codes)
+
+Date: 2026-06-21
+
+[NOTE]
+====
+*Status: SKETCH — documents an already-implemented decision; expand rationale &
+the stability/immutability policy, then ratify.*
+====
+
+== Status
+
+Accepted (retroactively documented).
+
+== Context
+
+200+ repositories need a stable, low-cardinality classification that humans and
+bots can reason about, and that query tooling can rely on not changing
+underneath it.
+
+== Decision
+
+Twelve two-letter clade codes (see `README.adoc` for the table): `fv nl rm gv db
+ap ix dx pt ax gm sc`. Each repo declares one primary clade and zero-or-more
+secondary clades.
+
+== Consequences
+
+=== Positive
+- Fixed, memorable vocabulary; cheap to validate (clade-hygiene CLADE-003).
+
+=== Negative / Neutral
+- _To be completed: the immutability/versioning policy — what happens if a 13th
+  clade is ever needed; whether codes can be retired; migration rules._

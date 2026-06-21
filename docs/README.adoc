@@ -1,14 +1,28 @@
+// SPDX-License-Identifier: MPL-2.0
 = Documentation Layout
 
 Primary tracks:
 
-* `theory/` for formal and conceptual material
-* `practice/` for operational and implementation material
-* `maintenance/` for baseline checklists and release hard-pass runbooks
-* `whitepapers/academic/` for research-facing whitepapers
-* `whitepapers/industry/` for industry/outreach whitepapers
+* `developer/` — building on and extending the index (see link:developer/README.adoc[developer/])
+* `practice/` — operational & implementation material (conventions, state tracking)
+* `governance/` — policy, maintenance checklists, release & incident runbooks
+* `decisions/` — Architecture Decision Records (ADRs)
+* `architecture/` — threat model and architectural notes
+* `theory/` — formal and conceptual material _(largely planned/sketch)_
+* `whitepapers/` — research- and industry-facing papers _(planned)_
+* `reports/` — generated quality/compliance/security/perf reports _(planned)_
+* `wikis/` — long-form, community-facing deep-dives (source for the forge wiki)
 
-Core docs:
+Key documents:
 
-* `maintenance/MAINTENANCE-CHECKLIST.md`
-* `practice/SOFTWARE-DEVELOPMENT-APPROACH.adoc`
+* link:SPEC-clade-verisim-portal.adoc[Specification] — full data model & portal architecture
+* link:governance/MAINTENANCE-CHECKLIST.adoc[Maintenance Checklist]
+* link:governance/SOFTWARE-DEVELOPMENT-APPROACH.adoc[Software Development Approach]
+* link:architecture/THREAT-MODEL.adoc[Threat Model]
+* link:practice/AI-CONVENTIONS.adoc[AI Conventions]
+
+Audience entry points (repo root):
+link:../README.adoc[README] ·
+link:../QUICKSTART-USER.adoc[Quick Start — Users] ·
+link:../QUICKSTART-DEV.adoc[Quick Start — Developers] ·
+link:../EXPLAINME.adoc[EXPLAINME]

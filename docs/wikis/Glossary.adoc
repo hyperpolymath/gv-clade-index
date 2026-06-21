@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: MPL-2.0
+= Glossary
+:icons: font
+
+[NOTE]
+====
+*Status: SKETCH — extend as new terms appear.*
+====
+
+Clade:: One of twelve two-letter classification codes for the ecosystem.
+Primary / secondary clade:: A repo's main classification (one) plus optional
+  additional ones (zero or more).
+Entity model:: The seven VeriSimDB entity types — repo, clade, todo, observation,
+  feedback, lineage, forge-identity (see `verisim/schema/`).
+Pointer authority:: Whether a cached value is a `pointer`, `local`, or `derived`
+  (see ADR 0001).
+Lineage:: A repo's structural history — standalone, monorepo, monorepo-child,
+  inflated, or deflated.
+Contractile:: A machine-readable policy contract (e.g. `must`, `trust`, `dust`,
+  `bust`) under `.machine_readable/contractiles/`.
+CLADE.a2ml:: The per-repo clade declaration; clade-hygiene rules CLADE-001..003.
+VeriSimDB:: The backing database (Rust + Elixir) that holds the registry.
+VCL:: The VeriSim schema/query language (`verisim/schema/`, `verisim/queries/`).
+KV snapshot:: The edge cache the Worker serves public reads from.
+Map vs territory:: The registry (map) versus the repositories (territory).
+RSR:: The repository standard this project is scaffolded on.

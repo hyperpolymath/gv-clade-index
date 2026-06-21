@@ -1,1 +1,11 @@
-= developer Unit
+// SPDX-License-Identifier: MPL-2.0
+= Developer Documentation
+
+Start here if you are building on or extending the clade index.
+
+* link:../../QUICKSTART-DEV.adoc[Quick Start for Developers] — local setup
+* link:VERISIM-QUERY-GUIDE.adoc[VeriSimDB Query Guide] — schema & VCL queries _(sketch)_
+* link:REPO-ONBOARDING.adoc[Repo Onboarding] — adding a repository _(sketch)_
+* link:ABI-FFI-README.adoc[ABI/FFI] — not applicable (no native FFI surface)
+* link:../SPEC-clade-verisim-portal.adoc[Full Specification] — data model & portal architecture
+* link:../decisions/README.adoc[Architecture Decision Records]

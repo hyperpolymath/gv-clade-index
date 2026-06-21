@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: MPL-2.0
+= Core Concepts
+:icons: font
+
+[NOTE]
+====
+*Status: SKETCH — seed content; expand into full deep-dives.*
+====
+
+== Map vs Territory
+
+The registry is the *map* — queryable, presentable, always clean. The
+repositories are the *territory*. Editing the map never damages the territory.
+
+== Clades
+
+The ecosystem is classified by twelve two-letter clade codes (see the table in
+`README.adoc`). Each repo has one primary clade and zero-or-more secondary
+clades.
+
+== Pointer Authority
+
+Every cached value declares its canonical source: `pointer` (lives in the repo),
+`local` (owned by the registry), or `derived` (computed). See
+`docs/decisions/0001-pointer-authority.adoc`.
+
+== Identity Model
+
+Primary key `gh:hyperpolymath/{name}`; foreign keys for mirrors; deterministic
+UUIDv5; lineage (standalone / monorepo / monorepo-child / inflated / deflated).
+
+== Portal Architecture
+
+`github.io` (ReScript/WASM) → Cloudflare Worker (API gateway) → VeriSimDB
+(Rust + Elixir, VPS), with a KV snapshot for edge-fast public reads.
+
+== See also
+
+* `README.adoc`, `docs/SPEC-clade-verisim-portal.adoc`, `docs/decisions/`

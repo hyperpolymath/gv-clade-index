@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: MPL-2.0
+= ADR 0003 — VeriSimDB + KV Architecture
+
+Date: 2026-06-21
+
+[NOTE]
+====
+*Status: SKETCH — documents an already-implemented decision; expand consequences
+(consistency, fallback semantics), then ratify.*
+====
+
+== Status
+
+Accepted (retroactively documented).
+
+== Context
+
+The portal needs fast, globally-available reads for public/LLM consumers, while
+the authoritative store (VeriSimDB) runs on a single VPS that may be slow or
+unavailable.
+
+== Decision
+
+A Cloudflare Worker fronts VeriSimDB and serves reads from a KV snapshot, with
+VeriSimDB (Rust + Elixir) as the source of record. Tiered access: public read,
+LLM (API key), contributor (OAuth), bot (signed JWT).
+
+== Consequences
+
+=== Positive
+- Edge-fast reads; VPS outages degrade gracefully to the KV snapshot.
+
+=== Negative / Neutral
+- _To be completed: snapshot refresh cadence, staleness bounds, and the exact
+  fallback behaviour (cross-reference `docs/governance/INCIDENT-RESPONSE.adoc`)._

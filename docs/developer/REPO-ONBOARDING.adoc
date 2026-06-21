@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: MPL-2.0
+= Repo Onboarding — Adding a Repository to the Registry
+:toc:
+:icons: font
+
+[NOTE]
+====
+*Status: SKETCH / planned — not yet complete.* Scaffolded outline. The data
+model behind these steps is already specified in
+`docs/SPEC-clade-verisim-portal.adoc` and `README.adoc`; this guide will turn
+that into a procedure.
+====
+
+== Purpose
+
+A step-by-step for registering a new repository (e.g. the "201st") in the clade
+index.
+
+== Outline (to be completed)
+
+. *Add `.machine_readable/CLADE.a2ml`* to the new repo, satisfying the
+  clade-hygiene contractile (CLADE-001 present, CLADE-002 primary clade declared,
+  CLADE-003 code is one of the 12 valid codes).
+. *Choose clade codes* — one primary + zero-or-more secondary (the 12 codes are
+  listed in `README.adoc`).
+. *Register in seed data* (`verisim/seed/repos.a2ml`): primary key
+  (`gh:hyperpolymath/{name}`), foreign keys (GitLab/Bitbucket/Codeberg/SourceHut
+  mirrors), and the deterministic UUIDv5.
+. *Set lineage* — standalone / monorepo / monorepo-child / inflated / deflated,
+  and when each applies.
+. *Deploy & ingest* — `sync/deploy-clade-a2ml.sh`, then `sync/seed-verisim.sh`.
+. *Verify* — clade-hygiene contractile passes and the repo appears in
+  `dashboard.vcl` (and not in `orphans.vcl`).
+
+== See also
+
+* `README.adoc` — identity model & clade taxonomy
+* `docs/SPEC-clade-verisim-portal.adoc` — full spec
+* `.machine_readable/CLADE.a2ml` — this repo's own declaration (worked example)
