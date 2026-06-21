@@ -1,13 +1,13 @@
 ;; SPDX-License-Identifier: MPL-2.0
-;; Copyright (c) {{CURRENT_YEAR}} {{AUTHOR}} ({{OWNER}}) <{{AUTHOR_EMAIL}}>
+;; Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 ;;
-;; Guix package definition for {{PROJECT_NAME}}
+;; Guix package definition for gv-clade-index
 ;;
 ;; Usage:
 ;;   guix shell -D -f guix.scm    # Enter development shell
 ;;   guix build -f guix.scm       # Build package
 ;;
-;; TODO: Replace {{PROJECT_NAME}} and customize inputs for your language/stack.
+;; TODO: Replace gv-clade-index and customize inputs for your language/stack.
 ;; See: https://guix.gnu.org/manual/en/html_node/Defining-Packages.html
 
 (use-modules (guix packages)
@@ -18,7 +18,7 @@
              (gnu packages base))
 
 (package
-  (name "{{PROJECT_NAME}}")
+  (name "gv-clade-index")
   (version "0.1.0")
   (source (local-file "." "source"
                        #:recursive? #t
@@ -63,8 +63,8 @@
    (list
     ;; TODO: Add runtime dependencies
     ))
-  (home-page "https://github.com/{{OWNER}}/{{PROJECT_NAME}}")
-  (synopsis "{{PROJECT_PURPOSE}}")
+  (home-page "https://github.com/hyperpolymath/gv-clade-index")
+  (synopsis "VeriSimDB-backed clade taxonomy and central registry for the hyperpolymath ecosystem")
   (description "RSR-compliant project. See README.adoc for details.")
   (license (list
             ;; MPL-2.0 extends MPL-2.0

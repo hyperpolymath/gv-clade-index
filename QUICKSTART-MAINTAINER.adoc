@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Template: QUICKSTART-MAINTAINER.adoc — packaging, deploying, and maintaining
-// Replace gv-clade-index, {{PACKAGE_NAME}}, {{DEPS}} with actuals
+// Replace gv-clade-index, gv-clade-index, Node toolchain (worker/), VeriSimDB with actuals
 = gv-clade-index — Quick Start for Platform Maintainers
 :toc:
 :toclevels: 2
@@ -12,7 +12,7 @@ distribution on your platform.
 
 == Runtime Dependencies
 
-{{DEPS}}
+Node toolchain (worker/), VeriSimDB
 
 == Build from Source
 
@@ -23,7 +23,7 @@ cd gv-clade-index
 just build-release
 ----
 
-Output: `{{BUILD_OUTPUT_PATH}}`
+Output: `worker/ (no compiled artifact; deployed via wrangler)`
 
 == Packaging
 
@@ -65,10 +65,10 @@ Files installed:
 | `$PREFIX/bin/`
 | Executables
 
-| `$PREFIX/share/{{PACKAGE_NAME}}/`
+| `$PREFIX/share/gv-clade-index/`
 | Data files, assets
 
-| `$PREFIX/share/doc/{{PACKAGE_NAME}}/`
+| `$PREFIX/share/doc/gv-clade-index/`
 | Documentation
 
 | `$PREFIX/share/applications/`
@@ -80,9 +80,9 @@ Files installed:
 
 == Configuration
 
-Default config location: `$XDG_CONFIG_HOME/{{PACKAGE_NAME}}/config.toml`
+Default config location: `$XDG_CONFIG_HOME/gv-clade-index/config.toml`
 
-Fallback: `$HOME/.config/{{PACKAGE_NAME}}/config.toml`
+Fallback: `$HOME/.config/gv-clade-index/config.toml`
 
 == Health Checks
 
@@ -102,7 +102,7 @@ just build-release
 just install --prefix=/usr/local
 ----
 
-Or via OPSM: `opsm update {{PACKAGE_NAME}}`
+Or via OPSM: `opsm update gv-clade-index`
 
 == Security Notes
 
@@ -117,8 +117,8 @@ For deploying multiple instances (e.g., different users or tenants):
 
 [source,bash]
 ----
-just install --prefix=/opt/{{PACKAGE_NAME}}-instance1 --config=/etc/{{PACKAGE_NAME}}/instance1.toml
-just install --prefix=/opt/{{PACKAGE_NAME}}-instance2 --config=/etc/{{PACKAGE_NAME}}/instance2.toml
+just install --prefix=/opt/gv-clade-index-instance1 --config=/etc/gv-clade-index/instance1.toml
+just install --prefix=/opt/gv-clade-index-instance2 --config=/etc/gv-clade-index/instance2.toml
 ----
 
 Each instance has isolated config, data, and logs.

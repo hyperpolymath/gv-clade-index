@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MPL-2.0
-# Question issue template for {{OWNER}}/{{REPO}}
+# Question issue template for hyperpolymath/gv-clade-index
 name: Question
 description: Ask a question about usage or behaviour
 title: "[Question]: "
@@ -10,7 +10,7 @@ body:
     attributes:
       value: |
         Have a question? You can also ask in
-        [Discussions](https://github.com/{{OWNER}}/{{REPO}}/discussions)
+        [Discussions](https://github.com/hyperpolymath/gv-clade-index/discussions)
         for broader conversations.
 
   - type: textarea

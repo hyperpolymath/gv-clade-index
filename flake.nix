@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MPL-2.0
-# Copyright (c) {{CURRENT_YEAR}} {{AUTHOR}} ({{OWNER}}) <{{AUTHOR_EMAIL}}>
+# Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 #
-# Nix flake for {{PROJECT_NAME}}
+# Nix flake for gv-clade-index
 #
 # NOTE: guix.scm is the PRIMARY development environment. This flake is provided
 # as a FALLBACK for contributors who use Nix instead of Guix. The .envrc checks
@@ -16,10 +16,10 @@
 # With direnv (.envrc already configured):
 #   direnv allow         # Auto-enters shell on cd
 #
-# TODO: Replace {{PROJECT_NAME}} and {{PROJECT_DESCRIPTION}} with actual values.
+# TODO: Replace gv-clade-index and VeriSimDB-backed clade taxonomy and central registry for the hyperpolymath ecosystem with actual values.
 
 {
-  description = "{{PROJECT_NAME}} — RSR-compliant project";
+  description = "gv-clade-index — RSR-compliant project";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -92,19 +92,19 @@
         # Development shell — `nix develop`
         # ---------------------------------------------------------------
         devShells.default = pkgs.mkShell {
-          name = "{{PROJECT_NAME}}-dev";
+          name = "gv-clade-index-dev";
 
           buildInputs = commonTools ++ languageTools;
 
           # Environment variables available inside the shell.
           env = {
-            PROJECT_NAME = "{{PROJECT_NAME}}";
+            PROJECT_NAME = "gv-clade-index";
             RSR_TIER = "infrastructure";
           };
 
           shellHook = ''
             echo ""
-            echo "  {{PROJECT_NAME}} — development shell"
+            echo "  gv-clade-index — development shell"
             echo "  Nix:    $(nix --version 2>/dev/null || echo 'unknown')"
             echo "  Just:   $(just --version 2>/dev/null || echo 'not found')"
             echo ""
@@ -116,7 +116,7 @@
             # consistent whether you enter via 'nix develop' or 'direnv allow'.
             if [ -z "''${DIRENV_IN_ENVRC:-}" ] && [ -f .envrc ]; then
               # Only source the non-nix parts to avoid recursion.
-              export PROJECT_NAME="{{PROJECT_NAME}}"
+              export PROJECT_NAME="gv-clade-index"
               export RSR_TIER="infrastructure"
               if [ -f .env ]; then
                 set -a
@@ -131,7 +131,7 @@
         # Package — `nix build`
         # ---------------------------------------------------------------
         packages.default = pkgs.stdenv.mkDerivation {
-          pname = "{{PROJECT_NAME}}";
+          pname = "gv-clade-index";
           version = "0.1.0";
 
           src = self;
@@ -149,7 +149,7 @@
           #   buildPhase = "zig build -Doptimize=ReleaseSafe";
 
           buildPhase = ''
-            echo "TODO: Add build commands for {{PROJECT_NAME}}"
+            echo "TODO: Add build commands for gv-clade-index"
           '';
 
           installPhase = ''
@@ -158,8 +158,8 @@
           '';
 
           meta = with pkgs.lib; {
-            description = "{{PROJECT_DESCRIPTION}}";
-            homepage = "https://github.com/{{OWNER}}/{{PROJECT_NAME}}";
+            description = "VeriSimDB-backed clade taxonomy and central registry for the hyperpolymath ecosystem";
+            homepage = "https://github.com/hyperpolymath/gv-clade-index";
             license = licenses.mpl20; # MPL-2.0 extends MPL-2.0
             maintainers = [];
             platforms = [ "x86_64-linux" "aarch64-linux" ];

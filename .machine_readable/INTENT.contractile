@@ -35,12 +35,12 @@
 
   ; === Purpose (what this repo IS) ===
   (purpose
-    "{{ONE_PARAGRAPH_PURPOSE}}"
+    "The queryable map of the hyperpolymath ecosystem: a VeriSimDB-backed taxonomy of 200+ repositories across 12 clades."
   )
 
   ; === Anti-Purpose (what this repo is NOT — prevents scope creep) ===
   (anti-purpose
-    "{{ONE_PARAGRAPH_ANTI_PURPOSE}}"
+    "It is the map, not the territory; it never modifies the repositories it describes."
     ; Examples:
     ; "This is NOT a general-purpose database — it solves one specific problem."
     ; "This is NOT a framework — it is a library with a focused API."
@@ -65,7 +65,7 @@
 
   ; === Ecosystem Position ===
   (ecosystem
-    (belongs-to "{{MONOREPO_OR_STANDALONE}}")
+    (belongs-to "standalone")
     (depends-on ("{{DEP1}}" "{{DEP2}}"))
     (depended-on-by ("{{CONSUMER1}}" "{{CONSUMER2}}"))
   )
