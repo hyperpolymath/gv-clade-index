@@ -31,6 +31,11 @@ milestones = [
   { name = "Phase 8: Repo lockdown (visibility management)", completion = 0 },
 ]
 
+[verification]
+formal-proofs = "none — no ABI/FFI surface to verify (see PROOF-NEEDS.md, verification/README.adoc)"
+correctness-evidence = "worker/test/ — Worker test suite + data-integrity invariants; gated by worker-ci.yml"
+idris2-proofs = "deferred until/unless a native ABI surface is introduced"
+
 [blockers-and-issues]
 blockers = [
   "Phase 3 deploy: CLOUDFLARE_API_TOKEN repo secret required to enable automated Worker deploys",

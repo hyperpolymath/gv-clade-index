@@ -1,1 +1,7 @@
+// SPDX-License-Identifier: MPL-2.0
 = Proofs Unit
+
+No formal proofs: gv-clade-index has no ABI/FFI surface to verify (see
+`../README.adoc` and the repo-root `PROOF-NEEDS.md`). Correctness evidence for this
+data/edge service lives in the Worker test suite and the data-integrity invariants
+under `worker/test/`. Add Idris2 proofs here only if a native surface is introduced.
