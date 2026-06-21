@@ -6,7 +6,7 @@
 # Then hands off to `just setup` for project-specific configuration.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/hyperpolymath/gv-clade-index/main/setup.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/hyperpolymath/gv-clade-index/main/setup.sh -o setup.sh && sh setup.sh
 #   # or after cloning:
 #   ./setup.sh
 #
@@ -128,6 +128,43 @@ detect_platform() {
     esac
 }
 
+# ── Install just (upstream installer, hardened) ──
+# Download the official installer to a temp file and run it, instead of piping a
+# remote script straight into a shell (CWE-494). Opt-in reproducibility:
+#   JUST_VERSION=1.x.y          pin the installed just version (installer --tag)
+#   JUST_INSTALL_SHA256=<hash>  verify the installer before running it
+# For fully reproducible installs prefer a package manager (nix/guix) above.
+install_just_upstream() {
+    _ji_url="https://just.systems/install.sh"
+    _ji_tmp=$(mktemp 2>/dev/null || printf '/tmp/just-install.%s.sh' "$$")
+    if ! curl -fsSL "$_ji_url" -o "$_ji_tmp" || [ ! -s "$_ji_tmp" ]; then
+        fail "Could not download the just installer from $_ji_url"
+        rm -f "$_ji_tmp"
+        return 1
+    fi
+    if [ -n "${JUST_INSTALL_SHA256:-}" ]; then
+        if command -v sha256sum >/dev/null 2>&1; then
+            printf '%s  %s\n' "$JUST_INSTALL_SHA256" "$_ji_tmp" | sha256sum -c - >/dev/null 2>&1 || {
+                fail "just installer checksum mismatch — aborting"
+                rm -f "$_ji_tmp"
+                return 1
+            }
+        else
+            warn "sha256sum unavailable — cannot verify JUST_INSTALL_SHA256"
+        fi
+    fi
+    _ji_sh=sh
+    command -v bash >/dev/null 2>&1 && _ji_sh=bash
+    _ji_rc=0
+    if [ -n "${JUST_VERSION:-}" ]; then
+        "$_ji_sh" "$_ji_tmp" --tag "$JUST_VERSION" --to /usr/local/bin || _ji_rc=$?
+    else
+        "$_ji_sh" "$_ji_tmp" --to /usr/local/bin || _ji_rc=$?
+    fi
+    rm -f "$_ji_tmp"
+    return $_ji_rc
+}
+
 # ── Install just ──
 install_just() {
     if command -v just >/dev/null 2>&1; then
@@ -139,10 +176,8 @@ install_just() {
 
     case "$PKG_MGR" in
         dnf)        sudo dnf install -y just ;;
-        apt)        sudo apt-get install -y just 2>/dev/null || {
-                        # just not in older apt repos — use installer
-                        curl -fsSL https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-                    } ;;
+        apt)        sudo apt-get install -y just 2>/dev/null \
+                        || install_just_upstream || true ;;
         pacman)     sudo pacman -S --noconfirm just ;;
         apk)        sudo apk add just ;;
         brew)       brew install just ;;
@@ -153,7 +188,7 @@ install_just() {
         nix)        nix-env -iA nixpkgs.just ;;
         *)
             info "Using just installer script..."
-            curl -fsSL https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+            install_just_upstream || true
             ;;
     esac
 

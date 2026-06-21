@@ -58,7 +58,7 @@
   ; === Sensitive Areas (if in doubt, ask) ===
   (ask-before-touching
     ; *REMINDER: List areas where LLMs should check before modifying*
-    ; "src/abi/ — formal proofs, changes require re-verification"
+    ; "src/interface/abi/ — formal proofs, changes require re-verification"
     ; "ffi/zig/ — C ABI boundary, changes affect all language bindings"
     ; ".machine_readable/ — checkpoint files, format is specified"
   )
