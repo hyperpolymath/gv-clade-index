@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MPL-2.0
-# Custom issue template for {{OWNER}}/{{REPO}}
+# Custom issue template for hyperpolymath/gv-clade-index
 name: Other
 description: Report an issue that does not fit the other categories
 title: ""
