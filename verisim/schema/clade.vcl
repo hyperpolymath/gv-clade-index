@@ -1,7 +1,8 @@
 -- SPDX-License-Identifier: MPL-2.0
 -- VQL schema: Clade definition octad
 
-DEFINE SCHEMA clade VERSION 1.0.0;
+DEFINE SCHEMA clade VERSION 1.1.0;
+-- 1.1.0: aggregate counts realigned to the repo lifecycle phases (repo.vcl 1.1.0).
 
 DEFINE GRAPH clade {
   members: [UUID],              -- repos in this clade (primary membership)
@@ -13,10 +14,12 @@ DEFINE GRAPH clade {
 };
 
 DEFINE TENSOR clade {
-  member_count: INT,
+  member_count: INT,            -- all members regardless of phase
   avg_completion: FLOAT,
-  active_count: INT,
-  stale_count: INT
+  present_count: INT,           -- members with present=true (here-as-themselves)
+  active_count: INT,            -- members in phase=active
+  dormant_count: INT,           -- members in phase=dormant
+  ended_count: INT              -- members in merged|superseded|archived|extinct
 } TEMPORAL;
 
 DEFINE SEMANTIC clade {

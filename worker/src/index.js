@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell
+// SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 //
 // Cloudflare Worker: clade-registry-api
 // Read-only API serving the hyperpolymath clade registry.
@@ -16,6 +16,7 @@
 //   GET /v1/ready               — Readiness check (probes VeriSimDB; "degraded" on KV fallback)
 //   GET /v1/query/language?q=.. — Query repos by language (VeriSimDB-backed)
 //   GET /v1/query/tag?q=...     — Query repos by tag (VeriSimDB-backed)
+//   GET /c/:binomial            — Resolve a CLADE-<binomial> autolink (302 to portal; ?format=json)
 //
 // Storage: dual-store — Cloudflare KV (cache) + VeriSimDB (persistent).
 // loadIndex() prefers VeriSimDB and falls back to KV.
@@ -40,6 +41,7 @@ const ENDPOINT_DOCS = {
   '/v1/query/tag?q=...': 'Query repos by tag (VeriSimDB)',
   '/v1/health': 'Liveness check',
   '/v1/ready': 'Readiness check (backing-store health)',
+  '/c/:binomial': 'Resolve a CLADE-<binomial> autolink (302 to portal; ?format=json for data)',
 };
 
 // Simple text search across name + description + clade.
@@ -179,6 +181,40 @@ async function route(request, env, log, requestId) {
       },
       { requestId },
     );
+  }
+
+  // GET /c/:binomial — short resolver for the estate-wide CLADE-<binomial>
+  // custom autolink (e.g. an issue mentioning CLADE-fv-proven links here).
+  // Resolves by prefixed-name (the binomial) first, then canonical name.
+  // Humans get a 302 to the portal; bots can ask for JSON with ?format=json.
+  const cladeRefMatch = path.match(/^\/c\/(.+)$/);
+  if (cladeRefMatch) {
+    const ref = safeDecode(cladeRefMatch[1]);
+    if (ref === null) return error('Malformed clade reference', { status: 400, requestId });
+    const repo =
+      Object.values(index.by_name).find((r) => r.prefixed === ref) || index.by_name[ref] || null;
+    if (!repo) return error(`No repo for clade reference '${ref}'`, { requestId });
+    if (url.searchParams.get('format') === 'json') {
+      const clade = index.clades.find((c) => c.code === repo.clade);
+      return json(
+        {
+          ...repo,
+          clade_name: clade ? clade.name : repo.clade,
+          github_url: `https://github.com/${repo.github}`,
+          portal_url: `https://hyperpolymath.github.io/#/project/${repo.name}`,
+        },
+        { requestId },
+      );
+    }
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: `https://hyperpolymath.github.io/#/project/${repo.name}`,
+        'Cache-Control': 'public, max-age=300',
+        'X-Request-Id': requestId,
+        ...SECURITY_HEADERS,
+      },
+    });
   }
 
   // GET /v1/repos?clade=xx&page=1&limit=50
