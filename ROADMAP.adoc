@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: CC-BY-SA-4.0
 = gv-clade-index Roadmap
 
 Mirrors the canonical phase plan in `.machine_readable/6a2/STATE.a2ml`. The registry

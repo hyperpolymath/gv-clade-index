@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: CC-BY-SA-4.0
 = ADR 0005 — Org-wide Governance Exceptions
 
 Date: 2026-06-21

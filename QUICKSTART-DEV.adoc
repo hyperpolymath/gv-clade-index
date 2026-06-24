@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: CC-BY-SA-4.0
 // Template: QUICKSTART-DEV.adoc — clone → build → test → PR
 // Replace gv-clade-index, cd worker && npm install, cd worker && npm test, JavaScript (Cloudflare Worker) + A2ML/VQL data + bash tooling with actuals
 = gv-clade-index — Quick Start for Developers
