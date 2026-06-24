@@ -33,3 +33,25 @@ scope = "pre-commit"
 [must.check]
 command = "grep 'primary = ' .machine_readable/CLADE.a2ml | grep -qE '\"(fv|nl|rm|gv|db|ap|ix|dx|pt|ax|gm|sc)\"'"
 message = "CLADE.a2ml primary clade code not in valid set: fv nl rm gv db ap ix dx pt ax gm sc"
+
+[must]
+id = "CLADE-004"
+name = "clade-status-phase-set"
+description = "CLADE.a2ml must declare a lifecycle status phase"
+severity = "BLOCK"
+scope = "pre-commit"
+
+[must.check]
+command = "grep -qE '^phase = ' .machine_readable/CLADE.a2ml"
+message = "CLADE.a2ml missing [status] phase — run 'contractile backfill-status' (default: active)"
+
+[must]
+id = "CLADE-005"
+name = "clade-status-phase-valid"
+description = "Status phase must be one of the 8 lifecycle phases"
+severity = "BLOCK"
+scope = "pre-commit"
+
+[must.check]
+command = "grep -E '^phase = ' .machine_readable/CLADE.a2ml | head -1 | grep -qE '\"(reserved|incubating|active|dormant|merged|superseded|archived|extinct)\"'"
+message = "CLADE.a2ml status phase not in valid set: reserved incubating active dormant merged superseded archived extinct"

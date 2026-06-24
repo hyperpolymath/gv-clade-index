@@ -1,0 +1,85 @@
+// SPDX-License-Identifier: MPL-2.0
+// SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+= ADR 0006 — Clade Lifecycle Status (8 phases)
+
+Date: 2026-06-24
+
+== Status
+
+Accepted.
+
+== Context
+
+ADR 0002 fixed the clade _taxonomy_ (where a repo sits: genus/species). It did
+not say anything about a repo's _life-phase_ (whether it is alive, ended, or
+something in between). The pre-existing `repo.vcl` schema carried an ad-hoc
+five-value status enum — `active stale archived experimental complete` — that
+conflated unlike things (`complete` is a completion metric, not a life-phase;
+`experimental` overlaps `incubating`) and had no room for the ended family
+(merged, superseded, extinct) or for renames.
+
+Two failure modes had to be designed out:
+
+. *The "misc"/redo trap* — a status set so coarse that real situations don't fit,
+  so people invent a junk bucket or leave it blank, and the field rots until it
+  is worthless.
+. *Identity drift* — treating a rename or a resurrection as if it created a new
+  thing, losing the through-line of a single repository's history.
+
+== Decision
+
+Separate two layers that were previously tangled:
+
+* *Identity* (`uuid`) is immortal. It never changes for the life of the repo —
+  not on rename, not on archival, not on resurrection.
+* *Status* (`phase`) is a mutable pointer to the current life-phase. Transitions
+  are legal in *both* directions; no phase is terminal.
+
+*Eight phases*, mutually exclusive and exhaustive, in two families:
+
+[cols="1,3"]
+|===
+| Living | `reserved` · `incubating` · `active` · `dormant`
+| Ended  | `merged` · `superseded` · `archived` · `extinct`
+|===
+
+Specifics live in *fields*, not in the enum, so the phase set stays small and
+never needs a "misc" bucket:
+
+* `status_since` — when the current phase began.
+* `present` — derived boolean (here / not-here-as-itself): `true` for
+  `reserved|incubating|active|dormant|archived`, `false` for
+  `merged|superseded|extinct`. The crisp binary, alongside the rich phase.
+* `aliases[]` — former prefixed-names. A *rename is not a phase change*: the old
+  binomial moves here; `uuid` and `phase` are untouched.
+* `merged_into`, `superseded_by`, `successors[]` — the ended-family links.
+* `status_history[]` — append-only arc of `{phase, since, note}`. It records the
+  full path, including resurrections: `extinct -> active` ("a Gitassic Park
+  event") is a legal transition on the *same* uuid. Earlier rows are never
+  rewritten.
+
+The per-repo declaration lives in `.machine_readable/CLADE.a2ml` under a
+`[status]` block (see this repo's own CLADE.a2ml as the reference exemplar).
+`clade-hygiene` gains CLADE-004 (phase present) and CLADE-005 (phase in the valid
+set). Existing repos are backfilled by an idempotent farm sweep
+(`clade-status-backfill.sh`), defaulting to `active`.
+
+== Consequences
+
+=== Positive
+- One immortal id + one mutable phase = no identity drift across rename/archive/revival.
+- Small, exhaustive enum → no "misc" bucket, no periodic re-do.
+- `present` gives consumers the cheap here/not-here answer; `status_history`
+  preserves the full arc for anyone who needs it.
+
+=== Negative / Neutral
+- The old five-value enum is superseded; any tooling reading the previous values
+  (`stale`, `experimental`, `complete`) must map them
+  (`stale -> dormant`, `experimental -> incubating`, `complete -> active`).
+- `present` is derived, so writers must keep it consistent with `phase` (the
+  backfill sweep and hygiene checks enforce this).
+
+== References
+
+- ADR 0002 — Clade Taxonomy (the genus/species layer this complements).
+- `verisim/schema/repo.vcl` (SEMANTIC + TEMPORAL modalities, schema 1.1.0).

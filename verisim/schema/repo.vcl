@@ -2,7 +2,10 @@
 -- VQL schema: Repository octad
 -- Each repository is an 8-modality entity in VeriSimDB
 
-DEFINE SCHEMA repo VERSION 1.0.0;
+DEFINE SCHEMA repo VERSION 1.1.0;
+-- 1.1.0: lifecycle — 8-phase status enum + companion fields + status_history.
+-- Identity (uuid) and status are SEPARATE layers: uuid is immortal, status is a
+-- mutable current-phase pointer; transitions in both directions are legal.
 
 -- Graph modality: relationships between repos
 DEFINE GRAPH repo {
@@ -45,7 +48,20 @@ DEFINE SEMANTIC repo {
   license: STRING,              -- SPDX identifier
   languages: [STRING],          -- programming languages used
   version: STRING?,             -- current version if applicable
-  status: ENUM("active", "stale", "archived", "experimental", "complete"),
+  -- Lifecycle phase: mutually exclusive, exhaustive. Living = reserved..dormant;
+  -- ended = merged..extinct. Rename is NOT a phase (uuid is permanent → the old
+  -- prefixed-name goes to aliases[], status stays where it was).
+  status: ENUM("reserved", "incubating", "active", "dormant",
+               "merged", "superseded", "archived", "extinct"),
+  status_since: TIMESTAMP,      -- when the CURRENT phase began
+  present: BOOL,                -- derived here/not-here-as-itself:
+                                --   here     = reserved|incubating|active|dormant|archived
+                                --   not-here = merged|superseded|extinct
+  aliases: [STRING],            -- former prefixed-names (renames; uuid unchanged)
+  merged_into: UUID?,           -- target repo when status=merged
+  superseded_by: UUID?,         -- successor when status=superseded
+  successors: [UUID],           -- forward links (splits / spinoffs)
+  ended: TIMESTAMP?,            -- when an ended-family phase was first entered
   lineage_type: ENUM("standalone", "monorepo", "monorepo-child", "inflated", "deflated")
 };
 
@@ -65,6 +81,11 @@ DEFINE TEMPORAL repo {
   last_commit: TIMESTAMP?,      -- most recent git commit
   last_state_change: TIMESTAMP?,-- last meaningful state update
   last_activity: TIMESTAMP,     -- max(commit, state_change, bot_finding)
+  status_history: [{            -- append-only lifecycle arc. Records the full path
+    phase: STRING,              -- incl. resurrections — extinct->active ("Gitassic
+    since: TIMESTAMP,           -- Park") is a legal transition on the SAME uuid;
+    note: STRING?               -- no phase is terminal.
+  }],
   sessions: [{                  -- work sessions
     id: STRING,
     started: TIMESTAMP,

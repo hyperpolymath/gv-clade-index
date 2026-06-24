@@ -23,3 +23,31 @@ bitbucket = "hyperpolymath/gv-clade-index"
 type = "standalone"
 parent = ""
 born = "2026-03-16"
+
+# Lifecycle status. Identity (uuid) and status are SEPARATE layers: the uuid above
+# is immortal; `phase` is a mutable pointer to the current life-phase. Transitions
+# are legal in both directions — no phase is terminal (extinct -> active is a valid
+# "Gitassic Park" resurrection on the same uuid). A rename is NOT a phase change:
+# the old prefixed-name goes to `aliases`, the uuid and phase are untouched.
+[status]
+# One of: reserved incubating active dormant | merged superseded archived extinct
+#   living  -> reserved  incubating  active  dormant
+#   ended   -> merged  superseded  archived  extinct
+phase = "active"
+since = "2026-03-16"        # when the current phase began (status-since)
+present = true             # derived here/not-here-as-itself:
+                           #   here     = reserved|incubating|active|dormant|archived
+                           #   not-here = merged|superseded|extinct
+# Companion fields — fill only the ones the current phase makes meaningful:
+aliases = []               # former prefixed-names (renames; uuid is permanent)
+merged-into = ""           # uuid or binomial of target when phase=merged
+superseded-by = ""         # uuid or binomial of successor when phase=superseded
+successors = []            # forward links (splits / spinoffs)
+ended = ""                 # date an ended-family phase was first entered
+
+# Append-only arc. NEVER rewrite earlier rows — add a new one on every transition.
+# This is the audit trail that makes resurrections legible.
+[[status.history]]
+phase = "active"
+since = "2026-03-16"
+note = "initial registration"
