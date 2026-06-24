@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: CC-BY-SA-4.0
 // Template: QUICKSTART-MAINTAINER.adoc — packaging, deploying, and maintaining
 // Replace gv-clade-index, gv-clade-index, Node toolchain (worker/), VeriSimDB with actuals
 = gv-clade-index — Quick Start for Platform Maintainers

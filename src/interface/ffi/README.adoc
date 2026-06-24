@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MPL-2.0
+// SPDX-License-Identifier: CC-BY-SA-4.0
 = FFI surface
 
 gv-clade-index has *no native/FFI surface*. It is a data + edge project: the runtime
