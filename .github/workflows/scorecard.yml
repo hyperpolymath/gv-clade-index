@@ -17,5 +17,5 @@ jobs:
       id-token: write
       contents: read
       actions: read
-    uses: hyperpolymath/standards/.github/workflows/scorecard-reusable.yml@09e7023d24682621bea4e11965a1ef5e87d86c3b
+    uses: hyperpolymath/standards/.github/workflows/scorecard-reusable.yml@d135b05bfc647d0c0fbfedc7e80f37ea50f49236
     secrets: inherit
