@@ -1731,3 +1731,937 @@ lineage = "standalone"
 parent = ""
 completion = 75
 evolved-from = "gossamer/examples/game-server-admin"
+
+# ============================================================================
+# Backfill 2026-06-25 — repos previously missing from the registry.
+# Genus assigned by HEURISTIC (name/description/topics) — RATIFY/ADJUST as needed.
+# uuid = uuid5(URL, "github.com/hyperpolymath/<name>") per the registry scheme.
+# ============================================================================
+
+[repo..git-private-farm]
+primary = "rm"
+secondary = []
+description = "GitHub maintenance hub — hookset sync, farm manifest, dependabot automation"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo..github]
+primary = "rm"
+secondary = []
+description = "Organization-wide community-health defaults for hyperpolymath/*: issue & discussion templates, Code of Conduct, contributing, security policy, and more. Improve"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.EchoTypes.jl]
+primary = "fv"
+secondary = []
+description = "Executable finite-domain companion to the Agda library echo-types — a runnable model, not a proof."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.a2ml-ecosystem]
+primary = "nl"
+secondary = []
+description = "Coordination hub for the A2ML (Attested Markup Language) format: conformance fixtures, membership manifest, and cross-repo drift enforcement — pins spec + gover"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.a2ml-estate-normalizer]
+primary = "rm"
+secondary = []
+description = "Estate-wide .a2ml normalizer/generator (Rust)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.a2ml-showcase]
+primary = "ap"
+secondary = []
+description = "Showcase site for the A2ML (Attested Markup Language) format"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.a2ml_ex]
+primary = "nl"
+secondary = []
+description = "A2ML (AI Attestation Markup Language) parser and renderer for Elixir"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.a2ml_gleam]
+primary = "nl"
+secondary = []
+description = "A2ML (AI Attestation Markup Language) parser and renderer for Gleam"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.absolute-zero]
+primary = "fv"
+secondary = []
+description = "Formal verification of Certified Null Operations: programs provably computing nothing, explored across Coq/Lean/Elm."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.achievements-lab]
+primary = "dx"
+secondary = []
+description = "Workflow lab for earning GitHub achievements"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.action-trust-layers]
+primary = "dx"
+secondary = []
+description = "Layered, DANE/TLSA-inspired trust model for CI supply-chain (GitHub Actions) pinning: trust-anchor + provenance/key + leaf-exact layers, vs flat recursive SHA-p"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.aggregate-library]
+primary = "nl"
+secondary = []
+description = "aLib: common compiler utilities (Token/Position/Error + AST/string/color helpers) for hyperpolymath language toolchains. Extracted from developer-ecosystem into"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.airborne-submarine-squadron]
+primary = "ax"
+secondary = []
+description = "Airborne Submarine Squadron was originally iintended as a modern resurrection of the classic Sopwith‑era arcade — except your aircraft is also a submarine can e"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.arghda-core]
+primary = "fv"
+secondary = []
+description = "Lightweight proof-workspace manager for Agda — triage workspace + lints + watcher (orphan-module detection)."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.avow-protocol]
+primary = "pt"
+secondary = []
+description = "Avow protocol"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.awesome-nickel]
+primary = "nl"
+secondary = []
+description = "A curated list of awesome Nickel language resources, tools, and libraries"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.bag-of-actions]
+primary = "dx"
+secondary = []
+description = "Capability-aware, resumable, distributed continuation runtime based on Elixir, Ephapax, and Zig."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.bebop-ffi]
+primary = "dx"
+secondary = []
+description = "Zig FFI bindings for the Bebop binary serialization format."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.befunge93-vault-cracker]
+primary = "sc"
+secondary = []
+description = "Befunge-93 vault cracker — esoteric-language puzzle solver for CTF challenges"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.betlang]
+primary = "nl"
+secondary = []
+description = "Nextgen language: betlang"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.bgp-backbone-lab]
+primary = "rm"
+secondary = []
+description = "BGP backbone lab — network simulation and testing environment for BGP routing"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.bitfuckit]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.blog-drafts]
+primary = "dx"
+secondary = []
+description = "Blog post drafts for OU blog"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.blue-screen-of-app]
+primary = "ap"
+secondary = []
+description = "Blue Screen of App — application crash analysis and fault injection testing"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.boj-server-cartridges]
+primary = "dx"
+secondary = []
+description = "Canonical home of BoJ cartridges. Hosts (boj-server, panll) fetch from here on demand."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.candy-crash]
+primary = "rm"
+secondary = []
+description = "Candy crash — crash reproduction and isolation test harness"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.casket-ssg]
+primary = "rm"
+secondary = []
+description = "Pure functional static site generator in Haskell — extracted from polystack"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.choreographic-types]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.claude-gecko-browser-extension]
+primary = "ap"
+secondary = []
+description = "Claude browser extension for Gecko/Firefox"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.claude-integrations]
+primary = "ap"
+secondary = []
+description = "Claude integrations (browser, LSP, IDE, bridge)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.claude-memory]
+primary = "db"
+secondary = []
+description = "Claude Code session memory — user profile, feedback rules, project state (auto-accumulated across sessions)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.contractiles]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.contractiles-a2-lab]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.coord-tui]
+primary = "ap"
+secondary = []
+description = "Terminal UI for BoJ local-coord-mcp — peer discovery, task coordination, and window titling for multi-instance AI sessions"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.coq-jr]
+primary = "fv"
+secondary = []
+description = "Coq-JR — Coq proof toolchain"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.cyo]
+primary = "nl"
+secondary = []
+description = "Choose your own ... an annoyance-driven alternative to defaulting to venv, spark, minikanren, typed scripting languages, and other 'easy' integrations"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.ddraig-ssg]
+primary = "fv"
+secondary = []
+description = "Ddraig — a dependently-typed, WCAG 2.2 AAA-capable static-site generator in Idris 2"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.dicti0nary-attack]
+primary = "sc"
+secondary = []
+description = "Dictionary attack research tool — wordlist-based credential testing for authorised security assessments"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.dotfiles]
+primary = "nl"
+secondary = []
+description = "Home directory dotfiles, shell configs, systemd units, .bin scripts"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.echidnabot]
+primary = "rm"
+secondary = []
+description = "ECHIDNA bot — gitbot-fleet member for automated proof orchestration"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.echo-types]
+primary = "fv"
+secondary = []
+description = "Constructive Agda library for Echo Types: a formal model of structured loss (non-total erasure). Mechanized Bachmann-Howard ordinals, Buchholz/Veblen hierarchie"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.eclexia]
+primary = "nl"
+secondary = []
+description = "Eclexia — constraint-based resource language with dimensional types and shadow pricing"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.epistemic-types]
+primary = "fv"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.error-lang]
+primary = "nl"
+secondary = []
+description = "Error-Lang — paradox-embracing error handling language"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.format-registrations]
+primary = "fv"
+secondary = []
+description = "IANA, file(1) magic, shared-mime-info, and Wikidata registration drafts for A2ML and K9"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.frayed-knot-toolkit]
+primary = "dx"
+secondary = []
+description = "Agda formalization of Frayed Knot theory — strands, crossings, resolutions, and choreographic interactions of knot structures."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.git-reticulator]
+primary = "rm"
+secondary = []
+description = "Semantic lattice builder for git repositories using AffineScript"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.git-scripts]
+primary = "nl"
+secondary = []
+description = "Git utility scripts and automation helpers for everyday workflows."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.git-seo]
+primary = "rm"
+secondary = []
+description = "GitHub-native SEO, analytics & discoverability-optimisation for developers — privacy-conscious, self-hostable. Stage 0: product constitution."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.glyphbase]
+primary = "db"
+secondary = []
+description = "Glyphbase — Airtable-equivalent delivery mode for LithoglyphDB (reserved; source in nextgen-databases/lithoglyph/glyphbase, migration pending)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.gnpl]
+primary = "nl"
+secondary = []
+description = "GNPL — Lithoglyph’s narration/projection language for forensic histories, counterfactual paths, plural meanings, and synchronic/diachronic evidence interpretati"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.groove-browser-harness]
+primary = "ap"
+secondary = []
+description = "Groove browser harness — Firefox extension for type-safe localhost service discovery (Gossamer, Burble, Vext, etc.)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.groove-protocol]
+primary = "pt"
+secondary = []
+description = "Runtime capability discovery + type-safe service composition protocol. Bare-by-default, zero-config, structural-fit. Extracted from hyperpolymath/standards 2026"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.gsbot]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.haec]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.homebrew-tap]
+primary = "nl"
+secondary = []
+description = "Homebrew tap exposing personal development tools and language runtimes via `brew install`."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.hotchocolabot]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.hpm-crypto-rsr]
+primary = "rm"
+secondary = []
+description = "HMAC-SHA256 + RS256 + base64url crypto primitives (Idris2 ABI + Zig FFI) — Hyperpolymath RSR Standard. Sister of stapeln (Ed25519+SHA-256); webhook & JWT primit"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.hpm-github-api-rsr]
+primary = "rm"
+secondary = []
+description = "Composite GitHub App API client for the Hyperpolymath RSR Standard (Idris2 ABI + Zig FFI; composes crypto/http/json)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.hpm-http-client-rsr]
+primary = "dx"
+secondary = []
+description = "HTTP/1.1 + HTTPS client primitives in the Hyperpolymath RSR Standard (Idris2 ABI + Zig FFI). Sibling of hpm-crypto-rsr."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.hpm-json-rsr]
+primary = "rm"
+secondary = []
+description = "JSON parsing + escaping primitives in the Hyperpolymath RSR Standard (Idris2 ABI + Zig FFI). Sibling of hpm-crypto-rsr / hpm-http-client-rsr."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.humor-ecosystem]
+primary = "dx"
+secondary = []
+description = "Collection of satirical, parody, and comedic software — security theater, absurdist tooling, and deliberately bad implementations engineered to a suspiciously h"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.idaptik-ums]
+primary = "gm"
+secondary = []
+description = "IDApTIK Unified Modding Studio — procedural generation of characters, levels, objects, and DLC for the game"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.invariant-path]
+primary = "dx"
+secondary = []
+description = "Dual-use claim-grounder (Phase A in progress)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.ipv6-only]
+primary = "dx"
+secondary = []
+description = "IPv6-only network profile tool (aerie/network). Dual-use with ambientops subset."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.ipv6-site-enforcer]
+primary = "ap"
+secondary = []
+description = "IPv6 site enforcer — ensures web properties are reachable over IPv6"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.julia-ecosystem]
+primary = "dx"
+secondary = []
+description = "Julia package ecosystem: 34 packages spanning formal verification, cryptography, risk analysis, knot theory, cliodynamics, hardware introspection, and more"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.julia-the-viper]
+primary = "nl"
+secondary = []
+description = "A research programming language exploring structured separation of data and control, and computation as constrained construction."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.k9-ecosystem]
+primary = "dx"
+secondary = []
+description = "Coordination hub for the K9 (Self-Validating Components) contractile format: conformance, membership, and cross-repo drift enforcement — pins spec + governance "
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.k9-showcase]
+primary = "ap"
+secondary = []
+description = "Showcase site for the K9 (Self-Validating Components) format"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.k9_ex]
+primary = "nl"
+secondary = []
+description = "K9 (Self-Validating Components) parser and renderer for Elixir"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.k9_gleam]
+primary = "nl"
+secondary = []
+description = "K9 (Self-Validating Components) parser and renderer for Gleam"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.launch-scaffolder]
+primary = "rm"
+secondary = []
+description = "Cross-platform launcher minter/provisioner/configurator. Generates compliant desktop launcher scripts from A2ML specs."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.lfs-shared]
+primary = "dx"
+secondary = []
+description = "Central LFS store for cross-estate shared learning data"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.lithoglyphdb]
+primary = "db"
+secondary = []
+description = "LithoglyphDB — knot/glyph-structured database (reserved; source in nextgen-databases/lithoglyph, migration pending)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.me-dialect]
+primary = "nl"
+secondary = []
+description = "Me-Dialect — personal expression programming language"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.my-lang]
+primary = "nl"
+secondary = []
+description = "Nextgen language: my-lang"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.network-ambulance]
+primary = "dx"
+secondary = []
+description = "Platform-independent complete internet repair tool — cross-platform successor/extension to Windows Complete Internet Repair. Lives canonically in aerie; extract"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.network-dashboard]
+primary = "ap"
+secondary = []
+description = "Network monitoring dashboard — real-time visibility into network health and metrics"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.nextgen-language-evangeliser]
+primary = "nl"
+secondary = []
+description = "Nexgen Language Evangeliser — educational toolkit for teaching coding through progressive code transformation"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.oblibeny]
+primary = "nl"
+secondary = []
+description = "Oblibeny — programming language"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.oikos-economics-accounting-dsl]
+primary = "ax"
+secondary = []
+description = "A typed DSL for stock-flow consistent macroeconomic modelling"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.oikosbot]
+primary = "rm"
+secondary = []
+description = "Ecological and economic code-analysis GitHub App"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.panoply]
+primary = "nl"
+secondary = []
+description = "envelope-first language discipline"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.phantom-metal-taste]
+primary = "sc"
+secondary = []
+description = "Phantom Metal Taste — speculative execution side-channel research"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.phronesis]
+primary = "nl"
+secondary = []
+description = "Nextgen language: phronesis"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.poly-k8s-mcp]
+primary = "ix"
+secondary = []
+description = "Kubernetes orchestration MCP server"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.poly-observability-mcp]
+primary = "nl"
+secondary = []
+description = "Polyglot observability MCP server — unified observability across multiple languages and runtimes"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.pow-the-game]
+primary = "gm"
+secondary = []
+description = "Distributed proof-of-work and problem solving via Steam Workshop/API and other gaming platform networks"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.proven-tests-and-benches]
+primary = "fv"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.quandledb]
+primary = "db"
+secondary = []
+description = "Quandle database — top-level monorepo"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.qubes-sdp]
+primary = "dx"
+secondary = []
+description = "Qubes OS Software-Defined Perimeter integration"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.recon-silly-ation]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.rescript-ecosystem]
+primary = "dx"
+secondary = []
+description = "Donation-staging wrapper bundling six ReScript-related libraries (rescript-tea, rescript-evangeliser, rescript-string-power, rescript-vite, bridge-web-rescript,"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.safe-brute-force]
+primary = "sc"
+secondary = []
+description = "Safe brute-force — bounded, rate-limited brute-force testing framework for authorised assessments"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.scaffoldia]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.scm2a2ml]
+primary = "nl"
+secondary = []
+description = "Scheme (.scm) -> a2ml transpiler (Rust)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.social-media-polygraph]
+primary = "sc"
+secondary = []
+description = "AI-powered fact-checking and misinformation detection for social media (graduated from repos-monorepo 2026-04-26)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.stateful-artefacts]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.tangle]
+primary = "nl"
+secondary = []
+description = "Tangle — topological programming language"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.technical-notes]
+primary = "ax"
+secondary = []
+description = "Citable short technical notes & observations (Zenodo-archived). AI accountability, agent behavior, software engineering."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.tentacles-agentic-syllabus]
+primary = "ax"
+secondary = []
+description = "Nextgen language: 7-tentacles"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.the-metadatastician]
+primary = "gv"
+secondary = []
+description = "Enterprise metadata governance and traceability service for CC-Studio (Creative Communities)."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.thejeffparadox]
+primary = "fv"
+secondary = []
+description = "The Jeff Paradox — exploration of self-referential logic and paradox formalisation"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.tree-sitter-a2ml]
+primary = "nl"
+secondary = []
+description = "Tree-sitter grammar for the A2ML (Attestation & Automation Markup Language) format"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.tree-sitter-k9]
+primary = "nl"
+secondary = []
+description = "Tree-sitter grammar for the K9 contractile format (Kennel/Yard/Hunt levels)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.trope-checker]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.trope-particularity-workbench]
+primary = "rm"
+secondary = []
+description = ""
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.tropical-resource-typing]
+primary = "fv"
+secondary = []
+description = "A short note introducing a max-plus (tropical) algebraic approach to resource-aware type systems, with applications to worst-case cost analysis and protocol typ"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.vcs-ircd]
+primary = "pt"
+secondary = []
+description = "Vext IRC daemon — IRC server built on the Vext verifiable communications protocol"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.veridical-simulation-core]
+primary = "fv"
+secondary = []
+description = "Shared core for the veridical-simulation framework: lexical Agda parser, octad importer/prober, cross-repo bridge probe. Phase 2 (echo-types) + Phase 3 (absolut"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.verisimdb]
+primary = "fv"
+secondary = []
+description = "VERIdical SIMulation DataBase — 8-dimensional octad storage with provenance, lineage, temporal versioning, and formal verification"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.verisimdb-data]
+primary = "rm"
+secondary = []
+description = "Git-backed flat-file data store for VeriSimDB — scan results, dispatch logs, recipes, and patterns"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.vex-tools]
+primary = "dx"
+secondary = []
+description = "Legacy alias for vexometer (canonical name) — see hyperpolymath/vexometer."
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.vext]
+primary = "fv"
+secondary = []
+description = "Vext — Verifiable, Extensible Communications Protocol (canonical spec, Idris2 proofs, reference implementation)"
+lineage = "standalone"
+parent = ""
+completion = 0
+
+[repo.volumod]
+primary = "dx"
+secondary = []
+description = "Cross-platform tool for autonomous real-time audio volume and clarity optimization for non-technical users."
+lineage = "standalone"
+parent = ""
+completion = 0
