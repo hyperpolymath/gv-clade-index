@@ -2,7 +2,7 @@
 # Clade declaration for gv-clade-index itself
 
 [identity]
-uuid = "a1b2c3d4-e5f6-5789-abcd-ef0123456789"
+uuid = "c88e9ff3-9aac-5de8-b891-19b5de64aedd"
 primary-forge = "github"
 primary-owner = "hyperpolymath"
 canonical-name = "gv-clade-index"
