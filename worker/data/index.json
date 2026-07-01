@@ -83,6 +83,7 @@
         "reposystem",
         "grim-repo",
         "rsr-template-repo",
+        "rsr-julia-library-template-repo",
         "gitbot-fleet",
         "robot-vacuum-cleaner",
         "polysafe-gitfixer",
@@ -690,6 +691,19 @@
       "description": "RSR template — scaffold for new repos",
       "prefixed": "rm-rsr-template-repo",
       "github": "hyperpolymath/rsr-template-repo"
+    },
+    "rsr-julia-library-template-repo": {
+      "name": "rsr-julia-library-template-repo",
+      "uuid": "4b68a627-5811-4c73-bdad-052dfbdbbe90",
+      "clade": "rm",
+      "secondary": [
+        "gv"
+      ],
+      "lineage": "standalone",
+      "parent": "rsr-template-repo",
+      "description": "RSR template specialised for registered Julia libraries (fork of rsr-template-repo)",
+      "prefixed": "rm-rsr-julia-library-template-repo",
+      "github": "hyperpolymath/rsr-julia-library-template-repo"
     },
     "gitbot-fleet": {
       "name": "gitbot-fleet",
