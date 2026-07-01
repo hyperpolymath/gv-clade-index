@@ -1777,15 +1777,15 @@
     "github": "hyperpolymath/Hyperpolymath.jl"
   },
   {
-    "name": "HyperpolymathRegistry",
+    "name": "JuliaProfessionalRegistry",
     "uuid": "c9cbb683-68e1-53ce-ab59-26f9bc2962f2",
     "clade": "dx",
     "secondary": [],
     "lineage": "standalone",
     "parent": "",
     "description": "Julia package registry",
-    "prefixed": "dx-HyperpolymathRegistry",
-    "github": "hyperpolymath/HyperpolymathRegistry"
+    "prefixed": "dx-JuliaProfessionalRegistry",
+    "github": "hyperpolymath/julia-professional-registry"
   },
   {
     "name": "InvestigativeJournalist.jl",

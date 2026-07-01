@@ -1297,7 +1297,7 @@ parent = ""
 completion = 30
 julia = true
 
-[repo.HyperpolymathRegistry]
+[repo.JuliaProfessionalRegistry]
 primary = "dx"
 secondary = []
 description = "Julia package registry"
@@ -1305,6 +1305,10 @@ lineage = "standalone"
 parent = ""
 completion = 60
 julia = true
+# Renamed from HyperpolymathRegistry (G22, coordinated with
+# julia-professional-registry CLADE.a2ml in the same branch). uuid
+# 2efe00c2-6fc0-527c-8c6b-8ab96d2b6077 unchanged; old name is recorded as
+# a CLADE alias in the repo's own CLADE.a2ml.
 
 [repo."InvestigativeJournalist.jl"]
 primary = "ap"
