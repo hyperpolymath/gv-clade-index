@@ -202,6 +202,15 @@ lineage = "standalone"
 parent = ""
 completion = 100
 
+[repo.rsr-julia-library-template-repo]
+primary = "rm"
+secondary = ["gv"]
+description = "RSR template specialised for registered Julia libraries (fork of rsr-template-repo)"
+lineage = "standalone"
+parent = "rsr-template-repo"
+completion = 60
+julia = true
+
 [repo.gitbot-fleet]
 primary = "rm"
 secondary = ["ax"]

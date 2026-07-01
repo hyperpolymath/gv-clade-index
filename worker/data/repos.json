@@ -264,6 +264,19 @@
     "github": "hyperpolymath/rsr-template-repo"
   },
   {
+    "name": "rsr-julia-library-template-repo",
+    "uuid": "4b68a627-5811-4c73-bdad-052dfbdbbe90",
+    "clade": "rm",
+    "secondary": [
+      "gv"
+    ],
+    "lineage": "standalone",
+    "parent": "rsr-template-repo",
+    "description": "RSR template specialised for registered Julia libraries (fork of rsr-template-repo)",
+    "prefixed": "rm-rsr-julia-library-template-repo",
+    "github": "hyperpolymath/rsr-julia-library-template-repo"
+  },
+  {
     "name": "gitbot-fleet",
     "uuid": "f8cdb015-c230-50f2-b09c-f9e8d37646dd",
     "clade": "rm",
