@@ -289,7 +289,7 @@
         "Cliometrics.jl",
         "Exnovation.jl",
         "Hyperpolymath.jl",
-        "HyperpolymathRegistry",
+        "JuliaProfessionalRegistry",
         "JuliaKids.jl",
         "JuliaPackage-Reuse-Audit.jl",
         "KnotTheory.jl",
@@ -2204,16 +2204,16 @@
       "prefixed": "dx-Hyperpolymath.jl",
       "github": "hyperpolymath/Hyperpolymath.jl"
     },
-    "HyperpolymathRegistry": {
-      "name": "HyperpolymathRegistry",
+    "JuliaProfessionalRegistry": {
+      "name": "JuliaProfessionalRegistry",
       "uuid": "c9cbb683-68e1-53ce-ab59-26f9bc2962f2",
       "clade": "dx",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Julia package registry",
-      "prefixed": "dx-HyperpolymathRegistry",
-      "github": "hyperpolymath/HyperpolymathRegistry"
+      "prefixed": "dx-JuliaProfessionalRegistry",
+      "github": "hyperpolymath/julia-professional-registry"
     },
     "InvestigativeJournalist.jl": {
       "name": "InvestigativeJournalist.jl",
