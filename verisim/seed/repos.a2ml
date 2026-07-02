@@ -351,7 +351,7 @@ lineage = "standalone"
 parent = ""
 completion = 70
 
-[repo.hyperpolymath.github.io]
+[repo."hyperpolymath.github.io"]
 primary = "gv"
 secondary = ["ap"]
 description = "Public portfolio — will become ReScript/WASM portal"
@@ -1751,7 +1751,7 @@ evolved-from = "gossamer/examples/game-server-admin"
 # uuid = uuid5(URL, "github.com/hyperpolymath/<name>") per the registry scheme.
 # ============================================================================
 
-[repo..git-private-farm]
+[repo.".git-private-farm"]
 primary = "rm"
 secondary = []
 description = "GitHub maintenance hub — hookset sync, farm manifest, dependabot automation"
@@ -1759,7 +1759,7 @@ lineage = "standalone"
 parent = ""
 completion = 0
 
-[repo..github]
+[repo.".github"]
 primary = "rm"
 secondary = []
 description = "Organization-wide community-health defaults for hyperpolymath/*: issue & discussion templates, Code of Conduct, contributing, security policy, and more. Improve"
@@ -1767,7 +1767,7 @@ lineage = "standalone"
 parent = ""
 completion = 0
 
-[repo.EchoTypes.jl]
+[repo."EchoTypes.jl"]
 primary = "fv"
 secondary = []
 description = "Executable finite-domain companion to the Agda library echo-types — a runnable model, not a proof."
@@ -2643,14 +2643,6 @@ completion = 0
 primary = "fv"
 secondary = []
 description = "VERIdical SIMulation DataBase — 8-dimensional octad storage with provenance, lineage, temporal versioning, and formal verification"
-lineage = "standalone"
-parent = ""
-completion = 0
-
-[repo.verisimdb-data]
-primary = "rm"
-secondary = []
-description = "Git-backed flat-file data store for VeriSimDB — scan results, dispatch logs, recipes, and patterns"
 lineage = "standalone"
 parent = ""
 completion = 0
