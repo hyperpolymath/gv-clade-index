@@ -3604,12 +3604,12 @@
   {
     "name": "verisimdb-data",
     "uuid": "22772417-fc00-5263-a78a-7567aee04984",
-    "clade": "rm",
+    "clade": "db",
     "secondary": [],
     "lineage": "standalone",
     "parent": "",
-    "description": "Git-backed flat-file data store for VeriSimDB \u2014 scan results, dispatch logs, recipes, and patterns",
-    "prefixed": "rm-verisimdb-data",
+    "description": "VeriSimDB data repository \u2014 scan results, patterns, recipes",
+    "prefixed": "db-verisimdb-data",
     "github": "hyperpolymath/verisimdb-data"
   },
   {
