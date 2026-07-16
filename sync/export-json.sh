@@ -23,12 +23,19 @@ BEGIN { printf "[\n" }
 NR > 1 { printf ",\n" }
 {
     name = $1; primary = $2; secondary = $3; lineage = $4; parent = $5; desc = $6
+    owner = ($7 != "" ? $7 : "hyperpolymath")
     gsub(/"/, "\\\"", desc)
-    # Generate UUID deterministically
-    cmd = "uuidgen --sha1 --namespace @url --name \"github.com/hyperpolymath/" name "\""
+    # Generate UUID deterministically. The owner segment is part of the derived
+    # name, so it is part of the identity; it was hardcoded to "hyperpolymath",
+    # which produced a wrong uuid for any repo hosted elsewhere. Defaults to
+    # "hyperpolymath", so entries without an explicit owner are unchanged.
+    cmd = "uuidgen --sha1 --namespace @url --name \"github.com/" owner "/" name "\""
     cmd | getline uuid
     close(cmd)
-    printf "  {\"name\":\"%s\",\"uuid\":\"%s\",\"clade\":\"%s\",\"secondary\":%s,\"lineage\":\"%s\",\"parent\":\"%s\",\"description\":\"%s\",\"prefixed\":\"%s-%s\",\"github\":\"hyperpolymath/%s\"}", name, uuid, primary, secondary, lineage, parent, desc, primary, name, name
+    # NB: no separate "owner" key — the schema is unchanged on purpose. The
+    # github field already carries it as "owner/name", so entries without an
+    # explicit owner serialise byte-identically to before this change.
+    printf "  {\"name\":\"%s\",\"uuid\":\"%s\",\"clade\":\"%s\",\"secondary\":%s,\"lineage\":\"%s\",\"parent\":\"%s\",\"description\":\"%s\",\"prefixed\":\"%s-%s\",\"github\":\"%s/%s\"}", name, uuid, primary, secondary, lineage, parent, desc, primary, name, owner, name
 }
 END { printf "\n]\n" }
 ' > "$OUT/repos.json"
