@@ -37,6 +37,32 @@ parse_repos() {
     bash "$REPOS_DIR/gv-clade-index/sync/parse-repos.sh" "$SEED_FILE"
 }
 
+# The taxonomy's name for a clade code. Authority: verisim/seed/clades.a2ml.
+#
+# Emitted into every CLADE.a2ml as `primary-name` so the code never travels
+# without its meaning. CLADE-003 can only check a code is one of the 12 — it
+# cannot check the author meant that clade, which is how `pt` ("PainT-type",
+# actually Protocols & Interop) and `gv` ("Graphical/Visual", actually
+# GoVernance) were filed under categories they have nothing to do with. Writing
+# the name down makes the belief checkable; CLADE-006 enforces the pair.
+clade_name() {
+    case "$1" in
+        fv) echo "Formal Verification & Proofs" ;;
+        nl) echo "Nextgen Languages" ;;
+        rm) echo "Repo Management & Tooling" ;;
+        gv) echo "Governance & Standards" ;;
+        db) echo "Databases" ;;
+        ap) echo "Applications" ;;
+        ix) echo "Infrastructure & Cloud" ;;
+        dx) echo "Developer Ecosystem" ;;
+        pt) echo "Protocols & Interop" ;;
+        ax) echo "AI & Neurosymbolic" ;;
+        gm) echo "Games & Interactive" ;;
+        sc) echo "Security" ;;
+        *)  echo "" ;;
+    esac
+}
+
 deploy_clade() {
     local repo_name="$1"
     local primary="$2"
@@ -120,6 +146,17 @@ deploy_clade() {
     # Determine prefixed name
     local prefixed="${primary}-${repo_name}"
 
+    # Refuse to write an identity we cannot name. An unknown code here means the
+    # seed disagrees with the taxonomy — fail loudly rather than emit a CLADE.a2ml
+    # that would fail CLADE-006 downstream in someone else's repo.
+    local primary_name
+    primary_name=$(clade_name "$primary")
+    if [[ -z "$primary_name" ]]; then
+        echo "ERROR: $repo_name — clade code '$primary' is not one of the 12 in clades.a2ml. Skipping." >&2
+        ((FAILED++))
+        return
+    fi
+
     # Ensure .machine_readable/ exists
     mkdir -p "$repo_path/.machine_readable"
 
@@ -137,7 +174,10 @@ canonical-name = "$repo_name"
 prefixed-name = "$prefixed"
 
 [clade]
+# The 2 letters abbreviate the CLADE's name below — never the repo's name.
+# See gv-clade-index: verisim/seed/clades.a2ml for all 12 codes.
 primary = "$primary"
+primary-name = "$primary_name"
 secondary = $secondary
 assigned = "2026-03-16"
 rationale = "$description"
@@ -186,9 +226,33 @@ echo "Repos dir: $REPOS_DIR"
 [[ "$DRY_RUN" == "--dry-run" ]] && echo "MODE: DRY RUN"
 echo ""
 
-while IFS=$'\t' read -r name primary secondary lineage parent description owner; do
+# Read the parser's TSV with the tabs translated to US (0x1f) first.
+#
+# TAB IS IFS WHITESPACE, so `IFS=$'\t' read` COLLAPSES a run of tabs into one
+# delimiter and empty fields vanish, shifting every field after them. 316 of the
+# 319 seed entries have an empty `parent`, so for nearly the whole registry:
+#
+#   proven <tab> fv <tab> [] <tab> standalone <tab><tab> Formally verified… <tab> hyperpolymath
+#                                                     ^^ empty parent collapses
+#   ->  parent="Formally verified…"   description="hyperpolymath"   owner=""
+#
+# The damage is real and committed: 153 CLADE.a2ml files across the estate carry
+# `rationale = ""` with the repo's DESCRIPTION sitting in `parent` (panic-attack,
+# flat-mate, rpa-elysium, live-files, …). Repairing those files is a separate,
+# owner-facing job — this only stops the script producing more.
+#
+# It also silently defeated the `owner` support added in #48: $7 was always empty,
+# so `owner` always fell back to "hyperpolymath" and an explicit
+# `owner = "metadatastician"` in the seed was ignored. export-json.sh never had
+# this bug — awk -F'\t' does not collapse — which is why the two derivation sites
+# disagreed and why #48's byte-identical regression test did not catch it.
+#
+# US (0x1f) is not IFS whitespace, so runs are not collapsed and empty fields
+# survive. It cannot occur in the data (checked: 0 occurrences in repos.a2ml) and
+# is exactly what the ASCII unit separator is for.
+while IFS=$'\037' read -r name primary secondary lineage parent description owner; do
     deploy_clade "$name" "$primary" "$secondary" "$lineage" "$parent" "$description" "$owner"
-done < <(parse_repos)
+done < <(parse_repos | tr '\t' '\037')
 
 echo ""
 echo "=== Summary ==="
