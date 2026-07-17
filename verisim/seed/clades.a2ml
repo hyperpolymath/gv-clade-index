@@ -1,6 +1,56 @@
 # SPDX-License-Identifier: MPL-2.0
 # Clade taxonomy definitions for the hyperpolymath ecosystem
 # 12 top-level clades — each repo gets exactly one primary clade
+#
+# ===========================================================================
+# READ THIS BEFORE ASSIGNING A CLADE — HUMAN OR BOT
+#
+# THIS IS A CLOSED TAXONOMY OF CATEGORIES. It is not an abbreviation scheme.
+#
+# The two letters abbreviate the NAME OF THE CLADE. They never abbreviate the
+# name of the repo. There are exactly 12 codes and no thirteenth may be coined:
+#
+#     fv  Formal Verification & Proofs      nl  Nextgen Languages
+#     rm  Repo Management & Tooling         gv  Governance & Standards
+#     db  Databases                         ap  Applications
+#     ix  Infrastructure & Cloud            dx  Developer Ecosystem
+#     pt  Protocols & Interop               ax  AI & Neurosymbolic
+#     gm  Games & Interactive               sc  Security
+#
+# You pick the CATEGORY the repo belongs to, then write down that category's
+# code. You do NOT look at the repo's name and find two letters that fit it.
+#
+# This warning exists because that is exactly what happened, more than once:
+#
+#     paint-type  chose `pt`  reading it as "PainT-type"
+#                 -- `pt` is Protocols & Interop. paint-type is an image
+#                    editor. It is `ap` (Applications).
+#     gossamer    chose `gv`  reading it as "Graphical/Visual"
+#                 -- `gv` is GoVernance & Standards. There is no graphical
+#                    clade. A webview shell is `dx` (Developer Ecosystem).
+#
+# Both codes were VALID, so every check passed. The repos were simply filed
+# under a category they have nothing to do with. `primary-name` (below) exists
+# to make that failure impossible; see CLADE-006 in
+# contractiles/must/clade-hygiene.a2ml.
+#
+# HOW TO CHOOSE. From the spec (docs/SPEC-clade-verisim-portal.adoc):
+# "The primary clade reflects the project's core value proposition, not its
+# implementation details." Ask what the repo is FOR, not what it is built with.
+# A game written in Idris2 is `gm`, not `fv`. A webview shell with formal ABI
+# proofs is what developers build on, not a proof project.
+#
+# EVERY CLADE.a2ml MUST DECLARE BOTH:
+#
+#     [clade]
+#     primary      = "ap"
+#     primary-name = "Applications"     # must match `name` below for that code
+#
+# The redundancy is deliberate: the code alone cannot express a wrong belief
+# about what it means, but the pair can — and CLADE-006 rejects a pair that
+# disagrees with this file. Writing primary = "pt" while believing it means
+# "paint-type" now fails a gate instead of passing silently.
+# ===========================================================================
 
 [meta]
 version = "1.0.0"
