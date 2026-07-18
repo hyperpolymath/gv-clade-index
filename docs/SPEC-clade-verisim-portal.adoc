@@ -70,6 +70,46 @@ the current repository name unchanged.
 **Rationale**: 2 characters provide 676 possible codes (far more than needed), are short
 enough to avoid bloating names, and cause natural alphabetical grouping when sorted.
 
+[IMPORTANT]
+====
+*The two letters abbreviate the name of the CLADE. They never abbreviate the name of the
+repo.* This is a closed taxonomy of twelve categories, not an abbreviation scheme: you
+choose the category a repo belongs to, then write down that category's code. You do not
+look at the repo's name and find two letters that fit it.
+
+This is stated because the opposite was done, more than once:
+
+[cols="1,1,2,2"]
+|===
+| Repo | Code | Read as | Actually means
+
+| `paint-type` | `pt` | "*P*ain*T*-type" | Protocols & Interop — an image editor is `ap`
+| `gossamer` | `gv` | "*G*raphical/*V*isual" | Governance & Standards — there is no graphical clade
+|===
+
+Both codes were *valid*, so every check passed and the repos were filed under categories
+they have nothing to do with. A code alone cannot express a wrong belief about what it
+means, so it cannot be checked for one.
+
+Therefore every `CLADE.a2ml` MUST declare the clade's name alongside its code:
+
+[source,toml]
+----
+[clade]
+primary      = "ap"
+primary-name = "Applications"     # must be the taxonomy's name for `primary`
+----
+
+The redundancy is the point: the *pair* can express the wrong belief, and so the pair can
+be rejected. `primary = "pt"` with `primary-name = "PainT-type"` now fails
+<<clade-006,CLADE-006>> instead of passing silently. `primary-name` must match the `name`
+field for that code in `verisim/seed/clades.a2ml`, which is the authority.
+
+[[clade-006]]
+Enforced by CLADE-006 in `contractiles/must/clade-hygiene.a2ml` (severity BLOCK, scope
+pre-commit).
+====
+
 === Clade Definitions
 
 [cols="1,3,4"]

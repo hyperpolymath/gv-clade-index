@@ -35,6 +35,35 @@ command = "grep 'primary = ' .machine_readable/CLADE.a2ml | grep -qE '\"(fv|nl|r
 message = "CLADE.a2ml primary clade code not in valid set: fv nl rm gv db ap ix dx pt ax gm sc"
 
 [must]
+id = "CLADE-006"
+name = "clade-name-matches-code"
+description = "primary-name must be the taxonomy's name for the declared primary code"
+severity = "BLOCK"
+scope = "pre-commit"
+
+# WHY THIS EXISTS.
+#
+# CLADE-003 checks the code is one of the 12. It cannot check the AUTHOR MEANT
+# that clade — every code is valid whatever you thought it stood for. So these
+# passed every gate:
+#
+#     paint-type  primary = "pt"   believing "PainT-type"
+#                 -- pt is Protocols & Interop; paint-type is an image editor
+#     gossamer    primary = "gv"   believing "Graphical/Visual"
+#                 -- gv is GoVernance & Standards; there is no graphical clade
+#
+# The two letters abbreviate the CLADE's name, never the REPO's name. Requiring
+# the name alongside the code makes the mistaken belief WRITABLE, and therefore
+# CHECKABLE: primary = "pt" + primary-name = "PainT-type" now fails here,
+# instead of being filed silently under Protocols & Interop.
+#
+# The pairs below are the authority in verisim/seed/clades.a2ml. Keep in sync.
+
+[must.check]
+command = '''p=$(sed -n 's/^primary = "\(.*\)".*/\1/p' .machine_readable/CLADE.a2ml | head -1); n=$(sed -n 's/^primary-name = "\(.*\)".*/\1/p' .machine_readable/CLADE.a2ml | head -1); case "$p|$n" in 'fv|Formal Verification & Proofs'|'nl|Nextgen Languages'|'rm|Repo Management & Tooling'|'gv|Governance & Standards'|'db|Databases'|'ap|Applications'|'ix|Infrastructure & Cloud'|'dx|Developer Ecosystem'|'pt|Protocols & Interop'|'ax|AI & Neurosymbolic'|'gm|Games & Interactive'|'sc|Security') exit 0 ;; *) exit 1 ;; esac'''
+message = "CLADE.a2ml primary-name does not match primary code. The 2 letters abbreviate the CLADE's name, not the repo's. Valid pairs: fv=Formal Verification & Proofs, nl=Nextgen Languages, rm=Repo Management & Tooling, gv=Governance & Standards, db=Databases, ap=Applications, ix=Infrastructure & Cloud, dx=Developer Ecosystem, pt=Protocols & Interop, ax=AI & Neurosymbolic, gm=Games & Interactive, sc=Security"
+
+[must]
 id = "CLADE-004"
 name = "clade-status-phase-set"
 description = "CLADE.a2ml must declare a lifecycle status phase"
