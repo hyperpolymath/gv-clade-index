@@ -8,11 +8,15 @@ on:
     branches: ['**']
     paths:
       - 'worker/**'
+      - 'verisim/seed/**'
+      - 'sync/**'
       - '.github/workflows/worker-ci.yml'
   push:
     branches: [main, master]
     paths:
       - 'worker/**'
+      - 'verisim/seed/**'
+      - 'sync/**'
       - '.github/workflows/worker-ci.yml'
 
 permissions:

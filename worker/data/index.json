@@ -1,7 +1,7 @@
 {
-  "total_repos": 203,
+  "total_repos": 319,
   "total_clades": 12,
-  "generated": "2026-06-20T18:09:58.001Z",
+  "generated": "2026-07-20T07:31:52Z",
   "clades": [
     {
       "code": "fv",
@@ -19,6 +19,7 @@
         "verified",
         "proofs"
       ],
+      "member_count": 29,
       "members": [
         "proven",
         "proven-servers",
@@ -34,9 +35,22 @@
         "PolyglotFormalisms.jl",
         "ProvenCrypto.jl",
         "Skein.jl",
-        "SMTLib.jl"
-      ],
-      "member_count": 15
+        "SMTLib.jl",
+        "EchoTypes.jl",
+        "absolute-zero",
+        "arghda-core",
+        "coq-jr",
+        "ddraig-ssg",
+        "echo-types",
+        "epistemic-types",
+        "format-registrations",
+        "proven-tests-and-benches",
+        "thejeffparadox",
+        "tropical-resource-typing",
+        "veridical-simulation-core",
+        "verisimdb",
+        "vext"
+      ]
     },
     {
       "code": "nl",
@@ -52,6 +66,7 @@
         "ast",
         "language"
       ],
+      "member_count": 35,
       "members": [
         "nextgen-languages",
         "ephapax",
@@ -60,9 +75,35 @@
         "typell",
         "panll",
         "metadata-grammar",
-        "modshells"
-      ],
-      "member_count": 8
+        "modshells",
+        "a2ml-ecosystem",
+        "a2ml_ex",
+        "a2ml_gleam",
+        "aggregate-library",
+        "awesome-nickel",
+        "betlang",
+        "cyo",
+        "dotfiles",
+        "eclexia",
+        "error-lang",
+        "git-scripts",
+        "gnpl",
+        "homebrew-tap",
+        "julia-the-viper",
+        "k9_ex",
+        "k9_gleam",
+        "me-dialect",
+        "my-lang",
+        "nextgen-language-evangeliser",
+        "oblibeny",
+        "panoply",
+        "phronesis",
+        "poly-observability-mcp",
+        "scm2a2ml",
+        "tangle",
+        "tree-sitter-a2ml",
+        "tree-sitter-k9"
+      ]
     },
     {
       "code": "rm",
@@ -79,6 +120,7 @@
         "git",
         "rsr"
       ],
+      "member_count": 39,
       "members": [
         "reposystem",
         "grim-repo",
@@ -92,9 +134,34 @@
         "mtpc-template-repo",
         "v3-templater",
         "megadog",
-        "robodog-ecm"
-      ],
-      "member_count": 12
+        "robodog-ecm",
+        ".git-private-farm",
+        ".github",
+        "a2ml-estate-normalizer",
+        "bgp-backbone-lab",
+        "bitfuckit",
+        "candy-crash",
+        "casket-ssg",
+        "choreographic-types",
+        "contractiles",
+        "contractiles-a2-lab",
+        "echidnabot",
+        "git-reticulator",
+        "git-seo",
+        "gsbot",
+        "haec",
+        "hotchocolabot",
+        "hpm-crypto-rsr",
+        "hpm-github-api-rsr",
+        "hpm-json-rsr",
+        "launch-scaffolder",
+        "oikosbot",
+        "recon-silly-ation",
+        "scaffoldia",
+        "stateful-artefacts",
+        "trope-checker",
+        "trope-particularity-workbench"
+      ]
     },
     {
       "code": "gv",
@@ -110,6 +177,7 @@
         "governance",
         "seam"
       ],
+      "member_count": 16,
       "members": [
         "gv-clade-index",
         "palimpsest-license",
@@ -125,9 +193,9 @@
         "SoftwareSovereign.jl",
         "accessibility-everywhere",
         "hyperpolymath",
-        "supernorma"
-      ],
-      "member_count": 15
+        "supernorma",
+        "the-metadatastician"
+      ]
     },
     {
       "code": "db",
@@ -139,17 +207,21 @@
         "database",
         "query",
         "storage",
-        "vcl",
+        "vql",
         "drift",
         "modality"
       ],
+      "member_count": 8,
       "members": [
         "nextgen-databases",
-        "verisim-data",
+        "verisimdb-data",
         "statistease",
-        "Lithoglyph.jl"
-      ],
-      "member_count": 4
+        "Lithoglyph.jl",
+        "claude-memory",
+        "glyphbase",
+        "lithoglyphdb",
+        "quandledb"
+      ]
     },
     {
       "code": "ap",
@@ -165,6 +237,7 @@
         "ui",
         "frontend"
       ],
+      "member_count": 37,
       "members": [
         "nexia-list",
         "boj-server",
@@ -193,9 +266,17 @@
         "misinformation-defence-platform",
         "InvestigativeJournalist.jl",
         "anamnesis",
-        "refugia"
-      ],
-      "member_count": 28
+        "refugia",
+        "a2ml-showcase",
+        "blue-screen-of-app",
+        "claude-gecko-browser-extension",
+        "claude-integrations",
+        "coord-tui",
+        "groove-browser-harness",
+        "ipv6-site-enforcer",
+        "k9-showcase",
+        "network-dashboard"
+      ]
     },
     {
       "code": "ix",
@@ -212,6 +293,7 @@
         "dns",
         "k8s"
       ],
+      "member_count": 26,
       "members": [
         "ambientops",
         "cloudflare-dns-terraform",
@@ -237,9 +319,9 @@
         "laminar",
         "laniakea",
         "ubicity",
-        "game-server-admin"
-      ],
-      "member_count": 25
+        "game-server-admin",
+        "poly-k8s-mcp"
+      ]
     },
     {
       "code": "dx",
@@ -255,6 +337,7 @@
         "sdk",
         "ecosystem"
       ],
+      "member_count": 80,
       "members": [
         "developer-ecosystem",
         "asdf-tool-plugins",
@@ -316,9 +399,27 @@
         "rpa-elysium",
         "social-media-tools",
         "tma-mark2",
-        "zerostep"
-      ],
-      "member_count": 61
+        "zerostep",
+        "achievements-lab",
+        "action-trust-layers",
+        "bag-of-actions",
+        "bebop-ffi",
+        "blog-drafts",
+        "boj-server-cartridges",
+        "frayed-knot-toolkit",
+        "hpm-http-client-rsr",
+        "humor-ecosystem",
+        "invariant-path",
+        "ipv6-only",
+        "julia-ecosystem",
+        "k9-ecosystem",
+        "lfs-shared",
+        "network-ambulance",
+        "qubes-sdp",
+        "rescript-ecosystem",
+        "vex-tools",
+        "volumod"
+      ]
     },
     {
       "code": "pt",
@@ -335,6 +436,7 @@
         "consent",
         "standard"
       ],
+      "member_count": 15,
       "members": [
         "intsoc-transactor",
         "maa-framework",
@@ -347,9 +449,11 @@
         "unified-dataset-vocab",
         "v-graphql",
         "v-grpc",
-        "v-rest"
-      ],
-      "member_count": 12
+        "v-rest",
+        "avow-protocol",
+        "groove-protocol",
+        "vcs-ircd"
+      ]
     },
     {
       "code": "ax",
@@ -364,15 +468,19 @@
         "llm",
         "proof-synthesis"
       ],
+      "member_count": 10,
       "members": [
         "neural-foundations",
         "hypatia",
         "conative-gating",
         "conflow",
         "neurophone",
-        "i-human"
-      ],
-      "member_count": 6
+        "i-human",
+        "airborne-submarine-squadron",
+        "oikos-economics-accounting-dsl",
+        "technical-notes",
+        "tentacles-agentic-syllabus"
+      ]
     },
     {
       "code": "gm",
@@ -387,15 +495,17 @@
         "level",
         "escape"
       ],
+      "member_count": 8,
       "members": [
         "idaptik",
         "idaptik-rescript13-staging",
         "games & trivia",
         "checky-monkey",
         "chimichanga",
-        "HackenbushGames.jl"
-      ],
-      "member_count": 6
+        "HackenbushGames.jl",
+        "idaptik-ums",
+        "pow-the-game"
+      ]
     },
     {
       "code": "sc",
@@ -411,6 +521,7 @@
         "vault",
         "sentinel"
       ],
+      "member_count": 16,
       "members": [
         "panic-attacker",
         "svalinn",
@@ -422,9 +533,13 @@
         "project-wharf",
         "fireflag",
         "FirmwareAudit.jl",
-        "defiant"
-      ],
-      "member_count": 11
+        "defiant",
+        "befunge93-vault-cracker",
+        "dicti0nary-attack",
+        "phantom-metal-taste",
+        "safe-brute-force",
+        "social-media-polygraph"
+      ]
     }
   ],
   "by_name": {
@@ -435,7 +550,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Formally verified safety library — Idris2 dependent types + Zig FFI + 120+ bindings",
+      "description": "Formally verified safety library \u2014 Idris2 dependent types + Zig FFI + 120+ bindings",
       "prefixed": "fv-proven",
       "github": "hyperpolymath/proven"
     },
@@ -472,7 +587,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Formally verified shell — 250+ theorems across 6 proof systems",
+      "description": "Formally verified shell \u2014 250+ theorems across 6 proof systems",
       "prefixed": "fv-valence-shell",
       "github": "hyperpolymath/valence-shell"
     },
@@ -483,7 +598,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Neurosymbolic filesystem verification — Idris2 dependent types",
+      "description": "Neurosymbolic filesystem verification \u2014 Idris2 dependent types",
       "prefixed": "fv-ochrance",
       "github": "hyperpolymath/ochrance"
     },
@@ -494,7 +609,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Modular verification framework for subsystem integrity — Idris2",
+      "description": "Modular verification framework for subsystem integrity \u2014 Idris2",
       "prefixed": "fv-ochrance-framework",
       "github": "hyperpolymath/ochrance-framework"
     },
@@ -507,7 +622,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Neurosymbolic theorem proving — neural proof synthesis",
+      "description": "Neurosymbolic theorem proving \u2014 neural proof synthesis",
       "prefixed": "fv-echidna",
       "github": "hyperpolymath/echidna"
     },
@@ -566,7 +681,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — anvomidav, ephapax, wokelang, eclexia, affinescript, betlang, etc.",
+      "description": "Monorepo \u2014 anvomidav, ephapax, wokelang, eclexia, affinescript, betlang, etc.",
       "prefixed": "nl-nextgen-languages",
       "github": "hyperpolymath/nextgen-languages"
     },
@@ -590,7 +705,7 @@
       "secondary": [],
       "lineage": "monorepo-child",
       "parent": "nextgen-languages",
-      "description": "Nextgen language — anvomidav",
+      "description": "Nextgen language \u2014 anvomidav",
       "prefixed": "nl-anvomidav",
       "github": "hyperpolymath/anvomidav"
     },
@@ -614,7 +729,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Type-level programming language — PanLL integration",
+      "description": "Type-level programming language \u2014 PanLL integration",
       "prefixed": "nl-typell",
       "github": "hyperpolymath/typell"
     },
@@ -627,7 +742,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Panel-based UI framework — TEA architecture, workspace layer",
+      "description": "Panel-based UI framework \u2014 TEA architecture, workspace layer",
       "prefixed": "nl-panll",
       "github": "hyperpolymath/panll"
     },
@@ -664,7 +779,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — graph engine for repository ecosystem management",
+      "description": "Monorepo \u2014 graph engine for repository ecosystem management",
       "prefixed": "rm-reposystem",
       "github": "hyperpolymath/reposystem"
     },
@@ -675,7 +790,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Repo standards toolkit — GrimRepo Scripts (ReScript)",
+      "description": "Repo standards toolkit \u2014 GrimRepo Scripts (ReScript)",
       "prefixed": "rm-grim-repo",
       "github": "hyperpolymath/grim-repo"
     },
@@ -688,13 +803,13 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "RSR template — scaffold for new repos",
+      "description": "RSR template \u2014 scaffold for new repos",
       "prefixed": "rm-rsr-template-repo",
       "github": "hyperpolymath/rsr-template-repo"
     },
     "rsr-julia-library-template-repo": {
       "name": "rsr-julia-library-template-repo",
-      "uuid": "4b68a627-5811-4c73-bdad-052dfbdbbe90",
+      "uuid": "b20a589b-e385-5d69-85e1-46c23ce6e58d",
       "clade": "rm",
       "secondary": [
         "gv"
@@ -714,7 +829,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Bot orchestration — rhodibot, echidnabot, sustainabot, glambot, seambot, finishbot",
+      "description": "Bot orchestration \u2014 rhodibot, echidnabot, sustainabot, glambot, seambot, finishbot",
       "prefixed": "rm-gitbot-fleet",
       "github": "hyperpolymath/gitbot-fleet"
     },
@@ -795,7 +910,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "THIS REPO — clade taxonomy + VeriSimDB portal registry",
+      "description": "THIS REPO \u2014 clade taxonomy + VeriSimDB portal registry",
       "prefixed": "gv-gv-clade-index",
       "github": "hyperpolymath/gv-clade-index"
     },
@@ -819,7 +934,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Governance automation engine — OCaml policy AST",
+      "description": "Governance automation engine \u2014 OCaml policy AST",
       "prefixed": "gv-palimpsest-plasma",
       "github": "hyperpolymath/palimpsest-plasma"
     },
@@ -830,7 +945,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — axel-protocol, a2ml, rhodium-standard-repositories, etc.",
+      "description": "Monorepo \u2014 axel-protocol, a2ml, rhodium-standard-repositories, etc.",
       "prefixed": "gv-standards",
       "github": "hyperpolymath/standards"
     },
@@ -917,7 +1032,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Public portfolio — will become ReScript/WASM portal",
+      "description": "Public portfolio \u2014 will become ReScript/WASM portal",
       "prefixed": "gv-hyperpolymath.github.io",
       "github": "hyperpolymath/hyperpolymath.github.io"
     },
@@ -928,20 +1043,20 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — verisim, quandledb, lithoglyph",
+      "description": "Monorepo \u2014 verisimdb, quandledb, lithoglyph",
       "prefixed": "db-nextgen-databases",
       "github": "hyperpolymath/nextgen-databases"
     },
-    "verisim-data": {
-      "name": "verisim-data",
+    "verisimdb-data": {
+      "name": "verisimdb-data",
       "uuid": "22772417-fc00-5263-a78a-7567aee04984",
       "clade": "db",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "VeriSimDB data repository — scan results, patterns, recipes",
-      "prefixed": "db-verisim-data",
-      "github": "hyperpolymath/verisim-data"
+      "description": "VeriSimDB data repository \u2014 scan results, patterns, recipes",
+      "prefixed": "db-verisimdb-data",
+      "github": "hyperpolymath/verisimdb-data"
     },
     "statistease": {
       "name": "statistease",
@@ -961,7 +1076,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Personal knowledge management — ReScript TEA + Tauri 2.0",
+      "description": "Personal knowledge management \u2014 ReScript TEA + Tauri 2.0",
       "prefixed": "ap-nexia-list",
       "github": "hyperpolymath/nexia-list"
     },
@@ -974,7 +1089,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "BoJ MCP server — cartridge system, multi-cloud",
+      "description": "BoJ MCP server \u2014 cartridge system, multi-cloud",
       "prefixed": "ap-boj-server",
       "github": "hyperpolymath/boj-server"
     },
@@ -993,16 +1108,16 @@
     },
     "burble": {
       "name": "burble",
-      "uuid": "0a37e17d-8ee5-5c30-9daf-571315a88a84",
+      "uuid": "34331e3d-fb8f-5f0c-ad56-521de5a156ac",
       "clade": "ap",
       "secondary": [
         "pt"
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Voice platform — Elixir control plane, WebRTC media",
+      "description": "Voice platform \u2014 Elixir control plane, WebRTC media",
       "prefixed": "ap-burble",
-      "github": "hyperpolymath/burble"
+      "github": "metadatastician/burble"
     },
     "branch-newspaper": {
       "name": "branch-newspaper",
@@ -1013,7 +1128,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Citizen journalism — Phoenix LiveView + IPFS",
+      "description": "Citizen journalism \u2014 Phoenix LiveView + IPFS",
       "prefixed": "ap-branch-newspaper",
       "github": "hyperpolymath/branch-newspaper"
     },
@@ -1246,7 +1361,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — volumod, personal-sysadmin, displace, etc.",
+      "description": "Monorepo \u2014 volumod, personal-sysadmin, displace, etc.",
       "prefixed": "ix-ambientops",
       "github": "hyperpolymath/ambientops"
     },
@@ -1294,7 +1409,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Container layer management — verified builds",
+      "description": "Container layer management \u2014 verified builds",
       "prefixed": "ix-stapeln",
       "github": "hyperpolymath/stapeln"
     },
@@ -1419,7 +1534,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — julia/deno/zig/rescript/elixir/idris2/v-ecosystem, etc.",
+      "description": "Monorepo \u2014 julia/deno/zig/rescript/elixir/idris2/v-ecosystem, etc.",
       "prefixed": "dx-developer-ecosystem",
       "github": "hyperpolymath/developer-ecosystem"
     },
@@ -1430,7 +1545,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — 74 asdf plugin dirs + asdf-augmenters",
+      "description": "Monorepo \u2014 74 asdf plugin dirs + asdf-augmenters",
       "prefixed": "dx-asdf-tool-plugins",
       "github": "hyperpolymath/asdf-tool-plugins"
     },
@@ -1441,7 +1556,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — Nickel language augmentation tools",
+      "description": "Monorepo \u2014 Nickel language augmentation tools",
       "prefixed": "dx-nickel-augmentation",
       "github": "hyperpolymath/nickel-augmentation"
     },
@@ -1522,7 +1637,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "MCP server for Elixir — BEAM layer for BoJ",
+      "description": "MCP server for Elixir \u2014 BEAM layer for BoJ",
       "prefixed": "dx-elixir-mcp-server",
       "github": "hyperpolymath/elixir-mcp-server"
     },
@@ -1577,7 +1692,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — fslint plugin API + SDK",
+      "description": "Monorepo \u2014 fslint plugin API + SDK",
       "prefixed": "dx-filesoup",
       "github": "hyperpolymath/filesoup"
     },
@@ -1645,7 +1760,7 @@
       ],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — echomesh, elegant-state, claude-integrations, etc.",
+      "description": "Monorepo \u2014 echomesh, elegant-state, claude-integrations, etc.",
       "prefixed": "dx-patallm-gallery",
       "github": "hyperpolymath/patallm-gallery"
     },
@@ -1693,7 +1808,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Internet Society Transactor — IETF/IRTF/IANA draft management",
+      "description": "Internet Society Transactor \u2014 IETF/IRTF/IANA draft management",
       "prefixed": "pt-intsoc-transactor",
       "github": "hyperpolymath/intsoc-transactor"
     },
@@ -1839,7 +1954,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Neural foundations — neurosymbolic infrastructure",
+      "description": "Neural foundations \u2014 neurosymbolic infrastructure",
       "prefixed": "ax-neural-foundations",
       "github": "hyperpolymath/neural-foundations"
     },
@@ -1852,7 +1967,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Neurosymbolic CI/CD intelligence — rule-based scanning",
+      "description": "Neurosymbolic CI/CD intelligence \u2014 rule-based scanning",
       "prefixed": "ax-hypatia",
       "github": "hyperpolymath/hypatia"
     },
@@ -1911,7 +2026,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Main game — asymmetric co-op, Jessica + Q, escape rooms",
+      "description": "Main game \u2014 asymmetric co-op, Jessica + Q, escape rooms",
       "prefixed": "gm-idaptik",
       "github": "hyperpolymath/idaptik"
     },
@@ -1933,7 +2048,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — phantom-metal-taste, dicti0nary-attack, candy-crash, etc.",
+      "description": "Monorepo \u2014 phantom-metal-taste, dicti0nary-attack, candy-crash, etc.",
       "prefixed": "gm-games & trivia",
       "github": "hyperpolymath/games & trivia"
     },
@@ -1971,7 +2086,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Security scanning tool — static analysis",
+      "description": "Security scanning tool \u2014 static analysis",
       "prefixed": "sc-panic-attacker",
       "github": "hyperpolymath/panic-attacker"
     },
@@ -2078,7 +2193,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — accelerator gate",
+      "description": "Julia package \u2014 accelerator gate",
       "prefixed": "dx-AcceleratorGate.jl",
       "github": "hyperpolymath/AcceleratorGate.jl"
     },
@@ -2091,7 +2206,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — value theory",
+      "description": "Julia package \u2014 value theory",
       "prefixed": "dx-Axiology.jl",
       "github": "hyperpolymath/Axiology.jl"
     },
@@ -2104,7 +2219,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — axiom systems",
+      "description": "Julia package \u2014 axiom systems",
       "prefixed": "dx-Axiom.jl",
       "github": "hyperpolymath/Axiom.jl"
     },
@@ -2115,7 +2230,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — bowtie risk analysis",
+      "description": "Julia package \u2014 bowtie risk analysis",
       "prefixed": "dx-BowtieRisk.jl",
       "github": "hyperpolymath/BowtieRisk.jl"
     },
@@ -2126,7 +2241,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — causal inference",
+      "description": "Julia package \u2014 causal inference",
       "prefixed": "dx-Causals.jl",
       "github": "hyperpolymath/Causals.jl"
     },
@@ -2137,7 +2252,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — phylogenetic analysis",
+      "description": "Julia package \u2014 phylogenetic analysis",
       "prefixed": "dx-Cladistics.jl",
       "github": "hyperpolymath/Cladistics.jl"
     },
@@ -2148,7 +2263,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — mathematical history",
+      "description": "Julia package \u2014 mathematical history",
       "prefixed": "dx-Cliodynamics.jl",
       "github": "hyperpolymath/Cliodynamics.jl"
     },
@@ -2159,7 +2274,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — quantitative economic history",
+      "description": "Julia package \u2014 quantitative economic history",
       "prefixed": "dx-Cliometrics.jl",
       "github": "hyperpolymath/Cliometrics.jl"
     },
@@ -2170,7 +2285,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — technology phase-out analysis",
+      "description": "Julia package \u2014 technology phase-out analysis",
       "prefixed": "dx-Exnovation.jl",
       "github": "hyperpolymath/Exnovation.jl"
     },
@@ -2181,7 +2296,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — firmware security auditing",
+      "description": "Julia package \u2014 firmware security auditing",
       "prefixed": "sc-FirmwareAudit.jl",
       "github": "hyperpolymath/FirmwareAudit.jl"
     },
@@ -2192,7 +2307,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — combinatorial game theory",
+      "description": "Julia package \u2014 combinatorial game theory",
       "prefixed": "gm-HackenbushGames.jl",
       "github": "hyperpolymath/HackenbushGames.jl"
     },
@@ -2203,7 +2318,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — hardware resilience testing",
+      "description": "Julia package \u2014 hardware resilience testing",
       "prefixed": "ix-HardwareResilience.jl",
       "github": "hyperpolymath/HardwareResilience.jl"
     },
@@ -2214,20 +2329,20 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — hyperpolymath core library",
+      "description": "Julia package \u2014 hyperpolymath core library",
       "prefixed": "dx-Hyperpolymath.jl",
       "github": "hyperpolymath/Hyperpolymath.jl"
     },
     "JuliaProfessionalRegistry": {
       "name": "JuliaProfessionalRegistry",
-      "uuid": "c9cbb683-68e1-53ce-ab59-26f9bc2962f2",
+      "uuid": "151e4b0a-9e33-56b6-adea-19af6be346e0",
       "clade": "dx",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Julia package registry",
       "prefixed": "dx-JuliaProfessionalRegistry",
-      "github": "hyperpolymath/julia-professional-registry"
+      "github": "hyperpolymath/JuliaProfessionalRegistry"
     },
     "InvestigativeJournalist.jl": {
       "name": "InvestigativeJournalist.jl",
@@ -2236,7 +2351,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — investigative journalism tools",
+      "description": "Julia package \u2014 investigative journalism tools",
       "prefixed": "ap-InvestigativeJournalist.jl",
       "github": "hyperpolymath/InvestigativeJournalist.jl"
     },
@@ -2247,7 +2362,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — educational Julia for children",
+      "description": "Julia package \u2014 educational Julia for children",
       "prefixed": "dx-JuliaKids.jl",
       "github": "hyperpolymath/JuliaKids.jl"
     },
@@ -2258,7 +2373,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — dependency reuse auditing",
+      "description": "Julia package \u2014 dependency reuse auditing",
       "prefixed": "dx-JuliaPackage-Reuse-Audit.jl",
       "github": "hyperpolymath/JuliaPackage-Reuse-Audit.jl"
     },
@@ -2271,7 +2386,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — knot theory (relates to QuandleDB)",
+      "description": "Julia package \u2014 knot theory (relates to QuandleDB)",
       "prefixed": "dx-KnotTheory.jl",
       "github": "hyperpolymath/KnotTheory.jl"
     },
@@ -2282,7 +2397,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — graph database",
+      "description": "Julia package \u2014 graph database",
       "prefixed": "db-Lithoglyph.jl",
       "github": "hyperpolymath/Lithoglyph.jl"
     },
@@ -2293,7 +2408,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — low-level systems",
+      "description": "Julia package \u2014 low-level systems",
       "prefixed": "dx-LowLevel.jl",
       "github": "hyperpolymath/LowLevel.jl"
     },
@@ -2304,7 +2419,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — macro metaprogramming",
+      "description": "Julia package \u2014 macro metaprogramming",
       "prefixed": "dx-MacroPower.jl",
       "github": "hyperpolymath/MacroPower.jl"
     },
@@ -2317,7 +2432,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — Minix SDK bindings",
+      "description": "Julia package \u2014 Minix SDK bindings",
       "prefixed": "dx-MinixSDK.jl",
       "github": "hyperpolymath/MinixSDK.jl"
     },
@@ -2328,7 +2443,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — formal methods",
+      "description": "Julia package \u2014 formal methods",
       "prefixed": "fv-PolyglotFormalisms.jl",
       "github": "hyperpolymath/PolyglotFormalisms.jl"
     },
@@ -2339,7 +2454,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — post-disciplinary research tools",
+      "description": "Julia package \u2014 post-disciplinary research tools",
       "prefixed": "dx-PostDisciplinary.jl",
       "github": "hyperpolymath/PostDisciplinary.jl"
     },
@@ -2350,7 +2465,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — PR/communications analysis",
+      "description": "Julia package \u2014 PR/communications analysis",
       "prefixed": "dx-PRComms.jl",
       "github": "hyperpolymath/PRComms.jl"
     },
@@ -2363,7 +2478,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — verified cryptography",
+      "description": "Julia package \u2014 verified cryptography",
       "prefixed": "fv-ProvenCrypto.jl",
       "github": "hyperpolymath/ProvenCrypto.jl"
     },
@@ -2374,7 +2489,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — quantum circuit simulation",
+      "description": "Julia package \u2014 quantum circuit simulation",
       "prefixed": "dx-QuantumCircuit.jl",
       "github": "hyperpolymath/QuantumCircuit.jl"
     },
@@ -2387,7 +2502,7 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — shell integration",
+      "description": "Julia package \u2014 shell integration",
       "prefixed": "dx-ShellIntegration.jl",
       "github": "hyperpolymath/ShellIntegration.jl"
     },
@@ -2398,7 +2513,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — hardware abstraction",
+      "description": "Julia package \u2014 hardware abstraction",
       "prefixed": "dx-SiliconCore.jl",
       "github": "hyperpolymath/SiliconCore.jl"
     },
@@ -2409,7 +2524,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — Skein hash function",
+      "description": "Julia package \u2014 Skein hash function",
       "prefixed": "fv-Skein.jl",
       "github": "hyperpolymath/Skein.jl"
     },
@@ -2420,7 +2535,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — SMT-LIB interface",
+      "description": "Julia package \u2014 SMT-LIB interface",
       "prefixed": "fv-SMTLib.jl",
       "github": "hyperpolymath/SMTLib.jl"
     },
@@ -2431,7 +2546,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — software sovereignty analysis",
+      "description": "Julia package \u2014 software sovereignty analysis",
       "prefixed": "gv-SoftwareSovereign.jl",
       "github": "hyperpolymath/SoftwareSovereign.jl"
     },
@@ -2442,7 +2557,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — trade union data analysis",
+      "description": "Julia package \u2014 trade union data analysis",
       "prefixed": "dx-TradeUnionist.jl",
       "github": "hyperpolymath/TradeUnionist.jl"
     },
@@ -2453,7 +2568,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — viable systems model",
+      "description": "Julia package \u2014 viable systems model",
       "prefixed": "dx-ViableSystems.jl",
       "github": "hyperpolymath/ViableSystems.jl"
     },
@@ -2464,7 +2579,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "Julia package — zero-probability analysis",
+      "description": "Julia package \u2014 zero-probability analysis",
       "prefixed": "dx-ZeroProb.jl",
       "github": "hyperpolymath/ZeroProb.jl"
     },
@@ -2688,7 +2803,7 @@
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
-      "description": "DELETED from GitHub — superseded by boj-server. Archived to OneDrive.",
+      "description": "DELETED from GitHub \u2014 superseded by boj-server. Archived to OneDrive.",
       "prefixed": "dx-polystack",
       "github": "hyperpolymath/polystack"
     },
@@ -2736,7 +2851,7 @@
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
-      "description": "Monorepo — social media integrations",
+      "description": "Monorepo \u2014 social media integrations",
       "prefixed": "dx-social-media-tools",
       "github": "hyperpolymath/social-media-tools"
     },
@@ -2786,7 +2901,7 @@
     },
     "game-server-admin": {
       "name": "game-server-admin",
-      "uuid": "b7e3f1a2-c4d5-5678-9abc-def012345678",
+      "uuid": "09f76bd7-df4b-5494-8aff-1dca67b00488",
       "clade": "ix",
       "secondary": [
         "gm",
@@ -2797,6 +2912,1271 @@
       "description": "Universal game server probe, config management, and administration via Gossamer + VeriSimDB",
       "prefixed": "ix-game-server-admin",
       "github": "hyperpolymath/game-server-admin"
+    },
+    ".git-private-farm": {
+      "name": ".git-private-farm",
+      "uuid": "fd51b620-02b0-5534-883a-32d65a5863e3",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "GitHub maintenance hub \u2014 hookset sync, farm manifest, dependabot automation",
+      "prefixed": "rm-.git-private-farm",
+      "github": "hyperpolymath/.git-private-farm"
+    },
+    ".github": {
+      "name": ".github",
+      "uuid": "580e6f5d-8b43-5d10-8d58-0aa7af971824",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Organization-wide community-health defaults for hyperpolymath/*: issue & discussion templates, Code of Conduct, contributing, security policy, and more. Improve",
+      "prefixed": "rm-.github",
+      "github": "hyperpolymath/.github"
+    },
+    "EchoTypes.jl": {
+      "name": "EchoTypes.jl",
+      "uuid": "66ef0ef6-4116-5e6f-8d5a-decb99a46ed9",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Executable finite-domain companion to the Agda library echo-types \u2014 a runnable model, not a proof.",
+      "prefixed": "fv-EchoTypes.jl",
+      "github": "hyperpolymath/EchoTypes.jl"
+    },
+    "a2ml-ecosystem": {
+      "name": "a2ml-ecosystem",
+      "uuid": "92f7d1c8-b839-58ae-a952-7a44b47674d1",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Coordination hub for the A2ML (Attested Markup Language) format: conformance fixtures, membership manifest, and cross-repo drift enforcement \u2014 pins spec + gover",
+      "prefixed": "nl-a2ml-ecosystem",
+      "github": "hyperpolymath/a2ml-ecosystem"
+    },
+    "a2ml-estate-normalizer": {
+      "name": "a2ml-estate-normalizer",
+      "uuid": "746d85ff-8a15-5d91-8866-b6f0bb48d939",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Estate-wide .a2ml normalizer/generator (Rust)",
+      "prefixed": "rm-a2ml-estate-normalizer",
+      "github": "hyperpolymath/a2ml-estate-normalizer"
+    },
+    "a2ml-showcase": {
+      "name": "a2ml-showcase",
+      "uuid": "7881006b-4d74-525d-8e55-c8c580647343",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Showcase site for the A2ML (Attested Markup Language) format",
+      "prefixed": "ap-a2ml-showcase",
+      "github": "hyperpolymath/a2ml-showcase"
+    },
+    "a2ml_ex": {
+      "name": "a2ml_ex",
+      "uuid": "f6158bfe-31af-5956-af7b-9799b485c0d7",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "A2ML (AI Attestation Markup Language) parser and renderer for Elixir",
+      "prefixed": "nl-a2ml_ex",
+      "github": "hyperpolymath/a2ml_ex"
+    },
+    "a2ml_gleam": {
+      "name": "a2ml_gleam",
+      "uuid": "b38943de-8a87-5617-913e-58b91b989cb8",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "A2ML (AI Attestation Markup Language) parser and renderer for Gleam",
+      "prefixed": "nl-a2ml_gleam",
+      "github": "hyperpolymath/a2ml_gleam"
+    },
+    "absolute-zero": {
+      "name": "absolute-zero",
+      "uuid": "447f4dba-81af-57fd-9a73-73ef45610c26",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Formal verification of Certified Null Operations: programs provably computing nothing, explored across Coq/Lean/Elm.",
+      "prefixed": "fv-absolute-zero",
+      "github": "hyperpolymath/absolute-zero"
+    },
+    "achievements-lab": {
+      "name": "achievements-lab",
+      "uuid": "e9defe5d-4e61-588c-8d5d-62663b1f536e",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Workflow lab for earning GitHub achievements",
+      "prefixed": "dx-achievements-lab",
+      "github": "hyperpolymath/achievements-lab"
+    },
+    "action-trust-layers": {
+      "name": "action-trust-layers",
+      "uuid": "bd96c0f8-eff6-50ff-b041-05d0cdae8b12",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Layered, DANE/TLSA-inspired trust model for CI supply-chain (GitHub Actions) pinning: trust-anchor + provenance/key + leaf-exact layers, vs flat recursive SHA-p",
+      "prefixed": "dx-action-trust-layers",
+      "github": "hyperpolymath/action-trust-layers"
+    },
+    "aggregate-library": {
+      "name": "aggregate-library",
+      "uuid": "2b72e0fd-75bd-549b-adef-a7b10e1406c9",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "aLib: common compiler utilities (Token/Position/Error + AST/string/color helpers) for hyperpolymath language toolchains. Extracted from developer-ecosystem into",
+      "prefixed": "nl-aggregate-library",
+      "github": "hyperpolymath/aggregate-library"
+    },
+    "airborne-submarine-squadron": {
+      "name": "airborne-submarine-squadron",
+      "uuid": "d3bf177f-9258-5d56-8478-5f5714c4c981",
+      "clade": "ax",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Airborne Submarine Squadron was originally iintended as a modern resurrection of the classic Sopwith\u2011era arcade \u2014 except your aircraft is also a submarine can e",
+      "prefixed": "ax-airborne-submarine-squadron",
+      "github": "hyperpolymath/airborne-submarine-squadron"
+    },
+    "arghda-core": {
+      "name": "arghda-core",
+      "uuid": "61e60412-6bf4-55e0-81dc-c47d976017e5",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Lightweight proof-workspace manager for Agda \u2014 triage workspace + lints + watcher (orphan-module detection).",
+      "prefixed": "fv-arghda-core",
+      "github": "hyperpolymath/arghda-core"
+    },
+    "avow-protocol": {
+      "name": "avow-protocol",
+      "uuid": "5ee49781-658c-579d-8bea-903c0db7312d",
+      "clade": "pt",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Avow protocol",
+      "prefixed": "pt-avow-protocol",
+      "github": "hyperpolymath/avow-protocol"
+    },
+    "awesome-nickel": {
+      "name": "awesome-nickel",
+      "uuid": "93e03048-7ea9-54f6-94bc-65e6e4efa8b4",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "A curated list of awesome Nickel language resources, tools, and libraries",
+      "prefixed": "nl-awesome-nickel",
+      "github": "hyperpolymath/awesome-nickel"
+    },
+    "bag-of-actions": {
+      "name": "bag-of-actions",
+      "uuid": "66eebd34-c705-5bbe-935f-e60654815561",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Capability-aware, resumable, distributed continuation runtime based on Elixir, Ephapax, and Zig.",
+      "prefixed": "dx-bag-of-actions",
+      "github": "hyperpolymath/bag-of-actions"
+    },
+    "bebop-ffi": {
+      "name": "bebop-ffi",
+      "uuid": "cb434e5e-36a2-5309-b6c7-ead921e3d753",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Zig FFI bindings for the Bebop binary serialization format.",
+      "prefixed": "dx-bebop-ffi",
+      "github": "hyperpolymath/bebop-ffi"
+    },
+    "befunge93-vault-cracker": {
+      "name": "befunge93-vault-cracker",
+      "uuid": "25c3b87e-863a-5f47-99a9-0d90b6f17015",
+      "clade": "sc",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Befunge-93 vault cracker \u2014 esoteric-language puzzle solver for CTF challenges",
+      "prefixed": "sc-befunge93-vault-cracker",
+      "github": "hyperpolymath/befunge93-vault-cracker"
+    },
+    "betlang": {
+      "name": "betlang",
+      "uuid": "66c5df60-c1b8-59a0-ad1e-31c83d2c3334",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Nextgen language: betlang",
+      "prefixed": "nl-betlang",
+      "github": "hyperpolymath/betlang"
+    },
+    "bgp-backbone-lab": {
+      "name": "bgp-backbone-lab",
+      "uuid": "2b985848-cdec-5e51-9666-cf54f40ac229",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "BGP backbone lab \u2014 network simulation and testing environment for BGP routing",
+      "prefixed": "rm-bgp-backbone-lab",
+      "github": "hyperpolymath/bgp-backbone-lab"
+    },
+    "bitfuckit": {
+      "name": "bitfuckit",
+      "uuid": "c4753135-5aa6-5d0f-b00a-c1501f39cbee",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-bitfuckit",
+      "github": "hyperpolymath/bitfuckit"
+    },
+    "blog-drafts": {
+      "name": "blog-drafts",
+      "uuid": "83330842-4d1f-5326-99f5-263d7bba3934",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Blog post drafts for OU blog",
+      "prefixed": "dx-blog-drafts",
+      "github": "hyperpolymath/blog-drafts"
+    },
+    "blue-screen-of-app": {
+      "name": "blue-screen-of-app",
+      "uuid": "f5d4765c-7b77-58c3-b91c-cfa16db966e6",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Blue Screen of App \u2014 application crash analysis and fault injection testing",
+      "prefixed": "ap-blue-screen-of-app",
+      "github": "hyperpolymath/blue-screen-of-app"
+    },
+    "boj-server-cartridges": {
+      "name": "boj-server-cartridges",
+      "uuid": "1c1bb5bd-4962-55c6-9e96-6e20aee13583",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Canonical home of BoJ cartridges. Hosts (boj-server, panll) fetch from here on demand.",
+      "prefixed": "dx-boj-server-cartridges",
+      "github": "hyperpolymath/boj-server-cartridges"
+    },
+    "candy-crash": {
+      "name": "candy-crash",
+      "uuid": "90aee68b-d4f5-5a3b-86c5-df877c7e88ce",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Candy crash \u2014 crash reproduction and isolation test harness",
+      "prefixed": "rm-candy-crash",
+      "github": "hyperpolymath/candy-crash"
+    },
+    "casket-ssg": {
+      "name": "casket-ssg",
+      "uuid": "b66f8b1e-563a-50f0-a642-d42c2cf031a8",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Pure functional static site generator in Haskell \u2014 extracted from polystack",
+      "prefixed": "rm-casket-ssg",
+      "github": "hyperpolymath/casket-ssg"
+    },
+    "choreographic-types": {
+      "name": "choreographic-types",
+      "uuid": "81ca9b96-1b66-53b6-9892-4d52c7a922bf",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-choreographic-types",
+      "github": "hyperpolymath/choreographic-types"
+    },
+    "claude-gecko-browser-extension": {
+      "name": "claude-gecko-browser-extension",
+      "uuid": "7ab97800-4448-5228-b187-7f6faf50279a",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Claude browser extension for Gecko/Firefox",
+      "prefixed": "ap-claude-gecko-browser-extension",
+      "github": "hyperpolymath/claude-gecko-browser-extension"
+    },
+    "claude-integrations": {
+      "name": "claude-integrations",
+      "uuid": "8cd9aa0e-3511-5e25-b8f9-542f3495efc9",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Claude integrations (browser, LSP, IDE, bridge)",
+      "prefixed": "ap-claude-integrations",
+      "github": "hyperpolymath/claude-integrations"
+    },
+    "claude-memory": {
+      "name": "claude-memory",
+      "uuid": "11a8e947-3f12-57be-9bc6-b8f3ebba5bf3",
+      "clade": "db",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Claude Code session memory \u2014 user profile, feedback rules, project state (auto-accumulated across sessions)",
+      "prefixed": "db-claude-memory",
+      "github": "hyperpolymath/claude-memory"
+    },
+    "contractiles": {
+      "name": "contractiles",
+      "uuid": "7bb0a1bd-e5a8-5da1-a7e8-24430d6a20ee",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-contractiles",
+      "github": "hyperpolymath/contractiles"
+    },
+    "contractiles-a2-lab": {
+      "name": "contractiles-a2-lab",
+      "uuid": "7a39dfae-45f5-55f1-9b47-cd229c7045de",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-contractiles-a2-lab",
+      "github": "hyperpolymath/contractiles-a2-lab"
+    },
+    "coord-tui": {
+      "name": "coord-tui",
+      "uuid": "c32ebed2-dc92-5283-9daf-bcf70ba40170",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Terminal UI for BoJ local-coord-mcp \u2014 peer discovery, task coordination, and window titling for multi-instance AI sessions",
+      "prefixed": "ap-coord-tui",
+      "github": "hyperpolymath/coord-tui"
+    },
+    "coq-jr": {
+      "name": "coq-jr",
+      "uuid": "2efc37bb-dfd8-55b8-ada6-9c59a9d1a009",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Coq-JR \u2014 Coq proof toolchain",
+      "prefixed": "fv-coq-jr",
+      "github": "hyperpolymath/coq-jr"
+    },
+    "cyo": {
+      "name": "cyo",
+      "uuid": "67483f1d-17e3-5869-849f-757b4f0539a6",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Choose your own ... an annoyance-driven alternative to defaulting to venv, spark, minikanren, typed scripting languages, and other 'easy' integrations",
+      "prefixed": "nl-cyo",
+      "github": "hyperpolymath/cyo"
+    },
+    "ddraig-ssg": {
+      "name": "ddraig-ssg",
+      "uuid": "25863e1a-3dd7-509e-940a-42852d2c6f95",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Ddraig \u2014 a dependently-typed, WCAG 2.2 AAA-capable static-site generator in Idris 2",
+      "prefixed": "fv-ddraig-ssg",
+      "github": "hyperpolymath/ddraig-ssg"
+    },
+    "dicti0nary-attack": {
+      "name": "dicti0nary-attack",
+      "uuid": "b6f4a724-67d4-597e-882a-95fc3e7fc364",
+      "clade": "sc",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Dictionary attack research tool \u2014 wordlist-based credential testing for authorised security assessments",
+      "prefixed": "sc-dicti0nary-attack",
+      "github": "hyperpolymath/dicti0nary-attack"
+    },
+    "dotfiles": {
+      "name": "dotfiles",
+      "uuid": "3c53f33e-e8ad-5dcd-a7d6-7f2da45305f6",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Home directory dotfiles, shell configs, systemd units, .bin scripts",
+      "prefixed": "nl-dotfiles",
+      "github": "hyperpolymath/dotfiles"
+    },
+    "echidnabot": {
+      "name": "echidnabot",
+      "uuid": "e3f6c510-b022-571c-9088-727207b5b3cf",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "ECHIDNA bot \u2014 gitbot-fleet member for automated proof orchestration",
+      "prefixed": "rm-echidnabot",
+      "github": "hyperpolymath/echidnabot"
+    },
+    "echo-types": {
+      "name": "echo-types",
+      "uuid": "736d227e-e9b3-5658-8f56-14516c2c2a60",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Constructive Agda library for Echo Types: a formal model of structured loss (non-total erasure). Mechanized Bachmann-Howard ordinals, Buchholz/Veblen hierarchie",
+      "prefixed": "fv-echo-types",
+      "github": "hyperpolymath/echo-types"
+    },
+    "eclexia": {
+      "name": "eclexia",
+      "uuid": "1842a345-eaf9-5f46-94ed-e65982662222",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Eclexia \u2014 constraint-based resource language with dimensional types and shadow pricing",
+      "prefixed": "nl-eclexia",
+      "github": "hyperpolymath/eclexia"
+    },
+    "epistemic-types": {
+      "name": "epistemic-types",
+      "uuid": "c7e21138-b951-511c-80a5-f18331fffd12",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "fv-epistemic-types",
+      "github": "hyperpolymath/epistemic-types"
+    },
+    "error-lang": {
+      "name": "error-lang",
+      "uuid": "59b1f878-303a-5d3e-b09b-642226e40e7c",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Error-Lang \u2014 paradox-embracing error handling language",
+      "prefixed": "nl-error-lang",
+      "github": "hyperpolymath/error-lang"
+    },
+    "format-registrations": {
+      "name": "format-registrations",
+      "uuid": "ce2f11b2-5540-515e-9b4a-34f093518771",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "IANA, file(1) magic, shared-mime-info, and Wikidata registration drafts for A2ML and K9",
+      "prefixed": "fv-format-registrations",
+      "github": "hyperpolymath/format-registrations"
+    },
+    "frayed-knot-toolkit": {
+      "name": "frayed-knot-toolkit",
+      "uuid": "80a989b6-dfbf-5fea-b4ea-4513ba88e299",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Agda formalization of Frayed Knot theory \u2014 strands, crossings, resolutions, and choreographic interactions of knot structures.",
+      "prefixed": "dx-frayed-knot-toolkit",
+      "github": "hyperpolymath/frayed-knot-toolkit"
+    },
+    "git-reticulator": {
+      "name": "git-reticulator",
+      "uuid": "477d0f47-2410-5c58-8313-bf8573ed3b75",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Semantic lattice builder for git repositories using AffineScript",
+      "prefixed": "rm-git-reticulator",
+      "github": "hyperpolymath/git-reticulator"
+    },
+    "git-scripts": {
+      "name": "git-scripts",
+      "uuid": "3b6259f1-91fd-597d-b6fc-c65e12085e2b",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Git utility scripts and automation helpers for everyday workflows.",
+      "prefixed": "nl-git-scripts",
+      "github": "hyperpolymath/git-scripts"
+    },
+    "git-seo": {
+      "name": "git-seo",
+      "uuid": "26053c10-7fd5-51c4-8695-09a250c8385d",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "GitHub-native SEO, analytics & discoverability-optimisation for developers \u2014 privacy-conscious, self-hostable. Stage 0: product constitution.",
+      "prefixed": "rm-git-seo",
+      "github": "hyperpolymath/git-seo"
+    },
+    "glyphbase": {
+      "name": "glyphbase",
+      "uuid": "35488b16-9785-5682-b8ec-ebbd3e446c09",
+      "clade": "db",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Glyphbase \u2014 Airtable-equivalent delivery mode for LithoglyphDB (reserved; source in nextgen-databases/lithoglyph/glyphbase, migration pending)",
+      "prefixed": "db-glyphbase",
+      "github": "hyperpolymath/glyphbase"
+    },
+    "gnpl": {
+      "name": "gnpl",
+      "uuid": "74002141-3a04-5b73-b32c-c2ac6b75e8e7",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "GNPL \u2014 Lithoglyph\u2019s narration/projection language for forensic histories, counterfactual paths, plural meanings, and synchronic/diachronic evidence interpretati",
+      "prefixed": "nl-gnpl",
+      "github": "hyperpolymath/gnpl"
+    },
+    "groove-browser-harness": {
+      "name": "groove-browser-harness",
+      "uuid": "b2e90e43-bb4b-55ec-bada-700e618ff422",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Groove browser harness \u2014 Firefox extension for type-safe localhost service discovery (Gossamer, Burble, Vext, etc.)",
+      "prefixed": "ap-groove-browser-harness",
+      "github": "hyperpolymath/groove-browser-harness"
+    },
+    "groove-protocol": {
+      "name": "groove-protocol",
+      "uuid": "ca919c65-5ac1-5e21-9b97-3fbcc2eaae12",
+      "clade": "pt",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Runtime capability discovery + type-safe service composition protocol. Bare-by-default, zero-config, structural-fit. Extracted from hyperpolymath/standards 2026",
+      "prefixed": "pt-groove-protocol",
+      "github": "metadatastician/groove-protocol"
+    },
+    "gsbot": {
+      "name": "gsbot",
+      "uuid": "8ce354e0-bb35-5374-a9de-c9a5aec2a358",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-gsbot",
+      "github": "hyperpolymath/gsbot"
+    },
+    "haec": {
+      "name": "haec",
+      "uuid": "90db7939-1d8d-5fec-9dbf-f2674b7818f5",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-haec",
+      "github": "hyperpolymath/haec"
+    },
+    "homebrew-tap": {
+      "name": "homebrew-tap",
+      "uuid": "3a77cbf2-432c-5be5-b8da-64035bac4f1c",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Homebrew tap exposing personal development tools and language runtimes via `brew install`.",
+      "prefixed": "nl-homebrew-tap",
+      "github": "hyperpolymath/homebrew-tap"
+    },
+    "hotchocolabot": {
+      "name": "hotchocolabot",
+      "uuid": "9667e2ea-45b3-5212-a8ff-89d988770a41",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-hotchocolabot",
+      "github": "hyperpolymath/hotchocolabot"
+    },
+    "hpm-crypto-rsr": {
+      "name": "hpm-crypto-rsr",
+      "uuid": "6dcffd14-b935-54b5-b184-e7b893992e2c",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "HMAC-SHA256 + RS256 + base64url crypto primitives (Idris2 ABI + Zig FFI) \u2014 Hyperpolymath RSR Standard. Sister of stapeln (Ed25519+SHA-256); webhook & JWT primit",
+      "prefixed": "rm-hpm-crypto-rsr",
+      "github": "hyperpolymath/hpm-crypto-rsr"
+    },
+    "hpm-github-api-rsr": {
+      "name": "hpm-github-api-rsr",
+      "uuid": "52a10620-6fdc-5655-bd17-0f372db4e52d",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Composite GitHub App API client for the Hyperpolymath RSR Standard (Idris2 ABI + Zig FFI; composes crypto/http/json)",
+      "prefixed": "rm-hpm-github-api-rsr",
+      "github": "hyperpolymath/hpm-github-api-rsr"
+    },
+    "hpm-http-client-rsr": {
+      "name": "hpm-http-client-rsr",
+      "uuid": "5e180437-1640-573b-b83f-c5db993ee399",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "HTTP/1.1 + HTTPS client primitives in the Hyperpolymath RSR Standard (Idris2 ABI + Zig FFI). Sibling of hpm-crypto-rsr.",
+      "prefixed": "dx-hpm-http-client-rsr",
+      "github": "hyperpolymath/hpm-http-client-rsr"
+    },
+    "hpm-json-rsr": {
+      "name": "hpm-json-rsr",
+      "uuid": "868bf160-324e-5404-aeb6-0aa51d6f86cd",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "JSON parsing + escaping primitives in the Hyperpolymath RSR Standard (Idris2 ABI + Zig FFI). Sibling of hpm-crypto-rsr / hpm-http-client-rsr.",
+      "prefixed": "rm-hpm-json-rsr",
+      "github": "hyperpolymath/hpm-json-rsr"
+    },
+    "humor-ecosystem": {
+      "name": "humor-ecosystem",
+      "uuid": "2f862376-5f58-5424-93db-4ea23d639844",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Collection of satirical, parody, and comedic software \u2014 security theater, absurdist tooling, and deliberately bad implementations engineered to a suspiciously h",
+      "prefixed": "dx-humor-ecosystem",
+      "github": "hyperpolymath/humor-ecosystem"
+    },
+    "idaptik-ums": {
+      "name": "idaptik-ums",
+      "uuid": "0cf39c4a-718e-576e-91bf-20583a04f290",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "IDApTIK Unified Modding Studio \u2014 procedural generation of characters, levels, objects, and DLC for the game",
+      "prefixed": "gm-idaptik-ums",
+      "github": "metadatastician/idaptik-ums"
+    },
+    "invariant-path": {
+      "name": "invariant-path",
+      "uuid": "3cb8bb18-e852-51a2-bfe8-209f8ee1ebd5",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Dual-use claim-grounder (Phase A in progress)",
+      "prefixed": "dx-invariant-path",
+      "github": "hyperpolymath/invariant-path"
+    },
+    "ipv6-only": {
+      "name": "ipv6-only",
+      "uuid": "0ae3cbb0-afd3-5394-a4f5-50d5a9ab558f",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "IPv6-only network profile tool (aerie/network). Dual-use with ambientops subset.",
+      "prefixed": "dx-ipv6-only",
+      "github": "hyperpolymath/ipv6-only"
+    },
+    "ipv6-site-enforcer": {
+      "name": "ipv6-site-enforcer",
+      "uuid": "73f07e31-d3aa-5a70-8b8b-2dedc9b7df59",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "IPv6 site enforcer \u2014 ensures web properties are reachable over IPv6",
+      "prefixed": "ap-ipv6-site-enforcer",
+      "github": "hyperpolymath/ipv6-site-enforcer"
+    },
+    "julia-ecosystem": {
+      "name": "julia-ecosystem",
+      "uuid": "38c2a886-fcfa-513f-a7c7-fc699ffe521d",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Julia package ecosystem: 34 packages spanning formal verification, cryptography, risk analysis, knot theory, cliodynamics, hardware introspection, and more",
+      "prefixed": "dx-julia-ecosystem",
+      "github": "hyperpolymath/julia-ecosystem"
+    },
+    "julia-the-viper": {
+      "name": "julia-the-viper",
+      "uuid": "7fc66f69-663e-5c6f-a06e-a70ca3933664",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "A research programming language exploring structured separation of data and control, and computation as constrained construction.",
+      "prefixed": "nl-julia-the-viper",
+      "github": "hyperpolymath/julia-the-viper"
+    },
+    "k9-ecosystem": {
+      "name": "k9-ecosystem",
+      "uuid": "adea2a85-75ad-5042-9ef8-dcfbc352029d",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Coordination hub for the K9 (Self-Validating Components) contractile format: conformance, membership, and cross-repo drift enforcement \u2014 pins spec + governance ",
+      "prefixed": "dx-k9-ecosystem",
+      "github": "hyperpolymath/k9-ecosystem"
+    },
+    "k9-showcase": {
+      "name": "k9-showcase",
+      "uuid": "1fdd2ebd-cf52-53d6-9e77-2ad67af0ea00",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Showcase site for the K9 (Self-Validating Components) format",
+      "prefixed": "ap-k9-showcase",
+      "github": "hyperpolymath/k9-showcase"
+    },
+    "k9_ex": {
+      "name": "k9_ex",
+      "uuid": "c8c9c32f-6dc0-5542-bc3e-a844fe4ae0fc",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "K9 (Self-Validating Components) parser and renderer for Elixir",
+      "prefixed": "nl-k9_ex",
+      "github": "hyperpolymath/k9_ex"
+    },
+    "k9_gleam": {
+      "name": "k9_gleam",
+      "uuid": "422d27ef-b909-5926-a7ed-f5656029f2c6",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "K9 (Self-Validating Components) parser and renderer for Gleam",
+      "prefixed": "nl-k9_gleam",
+      "github": "hyperpolymath/k9_gleam"
+    },
+    "launch-scaffolder": {
+      "name": "launch-scaffolder",
+      "uuid": "5aa2e3ce-7dd1-590e-8316-cab6d0561bb8",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Cross-platform launcher minter/provisioner/configurator. Generates compliant desktop launcher scripts from A2ML specs.",
+      "prefixed": "rm-launch-scaffolder",
+      "github": "hyperpolymath/launch-scaffolder"
+    },
+    "lfs-shared": {
+      "name": "lfs-shared",
+      "uuid": "4a0405f4-19a1-5ad2-9ed9-f262716505aa",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Central LFS store for cross-estate shared learning data",
+      "prefixed": "dx-lfs-shared",
+      "github": "hyperpolymath/lfs-shared"
+    },
+    "lithoglyphdb": {
+      "name": "lithoglyphdb",
+      "uuid": "9a9ee549-e482-5d99-8c5e-abff70463bc8",
+      "clade": "db",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "LithoglyphDB \u2014 knot/glyph-structured database (reserved; source in nextgen-databases/lithoglyph, migration pending)",
+      "prefixed": "db-lithoglyphdb",
+      "github": "hyperpolymath/lithoglyphdb"
+    },
+    "me-dialect": {
+      "name": "me-dialect",
+      "uuid": "2d803a86-5152-59db-b81a-735c0a818bec",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Me-Dialect \u2014 personal expression programming language",
+      "prefixed": "nl-me-dialect",
+      "github": "hyperpolymath/me-dialect"
+    },
+    "my-lang": {
+      "name": "my-lang",
+      "uuid": "2bda1bb8-3d92-5a3b-a870-cfd96468d7fd",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Nextgen language: my-lang",
+      "prefixed": "nl-my-lang",
+      "github": "hyperpolymath/my-lang"
+    },
+    "network-ambulance": {
+      "name": "network-ambulance",
+      "uuid": "e25b89eb-d6d0-5cd3-87fc-2a99185ecfcb",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Platform-independent complete internet repair tool \u2014 cross-platform successor/extension to Windows Complete Internet Repair. Lives canonically in aerie; extract",
+      "prefixed": "dx-network-ambulance",
+      "github": "hyperpolymath/network-ambulance"
+    },
+    "network-dashboard": {
+      "name": "network-dashboard",
+      "uuid": "736fdbe3-217b-5c3e-b0c2-b2d88a1b07ed",
+      "clade": "ap",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Network monitoring dashboard \u2014 real-time visibility into network health and metrics",
+      "prefixed": "ap-network-dashboard",
+      "github": "hyperpolymath/network-dashboard"
+    },
+    "nextgen-language-evangeliser": {
+      "name": "nextgen-language-evangeliser",
+      "uuid": "32fd3033-b596-58d8-bd3d-391165524b7e",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Nexgen Language Evangeliser \u2014 educational toolkit for teaching coding through progressive code transformation",
+      "prefixed": "nl-nextgen-language-evangeliser",
+      "github": "hyperpolymath/nextgen-language-evangeliser"
+    },
+    "oblibeny": {
+      "name": "oblibeny",
+      "uuid": "8fe991d8-d717-574b-bb10-e378d016df45",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Oblibeny \u2014 programming language",
+      "prefixed": "nl-oblibeny",
+      "github": "hyperpolymath/oblibeny"
+    },
+    "oikos-economics-accounting-dsl": {
+      "name": "oikos-economics-accounting-dsl",
+      "uuid": "980f5790-2b46-5271-be02-bb6a1c873ace",
+      "clade": "ax",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "A typed DSL for stock-flow consistent macroeconomic modelling",
+      "prefixed": "ax-oikos-economics-accounting-dsl",
+      "github": "hyperpolymath/oikos-economics-accounting-dsl"
+    },
+    "oikosbot": {
+      "name": "oikosbot",
+      "uuid": "f4c6d50a-6fe9-5c6e-8075-66946b4fcbe1",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Ecological and economic code-analysis GitHub App",
+      "prefixed": "rm-oikosbot",
+      "github": "hyperpolymath/oikosbot"
+    },
+    "panoply": {
+      "name": "panoply",
+      "uuid": "e029343b-49c9-57a4-8332-0a1beca02113",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "envelope-first language discipline",
+      "prefixed": "nl-panoply",
+      "github": "hyperpolymath/panoply"
+    },
+    "phantom-metal-taste": {
+      "name": "phantom-metal-taste",
+      "uuid": "d594fdec-90a3-501a-95ee-a8edc3d17a1e",
+      "clade": "sc",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Phantom Metal Taste \u2014 speculative execution side-channel research",
+      "prefixed": "sc-phantom-metal-taste",
+      "github": "hyperpolymath/phantom-metal-taste"
+    },
+    "phronesis": {
+      "name": "phronesis",
+      "uuid": "5fd41d24-fb61-59ed-aebe-e6cf5e4eb827",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Nextgen language: phronesis",
+      "prefixed": "nl-phronesis",
+      "github": "hyperpolymath/phronesis"
+    },
+    "poly-k8s-mcp": {
+      "name": "poly-k8s-mcp",
+      "uuid": "07d4124b-b59c-5527-96bc-1cabd855cfd0",
+      "clade": "ix",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Kubernetes orchestration MCP server",
+      "prefixed": "ix-poly-k8s-mcp",
+      "github": "hyperpolymath/poly-k8s-mcp"
+    },
+    "poly-observability-mcp": {
+      "name": "poly-observability-mcp",
+      "uuid": "9da04dc9-3e06-5dd1-87b3-4182c9631a28",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Polyglot observability MCP server \u2014 unified observability across multiple languages and runtimes",
+      "prefixed": "nl-poly-observability-mcp",
+      "github": "hyperpolymath/poly-observability-mcp"
+    },
+    "pow-the-game": {
+      "name": "pow-the-game",
+      "uuid": "43d89c00-baf1-5a6e-aec9-7efb52491ad2",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Distributed proof-of-work and problem solving via Steam Workshop/API and other gaming platform networks",
+      "prefixed": "gm-pow-the-game",
+      "github": "hyperpolymath/pow-the-game"
+    },
+    "proven-tests-and-benches": {
+      "name": "proven-tests-and-benches",
+      "uuid": "52da192a-4a1f-558d-953b-4f8d3b8a0a27",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "fv-proven-tests-and-benches",
+      "github": "hyperpolymath/proven-tests-and-benches"
+    },
+    "quandledb": {
+      "name": "quandledb",
+      "uuid": "5c5190f1-79c9-541f-9a31-1e96b9af419e",
+      "clade": "db",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Quandle database \u2014 top-level monorepo",
+      "prefixed": "db-quandledb",
+      "github": "hyperpolymath/quandledb"
+    },
+    "qubes-sdp": {
+      "name": "qubes-sdp",
+      "uuid": "d1c8ed9c-b784-57b5-ba48-c8d761420c20",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Qubes OS Software-Defined Perimeter integration",
+      "prefixed": "dx-qubes-sdp",
+      "github": "hyperpolymath/qubes-sdp"
+    },
+    "recon-silly-ation": {
+      "name": "recon-silly-ation",
+      "uuid": "1d2dcd50-6dae-53c1-bfb8-526c036ac208",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-recon-silly-ation",
+      "github": "hyperpolymath/recon-silly-ation"
+    },
+    "rescript-ecosystem": {
+      "name": "rescript-ecosystem",
+      "uuid": "ea93a264-9129-52ae-ac36-b3b077a4ab54",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Donation-staging wrapper bundling six ReScript-related libraries (rescript-tea, rescript-evangeliser, rescript-string-power, rescript-vite, bridge-web-rescript,",
+      "prefixed": "dx-rescript-ecosystem",
+      "github": "hyperpolymath/rescript-ecosystem"
+    },
+    "safe-brute-force": {
+      "name": "safe-brute-force",
+      "uuid": "00cbf754-01dd-5cde-8ff9-ce72583a2cea",
+      "clade": "sc",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Safe brute-force \u2014 bounded, rate-limited brute-force testing framework for authorised assessments",
+      "prefixed": "sc-safe-brute-force",
+      "github": "hyperpolymath/safe-brute-force"
+    },
+    "scaffoldia": {
+      "name": "scaffoldia",
+      "uuid": "b090083d-c950-5785-97e7-3bc269167609",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-scaffoldia",
+      "github": "hyperpolymath/scaffoldia"
+    },
+    "scm2a2ml": {
+      "name": "scm2a2ml",
+      "uuid": "08e66a87-2eef-5284-904a-5e89736f98ab",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Scheme (.scm) -> a2ml transpiler (Rust)",
+      "prefixed": "nl-scm2a2ml",
+      "github": "hyperpolymath/scm2a2ml"
+    },
+    "social-media-polygraph": {
+      "name": "social-media-polygraph",
+      "uuid": "fc6499da-3f18-54de-90be-1a499d4ac1c1",
+      "clade": "sc",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "AI-powered fact-checking and misinformation detection for social media (graduated from repos-monorepo 2026-04-26)",
+      "prefixed": "sc-social-media-polygraph",
+      "github": "hyperpolymath/social-media-polygraph"
+    },
+    "stateful-artefacts": {
+      "name": "stateful-artefacts",
+      "uuid": "ae44803d-a1e9-5d05-b7cf-ab8d9776ad9b",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-stateful-artefacts",
+      "github": "hyperpolymath/stateful-artefacts"
+    },
+    "tangle": {
+      "name": "tangle",
+      "uuid": "64ceaf5e-29c7-5d64-8a4f-8b7e661e6479",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Tangle \u2014 topological programming language",
+      "prefixed": "nl-tangle",
+      "github": "hyperpolymath/tangle"
+    },
+    "technical-notes": {
+      "name": "technical-notes",
+      "uuid": "91f76e4a-10cc-58a7-bd47-f97eaf5392ff",
+      "clade": "ax",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Citable short technical notes & observations (Zenodo-archived). AI accountability, agent behavior, software engineering.",
+      "prefixed": "ax-technical-notes",
+      "github": "hyperpolymath/technical-notes"
+    },
+    "tentacles-agentic-syllabus": {
+      "name": "tentacles-agentic-syllabus",
+      "uuid": "152b9d31-8663-5288-a6da-4468803c2df3",
+      "clade": "ax",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Nextgen language: 7-tentacles",
+      "prefixed": "ax-tentacles-agentic-syllabus",
+      "github": "hyperpolymath/tentacles-agentic-syllabus"
+    },
+    "the-metadatastician": {
+      "name": "the-metadatastician",
+      "uuid": "9b040139-b4c8-527f-9812-1d44d41aecbd",
+      "clade": "gv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Enterprise metadata governance and traceability service for CC-Studio (Creative Communities).",
+      "prefixed": "gv-the-metadatastician",
+      "github": "hyperpolymath/the-metadatastician"
+    },
+    "thejeffparadox": {
+      "name": "thejeffparadox",
+      "uuid": "886bedac-f786-5679-b33c-3742da39d0f6",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "The Jeff Paradox \u2014 exploration of self-referential logic and paradox formalisation",
+      "prefixed": "fv-thejeffparadox",
+      "github": "hyperpolymath/thejeffparadox"
+    },
+    "tree-sitter-a2ml": {
+      "name": "tree-sitter-a2ml",
+      "uuid": "d1a34051-958c-51c0-ab97-b9e734e4fc69",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Tree-sitter grammar for the A2ML (Attestation & Automation Markup Language) format",
+      "prefixed": "nl-tree-sitter-a2ml",
+      "github": "hyperpolymath/tree-sitter-a2ml"
+    },
+    "tree-sitter-k9": {
+      "name": "tree-sitter-k9",
+      "uuid": "9048a30f-99ee-5c9d-8795-49316f1f354d",
+      "clade": "nl",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Tree-sitter grammar for the K9 contractile format (Kennel/Yard/Hunt levels)",
+      "prefixed": "nl-tree-sitter-k9",
+      "github": "hyperpolymath/tree-sitter-k9"
+    },
+    "trope-checker": {
+      "name": "trope-checker",
+      "uuid": "207205f6-26a6-50e7-9719-6b0ca80e02e4",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-trope-checker",
+      "github": "hyperpolymath/trope-checker"
+    },
+    "trope-particularity-workbench": {
+      "name": "trope-particularity-workbench",
+      "uuid": "f3233504-ae54-576d-9789-4a8a3aae4912",
+      "clade": "rm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "",
+      "prefixed": "rm-trope-particularity-workbench",
+      "github": "hyperpolymath/trope-particularity-workbench"
+    },
+    "tropical-resource-typing": {
+      "name": "tropical-resource-typing",
+      "uuid": "baa9446b-b021-561f-87e7-6824e8fad42b",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "A short note introducing a max-plus (tropical) algebraic approach to resource-aware type systems, with applications to worst-case cost analysis and protocol typ",
+      "prefixed": "fv-tropical-resource-typing",
+      "github": "hyperpolymath/tropical-resource-typing"
+    },
+    "vcs-ircd": {
+      "name": "vcs-ircd",
+      "uuid": "01b379f3-83f4-50f7-826a-d7179ee605f9",
+      "clade": "pt",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Vext IRC daemon \u2014 IRC server built on the Vext verifiable communications protocol",
+      "prefixed": "pt-vcs-ircd",
+      "github": "hyperpolymath/vcs-ircd"
+    },
+    "veridical-simulation-core": {
+      "name": "veridical-simulation-core",
+      "uuid": "5749a6ed-2757-56c5-a2fc-0b5145bd350c",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Shared core for the veridical-simulation framework: lexical Agda parser, octad importer/prober, cross-repo bridge probe. Phase 2 (echo-types) + Phase 3 (absolut",
+      "prefixed": "fv-veridical-simulation-core",
+      "github": "hyperpolymath/veridical-simulation-core"
+    },
+    "verisimdb": {
+      "name": "verisimdb",
+      "uuid": "b4ce4588-88e1-5580-ab6f-a07cb91c76d4",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "VERIdical SIMulation DataBase \u2014 8-dimensional octad storage with provenance, lineage, temporal versioning, and formal verification",
+      "prefixed": "fv-verisimdb",
+      "github": "hyperpolymath/verisimdb"
+    },
+    "vex-tools": {
+      "name": "vex-tools",
+      "uuid": "9f69c309-213a-526f-9223-41e3f82cb0c4",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Legacy alias for vexometer (canonical name) \u2014 see hyperpolymath/vexometer.",
+      "prefixed": "dx-vex-tools",
+      "github": "hyperpolymath/vex-tools"
+    },
+    "vext": {
+      "name": "vext",
+      "uuid": "18d086dc-9c59-538b-829d-b50118f6129c",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Vext \u2014 Verifiable, Extensible Communications Protocol (canonical spec, Idris2 proofs, reference implementation)",
+      "prefixed": "fv-vext",
+      "github": "hyperpolymath/vext"
+    },
+    "volumod": {
+      "name": "volumod",
+      "uuid": "4ff64757-2e60-5940-9a5a-5787be18588e",
+      "clade": "dx",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Cross-platform tool for autonomous real-time audio volume and clarity optimization for non-technical users.",
+      "prefixed": "dx-volumod",
+      "github": "hyperpolymath/volumod"
     }
   }
 }
