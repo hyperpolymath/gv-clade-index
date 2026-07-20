@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MPL-2.0
-# Master repo registry — all hyperpolymath repositories with clade assignments
+# Master repo registry — all hyperpolymath and metadatastician repositories with clade assignments
 # Primary key: GitHub. Foreign keys: GitLab, Bitbucket, Codeberg, SourceHut.
 #
 # Each entry: [repo.{name}] with primary clade, secondary clades, lineage type,
@@ -11,7 +11,7 @@
 version = "1.0.0"
 created = "2026-03-16"
 author = "Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"
-total-repos = 200
+total-repos = 319
 format = "repo-registry"
 
 # ============================================================================
@@ -422,6 +422,7 @@ description = "Voice platform — Elixir control plane, WebRTC media"
 lineage = "standalone"
 parent = ""
 completion = 10
+owner = "metadatastician"
 
 [repo.branch-newspaper]
 primary = "ap"
@@ -2174,6 +2175,7 @@ description = "Runtime capability discovery + type-safe service composition prot
 lineage = "standalone"
 parent = ""
 completion = 0
+owner = "metadatastician"
 
 [repo.gsbot]
 primary = "rm"
@@ -2254,6 +2256,7 @@ description = "IDApTIK Unified Modding Studio — procedural generation of chara
 lineage = "standalone"
 parent = ""
 completion = 0
+owner = "metadatastician"
 
 [repo.invariant-path]
 primary = "dx"
