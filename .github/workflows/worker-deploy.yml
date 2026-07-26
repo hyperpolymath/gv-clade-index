@@ -24,6 +24,7 @@ on:
         default: staging
 
 permissions:
+  actions: read
   contents: read
 
 defaults:

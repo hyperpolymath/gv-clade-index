@@ -20,6 +20,7 @@ on:
       - '.github/workflows/worker-ci.yml'
 
 permissions:
+  actions: read
   contents: read
 
 defaults:

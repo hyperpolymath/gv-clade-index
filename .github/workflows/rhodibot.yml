@@ -21,6 +21,7 @@ on:
   # pattern. Rhodibot still runs weekly (schedule) and on demand (workflow_dispatch).
 
 permissions:
+  actions: read
   contents: write
   pull-requests: write
 
