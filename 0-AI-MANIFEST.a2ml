@@ -74,3 +74,20 @@ gv-clade-index is the **map** of the hyperpolymath territory. It contains:
 - Understand: this is the central registry, not a code project
 - Never modify repo seed data without understanding the pointer authority model
 - When adding repos, assign a primary clade from the 12 codes above
+
+<!-- BEGIN requires-initialisation -->
+
+## PRIORITY ACTION — this repository is not fully initialised
+
+5 substitution token(s) still have no value. **Read
+`REQUIRES_INITIALISATION.md` in the repository root before doing anything
+else here** — it lists every outstanding token, what it means, and which
+files it belongs in.
+
+Do not fabricate values for them, and do not delete the sections that
+contain them to quiet a gate. They are unfilled because they need a
+decision, not because they were overlooked. Resolve what you legitimately
+can, leave the rest, and delete `REQUIRES_INITIALISATION.md` only when
+nothing outstanding remains.
+
+<!-- END requires-initialisation -->
