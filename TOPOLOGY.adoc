@@ -1,14 +1,17 @@
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
-<!-- Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk> -->
-# TOPOLOGY.md — gv-clade-index
+== TOPOLOGY.md — gv-clade-index
 
-## Purpose
+=== Purpose
 
-gv-clade-index is the central registry for the hyperpolymath ecosystem, providing a VeriSimDB-backed taxonomy of 200+ repositories organised into 12 clades (fv, nl, rm, gv, db, ap, ix, dx, pt, ax, gm, sc). It exposes a Cloudflare Worker API for dashboards, drift detection, and work-tracking VCL queries. The index is the canonical map of the ecosystem — editing it never modifies the repositories it describes.
+gv-clade-index is the central registry for the hyperpolymath ecosystem,
+providing a VeriSimDB-backed taxonomy of 200+ repositories organised
+into 12 clades (fv, nl, rm, gv, db, ap, ix, dx, pt, ax, gm, sc). It
+exposes a Cloudflare Worker API for dashboards, drift detection, and
+work-tracking VCL queries. The index is the canonical map of the
+ecosystem — editing it never modifies the repositories it describes.
 
-## Module Map
+=== Module Map
 
-```
+....
 gv-clade-index/
 ├── verisim/                     # VeriSimDB instance (clade data store)
 │   ├── config.a2ml                # Database instance configuration
@@ -33,11 +36,11 @@ gv-clade-index/
 ├── tests/                         # Integration tests
 ├── docs/                          # Architecture documentation
 └── verification/                  # Formal verification proofs
-```
+....
 
-## Data Flow
+=== Data Flow
 
-```
+....
 [GitHub repos / CI events]
         │  sync scripts (sync/*.sh)
         ▼
@@ -50,4 +53,4 @@ gv-clade-index/
                                               ▼                                    ▼
                                     [Dashboard consumers]               [Drift detection CI]
                                     (clade listing, repo search)        (stale/missing repos)
-```
+....
