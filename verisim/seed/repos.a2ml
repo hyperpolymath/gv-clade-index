@@ -8,6 +8,7 @@
 # Lineage types: standalone, monorepo, monorepo-child, inflated, deflated
 
 [meta]
+project = "repo-registry"
 version = "1.0.0"
 created = "2026-03-16"
 author = "Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"
