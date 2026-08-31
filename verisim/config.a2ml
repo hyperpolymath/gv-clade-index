@@ -2,6 +2,7 @@
 # VeriSimDB configuration for the clade-index registry
 
 [verisimdb]
+name = "clade-registry"
 instance-name = "clade-registry"
 version = "1.0.0"
 mode = "standalone"
