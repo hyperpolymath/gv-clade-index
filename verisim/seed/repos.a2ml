@@ -12,7 +12,7 @@ project = "repo-registry"
 version = "1.0.0"
 created = "2026-03-16"
 author = "Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"
-total-repos = 319
+total-repos = 327
 format = "repo-registry"
 
 # ============================================================================
@@ -106,6 +106,17 @@ description = "Higher-Order Logic proof assistant integration"
 lineage = "standalone"
 parent = ""
 completion = 10
+
+
+# ── Stealth Glider line member carrying fv (registered 2026-09-02) ───────────
+[repo.sr71-blackglider]
+primary = "fv"
+secondary = []
+description = "Formally-verified Conway's Game of Life engine (Idris2 constitution; 512/512 rules, 65,536 worlds vs oracle). Third Stealth Glider investigation."
+lineage = "standalone"
+parent = ""
+completion = 40
+owner = "metadatastician"
 
 # ============================================================================
 # nl — Nextgen Languages
@@ -1108,6 +1119,76 @@ description = "Game project"
 lineage = "standalone"
 parent = ""
 completion = 10
+
+
+# ── Stealth Glider line (metadatastician), registered 2026-09-02 ─────────────
+# Chain: f19-stealth-glider -> f117a-stealth-glider -> sr71-blackglider (fv, see
+# above) -> x15-rocket-glider -> planer-1 -> enterglide-ncc-137-k ->
+# tardis-rule-disruption. Hub: stealth-glider-ecosystem. uuids per each repo's
+# own CLADE.a2ml (uuid5 URL, "github.com/metadatastician/<name>").
+
+[repo.stealth-glider-ecosystem]
+primary = "gm"
+secondary = []
+description = "Coordination hub for the Stealth Glider line: canonical seven-stage chain, membership manifest, series roadmap. Manifest only."
+lineage = "standalone"
+parent = ""
+completion = 10
+owner = "metadatastician"
+
+[repo.f19-stealth-glider]
+primary = "gm"
+secondary = []
+description = "Operation Nightstep — a stealth puzzle on a live Conway's Game of Life field (B3/S23). First Stealth Glider investigation."
+lineage = "standalone"
+parent = ""
+completion = 90
+owner = "metadatastician"
+
+[repo.f117a-stealth-glider]
+primary = "gm"
+secondary = []
+description = "Operation Nightglass — stealth puzzle on a live Game of Life field where cover moves; vendors the f19 kernel. Second Stealth Glider investigation."
+lineage = "standalone"
+parent = ""
+completion = 90
+owner = "metadatastician"
+
+[repo.x15-rocket-glider]
+primary = "gm"
+secondary = []
+description = "Fourth Stealth Glider investigation (reserved): introduces resource mechanics — munitions and fuel — on the Life field."
+lineage = "standalone"
+parent = ""
+completion = 0
+owner = "metadatastician"
+
+[repo.planer-1]
+primary = "gm"
+secondary = []
+description = "Планер-1 (Glider-1, a Sputnik-1 nod). Fifth Stealth Glider investigation (reserved): orbits around Riemann spheres."
+lineage = "standalone"
+parent = ""
+completion = 0
+owner = "metadatastician"
+
+[repo.enterglide-ncc-137-k]
+primary = "gm"
+secondary = []
+description = "Enterglide NCC-137-K. Sixth Stealth Glider investigation (reserved): knot topology (the K), 137 / Varying-Constants focus, NCC catalogue nod."
+lineage = "standalone"
+parent = ""
+completion = 0
+owner = "metadatastician"
+
+[repo.tardis-rule-disruption]
+primary = "gm"
+secondary = []
+description = "TARDIS — Totally-Adherent Rule-Disruption Imitation System. Seventh Stealth Glider investigation (reserved): make Life look like reality without ever breaking B3/S23."
+lineage = "standalone"
+parent = ""
+completion = 0
+owner = "metadatastician"
 
 # ============================================================================
 # sc — Security
