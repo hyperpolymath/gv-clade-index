@@ -1,7 +1,7 @@
 {
-  "total_repos": 319,
+  "total_repos": 327,
   "total_clades": 12,
-  "generated": "2026-07-20T07:31:52Z",
+  "generated": "2026-09-02T13:20:07Z",
   "clades": [
     {
       "code": "fv",
@@ -19,7 +19,7 @@
         "verified",
         "proofs"
       ],
-      "member_count": 29,
+      "member_count": 30,
       "members": [
         "proven",
         "proven-servers",
@@ -32,6 +32,7 @@
         "polyglot-formalisms-gleam",
         "proof-of-work",
         "HOL",
+        "sr71-blackglider",
         "PolyglotFormalisms.jl",
         "ProvenCrypto.jl",
         "Skein.jl",
@@ -495,13 +496,20 @@
         "level",
         "escape"
       ],
-      "member_count": 8,
+      "member_count": 15,
       "members": [
         "idaptik",
         "idaptik-rescript13-staging",
         "games & trivia",
         "checky-monkey",
         "chimichanga",
+        "stealth-glider-ecosystem",
+        "f19-stealth-glider",
+        "f117a-stealth-glider",
+        "x15-rocket-glider",
+        "planer-1",
+        "enterglide-ncc-137-k",
+        "tardis-rule-disruption",
         "HackenbushGames.jl",
         "idaptik-ums",
         "pow-the-game"
@@ -673,6 +681,17 @@
       "description": "Higher-Order Logic proof assistant integration",
       "prefixed": "fv-HOL",
       "github": "hyperpolymath/HOL"
+    },
+    "sr71-blackglider": {
+      "name": "sr71-blackglider",
+      "uuid": "ad26514c-ba53-541e-aee9-d4686911a9a4",
+      "clade": "fv",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Formally-verified Conway's Game of Life engine (Idris2 constitution; 512/512 rules, 65,536 worlds vs oracle). Third Stealth Glider investigation.",
+      "prefixed": "fv-sr71-blackglider",
+      "github": "metadatastician/sr71-blackglider"
     },
     "nextgen-languages": {
       "name": "nextgen-languages",
@@ -2076,6 +2095,83 @@
       "description": "Game project",
       "prefixed": "gm-chimichanga",
       "github": "hyperpolymath/chimichanga"
+    },
+    "stealth-glider-ecosystem": {
+      "name": "stealth-glider-ecosystem",
+      "uuid": "c6eab5fc-ff7e-51c8-9710-955959e07be7",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Coordination hub for the Stealth Glider line: canonical seven-stage chain, membership manifest, series roadmap. Manifest only.",
+      "prefixed": "gm-stealth-glider-ecosystem",
+      "github": "metadatastician/stealth-glider-ecosystem"
+    },
+    "f19-stealth-glider": {
+      "name": "f19-stealth-glider",
+      "uuid": "5f715988-a5b9-5b0a-acd6-b2c0a91bfa5d",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Operation Nightstep \u2014 a stealth puzzle on a live Conway's Game of Life field (B3/S23). First Stealth Glider investigation.",
+      "prefixed": "gm-f19-stealth-glider",
+      "github": "metadatastician/f19-stealth-glider"
+    },
+    "f117a-stealth-glider": {
+      "name": "f117a-stealth-glider",
+      "uuid": "4dcf4ed6-89ce-548e-9bba-6a4fc6a2d74f",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Operation Nightglass \u2014 stealth puzzle on a live Game of Life field where cover moves; vendors the f19 kernel. Second Stealth Glider investigation.",
+      "prefixed": "gm-f117a-stealth-glider",
+      "github": "metadatastician/f117a-stealth-glider"
+    },
+    "x15-rocket-glider": {
+      "name": "x15-rocket-glider",
+      "uuid": "4516116f-185d-5777-95ee-f90376a96539",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Fourth Stealth Glider investigation (reserved): introduces resource mechanics \u2014 munitions and fuel \u2014 on the Life field.",
+      "prefixed": "gm-x15-rocket-glider",
+      "github": "metadatastician/x15-rocket-glider"
+    },
+    "planer-1": {
+      "name": "planer-1",
+      "uuid": "89c673f7-1ef9-590e-b3af-c31e174c155a",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "\u041f\u043b\u0430\u043d\u0435\u0440-1 (Glider-1, a Sputnik-1 nod). Fifth Stealth Glider investigation (reserved): orbits around Riemann spheres.",
+      "prefixed": "gm-planer-1",
+      "github": "metadatastician/planer-1"
+    },
+    "enterglide-ncc-137-k": {
+      "name": "enterglide-ncc-137-k",
+      "uuid": "93fcdafb-697b-59b8-96f6-8936935ec4e6",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "Enterglide NCC-137-K. Sixth Stealth Glider investigation (reserved): knot topology (the K), 137 / Varying-Constants focus, NCC catalogue nod.",
+      "prefixed": "gm-enterglide-ncc-137-k",
+      "github": "metadatastician/enterglide-ncc-137-k"
+    },
+    "tardis-rule-disruption": {
+      "name": "tardis-rule-disruption",
+      "uuid": "72f57722-eba3-5656-8e14-354b5f1d6889",
+      "clade": "gm",
+      "secondary": [],
+      "lineage": "standalone",
+      "parent": "",
+      "description": "TARDIS \u2014 Totally-Adherent Rule-Disruption Imitation System. Seventh Stealth Glider investigation (reserved): make Life look like reality without ever breaking B3/S23.",
+      "prefixed": "gm-tardis-rule-disruption",
+      "github": "metadatastician/tardis-rule-disruption"
     },
     "panic-attacker": {
       "name": "panic-attacker",
