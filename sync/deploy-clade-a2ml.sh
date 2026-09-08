@@ -201,7 +201,7 @@ CLADE_EOF
     fi
 
     # Git add, commit, push
-    cd "$repo_path"
+    cd "$repo_path" || exit 1
     git add .machine_readable/CLADE.a2ml
     if git diff --cached --quiet; then
         echo "SKIP (no changes): $repo_name"
@@ -217,7 +217,7 @@ CLADE_EOF
         echo "FAIL (push): $repo_name"
         ((FAILED++))
     fi
-    cd "$REPOS_DIR/gv-clade-index"
+    cd "$REPOS_DIR/gv-clade-index" || exit 1
 }
 
 echo "=== gv-clade-index Phase 1: Deploy CLADE.a2ml ==="

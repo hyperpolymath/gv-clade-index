@@ -12,7 +12,9 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SEED="$ROOT/verisim/seed"
-OUT="$ROOT/worker/data"
+# GV_EXPORT_OUT lets the drift gate (scripts/check-registry.sh) export to a scratch
+# directory and compare, instead of overwriting the committed files.
+OUT="${GV_EXPORT_OUT:-$ROOT/worker/data}"
 
 mkdir -p "$OUT"
 
@@ -69,45 +71,21 @@ echo "  $CLADE_COUNT clades exported"
 
 # Build index — repos grouped by clade
 echo "Building index..."
-python3 -c "
-import json, sys
-
-with open('$OUT/repos.json') as f:
-    repos = json.load(f)
-with open('$OUT/clades.json') as f:
-    clades = json.load(f)
-
-by_clade = {}
-for r in repos:
-    c = r['clade']
-    if c not in by_clade:
-        by_clade[c] = []
-    by_clade[c].append(r['name'])
-
-by_name = {r['name']: r for r in repos}
-
-clade_stats = []
-for c in clades:
-    members = by_clade.get(c['code'], [])
-    clade_stats.append({
-        **c,
-        'member_count': len(members),
-        'members': members
-    })
-
-index = {
-    'total_repos': len(repos),
-    'total_clades': len(clades),
-    'generated': '$(date -u +%Y-%m-%dT%H:%M:%SZ)',
-    'clades': clade_stats,
-    'by_name': by_name
-}
-
-with open('$OUT/index.json', 'w') as f:
-    json.dump(index, f, indent=2)
-
-print(f'  Index: {len(repos)} repos across {len(clades)} clades')
-" 2>&1
+jq -n \
+  --slurpfile repos "$OUT/repos.json" \
+  --slurpfile clades "$OUT/clades.json" \
+  --arg generated "$(date -u +%Y-%m-%dT%H:%M:%SZ)" '
+  $repos[0] as $r
+  | $clades[0] as $c
+  | ($r | group_by(.clade) | map({key: .[0].clade, value: map(.name)}) | from_entries) as $by_clade
+  | {
+      total_repos: ($r | length),
+      total_clades: ($c | length),
+      generated: $generated,
+      clades: ($c | map(. + {member_count: (($by_clade[.code] // []) | length), members: ($by_clade[.code] // [])})),
+      by_name: ($r | map({key: .name, value: .}) | from_entries)
+    }' > "$OUT/index.json"
+echo "  Index: $(jq .total_repos "$OUT/index.json") repos across $(jq .total_clades "$OUT/index.json") clades"
 
 echo "Done. Output in $OUT/"
 ls -lh "$OUT/"

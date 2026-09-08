@@ -308,16 +308,10 @@ clean-all: clean
 # TEST & QUALITY
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# Run all tests
+# Run all tests: registry gate + its planted-failure test (see scripts/, tests/)
 test *args:
-    @echo "Running tests..."
-    # TODO: Replace with your test command
-    # Examples:
-    #   cargo test {{args}}
-    #   mix test {{args}}
-    #   zig build test {{args}}
-    #   deno test {{args}}
-    @echo "Tests passed!"
+    bash scripts/check-registry.sh
+    bash tests/check-registry-test.sh
 
 # Run tests with verbose output
 test-verbose:
@@ -341,33 +335,25 @@ fix: fmt
 # LINT & FORMAT
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# Format all source files [reversible: git checkout]
+# Format [reversible: git checkout]: strip trailing whitespace from the shell this repo owns (sync/ scripts/ tests/), Justfile, seed files
 fmt:
-    @echo "Formatting source files..."
-    # TODO: Replace with your formatter
-    # Examples:
-    #   cargo fmt
-    #   mix format
-    #   gleam format
-    #   deno fmt
+    git ls-files -z 'sync/*.sh' 'scripts/*.sh' 'tests/*.sh' Justfile 'verisim/seed/*.a2ml' | xargs -0 sed -i -E 's/[[:space:]]+$//'
 
-# Check formatting without changes
+# Check formatting without changes: no trailing whitespace, every file ends with a newline
 fmt-check:
-    @echo "Checking formatting..."
-    # TODO: Replace with your format check
-    # Examples:
-    #   cargo fmt --check
-    #   mix format --check-formatted
-    #   gleam format --check
+    #!/usr/bin/env bash
+    set -euo pipefail
+    bad=0
+    while IFS= read -r -d '' f; do
+        if grep -nE '[[:space:]]+$' "$f"; then echo "trailing whitespace: $f"; bad=1; fi
+        if [ -s "$f" ] && [ "$(tail -c1 "$f" | od -An -c | tr -d ' ')" != '\n' ]; then echo "no final newline: $f"; bad=1; fi
+    done < <(git ls-files -z 'sync/*.sh' 'scripts/*.sh' 'tests/*.sh' Justfile 'verisim/seed/*.a2ml')
+    [ "$bad" = 0 ] && echo "fmt-check: clean"
 
-# Run linter
+# Run linter: shellcheck over the shell this repo owns (sync/ scripts/ tests/); .machine_readable/ scripts are template material
 lint:
-    @echo "Linting source files..."
-    # TODO: Replace with your linter
-    # Examples:
-    #   cargo clippy -- -D warnings
-    #   mix credo --strict
-    #   gleam check
+    git ls-files -z 'sync/*.sh' 'scripts/*.sh' 'tests/*.sh' | xargs -0 shellcheck -S warning
+    @echo "lint: shellcheck clean"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # RUN & EXECUTE
@@ -394,13 +380,10 @@ install: build-release
 
 # Install/check all dependencies
 deps:
-    @echo "Checking dependencies..."
-    # TODO: Replace with your dependency check
-    # Examples:
-    #   cargo check
-    #   mix deps.get
-    #   gleam deps download
-    @echo "All dependencies satisfied"
+    #!/usr/bin/env bash
+    set -euo pipefail
+    for t in jq uuidgen shellcheck curl git; do command -v "$t" >/dev/null || { echo "missing tool: $t"; exit 1; }; done
+    echo "All dependencies satisfied (jq, uuidgen, shellcheck, curl, git)"
 
 # Audit dependencies for vulnerabilities
 deps-audit:
