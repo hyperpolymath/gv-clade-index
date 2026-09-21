@@ -41,6 +41,8 @@ workflows:
         - 'actions/download-artifact@v4.1.8'
         - 'actions/upload-artifact@v4.6.2'
         - 'erlef/setup-beam@v1.20.4'
+    '.github/workflows/wiki-sync.yml':
+        - 'actions/checkout@v6.0.2'
     '.github/workflows/worker-ci.yml':
         - 'actions/checkout@v6.0.2'
         - 'actions/setup-node@v4.1.0'

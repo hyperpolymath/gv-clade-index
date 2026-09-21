@@ -5,14 +5,16 @@
 
 [NOTE]
 ====
-*Status: SKETCH.* The pages below are seeded starters. Deeper content and
-automated synchronisation to the forge-hosted wiki are tracked as a follow-up
-(see the "wiki sync" issue).
+*Status: ACTIVE.* The pages below are seeded starters; deeper content is
+welcome. Synchronisation to the forge-hosted wiki is automated (see
+<<wiki-synchronisation>>) — this directory is the *only* place to edit wiki
+content.
 ====
 
 This directory holds the source files for the project wiki — long-form
 documentation, deep-dives, and community-maintained knowledge. It is the source
-of truth; the forge-hosted wiki (GitHub/GitLab) is a published mirror.
+of truth; the forge-hosted wiki (GitHub) is a published *mirror*. Local edits
+made directly in the wiki are overwritten on the next sync.
 
 == Pages
 
@@ -20,7 +22,22 @@ of truth; the forge-hosted wiki (GitHub/GitLab) is a published mirror.
 * link:Workflows.adoc[Workflows] — step-by-step contributor guides
 * link:Glossary.adoc[Glossary] — project terminology
 
+[[wiki-synchronisation]]
 == Wiki synchronisation
 
-Content here should be synchronised to the forge-hosted wiki. The sync
-automation is *not yet wired up* — tracked as a follow-up task.
+One-way push, repo → wiki, on every merge to `main` that touches this
+directory:
+
+* Publisher: `.machine_readable/scripts/forge/wiki-sync.sh`
+  (`just wiki-sync` to run by hand, `just wiki-sync-dry-run` to preview).
+* Automation: `.github/workflows/wiki-sync.yml`.
+* Transformations applied at publish time: `README.adoc` is published as
+  `Home.adoc` (Gollum's landing page), machine-only `*-AI-MANIFEST.a2ml`
+  files are skipped, and `link:Page.adoc[` crosslinks are rewritten to the
+  extension-less form that resolves between wiki pages.
+* Credential: the `WIKI_SYNC_PAT` repository secret (a PAT with
+  `contents:write` here). The built-in `GITHUB_TOKEN` cannot push to the wiki
+  git — a GitHub limitation. Without the secret the workflow skips cleanly.
+
+AsciiDoc renders natively in GitHub wikis, so pages are pushed as-is apart
+from the transforms above.
