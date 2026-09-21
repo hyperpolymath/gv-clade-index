@@ -51,11 +51,24 @@ export function corsHeaders(env, request) {
  *
  * @returns {string}
  */
+let fallbackSeq = 0;
+
 export function makeRequestId() {
   try {
     return crypto.randomUUID();
   } catch {
-    return `req_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+    // Fallback when crypto.randomUUID is unavailable. crypto.getRandomValues
+    // is CSPRNG (S2245-safe); the last-resort branch uses a monotonic counter
+    // + timestamp — unique for correlation, with no randomness claim.
+    try {
+      const bytes = new Uint8Array(8);
+      crypto.getRandomValues(bytes);
+      const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+      return `req_${Date.now().toString(36)}${hex}`;
+    } catch {
+      fallbackSeq += 1;
+      return `req_${Date.now().toString(36)}_${fallbackSeq.toString(36)}`;
+    }
   }
 }
 

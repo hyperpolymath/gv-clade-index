@@ -67,10 +67,12 @@ fi
 if [ -z "${WIKI_SYNC_PAT:-}" ] && [ "$DRY_RUN" != "dry-run" ]; then
     die "WIKI_SYNC_PAT not set — refusing to run a real sync (use --dry-run to preview)"
 fi
-PUSH_URL="$WIKI_URL"
+# The token travels via a git credential helper that reads the environment —
+# never in the URL, argv, or on disk (and no credential-in-URL pattern for
+# scanners to flag).
+CRED_ARGS=()
 if [ -n "${WIKI_SYNC_PAT:-}" ]; then
-    # Embed the token for this run only; it never lands on disk or in the repo.
-    PUSH_URL="${WIKI_URL/https:\/\/github.com\//https://x-access-token:${WIKI_SYNC_PAT}@github.com/}"
+    CRED_ARGS=(-c "credential.helper=!f() { echo username=x-access-token; echo password=\$WIKI_SYNC_PAT; }; f")
 fi
 
 # ── Stage the transformed tree ────────────────────────────────────────────────
@@ -104,7 +106,7 @@ fi
 
 # ── Clone, replace, push-if-changed ───────────────────────────────────────────
 WIKI_DIR="$WORK/wiki"
-if ! git clone -q "$PUSH_URL" "$WIKI_DIR" 2>"$WORK/clone.err"; then
+if ! git "${CRED_ARGS[@]}" clone -q "$WIKI_URL" "$WIKI_DIR" 2>"$WORK/clone.err"; then
     die "clone of the wiki failed (does it exist? first page must be created once in the UI):
 $(cat "$WORK/clone.err")"
 fi
@@ -127,5 +129,5 @@ git -C "$WIKI_DIR" \
 Automated one-way publish of docs/wikis/ (source of truth) to the
 forge-hosted wiki. See .machine_readable/scripts/forge/wiki-sync.sh (#32)."
 
-git -C "$WIKI_DIR" push -q origin "${WIKI_BRANCH:-master}"
+git "${CRED_ARGS[@]}" -C "$WIKI_DIR" push -q origin "${WIKI_BRANCH:-master}"
 say "pushed $published page(s) to the wiki (from gv-clade-index@$HEAD_SHA)"
