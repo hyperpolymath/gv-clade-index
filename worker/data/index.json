@@ -1,7 +1,7 @@
 {
   "total_repos": 327,
   "total_clades": 12,
-  "generated": "2026-09-02T13:33:23Z",
+  "generated": "2026-09-21T19:25:01Z",
   "clades": [
     {
       "code": "fv",
@@ -19,7 +19,7 @@
         "verified",
         "proofs"
       ],
-      "member_count": 30,
+      "member_count": 31,
       "members": [
         "proven",
         "proven-servers",
@@ -45,6 +45,7 @@
         "echo-types",
         "epistemic-types",
         "format-registrations",
+        "haec",
         "proven-tests-and-benches",
         "thejeffparadox",
         "tropical-resource-typing",
@@ -121,7 +122,7 @@
         "git",
         "rsr"
       ],
-      "member_count": 39,
+      "member_count": 38,
       "members": [
         "reposystem",
         "grim-repo",
@@ -150,7 +151,6 @@
         "git-reticulator",
         "git-seo",
         "gsbot",
-        "haec",
         "hotchocolabot",
         "hpm-crypto-rsr",
         "hpm-github-api-rsr",
@@ -3606,12 +3606,14 @@
     "haec": {
       "name": "haec",
       "uuid": "90db7939-1d8d-5fec-9dbf-f2674b7818f5",
-      "clade": "rm",
-      "secondary": [],
+      "clade": "fv",
+      "secondary": [
+        "nl"
+      ],
       "lineage": "standalone",
       "parent": "",
-      "description": "",
-      "prefixed": "rm-haec",
+      "description": "Haec — Turing-complete language with trope-particularity type discipline; emits Trope IR (checker and vocabulary live in trope-checker / trope-particularity-workbench).",
+      "prefixed": "fv-haec",
       "github": "hyperpolymath/haec"
     },
     "homebrew-tap": {
