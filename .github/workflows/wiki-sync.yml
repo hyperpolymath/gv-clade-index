@@ -1,0 +1,56 @@
+# This workflow is managed by gh actions-lock.
+# SPDX-License-Identifier: MPL-2.0
+# Wiki Sync — publish docs/wikis/*.adoc to the forge-hosted GitHub wiki.
+#
+# docs/wikis/ is the source of truth; the wiki is a one-way published mirror
+# (decision recorded in docs/wikis/README.adoc and #32). The publisher is
+# .machine_readable/scripts/forge/wiki-sync.sh — it transforms (README.adoc →
+# Home.adoc, extension-less crosslinks) and pushes only on drift.
+#
+# Required repository secret: WIKI_SYNC_PAT — a PAT with contents:write on
+# this repo. The built-in GITHUB_TOKEN cannot push to the wiki git; this is a
+# GitHub limitation, not a permissions choice. Until the secret exists the
+# job skips cleanly (workflow stays green), per the estate two-step gate idiom.
+
+name: Wiki Sync
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'docs/wikis/**'
+      - '.github/workflows/wiki-sync.yml'
+      - '.machine_readable/scripts/forge/wiki-sync.sh'
+  workflow_dispatch:
+
+# Estate guardrail: cancel superseded runs so re-pushes don't pile up.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    name: Publish wiki
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6.0.2
+
+      - name: Check wiki token presence
+        id: gate
+        run: echo "has_token=${{ secrets.WIKI_SYNC_PAT != '' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to wiki
+        if: steps.gate.outputs.has_token == 'true'
+        env:
+          WIKI_SYNC_PAT: ${{ secrets.WIKI_SYNC_PAT }}
+        run: |
+          bash .machine_readable/scripts/forge/wiki-sync.sh
+
+      - name: Skipped (no token)
+        if: steps.gate.outputs.has_token != 'true'
+        run: echo "::notice::WIKI_SYNC_PAT not set — skipping wiki publish. Add the secret (contents:write PAT) to enable the mirror."

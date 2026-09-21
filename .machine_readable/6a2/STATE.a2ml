@@ -52,6 +52,7 @@ actions = [
 
 [recent-changes]
 notes = [
+  "2026-09-21: Docs close-out #2 — OpenAPI 3.1 contract (docs/api/openapi.yaml, #30, ADR 0004 resolved), release runbook (docs/governance/RELEASE-RUNBOOK.adoc, #31), wiki sync automation (wiki-sync.sh + workflow, #32), haec reclassified rm->fv/nl (#58).",
   "2026-06-21: CI/docs hardening — standards reusables bumped (#26); Hypatia advisory findings cleared (#27, 11->3, all remaining are scanner false-positives); upstream fixes tracked in #28.",
   "2026-06-21: Docs close-out — branch cleanup; added sketch guides + ADRs (see [documentation.sketches]); marked empty RSR scaffold dirs as planned; seeded docs/wikis/.",
 ]
@@ -68,12 +69,14 @@ decisions = [
   "docs/decisions/0001-pointer-authority.adoc (accepted; expand)",
   "docs/decisions/0002-clade-taxonomy.adoc (accepted; expand)",
   "docs/decisions/0003-verisimdb-kv-architecture.adoc (accepted; expand)",
-  "docs/decisions/0004-api-versioning.adoc (open)",
+  "docs/decisions/0004-api-versioning.adoc (accepted 2026-09-21: URL-path, additive-only within /v1 — see docs/api/openapi.yaml)",
   "docs/decisions/0005-governance-exceptions.adoc (open)",
 ]
 wiki = ["docs/wikis/Core-Concepts.adoc", "docs/wikis/Workflows.adoc", "docs/wikis/Glossary.adoc"]
-tracked-issues = [
-  "Worker HTTP API contract (OpenAPI 3.1)",
-  "Release runbook: Phases 3-8",
-  "Wiki sync automation",
+tracked-issues = []
+docs-close-out = [
+  "contract: docs/api/openapi.yaml (OpenAPI 3.1, authoritative)",
+  "runbook: docs/governance/RELEASE-RUNBOOK.adoc (Phase 1-8 rollout)",
+  "wiki-sync publisher: .machine_readable/scripts/forge/wiki-sync.sh (just wiki-sync / wiki-sync-dry-run)",
+  "wiki-sync automation: .github/workflows/wiki-sync.yml (one-way push on main; needs WIKI_SYNC_PAT secret)",
 ]

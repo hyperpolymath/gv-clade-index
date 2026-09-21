@@ -452,6 +452,18 @@ man:
     EOF
     echo "Generated: docs/man/{{project}}.1"
 
+# Publish docs/wikis/ to the forge-hosted GitHub wiki (one-way mirror)
+wiki-sync:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    exec bash .machine_readable/scripts/forge/wiki-sync.sh
+
+# Preview the wiki publish (no token needed, nothing pushed)
+wiki-sync-dry-run:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    exec bash .machine_readable/scripts/forge/wiki-sync.sh --dry-run
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # CONTAINERS (stapeln ecosystem — Podman + Chainguard Wolfi)
 # ═══════════════════════════════════════════════════════════════════════════════
