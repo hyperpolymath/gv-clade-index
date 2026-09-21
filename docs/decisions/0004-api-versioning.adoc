@@ -2,15 +2,19 @@
 = ADR 0004 — API Versioning Strategy
 
 Date: 2026-06-21
+Decided: 2026-09-21 (alongside the OpenAPI 3.1 contract, #30)
 
 [NOTE]
 ====
-*Status: SKETCH — OPEN decision, not yet made. Outline only.*
+*Status: ACCEPTED.* The open decision this sketch tracked was resolved when the
+contract (`docs/api/openapi.yaml`) was authored. The decision below records
+what was already implemented — every handler lives under `/v1` — and commits
+the evolution policy going forward.
 ====
 
 == Status
 
-Proposed (needs a decision before the API is published).
+Accepted.
 
 == Context
 
@@ -20,14 +24,42 @@ versioning approach decided *before* publication to avoid breaking consumers.
 
 == Decision
 
-_To be decided._ Options to weigh:
+*URL-path versioning* — all handlers live under a major-version prefix
+(`/v1/...`), matching the implementation as built (`worker/src/index.js`).
 
-* URL-path versioning (`/v1/...`).
-* Header/content-negotiation versioning.
-* Additive-only evolution with no explicit version.
+Why this option:
 
-Should be settled alongside the OpenAPI 3.1 contract (tracked issue).
+* It is already the implemented reality; the contract describes the system
+  that exists rather than an aspiration.
+* Self-describing URLs matter for the primary consumers — LLMs and humans
+  following `CLADE-` autolinks — neither of whom reliably manages
+  content negotiation.
+* The estate's own convention is explicit, greppable identity
+  (`standards@<sha>`, `clade = "fv"`): a version in the path is the same
+  instinct.
+* Header/content-negotiation versioning buys nothing here: the API is
+  read-only JSON with one representation per resource.
+
+Evolution policy within the major version:
+
+* **Additive-only inside `/v1`.** New fields may appear on existing response
+  objects; consumers must ignore unknown fields. Existing fields are never
+  removed or retyped inside `/v1`.
+* **Breaking changes ship as `/v2`** with a documented deprecation window for
+  `/v1` (minimum 90 days, announced in the repo CHANGELOG and the API index
+  response). Both majors run side by side during the window.
+* `docs/api/openapi.yaml` is the authoritative statement of the current
+  contract; it bumps `info.version` (semver) on every published change, while
+  the path prefix carries the major only.
 
 == Consequences
 
-_To be completed once decided._
+* The self-documenting index (`GET /v1`) and the OpenAPI `servers` block carry
+  the current version — consumers can discover it without reading this repo.
+* A new major version means new routes next to the old ones, not a flag: the
+  Worker gains `/v2` handlers and `/v1` keeps running until the window closes.
+* The unversioned aliases (`/health`, `/ready`) are deliberately exempt — they
+  are infrastructure probes, not contract surface, and their shapes are
+  frozen.
+* When Phase 5+ adds authenticated endpoints, they join `/v1` (additive);
+  auth-tier changes are governed by the same additive-only rule.
