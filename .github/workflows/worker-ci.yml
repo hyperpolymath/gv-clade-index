@@ -26,10 +26,6 @@ on:
       - 'tests/**'
       - 'Justfile'
 
-permissions:
-  actions: read
-  contents: read
-
 defaults:
   run:
     working-directory: worker
@@ -38,6 +34,9 @@ jobs:
   build-test:
     name: Lint, format, test, bundle
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     timeout-minutes: 15
     steps:
       - name: Checkout repository
@@ -67,6 +66,9 @@ jobs:
   registry:
     name: Registry integrity (seed ↔ worker/data)
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     timeout-minutes: 10
     defaults:
       run:

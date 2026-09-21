@@ -10,10 +10,6 @@ on:
   push:
     branches: [main, master]
 
-permissions:
-  actions: read
-  contents: read
-
 jobs:
   # ---------------------------------------------------------------------------
   # Job 1: panic-attack assail
@@ -21,6 +17,9 @@ jobs:
   panic-attack-assail:
     name: panic-attack assail
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     timeout-minutes: 20
 
     steps:
@@ -146,6 +145,9 @@ jobs:
   hypatia-scan:
     name: Hypatia neurosymbolic scan
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     timeout-minutes: 20
 
     steps:
@@ -281,6 +283,9 @@ jobs:
   deposit-findings:
     name: Deposit findings for gitbot-fleet
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
     timeout-minutes: 20
     needs: [panic-attack-assail, hypatia-scan]
     if: always()

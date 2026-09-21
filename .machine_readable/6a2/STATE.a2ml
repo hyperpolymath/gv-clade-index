@@ -52,6 +52,7 @@ actions = [
 
 [recent-changes]
 notes = [
+  "2026-09-21: SonarCloud quality-gate repair — job-level permissions (5 workflows), CSPRNG request-id fallback (S2245), sonar-project.properties encodes estate-policy exclusions (actions.lock scheme, npm-avoidant policy, reviewed curl/http-LAN cases); wiki-sync.sh moved PAT handling out of URLs into a git credential helper.",
   "2026-09-21: Docs close-out #2 — OpenAPI 3.1 contract (docs/api/openapi.yaml, #30, ADR 0004 resolved), release runbook (docs/governance/RELEASE-RUNBOOK.adoc, #31), wiki sync automation (wiki-sync.sh + workflow, #32), haec reclassified rm->fv/nl (#58).",
   "2026-06-21: CI/docs hardening — standards reusables bumped (#26); Hypatia advisory findings cleared (#27, 11->3, all remaining are scanner false-positives); upstream fixes tracked in #28.",
   "2026-06-21: Docs close-out — branch cleanup; added sketch guides + ADRs (see [documentation.sketches]); marked empty RSR scaffold dirs as planned; seeded docs/wikis/.",
