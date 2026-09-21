@@ -1,0 +1,305 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0
+= Release Runbook — Phase 1–8 Rollout
+:toc:
+:icons: font
+
+[NOTE]
+====
+*Status: ACTIVE.* This is the operational runbook for the coordinated
+gv-clade-index rollout. It supersedes the README phase *table* for rollout
+operations only — `.machine_readable/6a2/STATE.a2ml` `[route-to-mvp]` remains
+the machine-readable status source of truth, and this runbook tells you when
+and how to update it. Filed as #31.
+====
+
+== Operating rules (all phases)
+
+* **One phase at a time, gates before volume.** No phase's batch operations
+  start until the previous phase's go-gate is signed off here.
+* **Status bookkeeping is part of the work.** Merging a phase changes three
+  records in the same PR or the follow-up that closes the phase:
+  `[route-to-mvp]` completion in `STATE.a2ml`, the README phase table, and
+  the phase checklist below.
+* **Dry-run first, always.** Every batch script in `sync/` has a dry-run or
+  refuses to run without an explicit target. Use it before every real pass.
+* **The registry never lies.** `scripts/check-registry.sh` must pass before
+  and after any phase that touches `verisim/seed/` or `worker/data/`.
+* **Failures route through** `docs/governance/INCIDENT-RESPONSE.adoc`
+  (sketch — promote it to full status before Phase 2 go/no-go).
+
+== Ownership matrix
+
+[cols="2,3,3"]
+|===
+|Role |Who |Decides
+
+|Rollout owner
+|hyperpolymath (Jonathan D.A. Jewell)
+|Go/no-go for every phase; sole merger of phases that mutate estate repos
+
+|Registry maintainer
+|hyperpolymath + estate bots (rhodibot, gitbot-fleet)
+|Registry content: seed edits, JSON exports, clade reclassifications
+
+|Platform operator
+|hyperpolymath
+|VPS (VeriSimDB), Cloudflare account, secrets, DNS
+
+|Automation
+|GitHub Actions (worker-ci, worker-deploy, governance, hypatia-scan, staleness)
+|Vetoes: any red required check blocks the gate it guards
+
+|Consumers
+|LLM integrations, dashboards, external users
+|Nothing — read-only; feedback via issues/`feedback` octads
+|===
+
+== Phase status snapshot
+
+[cols="1,4,2,2"]
+|===
+|Phase |Deliverable |Status |Runbook section
+
+|0 |Clade taxonomy, repo seed, VCL schema |*Complete* (100%) |—
+
+|1 |Deploy CLADE.a2ml to all estate repos |*Pending* (0%) |<<phase-1>>
+
+|2 |VeriSimDB on VPS + ingest |*Pending* (0%) |<<phase-2>>
+
+|3 |Worker API hardened, tested, CI-gated, deployed |*In progress* (~60%) |<<phase-3>>
+
+|4 |ReScript/WASM portal |Pending (0%) |<<phase-4>>
+
+|5 |LLM query endpoint (API-key tier) |Pending (0%) |<<phase-5>>
+
+|6 |Bot write endpoints |Pending (0%) |<<phase-6>>
+
+|7 |Contributor OAuth |Pending (0%) |<<phase-7>>
+
+|8 |Repo lockdown |Pending (0%) |<<phase-8>>
+|===
+
+[[phase-1]]
+== Phase 1 — Deploy CLADE.a2ml to all estate repos
+
+*Goal:* every repo in the seed carries `.machine_readable/CLADE.a2ml`
+declaring its real identity (`primary` + `primary-name`, CLADE-003/006
+hygiene), so downstream consumers and VeriSimDB can trust per-repo
+declarations.
+
+*Depends on:* Phase 0 (done). Nothing else — this phase is pure estate
+plumbing and can start immediately.
+
+*Procedure*
+
+. `git pull` every estate clone into the directory `REPOS_DIR` (the script
+  expects sibling clones; see script header).
+. Dry run: `./sync/deploy-clade-a2ml.sh --dry-run` — review the plan and
+  counts against the seed (`total-repos`).
+. Classify exclusions *before* the real pass: mirrors, forks held for
+  others, archived repos. Record the exclusion list in this file (appendix)
+  so the next pass is deterministic.
+. Real pass: `./sync/deploy-clade-a2ml.sh`. The script commits per repo.
+. Spot-audit ≥10 random repos with the CLADE-003/006 hygiene checks from
+  `contractiles/must/clade-hygiene.a2ml` (code ∈ taxonomy AND code/name
+  pair consistent — e.g. reclassified repos like haec → `fv` must carry
+  `Formal Verification & Proofs`, not the scaffold-era value).
+. Reconcile drift: repos whose in-repo CLADE.a2ml disagrees with the seed
+  are *seed wins* — fix the repo, never hand-edit both.
+
+*Go-gate*
+
+- [ ] dry-run count == seed `total-repos` minus recorded exclusions
+- [ ] real pass reports 0 failures
+- [ ] hygiene spot-audit: 10/10 pass
+- [ ] `STATE.a2ml` `[route-to-mvp]` Phase 1 completion updated
+
+*Rollback:* per-repo `git revert` of the CLADE.a2ml commit; no shared state
+is mutated, so rollback is trivial and uncoordinated.
+
+[[phase-2]]
+== Phase 2 — Stand up VeriSimDB on the VPS + ingest
+
+*Goal:* the persistent store exists, is reachable over HTTPS, holds the
+registry (3 collections: `clade:repos`, `clade:clades`, `clade:index`), and
+declares its pointer authority per `verisim/config.a2ml`.
+
+*Depends on:* Phase 0 (done). Can run in parallel with Phase 1, but the
+post-ingest audit is cheaper after Phase 1 lands (fewer re-seeds).
+
+*Known blocker:* no VPS instance exists yet. Provisioning decision (Verpex
+VPS per `STATE.a2ml`) is the platform operator's.
+
+*Procedure*
+
+. Provision the host; deploy VeriSimDB behind TLS; put **no** default
+   credentials in the repo — secrets go in the VPS environment, references
+   go in `verisim/config.a2ml`.
+. `bash scripts/check-registry.sh` on this repo (freshness preflight —
+   `sync/seed-verisim.sh` refuses to run without it passing).
+. Seed explicitly (there is deliberately no default URL):
+   `VERISIMDB_URL=https://<host> bash sync/seed-verisim.sh https://<host>`.
+. Verify counts: repos == `total-repos`, clades == 12, index present.
+. Point a scratch Worker (`wrangler dev` with `VERISIMDB_URL` set) at it and
+   exercise `/v1/ready` (expect `ready`, backing `verisimdb`) and
+   `/v1/query/language?q=rust` (expect non-empty).
+. Configure the 1h sync interval per `verisim/config.a2ml`; confirm the
+   Worker's cron snapshot refresh (`[triggers] crons`) agrees.
+
+*Go-gate*
+
+- [ ] seed reports 0 errors; document counts match the seed
+- [ ] TLS + auth verified from outside the VPS
+- [ ] scratch Worker serves `ready` from VeriSimDB
+- [ ] `STATE.a2ml` blockers list: drop "VeriSimDB not stood up", Phase 2 completion updated
+
+*Rollback:* the Worker degrades to the KV snapshot by design — shutting the
+VPS off is itself the rollback. Re-seed is idempotent (PUT per document).
+
+[[phase-3]]
+== Phase 3 — Harden + CI-gate + deploy the Worker
+
+*Goal:* the Cloudflare Worker is publicly deployed (staging on every merge
+to main, production by approved dispatch), with CI gates green and the
+served contract published.
+
+*Depends on:* Phase 2 for live readiness semantics (the Worker is otherwise
+functional against the KV snapshot). Deployment itself is **not** blocked by
+Phase 2 — staging can deploy today.
+
+*Known blocker:* `CLOUDFLARE_API_TOKEN` repo secret (Workers Scripts:Edit
+scope; `CLOUDFLARE_ACCOUNT_ID` if the token spans accounts). Until set,
+`worker-deploy.yml` stays green and skips the deploy.
+
+*Already in place*
+
+- `worker-ci.yml` gates: tests (`worker/test/`), data-integrity invariants,
+  lint/format
+- `worker-deploy.yml`: push → staging; dispatch → production behind the
+  `production` GitHub Environment (approval-protected)
+- Contract: `docs/api/openapi.yaml` (#30) — publish it (below)
+- Rate limiting: `RATE_LIMITER` bindings in `wrangler.toml` (prod 1001,
+  staging 1002); fails open when absent (dev)
+
+*Procedure*
+
+. Add `CLOUDFLARE_API_TOKEN` (+ account id) as repo secrets.
+. Merge to main → staging deploy fires automatically; smoke-test
+   `https://clade-registry-api-staging.<subdomain>.workers.dev/v1/ready`.
+. Create the `production` GitHub Environment with required reviewers =
+   rollout owner; dispatch `worker-deploy.yml` with `environment=production`.
+. Smoke-test production: `/v1/health` (edge), `/v1/ready` (store), `/v1/repo/haec`
+   (data), `/c/fv-haec?format=json` (resolver).
+. Publish the contract: un-sketch `docs/USER-API-GUIDE.adoc`'s status note
+   with the real base URL; keep `docs/api/openapi.yaml` `servers` in sync.
+. Flip `wrangler.toml` `CORS_ALLOW_ORIGIN` to the real portal origin(s).
+
+*Go-gate*
+
+- [ ] staging + production `/v1/ready` green (or honestly `degraded` with Phase 2 open)
+- [ ] worker-ci + governance + hypatia-scan + staleness all green on main
+- [ ] contract served/linked from the API index matches `docs/api/openapi.yaml` version
+- [ ] `STATE.a2ml` Phase 3 completion = 100; README table updated
+
+*Rollback:* `wrangler rollback` (worker-level) or redeploy previous
+`compatibility_date`; KV snapshot is untouched by deploys.
+
+[[phase-4]]
+== Phase 4 — ReScript/WASM portal
+
+*Goal:* `hyperpolymath.github.io` renders the registry: clade grid,
+repo detail pages at `/#/project/<name>` (the URLs `/c/` and the API already
+promise), dashboard view.
+
+*Depends on:* Phase 3 (the portal is an API consumer; the `portal_url`
+contract must hold exactly).
+
+*Key decisions at start:* data strategy — read the API cross-origin (needs
+`CORS_ALLOW_ORIGIN` to include the pages origin, done in Phase 3) vs.
+build-time snapshot export (`sync/export-json.sh` → static JSON). Default:
+build-time snapshot for first paint, API for live search.
+
+*Go-gate:* every `portal_url` emitted by the API resolves to a rendered
+page; the 327-repo set renders without console errors; `STATE.a2ml` updated.
+
+[[phase-5]]
+== Phase 5 — LLM query endpoint (LLM tier)
+
+*Goal:* `X-API-Key` tier live: per-consumer keys, 1000 req/min class,
+enforced on `/v1/llm` (and possibly a richer query surface).
+
+*Depends on:* Phase 3 (deploy pipeline), Phase 2 (live data for real
+answers). Keys live in Workers KV or VeriSimDB — decided at start; **never**
+in the repo.
+
+*Go-gate:* unauthenticated `/v1/llm` returns 401 once enforcement flips
+(staged rollout: shadow-log first, then enforce); contract updated
+(`x-enforced: true`, security requirement on the operation).
+
+[[phase-6]]
+== Phase 6 — Bot write endpoints (BOT tier)
+
+*Goal:* signed-JWT-authenticated writes of *observations* and *findings*
+octads — the "bot findings" loop (`verisim/queries/bot-findings.vcl`)
+becomes two-way.
+
+*Depends on:* Phases 2 and 3; JWT signing infrastructure (per-bot keys,
+rotation) decided and documented in `verisim/config.a2ml`.
+
+*Hazard:* this is the first write surface. Scope the JWT to a single
+collection namespace (`observation`), cap body size, and require the
+staleness/Hypatia gates green before enabling.
+
+*Go-gate:* a bot can create an observation, a human can see it in
+`bot-findings.vcl` output; a forged/replayed JWT fails; `STATE.a2ml` updated.
+
+[[phase-7]]
+== Phase 7 — Contributor OAuth (CONTRIB tier)
+
+*Goal:* GitHub OAuth contributors can write *TODOs* within their granted
+scope (500 req/min class).
+
+*Depends on:* Phase 6 (write path exists; this changes who may call it).
+
+*Go-gate:* OAuth app registered (callback = portal origin), scope grant
+recorded in the contract, a real contributor account writes one TODO
+end-to-end.
+
+[[phase-8]]
+== Phase 8 — Repo lockdown
+
+*Goal:* tighten estate repo settings (visibility, branch protection,
+actions permissions) *informed by* the registry — the map finally steers the
+territory.
+
+*Depends on:* **all** previous phases — lockdown is last because it raises
+walls that make earlier phases harder.
+
+*Hazard:* self-lockout. Every ruleset change must be rehearsed on one
+sacrificial repo, and this repo (`gv-clade-index`) plus `standards` must be
+exempted from anything that would break the sync/propagation bots.
+
+*Go-gate:* audit (Hypatia, Scorecard, staleness) stays green estate-wide
+*after* lockdown; break-glass procedure documented in
+`docs/governance/INCIDENT-RESPONSE.adoc`.
+
+== Cross-phase dependency graph
+
+....
+Phase 0 ─┬─> Phase 1 (estate plumbing)
+         └─> Phase 2 (VeriSimDB) ──┐
+                                   ├─> Phase 3 (Worker live) ─> Phase 4 (portal)
+                                   │                        └─> Phase 5 (LLM tier)
+                                   │                                └─> Phase 6 (bot writes)
+                                   │                                        └─> Phase 7 (OAuth)
+                                   └────────────────────────────────────────> Phase 8 (lockdown)
+....
+
+Phase 3's *deployment* is not gated on Phase 2 (KV mode is honest and
+observable via `/v1/ready`); Phase 3's *completion* is (a public API that
+says `degraded` forever is not done).
+
+== Appendix — Phase 1 exclusion list
+
+*(empty — to be filled during the first Phase 1 dry run; recorded here so
+passes are deterministic)*
