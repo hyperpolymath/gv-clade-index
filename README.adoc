@@ -145,6 +145,12 @@ This repo includes a `+clade-hygiene.a2ml+` contractile:
 |8 |Repo lockdown |Pending
 |===
 
+Rollout operations — timelines, dependencies, ownership and go/no-go gates
+for each phase — live in
+`docs/governance/RELEASE-RUNBOOK.adoc`; this table is the summary, the
+runbook is the procedure, `.machine_readable/6a2/STATE.a2ml`
+`[route-to-mvp]` is the machine-readable status.
+
 == License
 
 MPL-2
