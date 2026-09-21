@@ -2268,9 +2268,9 @@ parent = ""
 completion = 0
 
 [repo.haec]
-primary = "rm"
-secondary = []
-description = ""
+primary = "fv"
+secondary = ["nl"]
+description = "Haec — Turing-complete language with trope-particularity type discipline; emits Trope IR (checker and vocabulary live in trope-checker / trope-particularity-workbench)."
 lineage = "standalone"
 parent = ""
 completion = 0
