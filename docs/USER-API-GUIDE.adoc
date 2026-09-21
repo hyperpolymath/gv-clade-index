@@ -5,11 +5,11 @@
 
 [NOTE]
 ====
-*Status: SKETCH / planned — and alpha.* The HTTP API is Phase 3 (~60% built) and
-is *not yet publicly deployed* (blocked on a `CLOUDFLARE_API_TOKEN` secret and a
-VeriSimDB instance — see `.machine_readable/6a2/STATE.a2ml`). This guide
-describes the *intended* consumer experience; treat endpoints/shapes as
-provisional until the OpenAPI contract is published.
+*Status: alpha.* The HTTP API is Phase 3 (~60% built) and is *not yet publicly
+deployed* (blocked on a `CLOUDFLARE_API_TOKEN` secret and a VeriSimDB instance
+— see `.machine_readable/6a2/STATE.a2ml`). The endpoints below are
+*implemented and contract-bound*, but the production URL does not answer yet;
+locally you can run `wrangler dev` in `worker/`.
 ====
 
 == Purpose
@@ -21,21 +21,155 @@ For external consumers who want to *query* the clade registry over HTTP
 == What this is
 
 The clade index is a queryable registry — the *map* of the hyperpolymath
-ecosystem (200+ repos, 12 clades). It is read-only and always clean; editing the
+ecosystem (327 repos, 12 clades). It is read-only and always clean; editing the
 map never touches the repositories themselves.
 
-== Outline (to be completed)
+== The contract
 
-. *Base URL & status* — currently in development; no public endpoint yet.
-. *Endpoints* — enumerated authoritatively once the OpenAPI 3.1 contract lands
-  (tracked separately). The handlers live in `worker/src/index.js`.
-. *Common queries* — list repos by clade, find stale/orphan repos, fetch the
-  dashboard snapshot.
-. *Response shapes & error codes.*
-. *Auth tiers & rate limits* — public-read (no key) / LLM (API key) /
-  bot (signed JWT) / contributor (OAuth).
+The single authoritative contract is the OpenAPI 3.1 spec:
+
+* `docs/api/openapi.yaml` — every endpoint, response shape, error code, auth
+  tier and limit, validated and versioned. Where prose (including this guide)
+  and the spec disagree, the spec wins.
+
+Versioning is URL-path (`/v1/...`), additive-only within the major — the full
+policy and its rationale are ADR 0004.
+
+== Endpoints at a glance
+
+[cols="3,5,2"]
+|===
+|Path |What it gives you |Rate-limited
+
+|`GET /v1` (or `/`)
+|API self-description: endpoint directory, version, totals
+|no
+
+|`GET /v1/health`
+|Liveness (edge-only, no backing store)
+|no
+
+|`GET /v1/ready`
+|Readiness: which store is answering (`ready` / `degraded` / `unavailable`)
+|no
+
+|`GET /v1/dashboard`
+|Ecosystem overview: totals + per-clade member counts
+|no
+
+|`GET /v1/clades`
+|All 12 clades with descriptions, colours, keywords
+|no
+
+|`GET /v1/clade/{code}`
+|One clade + its member repos (e.g. `/v1/clade/fv`)
+|no
+
+|`GET /v1/repo/{name}`
+|One repo detail (e.g. `/v1/repo/haec`)
+|no
+
+|`GET /v1/repos?clade=&page=&limit=`
+|All repos, filterable by clade, paginated (limit ≤ 200)
+|no
+
+|`GET /v1/search?q=&limit=`
+|Ranked full-text search over name/description/clade
+|yes
+
+|`GET /v1/llm?q=`
+|Top-10 structured result set + inferred relationships, LLM-oriented
+|yes
+
+|`GET /v1/query/language?q=`
+|Repos matching a language keyword (VeriSimDB-backed)
+|yes
+
+|`GET /v1/query/tag?q=`
+|Repos matching a tag/keyword (VeriSimDB-backed)
+|yes
+
+|`GET /c/{binomial}`
+|Resolve a `CLADE-<binomial>` autolink — 302 to the portal; `?format=json` for data
+|no
+|===
+
+== Common queries
+
+List everything filed under Formal Verification & Proofs:
+
+[source,bash]
+----
+curl -s "$BASE/v1/repos?clade=fv&limit=200" | jq '.total, (.repos[] | .prefixed)'
+----
+
+Find repos by substance:
+
+[source,bash]
+----
+curl -s "$BASE/v1/search?q=trope%20particularity" | jq '.results[].name'
+----
+
+The LLM-friendly shape (what you want when feeding another model):
+
+[source,bash]
+----
+curl -s "$BASE/v1/llm?q=reversible%20file%20operations" | jq '.results[].repo'
+----
+
+Resolve a `CLADE-` autolink the way GitHub issues do:
+
+[source,bash]
+----
+curl -s "$BASE/c/fv-haec?format=json" | jq '{name, clade, github_url}'
+----
+
+== Responses & errors
+
+* Success bodies are the JSON objects specified in the contract
+  (`Repo`, `Clade`, `RepoPage`, `LlmResponse`, ...).
+* Every error is `{"error": "<message>"}` with an `X-Request-Id` header —
+  quote the request id when reporting problems. `404` unknown, `400`
+  malformed input (the message says what), `429` rate-limited,
+  `503` backing store unavailable / registry not loaded.
+* Data responses default to `Cache-Control: public, max-age=300`.
+
+== Auth tiers & rate limits
+
+|===
+|Tier |Auth |Capabilities |Rate limit |Status
+
+|PUBLIC
+|none
+|read-only
+|~100 req/min (search/llm/query classes ~120 req/min per IP)
+|*enforced today*
+
+|LLM
+|API key (`X-API-Key` header)
+|structured output, higher limits
+|1000 req/min
+|Phase 5 (declared in the contract, not enforced)
+
+|CONTRIB
+|GitHub OAuth
+|scoped repo access, write TODOs
+|500 req/min
+|Phase 7
+
+|BOT
+|signed JWT (per bot)
+|write observations, findings
+|2000 req/min
+|Phase 6
+|===
+
+The write tiers arrive as additive endpoints under the same `/v1` prefix
+(ADR 0004); nothing about today's public surface changes when they land.
 
 == See also
 
+* `docs/api/openapi.yaml` — the contract (authoritative)
+* `docs/decisions/0004-api-versioning.adoc` — versioning policy
 * `README.adoc` — what the registry is and the portal architecture
 * `docs/SPEC-clade-verisim-portal.adoc` — data model & auth tiers

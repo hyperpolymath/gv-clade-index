@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# ============================================================================
+# Clade Registry API — OpenAPI 3.1 contract
+#
+# The single authoritative contract for the Cloudflare Worker
+# (`worker/src/index.js`, service name `clade-registry-api`). Where this file
+# and inline comments disagree, this file wins — file a PR against both.
+#
+# Closes #30 (Worker HTTP API contract). Resolves the open decision in
+# docs/decisions/0004-api-versioning.adoc: URL-path versioning, currently `/v1`.
+#
+# Honesty notes (this estate documents reality, not aspiration):
+#   * Only the PUBLIC tier (unauthenticated read) is enforced today. The LLM,
+#     BOT and CONTRIB schemes are declared below for forward-compatibility and
+#     marked `x-enforced: false`; endpoints that will consume them say so.
+#   * The API is not yet publicly deployed (Phase 3, blocked on
+#     CLOUDFLARE_API_TOKEN + a VeriSimDB instance — see
+#     .machine_readable/6a2/STATE.a2ml and docs/governance/RELEASE-RUNBOOK.adoc).
+# ----------------------------------------------------------------------------
+openapi: 3.1.0
+
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+
+info:
+  title: Clade Registry API
+  version: 1.0.0
+  summary: >-
+    Read-only registry mapping the hyperpolymath ecosystem's repositories to
+    clade groupings. Map and territory — this is the map.
+  description: |
+    Serves the clade registry (327 repos across 12 clades, `total-repos` grows
+    over time) from a dual store: **VeriSimDB** (persistent, primary) with a
+    **Cloudflare KV** snapshot (fallback). `GET /v1/ready` reports which store
+    is live; a degraded (KV-served) response is `200` with
+    `status: "degraded"`.
+
+    ## Versioning
+
+    URL-path versioning (`/v1/...`) — decided in ADR 0004 alongside this
+    contract. Evolution within `/v1` is additive-only: new fields may appear on
+    existing objects, existing fields are never removed or retyped inside `/v1`.
+    Breaking changes ship as `/v2` with a deprecation window.
+
+    ## Conventions
+
+    * **Errors** are always `{"error": "<message>"}` — never a bare string,
+      never an empty body. Never cached (`Cache-Control: no-store`).
+    * **Correlation** — every response carries `X-Request-Id`; quote it in bug
+      reports. Logs are keyed on the same id.
+    * **CORS** — `GET`/`OPTIONS` only; allowed origins are the
+      `CORS_ALLOW_ORIGIN` env allow-list (comma-separated). Preflight
+      `OPTIONS` returns `200` with the CORS headers.
+    * **Methods** — the API is read-only. Any non-GET (non-OPTIONS) method
+      returns `405` with the error envelope.
+    * **Rate limits** — `search`, `llm` and `query/*` are per-client-IP
+      rate-limited (Cloudflare ratelimit binding, ~120 req/min, keyed per
+      endpoint class). Exceeding it yields `429`. The limiter fails **open**
+      when the binding is absent (local dev), so limits are best-effort.
+    * **Caching** — data endpoints default to `Cache-Control: public,
+      max-age=300`; `health`, `ready` and all errors are `no-store`.
+
+    ## Auth tiers
+
+    Four tiers are specified for the estate (docs/SPEC-clade-verisim-portal.adoc
+    §Authentication Tiers). Phase 3 ships the first one; the write tiers
+    (BOT/CONTRIB) arrive with Phases 6–7 and will be additive new endpoints,
+    not new methods on these.
+
+    | Tier   | Auth                  | Capabilities                    | Rate limit  | Enforced today |
+    |--------|-----------------------|---------------------------------|-------------|----------------|
+    | PUBLIC | none                  | read-only                       | ~100 req/min| yes            |
+    | LLM    | API key (`X-API-Key`) | structured output, higher limit | 1000 req/min| no (Phase 5)   |
+    | CONTRIB| GitHub OAuth2         | scoped access, write TODOs      | 500 req/min | no (Phase 7)   |
+    | BOT    | signed JWT (per bot)  | write observations, findings    | 2000 req/min| no (Phase 6)   |
+  contact:
+    name: hyperpolymath
+    url: https://github.com/hyperpolymath/gv-clade-index
+  license:
+    name: MPL-2.0
+    url: https://www.mozilla.org/en-US/MPL/2.0/
+
+externalDocs:
+  description: User guide (docs/USER-API-GUIDE.adoc) and the registry itself
+  url: https://github.com/hyperpolymath/gv-clade-index
+
+servers:
+  # Not yet deployed (Phase 3). The host below is the wrangler.toml service
+  # name; the account subdomain lands with the first deploy. Keep this entry
+  # as the canonical production origin once live.
+  - url: https://clade-registry-api.workers.dev
+    description: Production (Cloudflare Workers) — planned, Phase 3
+  - url: http://localhost:8787
+    description: Local dev (`wrangler dev` in worker/)
+
+tags:
+  - name: meta
+    description: Service index, liveness, readiness
+  - name: registry
+    description: Read-only views over the clade registry
+  - name: search
+    description: Full-text and LLM-oriented search (rate-limited)
+  - name: query
+    description: VeriSimDB-backed attribute queries (rate-limited)
+  - name: resolver
+    description: CLADE-<binomial> autolink resolution
+
+security: []   # PUBLIC tier today; per-operation overrides below when tiers land
+
+paths:
+  /:
+    get:
+      tags: [meta]
+      operationId: getApiIndex
+      summary: API self-description (also served at /v1)
+      description: |
+        Endpoint directory, service identity and registry totals. Identical
+        handler for `/` and `/v1` — an LLM-friendly front page.
+      responses:
+        '200':
+          description: API index
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiIndex' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1:
+    get:
+      tags: [meta]
+      operationId: getApiIndexV1
+      summary: API self-description (alias of /)
+      responses:
+        '200':
+          description: API index
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ApiIndex' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/health:
+    get:
+      tags: [meta]
+      operationId: getHealth
+      summary: Liveness check
+      description: |
+        Never touches a backing store — answers from the edge. `/health` is
+        served as an unversioned alias for load-balancer probes.
+      responses:
+        '200':
+          description: Alive
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Health' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/ready:
+    get:
+      tags: [meta]
+      operationId: getReady
+      summary: Readiness check (probes both backing stores)
+      description: |
+        Probes VeriSimDB then KV. `200` while at least one store answers —
+        `status: "ready"` (VeriSimDB) or `"degraded"` (KV fallback, i.e. the
+        snapshot may lag the seed). `503` only when neither store answers.
+        `/ready` is an unversioned alias.
+      responses:
+        '200':
+          description: Ready or degraded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Ready' }
+        '503':
+          description: No backing store reachable
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Ready' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/dashboard:
+    get:
+      tags: [registry]
+      operationId: getDashboard
+      summary: Ecosystem overview
+      description: Totals plus per-clade summaries. Cheapest whole-map view.
+      responses:
+        '200':
+          description: Dashboard snapshot
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Dashboard' }
+        '503':
+          description: Registry data not loaded — run sync
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/clades:
+    get:
+      tags: [registry]
+      operationId: listClades
+      summary: List all 12 clades
+      responses:
+        '200':
+          description: Clade catalogue
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CladeList' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/clade/{code}:
+    get:
+      tags: [registry]
+      operationId: getClade
+      summary: Single clade with its member repos
+      parameters:
+        - $ref: '#/components/parameters/CladeCode'
+      responses:
+        '200':
+          description: Clade detail
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CladeDetail' }
+        '404':
+          description: Unknown clade code (message enumerates the valid codes)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/repo/{name}:
+    get:
+      tags: [registry]
+      operationId: getRepo
+      summary: Single repo detail (canonical name or prefixed binomial)
+      description: |
+        Resolves by canonical name (`haec`) — the prefixed binomial
+        (`fv-haec`) is accepted by `/c/{binomial}`, not here. Adds
+        `clade_name`, `clade_colour`, `github_url` and `portal_url` to the
+        base repo record.
+      parameters:
+        - $ref: '#/components/parameters/RepoName'
+      responses:
+        '200':
+          description: Repo detail
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RepoDetail' }
+        '400':
+          description: Malformed repo name
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '404':
+          description: Unknown repo
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/repos:
+    get:
+      tags: [registry]
+      operationId: listRepos
+      summary: All repos (filter + pagination)
+      description: Sorted by name. Pagination is offset-based.
+      parameters:
+        - name: clade
+          in: query
+          required: false
+          description: Restrict to one clade code
+          schema: { $ref: '#/components/schemas/CladeCode' }
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+      responses:
+        '200':
+          description: Paginated repos
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RepoPage' }
+        '400':
+          description: Invalid clade code (message enumerates valid codes)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/search:
+    get:
+      tags: [search]
+      operationId: searchRepos
+      summary: Full-text search across repos (rate-limited)
+      description: |
+        Case-insensitive term match over `name`, `description` and `clade`;
+        results ranked by number of matching terms, descending.
+      parameters:
+        - $ref: '#/components/parameters/Query'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Ranked matches
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SearchResponse' }
+        '400':
+          description: Missing/empty or >256-char `q`
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/llm:
+    get:
+      tags: [search]
+      operationId: llmSearch
+      summary: Structured output optimised for LLM consumption (rate-limited)
+      description: |
+        Top 10 matches, each reduced to the fields an LLM needs (binomial,
+        summary, clade, canonical URLs), plus inferred `relationships` between
+        result rows (currently `same-clade` groupings when ≥2 results share a
+        clade). This is the endpoint the LLM tier will upgrade in Phase 5
+        (API-key auth + higher limits); today it is public.
+      parameters:
+        - $ref: '#/components/parameters/Query'
+      responses:
+        '200':
+          description: LLM-oriented result set
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/LlmResponse' }
+        '400':
+          description: Missing/empty or >256-char `q`
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/query/language:
+    get:
+      tags: [query]
+      operationId: queryByLanguage
+      summary: Repos matching a language keyword (VeriSimDB-backed, rate-limited)
+      description: |
+        Substring match over repo name + description. Served from VeriSimDB;
+        falls back to the KV snapshot when VeriSimDB is unreachable. `source`
+        reports which store answered.
+      parameters:
+        - $ref: '#/components/parameters/Query'
+      responses:
+        '200':
+          description: Matching repo documents
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/QueryResponse' }
+        '400':
+          description: Missing/empty or >256-char `q`
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /v1/query/tag:
+    get:
+      tags: [query]
+      operationId: queryByTag
+      summary: Repos matching a tag/keyword (VeriSimDB-backed, rate-limited)
+      description: |
+        Match over name, description, clade code and clade keywords.
+        VeriSimDB-first with KV fallback; `source` reports the store.
+      parameters:
+        - $ref: '#/components/parameters/Query'
+      responses:
+        '200':
+          description: Matching repo documents
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/QueryResponse' }
+        '400':
+          description: Missing/empty or >256-char `q`
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+  /c/{binomial}:
+    get:
+      tags: [resolver]
+      operationId: resolveCladeRef
+      summary: Resolve a CLADE-<binomial> autolink
+      description: |
+        Resolves the estate's `CLADE-<binomial>` custom autolinks (e.g. an
+        issue mentioning `CLADE-fv-haec` links here). Looks up by prefixed
+        binomial first, then canonical name. Humans get a `302` to the portal
+        page; bots pass `?format=json` for the data inline.
+      parameters:
+        - name: binomial
+          in: path
+          required: true
+          description: Prefixed binomial (`fv-haec`) or canonical repo name (`haec`)
+          schema:
+            type: string
+            minLength: 1
+        - name: format
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [json]
+      responses:
+        '302':
+          description: Redirect to the portal page (`Location` header)
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: uri
+              examples:
+                default:
+                  value: https://hyperpolymath.github.io/#/project/haec
+            Cache-Control:
+              schema:
+                type: string
+                example: public, max-age=300
+        '200':
+          description: JSON representation (when `?format=json`)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RepoDetail' }
+        '400':
+          description: Malformed clade reference
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '404':
+          description: No repo for the given clade reference
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503':
+          description: Registry data not loaded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        default: { $ref: '#/components/responses/ApiError' }
+
+components:
+  parameters:
+    CladeCode:
+      name: code
+      in: path
+      required: true
+      description: Two-letter clade code — the taxonomy is closed, exactly 12 codes
+      schema: { $ref: '#/components/schemas/CladeCode' }
+      example: fv
+    RepoName:
+      name: name
+      in: path
+      required: true
+      description: Canonical repo name (percent-encoded)
+      schema:
+        type: string
+        minLength: 1
+      example: haec
+    Query:
+      name: q
+      in: query
+      required: true
+      description: Free-text query, 1–256 characters after trim
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 256
+      example: trope
+
+  responses:
+    ApiError:
+      description: Error envelope (see description of Error)
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+
+  securitySchemes:
+    # Declared for the staged tiers (Phases 5–7). No operation references them
+    # yet — `security: []` (public read) is the enforced posture today.
+    llmApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: 'LLM tier (Phase 5) — per-consumer key, 1000 req/min. x-enforced: false'
+      x-enforced: false
+    botJwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'BOT tier (Phase 6) — signed per-bot JWT for write endpoints. x-enforced: false'
+      x-enforced: false
+    contributorOAuth:
+      type: oauth2
+      description: 'CONTRIB tier (Phase 7) — GitHub OAuth, scoped repo access. x-enforced: false'
+      x-enforced: false
+      flows:
+        authorizationCode:
+          authorizationUrl: https://github.com/login/oauth/authorize
+          tokenUrl: https://github.com/login/oauth/access_token
+          scopes: {}
+  schemas:
+    # ── primitives ────────────────────────────────────────────────────────
+    CladeCode:
+      type: string
+      description: |
+        Two-letter clade code from the closed 12-code taxonomy: fv, nl, rm,
+        gv, db, ap, ix, dx, pt, ax, gm, sc. The letters abbreviate the clade
+        NAME (never the repo name) — see verisim/seed/clades.a2ml.
+      enum: [fv, nl, rm, gv, db, ap, ix, dx, pt, ax, gm, sc]
+    Uuid:
+      type: string
+      format: uuid
+      description: Deterministic UUIDv5 over `github.com/<owner>/<name>` in the @url namespace — clade-independent, stable across reclassification.
+    Iso8601:
+      type: string
+      format: date-time
+    RepoLineage:
+      type: string
+      description: Provenance of the repo within the estate
+      enum: [standalone, monorepo, monorepo-child, inflated, deflated]
+
+    # ── core objects ──────────────────────────────────────────────────────
+    Repo:
+      type: object
+      required: [name, uuid, clade, secondary, lineage, prefixed, github]
+      properties:
+        name:
+          type: string
+          description: Canonical name — the registry's primary key
+        uuid: { $ref: '#/components/schemas/Uuid' }
+        clade: { $ref: '#/components/schemas/CladeCode' }
+        secondary:
+          type: array
+          items: { $ref: '#/components/schemas/CladeCode' }
+          description: Zero or more secondary clade codes
+        lineage: { $ref: '#/components/schemas/RepoLineage' }
+        parent:
+          type: string
+          description: Parent repo name (empty when lineage is standalone)
+        description:
+          type: string
+          description: One-line substance description (may be empty)
+        prefixed:
+          type: string
+          description: '<clade>-<name> binomial used by CLADE- autolinks'
+          example: fv-haec
+        github:
+          type: string
+          description: '<owner>/<name> on GitHub'
+          example: hyperpolymath/haec
+    RepoDetail:
+      allOf:
+        - $ref: '#/components/schemas/Repo'
+        - type: object
+          properties:
+            clade_name:
+              type: string
+              description: 'Taxonomy name for the primary clade (fallback: the raw code)'
+            clade_colour:
+              type: [string, 'null']
+              description: Hex colour for the clade; null when the clade is unknown
+            github_url:
+              type: string
+              format: uri
+            portal_url:
+              type: string
+              format: uri
+              description: Portal page on hyperpolymath.github.io
+    CladeSummary:
+      type: object
+      required: [code, name, colour, member_count]
+      properties:
+        code: { $ref: '#/components/schemas/CladeCode' }
+        name:
+          type: string
+          example: Formal Verification & Proofs
+        colour:
+          type: string
+          description: Hex colour (no leading #)
+          example: 6e40c9
+        member_count:
+          type: integer
+          minimum: 0
+    Clade:
+      allOf:
+        - $ref: '#/components/schemas/CladeSummary'
+        - type: object
+          properties:
+            description:
+              type: string
+              description: What belongs in this clade
+            icon:
+              type: string
+              description: Icon identifier for portal rendering
+            keywords:
+              type: array
+              items: { type: string }
+              description: Tags matched by /v1/query/tag
+    CladeDetail:
+      allOf:
+        - $ref: '#/components/schemas/Clade'
+        - type: object
+          properties:
+            members:
+              type: array
+              items: { type: string }
+              description: Canonical names of member repos
+            repos:
+              type: array
+              items: { $ref: '#/components/schemas/Repo' }
+              description: Full repo records, aligned with `members`
+
+    # ── envelopes ─────────────────────────────────────────────────────────
+    ApiIndex:
+      type: object
+      required: [name, version, description, endpoints, total_repos, total_clades, source]
+      properties:
+        name:
+          type: string
+          example: Hyperpolymath Clade Registry API
+        version:
+          type: string
+          description: Service build version (worker VERSION constant)
+          example: 0.1.0
+        description: { type: string }
+        endpoints:
+          type: object
+          additionalProperties: { type: string }
+          description: Map of path → one-line description (the self-documenting index)
+        total_repos: { type: integer }
+        total_clades: { type: integer }
+        source:
+          type: string
+          format: uri
+          example: https://github.com/hyperpolymath/gv-clade-index
+    Health:
+      type: object
+      required: [status, service, version, timestamp]
+      properties:
+        status:
+          type: string
+          enum: [ok]
+        service:
+          type: string
+          example: clade-registry-api
+        version: { type: string }
+        timestamp: { $ref: '#/components/schemas/Iso8601' }
+    Ready:
+      type: object
+      required: [status, backing, verisimdb, kv, timestamp]
+      properties:
+        status:
+          type: string
+          enum: [ready, degraded, unavailable]
+          description: ready = VeriSimDB answering; degraded = KV fallback; unavailable = neither
+        backing:
+          type: string
+          enum: [verisimdb, kv, none]
+        verisimdb:
+          type: boolean
+        kv:
+          type: boolean
+        timestamp: { $ref: '#/components/schemas/Iso8601' }
+    Dashboard:
+      type: object
+      required: [total_repos, total_clades, generated, clades]
+      properties:
+        total_repos: { type: integer }
+        total_clades: { type: integer }
+        generated: { $ref: '#/components/schemas/Iso8601' }
+        clades:
+          type: array
+          items: { $ref: '#/components/schemas/CladeSummary' }
+    CladeList:
+      type: object
+      required: [clades]
+      properties:
+        clades:
+          type: array
+          items: { $ref: '#/components/schemas/Clade' }
+    RepoPage:
+      type: object
+      required: [repos, total, page, limit, pages]
+      properties:
+        repos:
+          type: array
+          items: { $ref: '#/components/schemas/Repo' }
+        total: { type: integer }
+        page: { type: integer }
+        limit: { type: integer }
+        pages: { type: integer }
+    SearchResponse:
+      type: object
+      required: [query, results, total]
+      properties:
+        query: { type: string }
+        results:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Repo'
+              - type: object
+                properties:
+                  score:
+                    type: integer
+                    minimum: 1
+                    description: Number of query terms matched
+        total:
+          type: integer
+          description: Total matches before the limit was applied
+    LlmResponse:
+      type: object
+      required: [query, ecosystem, registry, results, relationships, total_matches]
+      properties:
+        query: { type: string }
+        ecosystem:
+          type: string
+          enum: [hyperpolymath]
+        registry:
+          type: string
+          enum: [gv-clade-index]
+        results:
+          type: array
+          maxItems: 10
+          items:
+            type: object
+            required: [repo, canonical_name, summary, clade, lineage, github_url, portal_url]
+            properties:
+              repo:
+                type: string
+                description: Prefixed binomial (what CLADE- autolinks use)
+              canonical_name: { type: string }
+              summary:
+                type: string
+                description: Repo description (may be empty)
+              clade: { $ref: '#/components/schemas/CladeCode' }
+              lineage: { $ref: '#/components/schemas/RepoLineage' }
+              github_url: { type: string, format: uri }
+              portal_url: { type: string, format: uri }
+        relationships:
+          type: array
+          description: Inferred links between the returned rows (e.g. shared clade)
+          items:
+            type: object
+            required: [type, clade, repos]
+            properties:
+              type:
+                type: string
+                enum: [same-clade]
+              clade: { $ref: '#/components/schemas/CladeCode' }
+              repos:
+                type: array
+                items: { type: string }
+        total_matches:
+          type: integer
+          description: Total matches before the top-10 cut
+    QueryResponse:
+      type: object
+      required: [query, type, results, total, source]
+      properties:
+        query: { type: string }
+        type:
+          type: string
+          enum: [language, tag]
+        results:
+          type: array
+          description: |
+            Repo documents as stored in VeriSimDB (Repo shape; KV fallback
+            serves the same shape from the snapshot index).
+          items: { $ref: '#/components/schemas/Repo' }
+        total: { type: integer }
+        source:
+          type: string
+          enum: [verisimdb]
+          description: Store that answered (label is verisimdb; the KV fallback is reported by /v1/ready)
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          description: |
+            Human-readable message. Stability: the 4xx messages double as
+            API documentation (e.g. unknown-clade errors enumerate the valid
+            codes) — treat exact wording as informational, the envelope shape
+            as the contract.
+      description: |
+        The only error shape this API produces. Always paired with
+        `X-Request-Id` and `Cache-Control: no-store`.
