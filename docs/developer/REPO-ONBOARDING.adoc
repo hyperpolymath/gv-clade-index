@@ -25,8 +25,8 @@ index.
   listed in `README.adoc`).
 . *Register in seed data* (`verisim/seed/repos.a2ml`): primary key
   (`gh:hyperpolymath/{name}`), foreign keys (GitLab/Bitbucket/Codeberg/SourceHut
-  mirrors). The deterministic UUIDv8 (ADR-008 profile C) and its UUIDv5
-  alias are derived by `sync/export-json.sh`, not written by hand.
+  mirrors). The deterministic `uuid` (UUIDv5) and `uuid_v8` (ADR-008
+  profile C) are derived by `sync/export-json.sh`, not written by hand.
 . *Set lineage* — standalone / monorepo / monorepo-child / inflated / deflated,
   and when each applies.
 . *Deploy & ingest* — `sync/deploy-clade-a2ml.sh`, then `sync/seed-verisim.sh`.

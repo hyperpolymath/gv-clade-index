@@ -98,10 +98,13 @@ Every repo has:
 
 * *Primary key*: GitHub (`+gh:hyperpolymath/{name}+`)
 * *Foreign keys*: GitLab, Bitbucket, Codeberg, SourceHut mirrors
-* *UUID*: Deterministic UUIDv8, ADR-008 profile C in the `+gv-clade-index+`
-domain, derived from `+github.com/{owner}/{name}+` (a deed writes it
-`+#u8"gv-clade-index:github.com/{owner}/{name}"+`). `+uuid_v5+` keeps the
-earlier UUIDv5 of the same name as an alias until ADR-008 P4.
+* *UUID*: `+uuid+` is the deterministic UUIDv5 of
+`+github.com/{owner}/{name}+` in the `+@url+` namespace, as `+/v1+` has always
+served it. `+uuid_v8+` is the ADR-008 profile C UUIDv8 of the same name in
+the `+gv-clade-index+` domain, the id a deed writes as
+`+#u8"gv-clade-index:github.com/{owner}/{name}"+`. It is added beside
+`+uuid+` because `+/v1+` is additive-only
+(`docs/decisions/0004-api-versioning.adoc`); `+/v2+` makes it the `+uuid+`.
 * *Clade*: Primary (1) + secondary (0+)
 * *Lineage*: standalone, monorepo, monorepo-child, inflated, deflated
 

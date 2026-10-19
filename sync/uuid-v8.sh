@@ -10,17 +10,18 @@
 # The ids come from standards' shared generator, scripts/uuid-v8.js, never
 # from a copy of the algorithm here: one implementation per estate language
 # is what ADR-008 P1 ships, and a second one could drift. The generator is
-# fetched at a pinned standards commit into _build/ and its sha256 is checked
-# on every run, so a bumped or edited copy fails instead of minting
-# different ids. GV_UUID_V8_JS names an existing copy (the planted-failure
-# test passes the caller's). Needs bun, the estate's tier-1 runtime.
+# fetched at a pinned standards commit into the user cache, outside the
+# checkout (check-registry.sh never writes inside the repository), and its
+# sha256 is checked on every run, so a bumped or edited copy fails instead of
+# minting different ids. GV_UUID_V8_JS names an existing copy (the
+# planted-failure test passes the caller's). Needs bun, the estate's tier-1
+# runtime.
 
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STANDARDS_REV=75bd5994470661a099df562d6d5ad2fe744dbd66
 UUID_V8_SHA256=60e4c59199c05362f19115d5bd002583615041680796f30f3dcbed33349e96ca
-JS="${GV_UUID_V8_JS:-$ROOT/_build/uuid-v8.js}"
+JS="${GV_UUID_V8_JS:-${XDG_CACHE_HOME:-$HOME/.cache}/gv-clade-index/uuid-v8-$STANDARDS_REV.js}"
 
 fail() { echo "uuid-v8: $*" >&2; exit 1; }
 command -v bun >/dev/null 2>&1 || fail "bun is required (estate tier-1 runtime)"

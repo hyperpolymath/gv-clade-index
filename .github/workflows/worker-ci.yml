@@ -106,7 +106,7 @@ jobs:
       - name: Lint (shellcheck, sync/ scripts/ tests/)
         run: git ls-files -z 'sync/*.sh' 'scripts/*.sh' 'tests/*.sh' | xargs -0 shellcheck -S warning
 
-      - name: Registry gate (parse round-trip, no drift, counts, UUIDv8 identity + v5 alias)
+      - name: Registry gate (parse round-trip, no drift, counts, uuid v5 + uuid_v8 identities)
         run: bash scripts/check-registry.sh
 
       - name: Planted-failure test of the registry gate

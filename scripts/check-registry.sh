@@ -10,10 +10,11 @@
 #   3. worker/data is NOT stale: a fresh export into a scratch directory is
 #      byte-identical (index.json compared without its `generated` stamp).
 #   4. Counts agree across seed, repos.json and index.json.
-#   5. Identity, for every entry: `uuid` is the ADR-008 profile C UUIDv8 of
-#      `github.com/<owner>/<name>` in the `gv-clade-index` domain (D320), from
-#      standards' shared generator (sync/uuid-v8.sh); `uuid_v5` is the legacy
-#      UUIDv5 of the same name in the @url namespace.
+#   5. Identity, for every entry: `uuid` is the UUIDv5 of
+#      `github.com/<owner>/<name>` in the @url namespace, the /v1 identity
+#      (additive-only, ADR 0004); `uuid_v8` is the ADR-008 profile C UUIDv8
+#      of the same name in the `gv-clade-index` domain (D320), from
+#      standards' shared generator (sync/uuid-v8.sh).
 #
 # Exit 0 only when every check passes. Never writes inside the repository.
 
@@ -67,20 +68,21 @@ idx_names=$(jq '.by_name | length' "$DATA/index.json")
 echo "check-registry: counts agree ($rows)"
 
 # 5. Identity -------------------------------------------------------------
-# Every uuid is the ADR-008 profile C id of github.com/<owner>/<name> in the
-# gv-clade-index domain (D320), from standards' shared generator. Every
-# uuid_v5 is the legacy UUIDv5 alias (@url namespace) that deeds still
-# carrying #u5, and the CLADE.a2ml files, resolve through until ADR-008 P4.
+# Every uuid is the UUIDv5 of github.com/<owner>/<name> in the @url namespace:
+# the identity /v1 has always served, which ADR 0004 forbids retyping. Every
+# uuid_v8 is the ADR-008 profile C id of the same name in the gv-clade-index
+# domain (D320), from standards' shared generator; it is what a deed's #u8
+# literal names.
+while IFS=$'\t' read -r name github uuid; do
+  expect=$(uuidgen --sha1 --namespace @url --name "github.com/$github")
+  [ "$uuid" = "$expect" ] || fail "uuid for $name is ${uuid:-<missing>}, UUIDv5 derivation gives $expect"
+done < <(jq -r '.[] | [.name, .github, (.uuid // "")] | @tsv' "$DATA/repos.json")
+echo "check-registry: uuid re-derives as UUIDv5 for all $json_repos repos"
 jq -r '.[] | .github | sub("/"; "\t")' "$DATA/repos.json" \
   | bash "$ROOT/sync/uuid-v8.sh" > "$scratch/v8.txt" || fail "sync/uuid-v8.sh failed"
-while IFS=$'\t' read -r name uuid expect; do
-  [ "$uuid" = "$expect" ] || fail "uuid for $name is ${uuid:-<missing>}, profile C derivation gives $expect"
-done < <(paste <(jq -r '.[] | [.name, (.uuid // "")] | @tsv' "$DATA/repos.json") "$scratch/v8.txt")
-echo "check-registry: uuid is profile C UUIDv8 for all $json_repos repos"
-while IFS=$'\t' read -r name github uuid_v5; do
-  expect=$(uuidgen --sha1 --namespace @url --name "github.com/$github")
-  [ "$uuid_v5" = "$expect" ] || fail "uuid_v5 for $name is ${uuid_v5:-<missing>}, UUIDv5 derivation gives $expect"
-done < <(jq -r '.[] | [.name, .github, (.uuid_v5 // "")] | @tsv' "$DATA/repos.json")
-echo "check-registry: uuid_v5 alias re-derives for all $json_repos repos"
+while IFS=$'\t' read -r name uuid_v8 expect; do
+  [ "$uuid_v8" = "$expect" ] || fail "uuid_v8 for $name is ${uuid_v8:-<missing>}, profile C derivation gives $expect"
+done < <(paste <(jq -r '.[] | [.name, (.uuid_v8 // "")] | @tsv' "$DATA/repos.json") "$scratch/v8.txt")
+echo "check-registry: uuid_v8 is profile C UUIDv8 for all $json_repos repos"
 
 echo "check-registry: PASS"

@@ -24,7 +24,7 @@ PARSED="$(mktemp)"; IDS="$(mktemp)"
 trap 'rm -f "$PARSED" "$IDS"' EXIT
 bash "$SCRIPT_DIR/parse-repos.sh" "$SEED/repos.a2ml" > "$PARSED" \
   || { echo "export-json: parse-repos.sh failed" >&2; exit 1; }
-# Each repo's identity is ADR-008 profile C (D320): domain gv-clade-index, name
+# uuid_v8 is the ADR-008 profile C id (D320): domain gv-clade-index, name
 # github.com/<owner>/<repo>, from standards' shared generator. The owner
 # segment is part of the identity; it defaults to "hyperpolymath".
 awk -F'\t' '{ print ($7 != "" ? $7 : "hyperpolymath") "\t" $1 }' "$PARSED" \
@@ -33,32 +33,32 @@ awk -F'\t' '{ print ($7 != "" ? $7 : "hyperpolymath") "\t" $1 }' "$PARSED" \
 [ "$(wc -l < "$IDS")" = "$(wc -l < "$PARSED")" ] \
   || { echo "export-json: uuid-v8.sh returned $(wc -l < "$IDS") ids for $(wc -l < "$PARSED") repos" >&2; exit 1; }
 command -v uuidgen >/dev/null 2>&1 \
-  || { echo "export-json: uuidgen is required (package uuid-runtime / util-linux) for the uuid_v5 alias" >&2; exit 1; }
+  || { echo "export-json: uuidgen is required (package uuid-runtime / util-linux) for uuid" >&2; exit 1; }
 if ! paste "$PARSED" "$IDS" | awk -F'\t' '
 BEGIN { printf "[\n" }
 NR > 1 { printf ",\n" }
 {
     name = $1; primary = $2; secondary = $3; lineage = $4; parent = $5; desc = $6
     owner = ($7 != "" ? $7 : "hyperpolymath")
-    uuid = $8
+    uuid_v8 = $8
     gsub(/"/, "\\\"", desc)
-    # uuid_v5 is the identity this registry served before ADR-008: UUIDv5 of
-    # github.com/<owner>/<repo> in the @url namespace. Deeds that still carry
-    # #u5 and the CLADE.a2ml files resolve through it until ADR-008 P4 retires
-    # it. It is an alias, not an identity: uuid is the identity.
+    # uuid is the identity /v1 has always served: UUIDv5 of
+    # github.com/<owner>/<repo> in the @url namespace. /v1 is additive-only
+    # (docs/decisions/0004-api-versioning.adoc), so it keeps that value and
+    # uuid_v8 is added beside it; /v2 makes the v8 id the uuid.
     cmd = "uuidgen --sha1 --namespace @url --name \"github.com/" owner "/" name "\""
-    uuid_v5 = ""
-    cmd | getline uuid_v5
+    uuid = ""
+    cmd | getline uuid
     close(cmd)
     # A failed derivation reads as an empty string, not an error, so check it:
     # an empty id must stop the export, never reach repos.json.
-    if (uuid == "" || uuid_v5 == "") {
-        printf "export-json: no %s derived for %s/%s\n", (uuid == "" ? "uuid" : "uuid_v5"), owner, name > "/dev/stderr"
+    if (uuid == "" || uuid_v8 == "") {
+        printf "export-json: no %s derived for %s/%s\n", (uuid == "" ? "uuid" : "uuid_v8"), owner, name > "/dev/stderr"
         failed = 1; exit 1
     }
     # NB: no separate "owner" key. The github field already carries it as
     # "owner/name".
-    printf "  {\"name\":\"%s\",\"uuid\":\"%s\",\"uuid_v5\":\"%s\",\"clade\":\"%s\",\"secondary\":%s,\"lineage\":\"%s\",\"parent\":\"%s\",\"description\":\"%s\",\"prefixed\":\"%s-%s\",\"github\":\"%s/%s\"}", name, uuid, uuid_v5, primary, secondary, lineage, parent, desc, primary, name, owner, name
+    printf "  {\"name\":\"%s\",\"uuid\":\"%s\",\"uuid_v8\":\"%s\",\"clade\":\"%s\",\"secondary\":%s,\"lineage\":\"%s\",\"parent\":\"%s\",\"description\":\"%s\",\"prefixed\":\"%s-%s\",\"github\":\"%s/%s\"}", name, uuid, uuid_v8, primary, secondary, lineage, parent, desc, primary, name, owner, name
 }
 END { if (failed) exit 1; printf "\n]\n" }
 ' > "$OUT/repos.json"; then

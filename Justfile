@@ -382,8 +382,8 @@ install: build-release
 deps:
     #!/usr/bin/env bash
     set -euo pipefail
-    for t in jq uuidgen shellcheck curl git; do command -v "$t" >/dev/null || { echo "missing tool: $t"; exit 1; }; done
-    echo "All dependencies satisfied (jq, uuidgen, shellcheck, curl, git)"
+    for t in jq uuidgen shellcheck curl git bun; do command -v "$t" >/dev/null || { echo "missing tool: $t"; exit 1; }; done
+    echo "All dependencies satisfied (jq, uuidgen, shellcheck, curl, git, bun)"
 
 # Audit dependencies for vulnerabilities
 deps-audit:
