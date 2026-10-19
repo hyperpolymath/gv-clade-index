@@ -98,8 +98,10 @@ Every repo has:
 
 * *Primary key*: GitHub (`+gh:hyperpolymath/{name}+`)
 * *Foreign keys*: GitLab, Bitbucket, Codeberg, SourceHut mirrors
-* *UUID*: Deterministic v5, derived from
-`+github.com/hyperpolymath/{name}+`
+* *UUID*: Deterministic UUIDv8, ADR-008 profile C in the `+gv-clade-index+`
+domain, derived from `+github.com/{owner}/{name}+` (a deed writes it
+`+#u8"gv-clade-index:github.com/{owner}/{name}"+`). `+uuid_v5+` keeps the
+earlier UUIDv5 of the same name as an alias until ADR-008 P4.
 * *Clade*: Primary (1) + secondary (0+)
 * *Lineage*: standalone, monorepo, monorepo-child, inflated, deflated
 

@@ -81,10 +81,19 @@ describe('registry invariants', () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it('uuids are present, well-formed and unique', () => {
-    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  // ADR-008 D320: a clade identity is profile C UUIDv8 (version 8, variant
+  // 10). uuid_v5 is the legacy alias, kept until ADR-008 P4.
+  it('uuids are present, UUIDv8 and unique', () => {
+    const v8 = /^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
     const uuids = repos.map((r) => r.uuid);
-    for (const u of uuids) expect(u).toMatch(uuidRe);
+    for (const u of uuids) expect(u).toMatch(v8);
     expect(new Set(uuids).size).toBe(uuids.length);
+  });
+
+  it('uuid_v5 aliases are present, UUIDv5 and unique', () => {
+    const v5 = /^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+    const aliases = repos.map((r) => r.uuid_v5);
+    for (const u of aliases) expect(u).toMatch(v5);
+    expect(new Set(aliases).size).toBe(aliases.length);
   });
 });

@@ -13,6 +13,11 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 
+# Each scratch copy reuses this checkout's verified generator instead of
+# fetching it again. sync/uuid-v8.sh checks its sha256 on every run.
+bash "$ROOT/sync/uuid-v8.sh" </dev/null
+export GV_UUID_V8_JS="${GV_UUID_V8_JS:-$ROOT/_build/uuid-v8.js}"
+
 fresh() {
   rm -rf "$work/repo"; mkdir -p "$work/repo"
   git -C "$ROOT" ls-files -z --cached --others --exclude-standard sync scripts verisim/seed worker/data \
@@ -56,4 +61,13 @@ jq --arg n "$first" --arg u "$bad" '.by_name[$n].uuid=$u' \
   "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
 expect_fail "tampered uuid" "is stale\|uuid for $first"
 
-echo "check-registry-test: PASS (baseline passes, 3 planted failures fire)"
+# 5. The legacy alias edited by hand (mirrored the same way)
+fresh
+bad5="00000000-0000-5000-8000-000000000000"
+jq --arg n "$first" --arg u "$bad5" 'map(if .name==$n then .uuid_v5=$u else . end)' \
+  "$work/repo/worker/data/repos.json" > "$work/r.json" && mv "$work/r.json" "$work/repo/worker/data/repos.json"
+jq --arg n "$first" --arg u "$bad5" '.by_name[$n].uuid_v5=$u' \
+  "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
+expect_fail "tampered uuid_v5" "is stale\|uuid_v5 for $first"
+
+echo "check-registry-test: PASS (baseline passes, 4 planted failures fire)"

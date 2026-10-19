@@ -7,3 +7,25 @@ Changelog], and this project adheres to
 https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 === [Unreleased]
+
+==== Changed
+
+* *Clade identities are UUIDv8* (standards ADR-008, owner ruling D320).
+  Every `worker/data` entry's `uuid` is now the profile C UUIDv8 of
+  `github.com/<owner>/<repo>` in the `gv-clade-index` domain. A deed writes it
+  as `#u8"gv-clade-index:github.com/<owner>/<repo>"`. The ids come from
+  standards' shared generator `scripts/uuid-v8.js`, pinned at `75bd599` and
+  sha256-checked by `sync/uuid-v8.sh`. No copy of the algorithm lives here.
+* `uuid_v5` keeps the previous identity, the UUIDv5 of the same name, as an
+  alias. Deeds that still carry `#u5`, and the CLADE.a2ml files, resolve
+  through it until ADR-008 P4 retires it. This is the dual-accept shim
+  (ADR-006). Every other field is byte-identical.
+* `scripts/check-registry.sh` checks both, for every entry instead of three.
+  `tests/check-registry-test.sh` plants a tampered alias as well. Worker CI
+  installs Bun 1.4.2, sha256-verified, for the gate.
+
+==== Fixed
+
+* `sync/export-json.sh` no longer writes an empty identifier when `uuidgen`
+  is missing or fails. awk's `getline` read the failure as an empty string,
+  so the export used to succeed with blank ids. It now stops with an error.

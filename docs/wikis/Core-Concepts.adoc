@@ -27,7 +27,9 @@ Every cached value declares its canonical source: `pointer` (lives in the repo),
 == Identity Model
 
 Primary key `gh:hyperpolymath/{name}`; foreign keys for mirrors; deterministic
-UUIDv5; lineage (standalone / monorepo / monorepo-child / inflated / deflated).
+UUIDv8 (ADR-008 profile C, domain `gv-clade-index`) with a UUIDv5 alias until
+ADR-008 P4; lineage (standalone / monorepo / monorepo-child / inflated /
+deflated).
 
 == Portal Architecture
 
