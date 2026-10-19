@@ -18,12 +18,15 @@ trap 'rm -rf "$work"' EXIT
 export GV_UUID_V8_JS="${GV_UUID_V8_JS:-$work/uuid-v8.js}"
 bash "$ROOT/sync/uuid-v8.sh" </dev/null
 
+# Recreate $work/repo from the current registry sources and data for an isolated case.
 fresh() {
   rm -rf "$work/repo"; mkdir -p "$work/repo"
   git -C "$ROOT" ls-files -z --cached --others --exclude-standard sync scripts verisim/seed worker/data \
     | tar -C "$ROOT" --null -T - -cf - | tar -C "$work/repo" -xf -
 }
 
+# Assert the scratch gate fails with output matching the basic regex in $2.
+# Use $1 as the case label; print diagnostics and exit 1 on an unexpected result.
 expect_fail() {
   local label="$1" pattern="$2" out
   if out=$(bash "$work/repo/scripts/check-registry.sh" 2>&1); then

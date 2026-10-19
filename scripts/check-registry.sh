@@ -24,7 +24,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SEED="$ROOT/verisim/seed/repos.a2ml"
 DATA="$ROOT/worker/data"
 
+# Print the supplied failure message to stderr and terminate the gate with status 1.
 fail() { echo "check-registry: FAIL: $*" >&2; exit 1; }
+# Require the command named by $1 on PATH, or terminate the gate with status 1.
 need() { command -v "$1" >/dev/null 2>&1 || fail "required tool missing: $1"; }
 need jq; need uuidgen; need cmp; need bun
 
