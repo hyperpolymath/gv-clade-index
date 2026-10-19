@@ -75,13 +75,13 @@ echo "check-registry: counts agree ($rows)"
 # literal names.
 while IFS=$'\t' read -r name github uuid; do
   expect=$(uuidgen --sha1 --namespace @url --name "github.com/$github")
-  [ "$uuid" = "$expect" ] || fail "uuid for $name is ${uuid:-<missing>}, UUIDv5 derivation gives $expect"
+  [[ "$uuid" = "$expect" ]] || fail "uuid for $name is ${uuid:-<missing>}, UUIDv5 derivation gives $expect"
 done < <(jq -r '.[] | [.name, .github, (.uuid // "")] | @tsv' "$DATA/repos.json")
 echo "check-registry: uuid re-derives as UUIDv5 for all $json_repos repos"
 jq -r '.[] | .github | sub("/"; "\t")' "$DATA/repos.json" \
   | bash "$ROOT/sync/uuid-v8.sh" > "$scratch/v8.txt" || fail "sync/uuid-v8.sh failed"
 while IFS=$'\t' read -r name uuid_v8 expect; do
-  [ "$uuid_v8" = "$expect" ] || fail "uuid_v8 for $name is ${uuid_v8:-<missing>}, profile C derivation gives $expect"
+  [[ "$uuid_v8" = "$expect" ]] || fail "uuid_v8 for $name is ${uuid_v8:-<missing>}, profile C derivation gives $expect"
 done < <(paste <(jq -r '.[] | [.name, (.uuid_v8 // "")] | @tsv' "$DATA/repos.json") "$scratch/v8.txt")
 echo "check-registry: uuid_v8 is profile C UUIDv8 for all $json_repos repos"
 
