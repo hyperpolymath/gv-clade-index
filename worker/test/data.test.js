@@ -81,10 +81,20 @@ describe('registry invariants', () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it('uuids are present, well-formed and unique', () => {
-    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  // /v1 is additive-only (docs/decisions/0004-api-versioning.adoc): uuid
+  // stays the UUIDv5 it has always been, and uuid_v8 is the ADR-008 D320
+  // profile C id (version 8, variant 10) added beside it.
+  it('uuids are present, UUIDv5 and unique', () => {
+    const v5 = /^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
     const uuids = repos.map((r) => r.uuid);
-    for (const u of uuids) expect(u).toMatch(uuidRe);
+    for (const u of uuids) expect(u).toMatch(v5);
     expect(new Set(uuids).size).toBe(uuids.length);
+  });
+
+  it('uuid_v8 ids are present, UUIDv8 and unique', () => {
+    const v8 = /^[0-9a-f]{8}-[0-9a-f]{4}-8[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+    const ids = repos.map((r) => r.uuid_v8);
+    for (const u of ids) expect(u).toMatch(v8);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });

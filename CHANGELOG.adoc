@@ -7,3 +7,30 @@ Changelog], and this project adheres to
 https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 === [Unreleased]
+
+==== Added
+
+* *`uuid_v8` on every registry entry* (standards ADR-008, owner ruling
+  D320): the profile C UUIDv8 of `github.com/<owner>/<repo>` in the
+  `gv-clade-index` domain. A deed writes it as
+  `#u8"gv-clade-index:github.com/<owner>/<repo>"`. The ids come from
+  standards' shared generator `scripts/uuid-v8.js`, pinned at `75bd599` and
+  sha256-checked by `sync/uuid-v8.sh`, which caches it outside the checkout.
+  No copy of the algorithm lives here.
+* `uuid` is unchanged, still the UUIDv5 of the same name: `/v1` is
+  additive-only (`docs/decisions/0004-api-versioning.adoc`), so the v8 id is
+  added beside it. `/v2` makes it the `uuid`. `docs/api/openapi.yaml`
+  declares `uuid_v8` (1.1.0). Every other field is byte-identical.
+
+==== Changed
+
+* `scripts/check-registry.sh` re-derives both ids for every entry instead of
+  spot-checking three. `tests/check-registry-test.sh` plants a tampered
+  `uuid_v8` as well. Worker CI installs Bun 1.4.2, sha256-verified, for the
+  gate, and `just deps` checks for `bun`.
+
+==== Fixed
+
+* `sync/export-json.sh` no longer writes an empty identifier when `uuidgen`
+  is missing or fails. awk's `getline` read the failure as an empty string,
+  so the export used to succeed with blank ids. It now stops with an error.

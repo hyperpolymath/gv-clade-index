@@ -77,9 +77,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6.0.2
 
+      # sync/uuid-v8.sh runs standards' shared UUIDv8 generator (ADR-008) under
+      # Bun, the estate's tier-1 runtime, at the estate pin 1.4.2.
+      - name: Install verified Bun 1.4.2
+        run: |
+          curl --proto '=https' --proto-redir '=https' --fail --silent --show-error --location \
+            https://github.com/oven-sh/bun/releases/download/bun-v1.4.2/bun-linux-x64.zip \
+            --output "$RUNNER_TEMP/bun.zip"
+          echo "36368faef7527875d5ffa52e53cd48021741f2a83eb6208a8dd64068d422a913  $RUNNER_TEMP/bun.zip" | sha256sum --check --strict
+          unzip -q "$RUNNER_TEMP/bun.zip" -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/bun-linux-x64" >> "$GITHUB_PATH"
+
       - name: Tooling (jq, uuidgen, shellcheck ship on ubuntu-latest; fail loudly otherwise)
         run: |
-          for t in jq uuidgen shellcheck; do
+          for t in jq uuidgen shellcheck bun; do
             command -v "$t" >/dev/null || { echo "::error::missing tool $t"; exit 1; }
           done
 
@@ -95,7 +106,7 @@ jobs:
       - name: Lint (shellcheck, sync/ scripts/ tests/)
         run: git ls-files -z 'sync/*.sh' 'scripts/*.sh' 'tests/*.sh' | xargs -0 shellcheck -S warning
 
-      - name: Registry gate (parse round-trip, no drift, counts, uuid spot-check)
+      - name: Registry gate (parse round-trip, no drift, counts, uuid v5 + uuid_v8 identities)
         run: bash scripts/check-registry.sh
 
       - name: Planted-failure test of the registry gate

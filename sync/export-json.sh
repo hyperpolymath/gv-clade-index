@@ -20,27 +20,51 @@ mkdir -p "$OUT"
 
 # Parse repos.a2ml into JSON array
 echo "Exporting repos..."
-bash "$SCRIPT_DIR/parse-repos.sh" "$SEED/repos.a2ml" | awk -F'\t' '
+PARSED="$(mktemp)"; IDS="$(mktemp)"
+trap 'rm -f "$PARSED" "$IDS"' EXIT
+bash "$SCRIPT_DIR/parse-repos.sh" "$SEED/repos.a2ml" > "$PARSED" \
+  || { echo "export-json: parse-repos.sh failed" >&2; exit 1; }
+# uuid_v8 is the ADR-008 profile C id (D320): domain gv-clade-index, name
+# github.com/<owner>/<repo>, from standards' shared generator. The owner
+# segment is part of the identity; it defaults to "hyperpolymath".
+awk -F'\t' '{ print ($7 != "" ? $7 : "hyperpolymath") "\t" $1 }' "$PARSED" \
+  | bash "$SCRIPT_DIR/uuid-v8.sh" > "$IDS" \
+  || { echo "export-json: sync/uuid-v8.sh failed" >&2; exit 1; }
+[ "$(wc -l < "$IDS")" = "$(wc -l < "$PARSED")" ] \
+  || { echo "export-json: uuid-v8.sh returned $(wc -l < "$IDS") ids for $(wc -l < "$PARSED") repos" >&2; exit 1; }
+command -v uuidgen >/dev/null 2>&1 \
+  || { echo "export-json: uuidgen is required (package uuid-runtime / util-linux) for uuid" >&2; exit 1; }
+if ! paste "$PARSED" "$IDS" | awk -F'\t' '
 BEGIN { printf "[\n" }
 NR > 1 { printf ",\n" }
 {
     name = $1; primary = $2; secondary = $3; lineage = $4; parent = $5; desc = $6
     owner = ($7 != "" ? $7 : "hyperpolymath")
+    uuid_v8 = $8
     gsub(/"/, "\\\"", desc)
-    # Generate UUID deterministically. The owner segment is part of the derived
-    # name, so it is part of the identity; it was hardcoded to "hyperpolymath",
-    # which produced a wrong uuid for any repo hosted elsewhere. Defaults to
-    # "hyperpolymath", so entries without an explicit owner are unchanged.
+    # uuid is the identity /v1 has always served: UUIDv5 of
+    # github.com/<owner>/<repo> in the @url namespace. /v1 is additive-only
+    # (docs/decisions/0004-api-versioning.adoc), so it keeps that value and
+    # uuid_v8 is added beside it; /v2 makes the v8 id the uuid.
     cmd = "uuidgen --sha1 --namespace @url --name \"github.com/" owner "/" name "\""
+    uuid = ""
     cmd | getline uuid
     close(cmd)
-    # NB: no separate "owner" key — the schema is unchanged on purpose. The
-    # github field already carries it as "owner/name", so entries without an
-    # explicit owner serialise byte-identically to before this change.
-    printf "  {\"name\":\"%s\",\"uuid\":\"%s\",\"clade\":\"%s\",\"secondary\":%s,\"lineage\":\"%s\",\"parent\":\"%s\",\"description\":\"%s\",\"prefixed\":\"%s-%s\",\"github\":\"%s/%s\"}", name, uuid, primary, secondary, lineage, parent, desc, primary, name, owner, name
+    # A failed derivation reads as an empty string, not an error, so check it:
+    # an empty id must stop the export, never reach repos.json.
+    if (uuid == "" || uuid_v8 == "") {
+        printf "export-json: no %s derived for %s/%s\n", (uuid == "" ? "uuid" : "uuid_v8"), owner, name > "/dev/stderr"
+        failed = 1; exit 1
+    }
+    # NB: no separate "owner" key. The github field already carries it as
+    # "owner/name".
+    printf "  {\"name\":\"%s\",\"uuid\":\"%s\",\"uuid_v8\":\"%s\",\"clade\":\"%s\",\"secondary\":%s,\"lineage\":\"%s\",\"parent\":\"%s\",\"description\":\"%s\",\"prefixed\":\"%s-%s\",\"github\":\"%s/%s\"}", name, uuid, uuid_v8, primary, secondary, lineage, parent, desc, primary, name, owner, name
 }
-END { printf "\n]\n" }
-' > "$OUT/repos.json"
+END { if (failed) exit 1; printf "\n]\n" }
+' > "$OUT/repos.json"; then
+  echo "export-json: repos.json export failed" >&2
+  exit 1
+fi
 
 REPO_COUNT=$(grep -c '"name"' "$OUT/repos.json")
 echo "  $REPO_COUNT repos exported"

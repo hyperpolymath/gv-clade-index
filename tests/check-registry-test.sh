@@ -13,12 +13,20 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
 
+# Every scratch copy shares one verified generator, fetched once into the
+# scratch directory. sync/uuid-v8.sh checks its sha256 on every run.
+export GV_UUID_V8_JS="${GV_UUID_V8_JS:-$work/uuid-v8.js}"
+bash "$ROOT/sync/uuid-v8.sh" </dev/null
+
+# Recreate $work/repo from the current registry sources and data for an isolated case.
 fresh() {
   rm -rf "$work/repo"; mkdir -p "$work/repo"
   git -C "$ROOT" ls-files -z --cached --others --exclude-standard sync scripts verisim/seed worker/data \
     | tar -C "$ROOT" --null -T - -cf - | tar -C "$work/repo" -xf -
 }
 
+# Assert the scratch gate fails with output matching the basic regex in $2.
+# Use $1 as the case label; print diagnostics and exit 1 on an unexpected result.
 expect_fail() {
   local label="$1" pattern="$2" out
   if out=$(bash "$work/repo/scripts/check-registry.sh" 2>&1); then
@@ -56,4 +64,13 @@ jq --arg n "$first" --arg u "$bad" '.by_name[$n].uuid=$u' \
   "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
 expect_fail "tampered uuid" "is stale\|uuid for $first"
 
-echo "check-registry-test: PASS (baseline passes, 3 planted failures fire)"
+# 5. A uuid_v8 edited by hand (mirrored the same way)
+fresh
+bad8="00000000-0000-8000-8000-000000000000"
+jq --arg n "$first" --arg u "$bad8" 'map(if .name==$n then .uuid_v8=$u else . end)' \
+  "$work/repo/worker/data/repos.json" > "$work/r.json" && mv "$work/r.json" "$work/repo/worker/data/repos.json"
+jq --arg n "$first" --arg u "$bad8" '.by_name[$n].uuid_v8=$u' \
+  "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
+expect_fail "tampered uuid_v8" "is stale\|uuid_v8 for $first"
+
+echo "check-registry-test: PASS (baseline passes, 4 planted failures fire)"

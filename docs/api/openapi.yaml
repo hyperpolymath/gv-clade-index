@@ -23,7 +23,7 @@ jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
 
 info:
   title: Clade Registry API
-  version: 1.0.0
+  version: 1.1.0
   summary: >-
     Read-only registry mapping the hyperpolymath ecosystem's repositories to
     clade groupings. Map and territory — this is the map.
@@ -596,6 +596,10 @@ components:
       type: string
       format: uuid
       description: Deterministic UUIDv5 over `github.com/<owner>/<name>` in the @url namespace — clade-independent, stable across reclassification.
+    UuidV8:
+      type: string
+      format: uuid
+      description: ADR-008 profile C UUIDv8 of `github.com/<owner>/<name>` in the `gv-clade-index` domain (owner ruling D320), the id a deed writes as `#u8"gv-clade-index:github.com/<owner>/<name>"`. Added beside `uuid` under the additive-only `/v1` rule (ADR 0004); `/v2` makes it the `uuid`.
     Iso8601:
       type: string
       format: date-time
@@ -613,6 +617,7 @@ components:
           type: string
           description: Canonical name — the registry's primary key
         uuid: { $ref: '#/components/schemas/Uuid' }
+        uuid_v8: { $ref: '#/components/schemas/UuidV8' }
         clade: { $ref: '#/components/schemas/CladeCode' }
         secondary:
           type: array
