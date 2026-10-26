@@ -42,10 +42,10 @@ jobs:
     environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'staging' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.1.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: '24'
 

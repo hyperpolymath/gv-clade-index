@@ -40,10 +40,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.1.0
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: '24'
 
@@ -75,7 +75,7 @@ jobs:
         working-directory: .
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.1
 
       # sync/uuid-v8.sh runs standards' shared UUIDv8 generator (ADR-008) under
       # Bun, the estate's tier-1 runtime, at the estate pin 1.4.2.
