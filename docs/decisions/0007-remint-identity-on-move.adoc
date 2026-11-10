@@ -67,9 +67,22 @@ The owner chose the second model.
   `worker/data/archive.json`. That file is not loaded into KV and no route
   serves it.
 
+. *An id belongs to its path, so a path can be used again.* The id is a
+  function of the forge path alone. Two cases follow:
+** a repository that returns to an earlier path gets that path's id again.
+   That is its current id, not an old one;
+** a new repository on a path that another repository left gets the id of
+   that path. The earlier repository's archive record for the path stays, for
+   reference only, and its `until` date shows that the path was left.
++
+Repository names are unique, so no 2 current entries can share a path or an
+id. An archived id can therefore equal a current id only when the current
+entry holds the same path, and the gate does not refuse that case.
+
 . *The gate enforces this.* `scripts/check-registry.sh` also checks that:
 ** every archive `uuid` and `uuid_v8` re-derives from its `github` path;
-** no archived id appears in `repos.json` or `index.json`;
+** the export writes archive records only to `archive.json`, never to
+   `repos.json` or `index.json`;
 ** `generation` counts up from 1 with no gap, and the current generation is
    1 more than the number of archive records.
 
@@ -96,13 +109,15 @@ The owner chose the second model.
 * Each move needs a PR in the moved repository as well as in the registry.
 * This reverses one rule of an accepted ADR (0006). Any document that says the
   `uuid` never changes must be corrected.
+* When a new repository takes a path that another repository left, an archive
+  record of the earlier repository holds the same id as the new repository's
+  current id. A person who traces an old reference by hand must read the
+  record's `until` date.
+* A remint is a breaking change for a `/v1` consumer that stored an id. Open
+  question 3 asks how that fits ADR 0004.
 
 === Neutral
 
-* ADR 0004 forbids removing or retyping a field inside `/v1`. A remint changes
-  the value of `uuid` and `uuid_v8`, not their type, and the documented
-  meaning ("derived from `github.com/<owner>/<name>`") stays true. So no `/v2`
-  is needed.
 * The `Uuid` description in `docs/api/openapi.yaml` says the id is "stable
   across reclassification". That stays true, because a clade change does not
   change the forge path. It must also say that a move or rename mints a new id.
@@ -115,6 +130,18 @@ The owner chose the second model.
   remint; ADR 0006 `aliases[]` still covers it.
 . *Archive visibility.* Proposed: `archive.json` stays in the repository and is
   not served. If the owner wants it served, that is a new additive route.
+. *ADR 0004 compatibility.* ADR 0004 forbids removing or retyping a field
+  inside `/v1`, and it says that breaking changes ship as `/v2`. A remint keeps
+  the type and the documented derivation of `uuid` and `uuid_v8`, but a
+  consumer that stored an id loses the match. So a remint is a breaking change
+  for that consumer. The 2 ways to resolve this are:
+.. record an explicit exception to ADR 0004 for the identity fields: `/v1`
+   serves the current id at once, and no route serves an old id. This fits
+   the owner ruling that no old id is in use;
+.. serve remints only from `/v2`, and keep the old ids in `/v1` until its
+   deprecation window closes (at least 90 days). This keeps ADR 0004 as it
+   is, but `/v1` serves old ids in that window, which is against the owner
+   ruling.
 
 == Implementation (after acceptance, not part of this ADR)
 
