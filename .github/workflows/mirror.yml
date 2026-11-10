@@ -15,14 +15,19 @@ on:
 # the input's default (ubuntu-latest), job.workflow_sha is the pin above, the
 # standards owner is metadatastician, and each job keeps its old check name
 # "mirror / <job>". Re-sync from standards by re-inlining at a new pin.
+# Also changed, for SonarCloud: workflow-level read permissions moved onto the
+# jobs that inherited them (same rights per job), and the Radicle key is written
+# from the job env (printf "$RADICLE_KEY") instead of expanding the secret in
+# the script text.
 
-permissions:
-  actions: read
-  contents: read
+permissions: {}
 
 
 jobs:
   mirror-gitlab:
+    permissions:
+      actions: read
+      contents: read
     name: "mirror / mirror-gitlab"
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -59,6 +64,9 @@ jobs:
           echo "::notice::GITLAB_MIRROR_ENABLED=true but secrets.GITLAB_SSH_KEY is empty. Skipping GitLab mirror. Configure the GITLAB_SSH_KEY org/repo secret to enable."
 
   mirror-bitbucket:
+    permissions:
+      actions: read
+      contents: read
     name: "mirror / mirror-bitbucket"
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -87,6 +95,9 @@ jobs:
           echo "::notice::BITBUCKET_MIRROR_ENABLED=true but secrets.BITBUCKET_SSH_KEY is empty. Skipping Bitbucket mirror. Configure the BITBUCKET_SSH_KEY org/repo secret to enable."
 
   mirror-codeberg:
+    permissions:
+      actions: read
+      contents: read
     name: "mirror / mirror-codeberg"
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -115,6 +126,9 @@ jobs:
           echo "::notice::CODEBERG_MIRROR_ENABLED=true but secrets.CODEBERG_SSH_KEY is empty. Skipping Codeberg mirror. Configure the CODEBERG_SSH_KEY org/repo secret to enable."
 
   mirror-sourcehut:
+    permissions:
+      actions: read
+      contents: read
     name: "mirror / mirror-sourcehut"
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -143,6 +157,9 @@ jobs:
           echo "::notice::SOURCEHUT_MIRROR_ENABLED=true but secrets.SOURCEHUT_SSH_KEY is empty. Skipping SourceHut mirror. Configure the SOURCEHUT_SSH_KEY org/repo secret to enable."
 
   mirror-disroot:
+    permissions:
+      actions: read
+      contents: read
     name: "mirror / mirror-disroot"
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -171,6 +188,9 @@ jobs:
           echo "::notice::DISROOT_MIRROR_ENABLED=true but secrets.DISROOT_SSH_KEY is empty. Skipping Disroot mirror. Configure the DISROOT_SSH_KEY org/repo secret to enable."
 
   mirror-gitea:
+    permissions:
+      actions: read
+      contents: read
     name: "mirror / mirror-gitea"
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -199,6 +219,9 @@ jobs:
           echo "::notice::GITEA_MIRROR_ENABLED=true but secrets.GITEA_SSH_KEY is empty. Skipping Gitea mirror. Configure the GITEA_SSH_KEY org/repo secret to enable."
 
   mirror-radicle:
+    permissions:
+      actions: read
+      contents: read
     name: "mirror / mirror-radicle"
     timeout-minutes: 20
     runs-on: ubuntu-latest
@@ -237,7 +260,7 @@ jobs:
         if: ${{ env.RADICLE_KEY != '' }}
         run: |
           mkdir -p ~/.radicle/keys
-          echo "${{ secrets.RADICLE_KEY }}" > ~/.radicle/keys/radicle
+          printf '%s\n' "$RADICLE_KEY" > ~/.radicle/keys/radicle
           chmod 600 ~/.radicle/keys/radicle
           rad sync --announce || echo "Radicle sync attempted"
       - name: Skipped (RADICLE_KEY not configured)

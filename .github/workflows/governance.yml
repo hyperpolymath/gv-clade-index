@@ -34,14 +34,18 @@ concurrency:
 # the input's default (ubuntu-latest), job.workflow_sha is the pin above, the
 # standards owner is metadatastician, and each job keeps its old check name
 # "governance / <job>". Re-sync from standards by re-inlining at a new pin.
+# Also changed, for SonarCloud: workflow-level read permissions moved onto the
+# jobs that inherited them (same rights per job), and 4 http:// detector lines
+# marked NOSONAR (they look for clear-text URLs; they use none).
 
-permissions:
-  actions: read
-  contents: read
+permissions: {}
 
 
 jobs:
   workflow-staleness:
+    permissions:
+      actions: read
+      contents: read
     name: "governance / Check Workflow Staleness"
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -192,6 +196,9 @@ jobs:
           exit "$rc"
 
   validate-hypatia-baseline:
+    permissions:
+      actions: read
+      contents: read
     name: "governance / Validate Hypatia Baseline"
     needs: workflow-staleness
     # NOTE: deliberately NO job-level `if:`. This context is REQUIRED by branch
@@ -750,10 +757,10 @@ jobs:
             echo "::warning::Weak crypto (MD5/SHA1) detected — ADVISORY, does not fail this job. Use SHA256+:"
             echo "$WEAK_CRYPTO"
           fi
-          HTTP_URLS=$(grep -rE 'http://[^l][^o][^c]' --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v 'localhost\|127.0.0.1\|example\|test\|spec' | head -5 || true)
+          HTTP_URLS=$(grep -rE 'http://[^l][^o][^c]' --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v 'localhost\|127.0.0.1\|example\|test\|spec' | head -5 || true)  # NOSONAR: detects http:// in order to warn about it; uses no HTTP
           if [ -n "$HTTP_URLS" ]; then
             echo "::warning::HTTP URLs found — ADVISORY, does not fail this job. Use HTTPS:"
-            echo "$HTTP_URLS"
+            echo "$HTTP_URLS"  # NOSONAR: detects http:// in order to warn about it; uses no HTTP
           fi
           SECRETS=$(grep -rEi '(api_key|apikey|secret_key|password)\s*[=:]\s*["\x27][A-Za-z0-9+/=]{20,}' --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" --include="*.env" . 2>/dev/null | grep -v 'example\|sample\|test\|mock\|placeholder' | head -3 || true)
           if [ -n "$SECRETS" ]; then
@@ -1082,10 +1089,10 @@ jobs:
           fi
       - name: Mixed content check
         run: |
-          MIXED=$(grep -rE 'src="http://|href="http://' --include="*.html" --include="*.htm" . 2>/dev/null | grep -vE 'localhost|127\.0\.0\.1|example\.com|lol/|node_modules/|third-party/|vendor/' | head -5 || true)
+          MIXED=$(grep -rE 'src="http://|href="http://' --include="*.html" --include="*.htm" . 2>/dev/null | grep -vE 'localhost|127\.0\.0\.1|example\.com|lol/|node_modules/|third-party/|vendor/' | head -5 || true)  # NOSONAR: detects http:// in order to warn about it; uses no HTTP
           if [ -n "$MIXED" ]; then
             echo "::error::Mixed content (HTTP in HTML)"
-            echo "$MIXED"
+            echo "$MIXED"  # NOSONAR: detects http:// in order to warn about it; uses no HTTP
             exit 1
           fi
           echo "✅ No mixed content"
