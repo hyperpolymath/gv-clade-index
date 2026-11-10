@@ -1,6 +1,5 @@
 # This workflow is managed by gh actions-lock.
 # SPDX-License-Identifier: MPL-2.0
-# governance.yml — single wrapper calling the shared estate governance bundle
 # in hyperpolymath/standards instead of carrying per-repo copies.
 #
 # Replaces the per-repo governance scaffolding removed in the same commit:
@@ -27,10 +26,1440 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# INLINED from metadatastician/standards
+#   .github/workflows/governance-reusable.yml @ 092dedada188f56c5915f74a5fd40aac093742c3
+# A job-level call to a remote reusable workflow cannot be recorded in
+# actions.lock, and since 2026-10-19 such calls failed at startup with zero
+# jobs. The jobs below are that reusable's jobs, unchanged except: runs-on is
+# the input's default (ubuntu-latest), job.workflow_sha is the pin above, the
+# standards owner is metadatastician, and each job keeps its old check name
+# "governance / <job>". Re-sync from standards by re-inlining at a new pin.
+
 permissions:
   actions: read
   contents: read
 
+
 jobs:
-  governance:
-    uses: hyperpolymath/standards/.github/workflows/governance-reusable.yml@092dedada188f56c5915f74a5fd40aac093742c3
+  workflow-staleness:
+    name: "governance / Check Workflow Staleness"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      has_baseline: ${{ steps.check.outputs.has_baseline }}
+    steps:
+      - name: Checkout caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check baseline existence
+        id: check
+        run: |
+          if [ -f ".hypatia-baseline.json" ]; then
+            echo "has_baseline=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_baseline=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout pinned standards history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          # The gate needs the full graph for ancestry and age checks, but its
+          # script must come from the exact reusable commit rather than moving
+          # main. This also lets a Standards PR test its own validator change.
+          ref: 092dedada188f56c5915f74a5fd40aac093742c3
+          path: .standards-history
+          fetch-depth: 0
+          filter: tree:0
+          persist-credentials: false
+
+      - name: Run staleness check
+        env:
+          # The gate confirms a pin server-side before ever accusing it of being
+          # forged, and before accepting a deny-list negative from a clone it
+          # cannot trust. Unauthenticated that is 60 requests/hour per runner IP;
+          # exhausting it makes the gate degrade to ::warning (loudly — it never
+          # silently passes, see check-workflow-staleness.sh). A token removes
+          # the cliff entirely. Note this only reaches a consumer once it re-pins
+          # past this commit: the script comes from standards HEAD, but the job
+          # definition comes from whatever SHA the consumer pins.
+          GITHUB_TOKEN: ${{ github.token }}
+          STALENESS_STANDARDS_DIR: ${{ github.workspace }}/.standards-history
+        run: |
+          bash .standards-history/scripts/check-workflow-staleness.sh .
+
+  allowlist-preflight:
+    name: "governance / Allowlist Preflight"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+
+      - name: Checkout standards for the allowlist gate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          # Exact commit of this reusable workflow. This preserves consumer
+          # pin semantics and lets a standards PR test its own scripts.
+          ref: 092dedada188f56c5915f74a5fd40aac093742c3
+          path: .standards-checkout
+          sparse-checkout: |
+            rhodium-standard-repositories/actions-allowlist
+            scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Run tree allowlist preflight check
+        run: |
+          # Bootstrap rule: standards must test the scripts from its PR tree;
+          # consumers use the canonical copies checked out from standards.
+          if [ "$GITHUB_REPOSITORY" = hyperpolymath/standards ]; then
+            cp scripts/check-actions-policy.sh scripts/check-allowed-actions.sh "$RUNNER_TEMP/"
+            cp rhodium-standard-repositories/actions-allowlist/allowed-actions.json \
+               "$RUNNER_TEMP/allowed-actions.json"
+          else
+            cp .standards-checkout/scripts/check-actions-policy.sh \
+               .standards-checkout/scripts/check-allowed-actions.sh "$RUNNER_TEMP/"
+            cp .standards-checkout/rhodium-standard-repositories/actions-allowlist/allowed-actions.json \
+               "$RUNNER_TEMP/allowed-actions.json"
+          fi
+          bash "$RUNNER_TEMP/check-allowed-actions.sh" \
+            "$RUNNER_TEMP/allowed-actions.json" .github/workflows
+          rm -rf .standards-checkout
+
+  actions-policy-live:
+    name: "governance / Live Actions policy (credentialed advisory)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout standards for the live policy gate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: 092dedada188f56c5915f74a5fd40aac093742c3
+          path: .standards-checkout
+          sparse-checkout: |
+            rhodium-standard-repositories/actions-allowlist
+            scripts/check-actions-policy.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Report unavailable live policy credential
+        env:
+          GH_TOKEN: ${{ secrets.HYPATIA_SCAN_PAT }}
+        if: ${{ env.GH_TOKEN == '' }}
+        run: |
+          echo "::warning::Live Actions policy was not evaluated: HYPATIA_SCAN_PAT was not supplied by the caller. The separate tree allowlist gate still ran."
+          # shellcheck disable=SC2016
+          printf '%s\n' \
+            '### Live Actions policy not evaluated' \
+            '' \
+            'The caller did not supply `HYPATIA_SCAN_PAT`. This advisory job' \
+            'does not claim that the repository Administration setting passed.' \
+            'The independent tree allowlist preflight remains enforced.' \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check live Actions policy
+        env:
+          # The ordinary job token cannot read the repository Administration
+          # endpoint. When a caller deliberately supplies this credential, an
+          # API/authentication failure or real policy violation remains red.
+          GH_TOKEN: ${{ secrets.HYPATIA_SCAN_PAT }}
+        if: ${{ env.GH_TOKEN != '' }}
+        run: |
+          set +e
+          bash .standards-checkout/scripts/check-actions-policy.sh \
+            "$GITHUB_REPOSITORY" \
+            .standards-checkout/rhodium-standard-repositories/actions-allowlist/allowed-actions.json
+          rc=$?
+          set -e
+          if [ "$rc" -eq 3 ]; then
+            echo "::warning::Live Actions policy was not evaluated: the supplied credential could not read the Administration endpoint."
+            printf '%s\n' \
+              '### Live Actions policy not evaluated' \
+              '' \
+              'A credential was supplied, but the Administration API was unavailable.' \
+              'No live-policy pass is claimed; rotate or re-authorise the credential.' \
+              >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          exit "$rc"
+
+  validate-hypatia-baseline:
+    name: "governance / Validate Hypatia Baseline"
+    needs: workflow-staleness
+    # NOTE: deliberately NO job-level `if:`. This context is REQUIRED by branch
+    # protection, and a skipped job never satisfies a required context — so a
+    # repo without a baseline blocked forever, by construction. The job now
+    # always runs; the EXPENSIVE steps are guarded individually, so it still
+    # costs nothing when there is no baseline to validate.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout caller repository
+        if: needs.workflow-staleness.outputs.has_baseline == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Setup Elixir for Hypatia scanner
+        if: needs.workflow-staleness.outputs.has_baseline == 'true'
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        with:
+          elixir-version: '1.19.4'
+          otp-version: '28.3'
+
+      - name: Resolve Hypatia HEAD commit
+        if: needs.workflow-staleness.outputs.has_baseline == 'true'
+        id: hypatia-rev
+        run: |
+          # Pin the cache to the *current* Hypatia main tip. Resolved before the
+          # cache step because cache restore happens before the clone, so the key
+          # cannot hash a not-yet-cloned tree — it must hash the remote ref.
+          sha=$(git ls-remote https://github.com/hyperpolymath/hypatia.git HEAD | cut -f1)
+          if [ -z "$sha" ]; then
+            echo "ERROR: could not resolve hypatia HEAD via git ls-remote" >&2
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "Resolved hypatia HEAD: $sha"
+
+      - name: Cache Hex/Mix and Scanner Build
+        if: needs.workflow-staleness.outputs.has_baseline == 'true'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.mix
+            ~/.hex
+            ~/hypatia
+          # Source-pinned key: when Hypatia main advances, the SHA changes, the
+          # cache misses, and the clone + escript build below re-run instead of
+          # restoring a stale binary. The old keyless `...-build` key meant the
+          # first scanner ever cached was reused forever, so baseline validation
+          # ran against a stale ruleset. No restore-keys on purpose — a partial
+          # restore would repopulate ~/hypatia and the guards below would skip
+          # the rebuild, reintroducing the staleness.
+          key: hypatia-scanner-v3-${{ runner.os }}-${{ steps.hypatia-rev.outputs.sha }}
+
+      - name: Clone Hypatia
+        if: needs.workflow-staleness.outputs.has_baseline == 'true'
+        run: |
+          if [ ! -d "$HOME/hypatia" ]; then
+            git clone --depth 1 https://github.com/hyperpolymath/hypatia.git "$HOME/hypatia"
+          fi
+
+      - name: Build Hypatia scanner
+        if: needs.workflow-staleness.outputs.has_baseline == 'true'
+        run: |
+          cd "$HOME/hypatia"
+          if [ ! -x hypatia ]; then
+            mix deps.get && mix escript.build
+          fi
+
+      # A reusable workflow only auto-checks-out its own YAML, not sibling
+      # scripts. Sparse-check-out standards' scripts/ to get apply-baseline.sh,
+      # mirroring the language-policy job below. `job.workflow_sha` is the exact
+      # commit of this called workflow, so the filter and schema semantics cannot
+      # drift from the reusable workflow that invoked them. This also lets a
+      # standards PR test its own script change instead of silently using main.
+      - name: Check out standards for the baseline filter
+        if: needs.workflow-staleness.outputs.has_baseline == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: 092dedada188f56c5915f74a5fd40aac093742c3
+          path: .standards-checkout
+          sparse-checkout: |
+            scripts
+            tools/policy/check-language-policy.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Run Hypatia scan (Baseline validation)
+        if: needs.workflow-staleness.outputs.has_baseline == 'true'
+        env:
+          # Preserve the historical strictness: fail on ANY finding not
+          # acknowledged by .hypatia-baseline.json (not just >= high). Set to
+          # 'high' to only block on high/critical.
+          BLOCKING_THRESHOLD: info
+        run: |
+          echo "Scanning repository: ${{ github.repository }} (checking baseline)"
+          # Move the baseline filter OUT of the scanned tree, then delete the
+          # standards checkout, so `hypatia scan .` only ever sees the CALLER's
+          # own files. Without this, `.standards-checkout/` (the tooling we
+          # checked out to get apply-baseline.sh) is itself scanned, and
+          # standards' own files get reported as the caller's findings (a banned
+          # `.ts`, `shell_download` bootstrap.sh scripts, etc.).
+          cp .standards-checkout/scripts/apply-baseline.sh "$RUNNER_TEMP/apply-baseline.sh"
+          rm -rf .standards-checkout
+          # hypatia's `scan` exits non-zero whenever it finds anything — that is
+          # by design, and under `bash -e` it would abort this step at this line,
+          # before the baseline filter (the real gate) ever runs. Tolerate the
+          # scan's own exit code…
+          HYPATIA_FORMAT=json "$HOME/hypatia/hypatia-cli.sh" scan . > hypatia-findings.raw.json || true
+          # …but never swallow a genuine scanner crash into a false pass: require a
+          # valid JSON array before trusting the output as "the findings".
+          if ! jq -e 'type == "array"' hypatia-findings.raw.json >/dev/null 2>&1; then
+            echo "::error::hypatia scan did not produce a valid JSON findings array (scanner error, not a baseline result)"
+            exit 1
+          fi
+
+          # Relativize finding paths before matching. Hypatia's honest_completion
+          # and code_safety modules emit ABSOLUTE host paths in `.file`
+          # (Path.expand(repo)), while .hypatia-baseline.json uses repo-relative
+          # paths per the schema + docs/HYPATIA-BASELINE-FORMAT.adoc. Strip the
+          # workspace prefix so baseline file/file_pattern entries can match, and
+          # map the repo root itself to "." so root-scoped findings (no_tests)
+          # match. Upstream fix tracked in hypatia#566; this is the stopgap.
+          jq --arg root "$PWD" '
+            map(if (.file? // "") == $root then .file = "."
+                elif (.file? // "") | startswith($root + "/")
+                then .file = (.file | ltrimstr($root + "/"))
+                else . end)
+          ' hypatia-findings.raw.json > hypatia-findings.json
+
+          # Filter against the per-repo baseline. apply-baseline.sh KEEPS every
+          # finding not matched by an active (non-expired) baseline entry — so a
+          # genuinely new finding still fails the gate (no silent-green) — and
+          # suppresses only exact matches. Exits non-zero iff a kept finding is at
+          # or above BLOCKING_THRESHOLD. (Validated against synthetic fixtures;
+          # see the PR description.)
+          bash "$RUNNER_TEMP/apply-baseline.sh" \
+            hypatia-findings.json .hypatia-baseline.json blocking
+
+      - name: No baseline to validate
+        if: needs.workflow-staleness.outputs.has_baseline != 'true'
+        run: |
+          echo "No .hypatia-baseline.json in this repo — nothing to validate."
+          echo "The job still reports success so the required context is satisfied."
+  language-policy:
+    name: "governance / Language / package anti-pattern policy"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          # Pin to the concrete event SHA (the PR merge commit on
+          # pull_request, the pushed commit on push). Do NOT use
+          # `ref: ${{ github.ref }}`: in a reusable workflow called from a
+          # pull_request, github.ref is the named merge ref
+          # `refs/pull/<n>/merge`, which actions/checkout cannot fetch
+          # ("couldn't find remote ref refs/pull/<n>/merge") — it broke 8/10
+          # governance jobs on every PR estate-wide. github.sha resolves to the
+          # same merge commit but is always fetchable.
+          ref: ${{ github.sha }}
+
+      # Estate language policy bans Python with no exceptions (CLAUDE.md
+      # Language Policy; SaltStack exception removed 2026-01-03). The
+      # previous in-line `python3 << PYEOF` heredoc made this very gate a
+      # self-referential violation — same structural class as the CSA001
+      # self-loop fixed in hypatia#328. Eradicated by porting the logic
+      # to a Deno script that lives in this standards repo.
+      #
+      # Implementation note: a reusable workflow only auto-checks-out its
+      # YAML, not sibling files in its repo. So we explicitly check out
+      # this repo into `.standards-checkout/`, then run the script from
+      # there. We pin to `main` because `github.workflow_sha` resolves to
+      # the caller repo's commit SHA (not standards'), which makes the
+      # fetch fail with exit 128 ("No commit found for SHA"). Caller
+      # repos already pin the reusable's YAML by SHA, so the bounded
+      # drift is just whatever's on standards/main between the reusable
+      # version and the script version — acceptable since scripts here
+      # are read-only governance checks.
+      - name: Check out standards repo for shared scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: .standards-checkout
+          # Include the shared policy gate as well as the scripts it complements.
+          sparse-checkout: |
+            scripts
+            tools/policy/check-language-policy.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Check for TypeScript
+        # Read-only execution; never writes outside the runner workspace.
+        # Pure bash + awk, so no JS runtime is installed on the runner.
+        # Source of truth: `scripts/check-ts-allowlist.sh` in standards.
+        # The local fallback is for standards' OWN PRs: the checkout above
+        # pins standards@main, so a script added in a PR is not there yet.
+        # It is gated on the caller being standards, so no consumer repo can
+        # shadow this required gate with a permissive repo-local copy.
+        run: |
+          SCRIPT=".standards-checkout/scripts/check-ts-allowlist.sh"
+          if [ ! -f "$SCRIPT" ] && [ "$GITHUB_REPOSITORY" = "hyperpolymath/standards" ] \
+             && [ -f scripts/check-ts-allowlist.sh ]; then
+            SCRIPT="scripts/check-ts-allowlist.sh"
+            echo "Using this repository's own copy (standards self-check)."
+          fi
+          if [ ! -f "$SCRIPT" ]; then
+            echo "::error::check-ts-allowlist gate not found in standards@main or locally"
+            exit 1
+          fi
+          bash "$SCRIPT"
+
+      - name: Check language-policy invariants
+        run: |
+          SCRIPT=".standards-checkout/tools/policy/check-language-policy.sh"
+          if [ ! -f "$SCRIPT" ] && [ -f tools/policy/check-language-policy.sh ]; then
+            SCRIPT="tools/policy/check-language-policy.sh"
+            echo "Using this repository's own copy (standards self-check)."
+          fi
+          if [ ! -f "$SCRIPT" ]; then
+            echo "::error::language-policy gate not found in standards@main or locally"
+            exit 1
+          fi
+          bash "$SCRIPT"
+
+      # Shared escape hatch for the banned-language-file checks below.
+      # Honours three exemption mechanisms (see
+      # standards/docs/EXEMPTION-MECHANISMS.adoc):
+      #   1. `.hypatia-baseline.json` — array of acknowledged findings,
+      #      shape mirrors the Hypatia findings themselves. Schema is
+      #      `.machine_readable/hypatia-baseline.schema.json` in this
+      #      repo, enforced structurally by apply-baseline.sh itself
+      #      (jq mirror; a malformed baseline exits 2 instead of
+      #      silently matching nothing). Added 2026-05-25 as part of
+      #      the convergence on a single exemption mechanism.
+      #   2. `.hypatia-ignore` flat-file — legacy single-rule-per-line
+      #      format (`cicd_rules/banned_language_file:<relpath>`).
+      #      Will be retired in a follow-up PR once .hypatia-baseline.json
+      #      is in active use across the estate.
+      #   3. Inline `# hypatia:ignore ...` pragma in the file's first
+      #      8 lines — the same escape the Hypatia scanner itself
+      #      honours.
+      - name: Check banned-language files (ReScript / Go / Python / Java / Kotlin / Groovy / Swift / Dart / V-lang / Makefile)
+        run: |
+          rule_module="cicd_rules"
+          rule_type="banned_language_file"
+          rule="${rule_module}/${rule_type}"
+
+          # Baseline lookup: returns 0 (exempt) if the file appears in
+          # .hypatia-baseline.json with a matching rule_module + type.
+          # Honours both `file` (exact) and `file_pattern` (glob) entries.
+          # The glob → regex translation mirrors apply-baseline.sh exactly:
+          #   `**` matches any depth (incl. `/`); `*` matches one segment.
+          # Pattern support unblocks language-demo repos (absolute-zero
+          # carries ~30 banned-language example files under `examples/`)
+          # and any repo that vendors such subtrees, replacing per-file
+          # `.hypatia-ignore` enumeration with one `file_pattern` entry.
+          in_baseline() {
+            local target="$1"
+            [ -f .hypatia-baseline.json ] || return 1
+            command -v jq >/dev/null 2>&1 || return 1
+            # Note: the `as $pat` capture is essential — inside `test(...)`
+            # the dot rebinds to test's input ($f, a string), so
+            # `.file_pattern` would error with "Cannot index string". We
+            # capture file_pattern in $pat first, then reference it inside
+            # the test() argument.
+            jq -e \
+              --arg rm "$rule_module" \
+              --arg rt "$rule_type" \
+              --arg f  "$target" \
+              'any(.[];
+                   .rule_module == $rm and .type == $rt
+                   and (
+                     (.file? // null) == $f
+                     or (
+                       (.file_pattern? // null) as $pat
+                       | $pat != null
+                       and ($f | test(
+                         $pat
+                         | gsub("\\*\\*"; "DOUBLESTAR")
+                         | gsub("\\*"; "[^/]*")
+                         | gsub("DOUBLESTAR"; ".*")
+                         | "^" + . + "$"
+                       ))
+                     )
+                   ))' \
+              .hypatia-baseline.json >/dev/null 2>&1
+          }
+
+          is_exempt() {
+            f="${1#./}"
+            if in_baseline "$f"; then
+              echo "⏭️  exempt (baseline): $f"
+              return 0
+            fi
+            if [ -f .hypatia-ignore ] && grep -qxF "${rule}:${f}" .hypatia-ignore; then
+              return 0
+            fi
+            if head -n 8 "$1" 2>/dev/null | grep -q "hypatia:ignore.*${rule}"; then
+              return 0
+            fi
+            return 1
+          }
+
+          # $1 = human label, $2 = remediation hint, $3 = newline-separated
+          # candidate paths (possibly empty). Reads via here-string so this
+          # runs in the current shell — no subshell, exit propagates.
+          enforce() {
+            label="$1"; hint="$2"; candidates="$3"; violations=""
+            while IFS= read -r f; do
+              [ -z "$f" ] && continue
+              if is_exempt "$f"; then
+                echo "⏭️  exempt (${rule}): $f"
+                continue
+              fi
+              violations="${violations}${f}
+          "
+            done <<< "$candidates"
+            if [ -n "$(printf '%s' "$violations" | tr -d '[:space:]')" ]; then
+              echo "❌ ${label} detected - ${hint}"
+              printf '%s' "$violations"
+              echo "   (declare an exemption via .hypatia-ignore or an inline"
+              echo "    '# hypatia:ignore ${rule}' pragma if intentional)"
+              exit 1
+            fi
+            echo "✅ No non-exempt ${label}"
+          }
+
+          # Use `git ls-files` instead of `find` so only TRACKED files are
+          # inspected. This respects .gitignore by definition — vendored
+          # deps in deps/, node_modules/, _build/ etc. are never tracked
+          # and cannot produce false-positives. Root cause for the switch:
+          # developer-ecosystem@baab1534 had false-positive governance
+          # failures because `find` crawled gitignored vendor directories.
+          # `git ls-files` works correctly on fresh PR checkouts because
+          # actions/checkout populates the index before running workflows.
+          RES_FILES=$(git ls-files '*.res' || true)
+          GO_FILES=$(git ls-files '*.go' || true)
+          PY_FILES=$(git ls-files '*.py' \
+            | grep -v venv | grep -v __pycache__ || true)
+          MAKE_FILES=$(git ls-files 'Makefile' 'Makefile.*' '*.mk' \
+            | grep -v '\.github/' || true)
+          # Platform-required JVM shims carve-out 2026-06-02:
+          # Java is permitted only in Android source trees
+          # (android/**/src/**/*.java) because Android instantiates
+          # Service/BroadcastReceiver/AppWidgetProvider/Activity classes by
+          # name at platform boundaries — Rust/Zig cannot provide JVM
+          # bytecode for these. Each Android Java shim must be a minimal
+          # delegating wrapper (typically <10 LoC) that JNIs into Rust/Zig
+          # immediately.
+          #
+          # Kotlin/Groovy: NO JVM-interop exemption (reverted 2026-06-24).
+          # Kotlin is goodbye. There is NO carve-out for hand-written JVM
+          # bindings: FFI/interop to other ecosystems MUST be authored as
+          # Idris2-ABI → Zig FFI/API (Idris2 → C only as an absolute last
+          # resort if Zig genuinely cannot reach the boundary), never as
+          # Kotlin/Java/Groovy `bindings/*`. Mobile uses Tauri/Dioxus. The
+          # only remaining Java carve-out is the minimal Android platform
+          # shim above. `.groovy` is detected so it is banned everywhere.
+          JAVA_FILES=$(git ls-files '*.java' '*.kt' '*.kts' '*.groovy' \
+            | grep -vE '(^|/)android/.*/src/.*\.java$' || true)
+          SWIFT_FILES=$(git ls-files '*.swift' || true)
+          DART_FILES=$(git ls-files '*.dart' 'pubspec.yaml' || true)
+          # V-lang detected by manifest (v.mod / vpkg.json); the .v extension
+          # collides with Verilog so we never key on it.
+          VMOD_FILES=$(git ls-files 'v.mod' 'vpkg.json' || true)
+
+          enforce "ReScript files" "use AffineScript instead" "$RES_FILES"
+          enforce "Go files" "use Rust/WASM instead" "$GO_FILES"
+          enforce "Python files" "Python is fully banned — use AffineScript/Rust/SPARK/Julia (SaltStack carveout removed 2026-01-03)" "$PY_FILES"
+          enforce "Makefiles" "use Mustfile/justfile instead" "$MAKE_FILES"
+          enforce "Java/Kotlin/Groovy files" "Kotlin is goodbye — apps use Tauri/Dioxus; FFI/interop must be Idris2-ABI -> Zig FFI (or Idris2 -> C as a last resort), NOT hand-written JVM bindings" "$JAVA_FILES"
+          enforce "Swift files" "use Tauri/Dioxus instead" "$SWIFT_FILES"
+          enforce "Flutter/Dart files" "use Tauri/Dioxus instead (Google lock-in)" "$DART_FILES"
+          enforce "V-lang manifests (v.mod / vpkg.json)" "V-lang is banned since 2026-04-10 — migrate to Zig" "$VMOD_FILES"
+
+      - name: Check for npm/yarn artifacts
+        # standards#67 — npm-avoidant: package-lock.json must never be tracked
+        # estate-wide. Check recursively (not just root) to catch monorepo
+        # sub-packages. See LANGUAGE-POLICY.adoc §1 and docs/JS-RUNTIME-POLICY.adoc.
+        #
+        # 2026-08-07: this step previously failed any repository carrying
+        # bun.lockb ("Use Deno instead") and any package.json declaring runtime
+        # dependencies. LANGUAGE-POLICY.adoc §1 has made Bun the tier-1 runtime
+        # since 2026-07-29, and Bun's model IS an npm-compatible package.json
+        # plus bun.lock — so this gate made adopting the estate's first-choice
+        # runtime impossible, not merely awkward. It blocked what the policy
+        # mandates. Bun artifacts are now accepted; npm and yarn are unchanged.
+        run: |
+          LOCK_FILES=$(git ls-files 'package-lock.json' '**/package-lock.json' 2>/dev/null || true)
+          YARN_FILES=$(find . -name "yarn.lock" -not -path "./.git/*" 2>/dev/null || true)
+          NPMRC_FILES=$(find . -name ".npmrc" -not -path "./.git/*" 2>/dev/null || true)
+          BUN_LOCK=$(find . \( -name "bun.lock" -o -name "bun.lockb" \) -not -path "./.git/*" 2>/dev/null || true)
+          FAILED=""
+          if [ -n "$LOCK_FILES" ]; then
+            echo "❌ Tracked package-lock.json detected (standards#67 — npm-avoidant)."
+            echo "   npm is tier 4: permitted, never preferred. Prefer Bun (tier 1)."
+            printf '%s\n' "$LOCK_FILES"
+            FAILED=1
+          fi
+          if [ -n "$YARN_FILES" ]; then
+            echo "❌ yarn.lock detected. yarn is not in the estate tier list."
+            echo "   Use Bun (tier 1), or Deno / pnpm / npm in that order."
+            printf '%s\n' "$YARN_FILES"
+            FAILED=1
+          fi
+          if [ -n "$NPMRC_FILES" ]; then
+            echo "❌ .npmrc detected. Configure the runtime you actually use —"
+            echo "   bunfig.toml for Bun, deno.json for Deno."
+            printf '%s\n' "$NPMRC_FILES"
+            FAILED=1
+          fi
+          if [ -n "$BUN_LOCK" ]; then
+            echo "✅ Bun lockfile present — tier 1 (LANGUAGE-POLICY.adoc §1)."
+          fi
+          # Root package.json with runtime "dependencies". Bun consumes
+          # package.json by design, so this is only an anti-pattern when the
+          # repository is NOT using Bun; otherwise it is the tier-1 runtime
+          # working exactly as intended.
+          if [ -f package.json ] && grep -q '"dependencies"[[:space:]]*:[[:space:]]*{[^}]' package.json; then
+            if [ -n "$BUN_LOCK" ]; then
+              echo "✅ package.json runtime dependencies accompanied by a Bun lockfile — tier 1, fine."
+            else
+              echo "❌ package.json with runtime \"dependencies\" and no Bun lockfile."
+              echo "   Adopt Bun (tier 1) or declare imports in deno.json (tier 2)."
+              FAILED=1
+            fi
+          fi
+          if [ -n "$FAILED" ]; then
+            echo "See hyperpolymath/standards docs/JS-RUNTIME-POLICY.adoc for remediation."
+            exit 1
+          fi
+          echo "✅ No npm/bun violations"
+
+      - name: Check for tsconfig / rescript config
+        # Honours the same `.hypatia-ignore` exemption mechanism as the
+        # banned-language-files step (standards#72, Explicit-Escape
+        # Principle). A config file is exempt if either
+        #   * `.hypatia-ignore` contains the exact line
+        #     `cicd_rules/banned_config_file:<config>`, OR
+        #   * the file carries an inline `# hypatia:ignore … banned_config_file`
+        #     pragma in its first 8 lines (works for JSONC-style configs;
+        #     not for strict JSON variants).
+        # Required so repos that legitimately retain ReScript while in
+        # mid-migration (per their `.claude/CLAUDE.md`, e.g. verisimdb)
+        # can declare the exemption explicitly instead of being globally
+        # blocked. Same pattern as the .res file step above.
+        run: |
+          rule="cicd_rules/banned_config_file"
+
+          is_exempt() {
+            f="$1"
+            if [ -f .hypatia-ignore ] && grep -qxF "${rule}:${f}" .hypatia-ignore; then
+              return 0
+            fi
+            if head -n 8 "$f" 2>/dev/null | grep -q "hypatia:ignore.*${rule}"; then
+              return 0
+            fi
+            return 1
+          }
+
+          check_config() {
+            cfg="$1"; hint="$2"
+            if [ -f "$cfg" ]; then
+              if is_exempt "$cfg"; then
+                echo "⏭️  exempt (${rule}): $cfg"
+                return 0
+              fi
+              echo "❌ ${cfg} detected - ${hint}"
+              echo "   (declare an exemption via .hypatia-ignore line"
+              echo "    '${rule}:${cfg}' if intentional)"
+              exit 1
+            fi
+          }
+
+          check_config "tsconfig.json" "use AffineScript instead"
+          check_config "rescript.json" "use AffineScript config instead"
+          check_config "bsconfig.json" "use AffineScript config instead"
+          echo "✅ No non-exempt tsconfig.json / rescript config"
+
+      - name: Summary
+        run: |
+          echo "RSR language/package policy passed — allowed: AffineScript, Deno,"
+          echo "WASM, Rust, OCaml, Haskell, Guile/Scheme."
+
+  package-policy:
+    name: "governance / Guix packaging policy (Nix retired)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          # Pin to the concrete event SHA (the PR merge commit on
+          # pull_request, the pushed commit on push). Do NOT use
+          # `ref: ${{ github.ref }}`: in a reusable workflow called from a
+          # pull_request, github.ref is the named merge ref
+          # `refs/pull/<n>/merge`, which actions/checkout cannot fetch
+          # ("couldn't find remote ref refs/pull/<n>/merge") — it broke 8/10
+          # governance jobs on every PR estate-wide. github.sha resolves to the
+          # same merge commit but is always fetchable.
+          ref: ${{ github.sha }}
+
+      # A reusable workflow only auto-checks-out its own YAML, not sibling
+      # scripts. Sparse-check-out standards' scripts/ to get
+      # check-package-policy.sh, mirroring the baseline-filter job above.
+      - name: Check out standards for the package-policy gate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: .standards-checkout
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Enforce Guix-only packaging policy
+        run: |
+          # Move the checker OUT of the scanned tree and delete the standards
+          # checkout before scanning: the gate walks the whole caller tree, so
+          # a packaging file shipped inside .standards-checkout/ would satisfy
+          # the policy on the caller's behalf (same trap as the baseline job).
+          cp .standards-checkout/scripts/check-package-policy.sh "$RUNNER_TEMP/"
+          rm -rf .standards-checkout
+          bash "$RUNNER_TEMP/check-package-policy.sh" .
+
+  security-policy:
+    name: "governance / Security policy checks"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          # Pin to the concrete event SHA (the PR merge commit on
+          # pull_request, the pushed commit on push). Do NOT use
+          # `ref: ${{ github.ref }}`: in a reusable workflow called from a
+          # pull_request, github.ref is the named merge ref
+          # `refs/pull/<n>/merge`, which actions/checkout cannot fetch
+          # ("couldn't find remote ref refs/pull/<n>/merge") — it broke 8/10
+          # governance jobs on every PR estate-wide. github.sha resolves to the
+          # same merge commit but is always fetchable.
+          ref: ${{ github.sha }}
+      - name: Security checks
+        run: |
+          FAILED=false
+          WEAK_CRYPTO=$(grep -rE 'md5\(|sha1\(' --include="*.py" --include="*.rb" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" . 2>/dev/null | grep -v 'checksum\|cache\|test\|spec' | head -5 || true)
+          if [ -n "$WEAK_CRYPTO" ]; then
+            echo "::warning::Weak crypto (MD5/SHA1) detected — ADVISORY, does not fail this job. Use SHA256+:"
+            echo "$WEAK_CRYPTO"
+          fi
+          HTTP_URLS=$(grep -rE 'http://[^l][^o][^c]' --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v 'localhost\|127.0.0.1\|example\|test\|spec' | head -5 || true)
+          if [ -n "$HTTP_URLS" ]; then
+            echo "::warning::HTTP URLs found — ADVISORY, does not fail this job. Use HTTPS:"
+            echo "$HTTP_URLS"
+          fi
+          SECRETS=$(grep -rEi '(api_key|apikey|secret_key|password)\s*[=:]\s*["\x27][A-Za-z0-9+/=]{20,}' --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" --include="*.env" . 2>/dev/null | grep -v 'example\|sample\|test\|mock\|placeholder' | head -3 || true)
+          if [ -n "$SECRETS" ]; then
+            echo "::error::Potential hardcoded secrets detected — this FAILS the job:"
+            FAILED=true
+          fi
+          if [ "$FAILED" = true ]; then
+            exit 1
+          fi
+          echo "✅ Security policy check passed"
+      - name: SSH-remote policy (token-in-URL detection)
+        # Estate Remote-URL policy (standards#69 / REMOTE-URL-POLICY.adoc).
+        # Scans every .git/config present in the checkout tree for token-in-URL
+        # remotes. Fails hard so a compromised credential cannot silently reach
+        # a PR or main-branch push.
+        run: |
+          found=0
+          while IFS= read -r cfg; do
+            if grep -qE "url[[:space:]]*=[[:space:]]*https://[^[:space:]]*(x-access-token:|:gho_|:ghp_|:ghs_|:github_pat_)" "$cfg" 2>/dev/null; then
+              echo "❌ token-in-URL remote detected in: $cfg"
+              grep -E "url[[:space:]]*=" "$cfg" \
+                | sed 's/\(x-access-token:\|gho_\|ghp_\|ghs_\|github_pat_\)[^@]*/\1****/g'
+              found=$((found + 1))
+            fi
+          done < <(find . -name "config" -path "*/.git/config" 2>/dev/null)
+          if [ "$found" -gt 0 ]; then
+            echo ""
+            echo "Remediation: git remote set-url <name> git@github.com:<org>/<repo>.git"
+            echo "Policy: REMOTE-URL-POLICY.adoc — SSH-only remotes; no PAT/token in URL ever."
+            exit 1
+          fi
+          echo "✅ SSH-remote policy: no token-in-URL remotes detected"
+
+      - name: Tooling version integrity
+        # Estate Tooling Version Integrity policy (root cause: burble#39).
+        # Inline + dependency-free so it runs in any caller repo.
+        # R0 just>=1.19.0 floor (blocking when just present) and R1
+        # unversioned family-tool install (blocking) are hard; R4
+        # unexplained continue-on-error is advisory-first per the
+        # documented "advisory now, --strict later" gating doctrine.
+        run: |
+          set -uo pipefail
+          FAMILY='just|must|trust|adjust|bust|dust|intend'
+          if command -v just >/dev/null 2>&1; then
+            jv=$(just --version 2>/dev/null | cut -d' ' -f2)
+            maj=${jv%%.*}; rest=${jv#*.}; min=${rest%%.*}
+            if [ -z "$jv" ] || ! { [ "${maj:-0}" -gt 1 ] || { [ "${maj:-0}" -eq 1 ] && [ "${min:-0}" -ge 19 ]; }; }; then
+              echo "❌ [R0] just ${jv:-?} < 1.19.0 — import? unsupported"; exit 1
+            fi
+            echo "✅ [R0] just $jv >= 1.19.0"
+          else
+            echo "ℹ️  [R0] just not on PATH — skipped"
+          fi
+          R1=0
+          if [ -d .github/workflows ]; then
+            while IFS= read -r hit; do
+              [ -n "$hit" ] || continue
+              echo "❌ [R1] unversioned family-tool install: $hit"
+              R1=$((R1+1))
+            done < <(grep -rnE "^[[:space:]]*tool:[[:space:]]*(${FAMILY})[[:space:]]*$" .github/workflows 2>/dev/null || true)
+          fi
+          [ "$R1" -gt 0 ] && { echo "❌ [R1] $R1 unversioned family-tool install(s) — pin tool: <name>@<ver>"; exit 1; }
+          echo "✅ Tooling version integrity passed (R1 clean; R4 advisory via standards/tasks/tooling-integrity-lint.sh)"
+
+      - name: Documentation version-string drift (R5b)
+        # Estate canonical-reference drift policy. Forbids pinned
+        # `Version: x.y.z` strings in load-bearing top-level docs
+        # because they reliably go stale and disagree with each other
+        # (echidna had v1.5.0 in README.adoc, v2.3.0 in CLAUDE.md,
+        # v2.1.0 in Cargo.toml simultaneously — cleared by echidna#169
+        # / #170 / #171). CHANGELOG.md is the canonical release-history
+        # surface; Cargo.toml's [package].version is the canonical
+        # semver pin; the git log carries dates. Duplicating either
+        # in human prose invites drift.
+        #
+        # Scope: repo-root *.md + *.adoc only. Sub-tree historical
+        # docs (docs/handover/, docs/decisions/, docs/releases/,
+        # audit reports) are owner-managed snapshots and not in
+        # scope. CHANGELOG.{md,adoc} explicitly skipped.
+        #
+        # Companion rule R5a (bare prover counts) is repo-local where
+        # the count semantics are domain-specific — see
+        # `echidna/.github/workflows/governance-doc-drift.yml`.
+        run: |
+          set -uo pipefail
+          PATTERN='^[[:space:]]*[*_]{0,2}Version[*_]{0,2}[[:space:]]*[:=][[:space:]]*v?[0-9]+\.[0-9]+\.[0-9]+'
+          R5B=0
+          shopt -s nullglob
+          for doc in *.md *.adoc; do
+            [ -f "$doc" ] || continue
+            case "$doc" in CHANGELOG.md|CHANGELOG.adoc) continue ;; esac
+            while IFS= read -r hit; do
+              [ -n "$hit" ] || continue
+              echo "❌ [R5b] pinned version string: $doc:$hit"
+              R5B=$((R5B+1))
+            done < <(grep -nE "$PATTERN" "$doc" 2>/dev/null || true)
+          done
+          if [ "$R5B" -gt 0 ]; then
+            echo ""
+            echo "❌ [R5b] $R5B pinned version-string line(s) in load-bearing docs."
+            echo "Fix: drop the embedded version; defer to CHANGELOG.md (release"
+            echo "history) and Cargo.toml's [package].version (semver pin) or the"
+            echo "equivalent package manifest. Git log carries dates."
+            exit 1
+          fi
+          echo "✅ [R5b] Documentation version-string drift: clean."
+
+      - name: Canonical-reference drift (R5 generic)
+        # Repo-local canonical-reference rules. Reads
+        # `.github/canonical-references/*.{yml,yaml}` in the calling
+        # repo; each file declares one drift pattern with its
+        # canonical pointer. Skipped silently when the directory is
+        # absent — repos opt in by creating it.
+        #
+        # Generalises echidna's R5a (bare prover counts → docs/PROVER_COUNT.md)
+        # so sibling repos with their own canonical-reference cohorts
+        # (lemma counts for proven, stdlib fn counts for affinescript,
+        # proof-obligation counts for typed-wasm, rule counts for
+        # ephapax, …) can declare their drift patterns without
+        # carrying a per-repo workflow.
+        #
+        # Rule file shape:
+        #   id: short-slug
+        #   description: one-line summary
+        #   patterns: [POSIX-ERE strings]
+        #   canonical_pointer: path/to/single-source-of-truth.md
+        #   scope:
+        #     include: [list, of, files, to, scan]
+        #
+        # Patterns are POSIX-ERE (run through `grep -E`). Each
+        # listed include path is scanned line-by-line; a match emits
+        # a `::error::` annotation and the job fails non-zero.
+        # CHANGELOG.{md,adoc} and the rule files themselves are
+        # excluded automatically; the rule's own `canonical_pointer`
+        # is also excluded so the canonical doc can name what it
+        # is the canonical answer for.
+        run: |
+          set -uo pipefail
+          DIR=.github/canonical-references
+          if [ ! -d "$DIR" ]; then
+            echo "ℹ️  [R5] no $DIR/ — skipped (repo has not opted in)"
+            exit 0
+          fi
+          if ! command -v python3 >/dev/null 2>&1; then
+            echo "❌ [R5] python3 missing on runner — required for YAML rule parsing"
+            exit 2
+          fi
+          python3 - <<'PY'
+          import os, sys, glob, subprocess
+          try:
+              import yaml
+          except ImportError:
+              sys.exit("❌ [R5] PyYAML not installed on runner; install python3-yaml")
+
+          dir_ = ".github/canonical-references"
+          files = sorted(glob.glob(f"{dir_}/*.yml") + glob.glob(f"{dir_}/*.yaml"))
+          if not files:
+              print(f"ℹ️  [R5] {dir_}/ has no .yml/.yaml rules — skipped")
+              sys.exit(0)
+
+          total = 0
+          for rf in files:
+              with open(rf, encoding="utf-8") as fh:
+                  cfg = yaml.safe_load(fh)
+              if not isinstance(cfg, dict):
+                  print(f"❌ [R5] {rf}: top-level must be a mapping"); total += 1; continue
+              rid  = cfg.get("id", os.path.basename(rf))
+              desc = cfg.get("description", "")
+              pats = cfg.get("patterns") or []
+              canon = cfg.get("canonical_pointer", "")
+              scope = (cfg.get("scope") or {})
+              includes = scope.get("include") or []
+              if not pats or not includes:
+                  print(f"❌ [R5:{rid}] missing patterns or scope.include in {rf}")
+                  total += 1; continue
+              # exclude self-references
+              skip = set(["CHANGELOG.md", "CHANGELOG.adoc", rf])
+              if canon: skip.add(canon)
+              rule_hits = 0
+              for f_ in includes:
+                  if f_ in skip or not os.path.isfile(f_):
+                      continue
+                  for pat in pats:
+                      r = subprocess.run(
+                          ["grep", "-nE", pat, f_],
+                          capture_output=True, text=True,
+                      )
+                      if r.returncode == 0:
+                          for line in r.stdout.splitlines():
+                              ln_no, _, body = line.partition(":")
+                              tail = canon or "drop or move to a canonical source"
+                              print(f"::error file={f_},line={ln_no}::"
+                                    f"[R5:{rid}] {body}  →  route to {tail}")
+                              rule_hits += 1
+                      elif r.returncode > 1:
+                          print(f"❌ [R5:{rid}] grep error on {f_}: {r.stderr.strip()}")
+                          rule_hits += 1
+              if rule_hits:
+                  print(f"❌ [R5:{rid}] {rule_hits} hit(s). {desc}")
+              total += rule_hits
+
+          if total:
+              print()
+              print(f"❌ [R5] {total} canonical-reference drift hit(s) across {len(files)} rule(s).")
+              sys.exit(1)
+          print(f"✅ [R5] canonical-reference drift: clean across {len(files)} rule(s).")
+          PY
+
+  quality:
+    name: "governance / Code quality + docs"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          # Pin to the concrete event SHA (the PR merge commit on
+          # pull_request, the pushed commit on push). Do NOT use
+          # `ref: ${{ github.ref }}`: in a reusable workflow called from a
+          # pull_request, github.ref is the named merge ref
+          # `refs/pull/<n>/merge`, which actions/checkout cannot fetch
+          # ("couldn't find remote ref refs/pull/<n>/merge") — it broke 8/10
+          # governance jobs on every PR estate-wide. github.sha resolves to the
+          # same merge commit but is always fetchable.
+          ref: ${{ github.sha }}
+      - name: Check file permissions
+        run: |
+          find . -type f -perm /111 -name "*.sh" | head -20
+        continue-on-error: true
+        # advisory: informational only; repos can opt into blocking locally
+      - name: Check TODO/FIXME
+        run: |
+          echo "=== TODOs ==="
+          grep -rn "TODO\|FIXME\|HACK\|XXX" --include="*.rs" --include="*.res" --include="*.py" --include="*.ex" . | head -20
+        continue-on-error: true
+        # advisory: informational only; repos can opt into blocking locally
+      - name: Check for large files
+        run: |
+          find . -type f -size +1M -not -path "./.git/*" | head -20
+        continue-on-error: true
+        # advisory: informational only; repos can opt into blocking locally
+      - name: EditorConfig check
+        uses: editorconfig-checker/action-editorconfig-checker@840e866d93b8e032123c23bac69dece044d4d84c # v2.2.0
+        # advisory: formatting hygiene is reported from the reusable estate
+        # bundle; repos opt into blocking formatter checks locally when ready.
+        continue-on-error: true
+      # Sparse-check-out standards' scripts/ for the docs gate (a reusable
+      # workflow only auto-checks-out its own YAML, not sibling scripts).
+      - name: Check out standards for the docs gate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: .standards-checkout
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Check documentation
+        run: |
+          # Split gate (standards#505): README + LICENSE block immediately —
+          # measured 0/412 callers missing either, so arming them reds nobody.
+          # CONTRIBUTING (54/412 missing) warns until the cutoff baked into the
+          # script, then blocks. See scripts/check-docs-presence.sh.
+          cp .standards-checkout/scripts/check-docs-presence.sh "$RUNNER_TEMP/"
+          rm -rf .standards-checkout
+          bash "$RUNNER_TEMP/check-docs-presence.sh" .
+
+  wellknown:
+    name: "governance / Well-Known (RFC 9116 + RSR)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          # Pin to the concrete event SHA (the PR merge commit on
+          # pull_request, the pushed commit on push). Do NOT use
+          # `ref: ${{ github.ref }}`: in a reusable workflow called from a
+          # pull_request, github.ref is the named merge ref
+          # `refs/pull/<n>/merge`, which actions/checkout cannot fetch
+          # ("couldn't find remote ref refs/pull/<n>/merge") — it broke 8/10
+          # governance jobs on every PR estate-wide. github.sha resolves to the
+          # same merge commit but is always fetchable.
+          ref: ${{ github.sha }}
+      - name: RFC 9116 security.txt validation
+        run: |
+          SECTXT=""
+          [ -f ".well-known/security.txt" ] && SECTXT=".well-known/security.txt"
+          [ -f "security.txt" ] && SECTXT="security.txt"
+          if [ -z "$SECTXT" ]; then
+            echo "::warning::No security.txt found."
+            exit 0
+          fi
+          grep -q "^Contact:" "$SECTXT" || { echo "::error::Missing Contact field"; exit 1; }
+          if ! grep -q "^Expires:" "$SECTXT"; then
+            echo "::error::Missing Expires field"
+            exit 1
+          fi
+          EXPIRES=$(grep "^Expires:" "$SECTXT" | cut -d: -f2- | tr -d ' ' | head -2)
+          if date -d "$EXPIRES" > /dev/null 2>&1; then
+            DAYS=$(( ($(date -d "$EXPIRES" +%s) - $(date +%s)) / 86400 ))
+            if [ $DAYS -lt 0 ]; then
+              echo "::error::security.txt EXPIRED"
+              exit 1
+            elif [ $DAYS -lt 30 ]; then
+              echo "::warning::security.txt expires in $DAYS days"
+            else
+              echo "✅ security.txt valid ($DAYS days)"
+            fi
+          fi
+      - name: RSR well-known compliance
+        run: |
+          MISSING=""
+          [ ! -f ".well-known/security.txt" ] && [ ! -f "security.txt" ] && MISSING="$MISSING security.txt"
+          [ ! -f ".well-known/ai.txt" ] && MISSING="$MISSING ai.txt"
+          [ ! -f ".well-known/humans.txt" ] && MISSING="$MISSING humans.txt"
+          if [ -n "$MISSING" ]; then
+            echo "::warning::Missing RSR recommended files:$MISSING"
+          else
+            echo "✅ RSR well-known compliant"
+          fi
+      - name: Mixed content check
+        run: |
+          MIXED=$(grep -rE 'src="http://|href="http://' --include="*.html" --include="*.htm" . 2>/dev/null | grep -vE 'localhost|127\.0\.0\.1|example\.com|lol/|node_modules/|third-party/|vendor/' | head -5 || true)
+          if [ -n "$MIXED" ]; then
+            echo "::error::Mixed content (HTTP in HTML)"
+            echo "$MIXED"
+            exit 1
+          fi
+          echo "✅ No mixed content"
+
+  workflow-lint:
+    name: "governance / Workflow security linter"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          # Pin to the concrete event SHA (the PR merge commit on
+          # pull_request, the pushed commit on push). Do NOT use
+          # `ref: ${{ github.ref }}`: in a reusable workflow called from a
+          # pull_request, github.ref is the named merge ref
+          # `refs/pull/<n>/merge`, which actions/checkout cannot fetch
+          # ("couldn't find remote ref refs/pull/<n>/merge") — it broke 8/10
+          # governance jobs on every PR estate-wide. github.sha resolves to the
+          # same merge commit but is always fetchable.
+          ref: ${{ github.sha }}
+      - name: Checkout the pinned Standards policy helpers
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          # Execute helper code from the same immutable Standards revision as
+          # this reusable workflow. A moving `main` checkout would let a caller
+          # pinned to workflow revision X execute implementation revision Y.
+          ref: 092dedada188f56c5915f74a5fd40aac093742c3
+          path: .standards-dupkey
+          sparse-checkout: |
+            scripts/check-workflow-duplicate-keys.sh
+            tools/policy/check-workflows-parse.sh
+          sparse-checkout-cone-mode: false
+      - name: Parse every tracked workflow
+        run: |
+          if [ "$GITHUB_REPOSITORY" = hyperpolymath/standards ]; then
+            SCRIPT="tools/policy/check-workflows-parse.sh"
+            echo "Using this repository's own copy (standards self-lint)."
+          else
+            SCRIPT=".standards-dupkey/tools/policy/check-workflows-parse.sh"
+          fi
+          if [ ! -f "$SCRIPT" ]; then
+            echo "::error::workflow parser gate not found in the pinned Standards revision or locally"
+            exit 1
+          fi
+          bash "$SCRIPT"
+
+      - name: Duplicate YAML keys in workflows
+        run: |
+          # GitHub Actions REJECTS a workflow with duplicate keys: the run is
+          # `failure` with no jobs, no log and no check run. Nothing else here
+          # can see it, because yaml.safe_load silently keeps the LAST
+          # duplicate and reports success — so the file "parses" and every
+          # other lint passes. Measured 2026-08-05: nine workflows in hypatia
+          # were dead this way, including a CodeQL workflow with zero
+          # successful runs in its entire lifetime.
+          set -euo pipefail
+          # Standards exercises its pull-request scripts; every consumer uses
+          # the canonical scripts fetched from this workflow's immutable
+          # Standards revision.
+          if [ "$GITHUB_REPOSITORY" = hyperpolymath/standards ]; then
+            SCRIPT="scripts/check-workflow-duplicate-keys.sh"
+            echo "Using this repository's own copy (standards self-lint)."
+          else
+            SCRIPT=".standards-dupkey/scripts/check-workflow-duplicate-keys.sh"
+          fi
+          if [ ! -f "$SCRIPT" ]; then
+            echo "::error::duplicate-key checker not found — neither fetched from" \
+                 "the pinned Standards revision nor present locally."
+            exit 1
+          fi
+          cp "$SCRIPT" "$RUNNER_TEMP/dupkeys.sh"
+          rm -rf .standards-dupkey
+          bash "$RUNNER_TEMP/dupkeys.sh" .github/workflows
+
+      - name: Check SPDX headers + permissions
+        run: |
+          failed=0
+          for file in .github/workflows/*.yml .github/workflows/*.yaml; do
+            [ -f "$file" ] || continue
+            # ⚠ SCAN THE HEADER BLOCK, NOT LINE 1. REUSE places the identifier
+            # anywhere in a file's leading comment block, and `gh actions-lock`
+            # INSERTS `# This workflow is managed by gh actions-lock.` at line 1
+            # whenever it mints a lockfile — so a line-1 test fights the estate's
+            # own tool and re-fails every time a lockfile is refreshed.
+            #
+            # Measured 2026-08-07: it reported 27 hypatia workflows and 13 more
+            # elsewhere as missing a header they all had, and "fixing" that by
+            # prepending a default MIS-LICENSED three files (PMPL-1.0-or-later
+            # shadowed by MPL-2.0) before it was caught.
+            #
+            # The leading run of comment lines is read, tolerating a YAML
+            # document marker. A licence declared there is declared.
+            if ! awk '/^---[[:space:]]*$/ { next } /^#/ { print; next } { exit }' "$file" \
+                 | grep -q "^# SPDX-License-Identifier:"; then
+              echo "ERROR: $file has no SPDX-License-Identifier in its header comment block"; failed=1
+            fi
+            if ! grep -q "^permissions:" "$file"; then
+              echo "ERROR: $file missing top-level 'permissions:' declaration"; failed=1
+            fi
+          done
+          [ $failed -eq 1 ] && { echo "Add SPDX header + permissions:"; exit 1; }
+          echo "All workflows have SPDX headers + permissions"
+      - name: Checkout standards for the pin-existence gate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: .standards-checkout
+          persist-credentials: false
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: false
+      - name: Check action pins resolve upstream
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Copy out and delete the checkout before scanning, so the standards
+          # tree is never part of the caller's workspace (same idiom as the
+          # allowlist preflight above).
+          cp .standards-checkout/scripts/check-action-pins-resolve.sh "$RUNNER_TEMP/"
+          rm -rf .standards-checkout
+          bash "$RUNNER_TEMP/check-action-pins-resolve.sh" .
+      - name: Check for duplicate workflows
+        run: |
+          if [ -f .github/workflows/codeql.yml ] && [ -f .github/workflows/codeql-analysis.yml ]; then
+            echo "ERROR: Duplicate CodeQL workflows found"; exit 1
+          fi
+          echo "No critical duplicates found"
+
+  # actions-lock-verify — its own context so a lockfile red names its cause
+  # (spec 2026-09-02-cicd-regularisation-design §6.4, R2). Formerly a step
+  # buried inside workflow-lint, where "Workflow security linter" red could
+  # mean SPDX, permissions, duplicate keys, parse, pin-resolve OR the lock.
+  # The gate logic lives in scripts/check-actions-lock-gate.sh (tested by
+  # scripts/tests/check-actions-lock-gate-test.sh): lock present → the
+  # authoritative `gh actions-lock --verify-local`; lock absent → unpinned
+  # refs are red now, all-pinned-but-no-lock is a ::warning until
+  # ENFORCE_ACTIONS_LOCK_FROM (2026-10-01), red after.
+  #
+  # Standards is checked out at `job.workflow_sha` = the SHA of THIS reusable
+  # as pinned by the caller (verified 2026-09-02 on consumer run logs), so the
+  # gate script and the YAML move together — one speed, no `ref: main` float.
+  actions-lock-verify:
+    name: "governance / Actions lockfile verify"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+      - name: Checkout standards for the lock gate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: 092dedada188f56c5915f74a5fd40aac093742c3
+          path: .standards-lock
+          persist-credentials: false
+          sparse-checkout: |
+            scripts/check-actions-lock-gate.sh
+            scripts/update-actions-lock.sh
+          sparse-checkout-cone-mode: false
+      - name: Install gh actions-lock
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh extension install github/gh-actions-lock
+      - name: Verify actions.lock (or SHA pins during the grace window)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          if [ "$GITHUB_REPOSITORY" = hyperpolymath/standards ]; then
+            SRC=scripts
+            echo "Using this repository's own gate + verifier (standards self-lint)."
+          else
+            SRC=.standards-lock/scripts
+          fi
+          for f in check-actions-lock-gate.sh update-actions-lock.sh; do
+            if [ ! -f "$SRC/$f" ]; then
+              echo "::error::actions-lock gate: $f not found in $SRC (standards checkout at job.workflow_sha failed?)"
+              exit 1
+            fi
+            cp "$SRC/$f" "$RUNNER_TEMP/$f"
+          done
+          rm -rf .standards-lock
+          ACTIONS_LOCK_VERIFIER="$RUNNER_TEMP/update-actions-lock.sh" \
+            bash "$RUNNER_TEMP/check-actions-lock-gate.sh" .github/workflows
+
+  trusted-base:
+    name: "governance / Trusted-base reduction policy"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          # Pin to the concrete event SHA (the PR merge commit on
+          # pull_request, the pushed commit on push). Do NOT use
+          # `ref: ${{ github.ref }}`: in a reusable workflow called from a
+          # pull_request, github.ref is the named merge ref
+          # `refs/pull/<n>/merge`, which actions/checkout cannot fetch
+          # ("couldn't find remote ref refs/pull/<n>/merge") — it broke 8/10
+          # governance jobs on every PR estate-wide. github.sha resolves to the
+          # same merge commit but is always fetchable.
+          ref: ${{ github.sha }}
+          path: caller
+      - name: Checkout standards (for the check script)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: standards
+      - name: Run trusted-base check on caller repo
+        run: |
+          bash standards/scripts/check-trusted-base.sh caller
+
+  licence-consistency:
+    timeout-minutes: 10
+    name: "governance / Licence consistency"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout caller repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          # Pin to the concrete event SHA (the PR merge commit on
+          # pull_request, the pushed commit on push). Do NOT use
+          # `ref: ${{ github.ref }}`: in a reusable workflow called from a
+          # pull_request, github.ref is the named merge ref
+          # `refs/pull/<n>/merge`, which actions/checkout cannot fetch
+          # ("couldn't find remote ref refs/pull/<n>/merge") — it broke 8/10
+          # governance jobs on every PR estate-wide. github.sha resolves to the
+          # same merge commit but is always fetchable.
+          ref: ${{ github.sha }}
+          path: caller
+      - name: Checkout standards (for the check script)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: standards
+      - name: Run licence-consistency check on caller repo
+        run: |
+          bash standards/scripts/check-licence-consistency.sh caller
+
+  exemption-ratchet:
+    name: "governance / Exemption ratchet"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    # Only meaningful on a pull request: the check compares the ledgers against
+    # a BASE. On push there is nothing to compare to, and a push-time run would
+    # either be vacuous or compare against an arbitrary predecessor.
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          # Full history: the ratchet reads the ledgers at the base ref and
+          # scans commit messages between base and HEAD for a declared
+          # exception. A shallow clone has neither.
+          fetch-depth: 0
+
+      - name: Check out standards repo for shared scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: .standards-checkout
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Exemption ratchet
+        run: |
+          set -euo pipefail
+          # Bootstrap rule: standards must exercise the script from the pull
+          # request being tested. Consumers must use the trusted copy from
+          # standards@main and cannot substitute a same-named local file.
+          # This mirrors the sibling debt-ratchet job below.
+          if [ "${{ github.repository }}" = "hyperpolymath/standards" ]; then
+            cp scripts/check-exemption-ratchet.sh \
+               scripts/count-ledger-entries.sh "$RUNNER_TEMP/"
+          else
+            cp .standards-checkout/scripts/check-exemption-ratchet.sh \
+               .standards-checkout/scripts/count-ledger-entries.sh "$RUNNER_TEMP/"
+          fi
+          # Stage the script OUT of the scanned tree and delete the checkout,
+          # so the ratchet only ever reads the CALLER's ledgers — standards has
+          # ledgers of its own and they are not this repository's.
+          # Both files: the ratchet calls count-ledger-entries.sh as a sibling,
+          # and it has no fallback if the counter is missing — deliberately.
+          rm -rf .standards-checkout
+          bash "$RUNNER_TEMP/check-exemption-ratchet.sh" \
+            "${{ github.event.pull_request.base.sha }}"
+
+  debt-ratchet:
+    name: "governance / Debt ratchet"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    # Sibling to exemption-ratchet, and pull-request-only for the same reason:
+    # the check compares ceilings against a BASE. The two govern different
+    # populations — the exemption ratchet watches debt you have EXCUSED, this
+    # one watches debt you have MEASURED.
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.sha }}
+          # Full history: the ratchet reads the Debtfile at the base ref and
+          # scans commit messages between base and HEAD for a declared
+          # exception. A shallow clone has neither.
+          fetch-depth: 0
+
+      - name: Check out standards repo for shared scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: .standards-checkout
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Debt ratchet
+        run: |
+          set -euo pipefail
+          # Which copy of the scripts do we run?
+          #
+          # ⚠ BOOTSTRAP TRAP. A gate that fetches its own script from `main`
+          #   cannot run on the pull request that INTRODUCES that script — the
+          #   sparse checkout of main has no such file and the `cp` fails. This
+          #   job failed exactly that way on the PR that added it, and the same
+          #   shape has bitten hypatia's self-gating before.
+          #
+          #   So when the repository under test IS standards, run the scripts
+          #   from the PR's own tree. The guard is on the repository name and
+          #   not on file existence: a consumer repo that happened to contain a
+          #   file at scripts/check-debt-ratchet.sh must NOT be able to
+          #   substitute its own gate.
+          if [ "${{ github.repository }}" = "hyperpolymath/standards" ]; then
+            cp scripts/check-debt-ratchet.sh \
+               scripts/check-debtfile-structure.sh "$RUNNER_TEMP/"
+          else
+            cp .standards-checkout/scripts/check-debt-ratchet.sh \
+               .standards-checkout/scripts/check-debtfile-structure.sh "$RUNNER_TEMP/"
+          fi
+          # Stage the scripts OUT of the scanned tree and delete the checkout,
+          # so the ratchet only ever reads the CALLER's Debtfile — standards
+          # has one of its own and it is not this repository's.
+          rm -rf .standards-checkout
+
+          # A repo with no Debtfile is not in violation — adoption is opt-in.
+          # But a repo that HAS one must have a well-formed one, or the ratchet
+          # would be comparing ceilings it could not parse.
+          if [ -f .machine_readable/Debtfile.a2ml ]; then
+            bash "$RUNNER_TEMP/check-debtfile-structure.sh"
+          fi
+          bash "$RUNNER_TEMP/check-debt-ratchet.sh" \
+            "${{ github.event.pull_request.base.sha }}"

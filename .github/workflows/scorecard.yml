@@ -7,12 +7,57 @@ on:
   schedule:
     - cron: '23 4 * * 1'
 
+# INLINED from metadatastician/standards
+#   .github/workflows/scorecard-reusable.yml @ 092dedada188f56c5915f74a5fd40aac093742c3
+# A job-level call to a remote reusable workflow cannot be recorded in
+# actions.lock, and since 2026-10-19 such calls failed at startup with zero
+# jobs. The jobs below are that reusable's jobs, unchanged except: runs-on is
+# the input's default (ubuntu-latest), job.workflow_sha is the pin above, the
+# standards owner is metadatastician, and each job keeps its old check name
+# "analysis / <job>". Re-sync from standards by re-inlining at a new pin.
+
+permissions:
+  contents: read
+  security-events: write
+  id-token: write
+
+
 jobs:
-  analysis:
-    permissions:
-      security-events: write
-      id-token: write
-      contents: read
-      actions: read
-    uses: hyperpolymath/standards/.github/workflows/scorecard-reusable.yml@092dedada188f56c5915f74a5fd40aac093742c3
-    secrets: inherit
+  scorecard:
+    name: "analysis / Run Scorecard"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run Scorecard Analysis
+        uses: ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc # v2.4.4
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          # publish_results feeds the public OpenSSF API and the badge, and is
+          # INDEPENDENT of results_format -- so emitting SARIF does not cost us
+          # the badge. Both outputs are live with this shape.
+          publish_results: true
+
+      # RESTORED 2026-08-25. Commit 5a93d9d5 (PR #393, "Ci/gitleaks self hosted
+      # fix", 2026-06-21) deleted this step and switched results_format to json
+      # as collateral of an unrelated gitleaks refactor. Without a SARIF upload
+      # nothing feeds GitHub code scanning, so every Scorecard alert in the
+      # estate froze: measured in this repo on 2026-08-25, all 12 Scorecard
+      # alerts were stuck at 2026-06-03 while Hypatia's updated 2026-08-24.
+      # The badge kept working, which is why it went unnoticed.
+      - name: Upload SARIF to code scanning
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v3
+        with:
+          sarif_file: results.sarif
+
+      - name: Upload results artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scorecard-results
+          path: results.sarif
+          retention-days: 90

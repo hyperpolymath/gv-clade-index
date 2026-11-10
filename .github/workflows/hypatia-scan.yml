@@ -1,7 +1,5 @@
 # This workflow is managed by gh actions-lock.
 # SPDX-License-Identifier: MPL-2.0
-# Thin wrapper around hyperpolymath/standards hypatia-scan-reusable.yml.
-# See standards#191 for the reusable's purpose and design.
 
 name: Hypatia Security Scan
 
@@ -19,13 +17,265 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# INLINED from metadatastician/standards
+#   .github/workflows/hypatia-scan-reusable.yml @ 092dedada188f56c5915f74a5fd40aac093742c3
+# A job-level call to a remote reusable workflow cannot be recorded in
+# actions.lock, and since 2026-10-19 such calls failed at startup with zero
+# jobs. The jobs below are that reusable's jobs, unchanged except: runs-on is
+# the input's default (ubuntu-latest), job.workflow_sha is the pin above, the
+# standards owner is metadatastician, and each job keeps its old check name
+# "hypatia / <job>". Re-sync from standards by re-inlining at a new pin.
+
 permissions:
   actions: read
   contents: read
   security-events: write
-  pull-requests: write
+
 
 jobs:
-  hypatia:
-    uses: hyperpolymath/standards/.github/workflows/hypatia-scan-reusable.yml@092dedada188f56c5915f74a5fd40aac093742c3
-    secrets: inherit
+  scan:
+    name: "hypatia / Hypatia Neurosymbolic Analysis"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Setup Elixir for Hypatia scanner
+        uses: erlef/setup-beam@54075bcc5e249e4758d363f27d099f55d843f124 # v1.24.1
+        with:
+          elixir-version: '1.19.4'
+          otp-version: '28.3'
+
+      - name: Resolve Hypatia HEAD commit
+        id: hypatia-rev
+        run: |
+          # Pin the cache to the *current* Hypatia main tip. Resolved before the
+          # cache step because cache restore happens before the clone, so the key
+          # cannot hash a not-yet-cloned tree — it must hash the remote ref.
+          sha=$(git ls-remote https://github.com/hyperpolymath/hypatia.git HEAD | cut -f1)
+          if [ -z "$sha" ]; then
+            echo "ERROR: could not resolve hypatia HEAD via git ls-remote" >&2
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "Resolved hypatia HEAD: $sha"
+
+      - name: Cache Hex/Mix and Scanner Build
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.mix
+            ~/.hex
+            ~/hypatia
+          # Source-pinned key: when Hypatia main advances, the SHA changes, the
+          # cache misses, and the clone + escript build below re-run instead of
+          # restoring a stale binary. The old keyless `...-build` key meant the
+          # first scanner ever cached was reused forever, so scanner fixes (e.g.
+          # SD022, hypatia#545) never reached CI. No restore-keys on purpose —
+          # a partial restore would repopulate ~/hypatia and the guards below
+          # would then skip the rebuild, reintroducing the staleness.
+          key: hypatia-scanner-v3-${{ runner.os }}-${{ steps.hypatia-rev.outputs.sha }}
+
+      - name: Clone Hypatia
+        run: |
+          # On a cache miss ~/hypatia is absent, so this clones the SHA the key
+          # was computed from. On a cache hit it is present (correct SHA) and we
+          # skip — the guard is now safe because the key is source-pinned.
+          if [ ! -d "$HOME/hypatia" ]; then
+            git clone --depth 1 https://github.com/hyperpolymath/hypatia.git "$HOME/hypatia"
+          fi
+
+      - name: Build Hypatia scanner
+        run: |
+          cd "$HOME/hypatia"
+          if [ ! -x hypatia ]; then
+            mix deps.get && mix escript.build
+          fi
+
+      - name: Run Hypatia scan
+        id: scan
+        env:
+          # The scanner reads a single env var, GITHUB_TOKEN, to pull Dependabot,
+          # code-scanning and secret-scanning alerts (lib/rules/{dependabot,
+          # code_scanning,secret_scanning}_alerts.ex). Without it those three
+          # checks are skipped with "GITHUB_TOKEN not set" warnings.
+          #
+          # Prefer a fine-grained, read-only PAT (HYPATIA_SCAN_PAT, inherited as
+          # an org secret via the caller's `secrets: inherit`): the built-in
+          # Actions token CANNOT read Dependabot alerts (no `dependabot`
+          # permission exists for it). Fall back to the built-in token so
+          # code-scanning still works in repos where the PAT isn't present yet.
+          GITHUB_TOKEN: ${{ secrets.HYPATIA_SCAN_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Scanning repository: ${{ github.repository }}"
+          # --exit-zero: hypatia-cli exits 1 when findings exist; under the default
+          # `bash -eo pipefail` that aborts this step before the counts/outputs/summary
+          # run AND skips the upload, so the gate fails opaquely. Gate on the severity
+          # counts below, not on the scanner's exit code.
+          HYPATIA_FORMAT=json "$HOME/hypatia/hypatia-cli.sh" scan . --exit-zero > hypatia-findings.json
+
+          # Emit SARIF for the GitHub Security tab. The code_scanning_alerts
+          # meta-rules are filtered at SARIF render time (lib/hypatia/sarif.ex),
+          # so an upload can never self-echo. Same tool name ("Hypatia") and
+          # category ("hypatia") as the historical upload, so GitHub RECONCILES:
+          # findings fixed in code since the last scan auto-close instead of
+          # orphaning as stale open alerts.
+          HYPATIA_FORMAT=sarif "$HOME/hypatia/hypatia-cli.sh" scan . --exit-zero > hypatia.sarif || echo '{"version":"2.1.0","runs":[]}' > hypatia.sarif
+
+          FINDING_COUNT=$(jq '. | length' hypatia-findings.json 2>/dev/null || echo 0)
+          CRITICAL=$(jq '[.[] | select(.severity == "critical")] | length' hypatia-findings.json 2>/dev/null || echo 0)
+          HIGH=$(jq '[.[] | select(.severity == "high")] | length' hypatia-findings.json 2>/dev/null || echo 0)
+          MEDIUM=$(jq '[.[] | select(.severity == "medium")] | length' hypatia-findings.json 2>/dev/null || echo 0)
+
+          echo "findings_count=$FINDING_COUNT" >> $GITHUB_OUTPUT
+          echo "critical=$CRITICAL" >> $GITHUB_OUTPUT
+          echo "high=$HIGH" >> $GITHUB_OUTPUT
+          echo "medium=$MEDIUM" >> $GITHUB_OUTPUT
+
+          echo "## Hypatia Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Critical | $CRITICAL |" >> $GITHUB_STEP_SUMMARY
+          echo "| High     | $HIGH |" >> $GITHUB_STEP_SUMMARY
+          echo "| Medium   | $MEDIUM |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Total**| $FINDING_COUNT |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Relativize finding paths
+        if: always()
+        run: |
+          # Hoisted out of the gate step so the SARIF filter and the gate share
+          # ONE definition of a finding's path. code_safety / honest_completion
+          # emit ABSOLUTE host paths in .file (Path.expand(repo)) while the
+          # baseline uses repo-relative paths; without this they never match
+          # (hypatia#566 stopgap).
+          if [ -f hypatia-findings.json ]; then
+            jq --arg root "$PWD" '
+              map(if (.file? // "") == $root then .file = "."
+                  elif (.file? // "") | startswith($root + "/")
+                  then .file = (.file | ltrimstr($root + "/"))
+                  else . end)
+            ' hypatia-findings.json > hypatia-findings.relativized.json
+          fi
+
+      - name: Check out standards for the SARIF baseline filter
+        id: fetch_filter
+        # ⚠ continue-on-error is on the CHECKOUT, never on the check. If the
+        # fetch fails the next step still runs and says so; putting the flag on
+        # the filter itself would produce exactly the fake gate this estate
+        # keeps finding. Pinned to main because github.workflow_sha resolves to
+        # the CALLER's SHA, which would 404 here.
+        continue-on-error: true
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: metadatastician/standards
+          ref: main
+          path: .standards-checkout
+          sparse-checkout: |
+            scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Filter SARIF through the baseline before upload
+        if: always()
+        run: |
+          # ⚠ WITHOUT THIS, ACKNOWLEDGING A FINDING DOES NOT UNBLOCK ANYTHING.
+          # A finding travelled two paths that never met: the gate filtered
+          # findings.json through the baseline, while the SARIF went to code
+          # scanning UNFILTERED. The `code_scanning` ruleset rule blocks on
+          # those alerts and has no knowledge of the baseline, so a pull
+          # request stayed BLOCKED with every required check green and nothing
+          # to point at.
+          #
+          # Measured 2026-08-07: 147 open pull requests across 91 repositories
+          # were held this way by 1,777 alerts, ZERO of which were introduced
+          # by the pull request they blocked.
+          #
+          # The filter FAILS OPEN in every error path — an unfiltered upload is
+          # a safe failure, a silently over-filtered one hides real alerts.
+          if [ -f .standards-checkout/scripts/filter-sarif-by-baseline.sh ]; then
+            FILTER=.standards-checkout/scripts/filter-sarif-by-baseline.sh
+          elif [ -f scripts/filter-sarif-by-baseline.sh ]; then
+            FILTER=scripts/filter-sarif-by-baseline.sh
+          else
+            echo "  filter script unavailable — SARIF uploaded unfiltered"; exit 0
+          fi
+          # Use the CALLER's apply-baseline.sh — the same copy the gate runs,
+          # so the SARIF and the gate cannot disagree about what is acknowledged.
+          APPLY_BASELINE=scripts/apply-baseline.sh \
+            bash "$FILTER" hypatia.sarif hypatia-findings.relativized.json .hypatia-baseline.json
+
+      - name: Upload SARIF to code scanning
+        if: always()
+        # NOTE: this does NOT make under-permissioned callers "skip gracefully".
+        # This workflow declares `security-events: write` at the top, so a
+        # caller granting only `read` is rejected at startup and NO step of
+        # this job ever executes — `continue-on-error` cannot rescue a job
+        # that was never created. Callers MUST grant `security-events: write`.
+        # This flag only tolerates a genuine upload failure (e.g. Advanced
+        # Security disabled on a private repo) once the job is actually running.
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938 # v3
+        with:
+          sarif_file: hypatia.sarif
+          category: hypatia
+
+      - name: Run panic-attack assail
+        run: |
+          if command -v panic-attack >/dev/null 2>&1; then
+            panic-attack assail . > panic-attack-findings.json 2>&1 || true
+            echo "panic-attack scan complete"
+          else
+            echo "panic-attack not available in CI — skipping"
+            echo "[]" > panic-attack-findings.json
+          fi
+
+      - name: Upload findings artifacts
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: hypatia-scan-findings
+          path: |
+            hypatia-findings.json
+            panic-attack-findings.json
+          retention-days: 90
+
+      - name: Gate on baseline (blocking when a baseline is committed)
+        if: steps.scan.outputs.findings_count > 0
+        run: |
+          # Wave-8 gate promotion: when the calling repo commits a
+          # .hypatia-baseline.json (schema: .machine_readable/hypatia-baseline.
+          # schema.json) AND ships scripts/apply-baseline.sh, findings are
+          # filtered against the baseline and any UNBASELINED finding at or
+          # above the blocking threshold FAILS this job. Repos without a
+          # baseline keep the honest ADVISORY behaviour below — the gate arms
+          # itself the moment a baseline lands (standards#399/#437/#446).
+          if [ -f scripts/apply-baseline.sh ] && [ -f .hypatia-baseline.json ]; then
+            echo "Baseline present — running BLOCKING gate (threshold: high)."
+            # Paths were relativized in an earlier step so the SARIF filter and
+            # this gate agree on what a finding's path is. Two definitions of
+            # "the same finding" is how the baseline came to mean one thing to
+            # the gate and nothing to the security tab.
+            bash scripts/apply-baseline.sh hypatia-findings.relativized.json .hypatia-baseline.json blocking
+          else
+            echo "No committed baseline — gate stays advisory (see next step)."
+          fi
+
+      - name: Check for critical issues (ADVISORY — does not gate)
+        if: steps.scan.outputs.critical > 0
+        run: |
+          # This scan is ADVISORY / fix-forward WHEN NO BASELINE IS COMMITTED
+          # (the step above becomes the blocking gate once .hypatia-baseline.json
+          # lands). The label and summary state that explicitly so a green check
+          # carrying critical findings is not mistaken for "no critical findings".
+          echo "::warning title=Hypatia (ADVISORY, non-blocking)::${{ steps.scan.outputs.critical }} critical finding(s). This scan does not gate — review hypatia-findings.json and fix forward."
+          {
+            echo "### Hypatia scan — ADVISORY (does not gate)"
+            echo ""
+            echo "**${{ steps.scan.outputs.critical }} critical finding(s)** reported."
+            echo "This scan is fix-forward and **never fails the build**; a green"
+            echo "check here does not mean zero critical findings. See the"
+            echo "\`hypatia-scan-findings\` artifact. Blocking promotion: standards#399/#437."
+          } >> "$GITHUB_STEP_SUMMARY"
