@@ -6,8 +6,8 @@ Date: 2026-11-10
 
 == Status
 
-Proposed. Owner ruling of 2026-11-10: a move mints a new id, and only the
-latest id is in use. When accepted, this ADR supersedes one rule of ADR 0006:
+Accepted (2026-11-10). Owner ruling of 2026-11-10: a move mints a new id, and
+only the latest id is in use. This ADR supersedes one rule of ADR 0006:
 "`uuid` is immortal ... not on rename". The rest of ADR 0006 (the 8 phases,
 `status_history`, `aliases[]` for prefixed-names) does not change. It also
 makes one exception to ADR 0004, for the identity fields only (ruling 3).
