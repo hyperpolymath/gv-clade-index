@@ -1,7 +1,7 @@
 {
   "total_repos": 327,
   "total_clades": 12,
-  "generated": "2026-10-19T18:36:12Z",
+  "generated": "2026-11-10T18:48:08Z",
   "clades": [
     {
       "code": "fv",
@@ -671,15 +671,15 @@
     },
     "proof-of-work": {
       "name": "proof-of-work",
-      "uuid": "8512bde0-7023-5704-a7d7-592e5a222672",
-      "uuid_v8": "11010eef-56db-8f7e-b6a5-d9a21986c0c7",
+      "uuid": "75fa4461-7923-5042-b99d-adc82b88d15d",
+      "uuid_v8": "f73d3bcb-1065-8781-b308-abe84a29ebe9",
       "clade": "fv",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Proof-of-work verification tooling",
       "prefixed": "fv-proof-of-work",
-      "github": "hyperpolymath/proof-of-work"
+      "github": "catachresis-colloquium/proof-of-work"
     },
     "HOL": {
       "name": "HOL",
@@ -695,15 +695,15 @@
     },
     "sr71-blackglider": {
       "name": "sr71-blackglider",
-      "uuid": "ad26514c-ba53-541e-aee9-d4686911a9a4",
-      "uuid_v8": "e2917173-e57a-8cac-b17d-c782e6e4e8e7",
+      "uuid": "768f0f8e-61ff-5433-b375-4732da9103fd",
+      "uuid_v8": "b0cbea03-ce7c-8445-b4e6-09aa6fbca37a",
       "clade": "fv",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Formally-verified Conway's Game of Life engine (Idris2 constitution; 512/512 rules, 65,536 worlds vs oracle). Third Stealth Glider investigation.",
       "prefixed": "fv-sr71-blackglider",
-      "github": "metadatastician/sr71-blackglider"
+      "github": "catachresis-colloquium/sr71-blackglider"
     },
     "nextgen-languages": {
       "name": "nextgen-languages",
@@ -993,15 +993,15 @@
     },
     "standards": {
       "name": "standards",
-      "uuid": "d9e987dc-bb7b-51aa-839b-3d8bbfe774c3",
-      "uuid_v8": "b32d6be4-73ba-873e-9d61-e57f43c75cd1",
+      "uuid": "e5a3bf06-6a14-5846-ab95-c6dd9cca97b0",
+      "uuid_v8": "58bc518a-9ca1-8765-865d-fc26a0177a04",
       "clade": "gv",
       "secondary": [],
       "lineage": "monorepo",
       "parent": "",
       "description": "Monorepo — axel-protocol, a2ml, rhodium-standard-repositories, etc.",
       "prefixed": "gv-standards",
-      "github": "hyperpolymath/standards"
+      "github": "metadatastician/standards"
     },
     "seamstress": {
       "name": "seamstress",
@@ -1175,8 +1175,8 @@
     },
     "burble": {
       "name": "burble",
-      "uuid": "34331e3d-fb8f-5f0c-ad56-521de5a156ac",
-      "uuid_v8": "717d905d-0a60-8078-bba0-a715c3d8c335",
+      "uuid": "0a37e17d-8ee5-5c30-9daf-571315a88a84",
+      "uuid_v8": "1e207a32-dd26-8c8a-b8d9-5f77f88dbd58",
       "clade": "ap",
       "secondary": [
         "pt"
@@ -1185,7 +1185,7 @@
       "parent": "",
       "description": "Voice platform — Elixir control plane, WebRTC media",
       "prefixed": "ap-burble",
-      "github": "metadatastician/burble"
+      "github": "hyperpolymath/burble"
     },
     "branch-newspaper": {
       "name": "branch-newspaper",
@@ -2230,87 +2230,87 @@
     },
     "stealth-glider-ecosystem": {
       "name": "stealth-glider-ecosystem",
-      "uuid": "c6eab5fc-ff7e-51c8-9710-955959e07be7",
-      "uuid_v8": "f60b2ec7-16a8-8a93-bebc-237b72716ece",
+      "uuid": "79c1cead-4f6c-50c2-bf0c-d99fbb4eff27",
+      "uuid_v8": "2cb3ad05-1320-80d0-99ec-5680f6628a34",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Coordination hub for the Stealth Glider line: canonical seven-stage chain, membership manifest, series roadmap. Manifest only.",
       "prefixed": "gm-stealth-glider-ecosystem",
-      "github": "metadatastician/stealth-glider-ecosystem"
+      "github": "catachresis-colloquium/stealth-glider-ecosystem"
     },
     "f19-stealth-glider": {
       "name": "f19-stealth-glider",
-      "uuid": "5f715988-a5b9-5b0a-acd6-b2c0a91bfa5d",
-      "uuid_v8": "26d905e8-27bd-8658-bd8b-1e4edabc2c5b",
+      "uuid": "985a41dc-21ad-5048-b305-be94e8ac35b8",
+      "uuid_v8": "9df13630-668c-8319-a62a-0ef5a68951e2",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Operation Nightstep — a stealth puzzle on a live Conway's Game of Life field (B3/S23). First Stealth Glider investigation.",
       "prefixed": "gm-f19-stealth-glider",
-      "github": "metadatastician/f19-stealth-glider"
+      "github": "catachresis-colloquium/f19-stealth-glider"
     },
     "f117a-stealth-glider": {
       "name": "f117a-stealth-glider",
-      "uuid": "4dcf4ed6-89ce-548e-9bba-6a4fc6a2d74f",
-      "uuid_v8": "c8a94cc4-a2df-84ff-8dce-a319916330ce",
+      "uuid": "62b8d733-7153-50b2-bc15-1a832935e668",
+      "uuid_v8": "54b0139f-7241-8d35-8835-b57b07308a1c",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Operation Nightglass — stealth puzzle on a live Game of Life field where cover moves; vendors the f19 kernel. Second Stealth Glider investigation.",
       "prefixed": "gm-f117a-stealth-glider",
-      "github": "metadatastician/f117a-stealth-glider"
+      "github": "catachresis-colloquium/f117a-stealth-glider"
     },
     "x15-rocket-glider": {
       "name": "x15-rocket-glider",
-      "uuid": "4516116f-185d-5777-95ee-f90376a96539",
-      "uuid_v8": "a254644c-fa00-8730-ae97-1d664caae3ff",
+      "uuid": "1729b409-e08d-569a-82c9-fc150dde9eea",
+      "uuid_v8": "fb0e6ce5-4424-8d19-8034-ff278df07f92",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Fourth Stealth Glider investigation (reserved): introduces resource mechanics — munitions and fuel — on the Life field.",
       "prefixed": "gm-x15-rocket-glider",
-      "github": "metadatastician/x15-rocket-glider"
+      "github": "catachresis-colloquium/x15-rocket-glider"
     },
     "planer-1": {
       "name": "planer-1",
-      "uuid": "89c673f7-1ef9-590e-b3af-c31e174c155a",
-      "uuid_v8": "0ee475d8-cbaa-84d1-9479-40301322505e",
+      "uuid": "be5f34f8-dfb3-5a2c-a5dc-e3bbc12eda3a",
+      "uuid_v8": "b7860fe5-e243-8ceb-ab2b-1ced2e618474",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Планер-1 (Glider-1, a Sputnik-1 nod). Fifth Stealth Glider investigation (reserved): orbits around Riemann spheres.",
       "prefixed": "gm-planer-1",
-      "github": "metadatastician/planer-1"
+      "github": "catachresis-colloquium/planer-1"
     },
     "enterglide-ncc-137-k": {
       "name": "enterglide-ncc-137-k",
-      "uuid": "93fcdafb-697b-59b8-96f6-8936935ec4e6",
-      "uuid_v8": "eb3cdafc-86f4-8e7d-bc66-ebc48afa1c0d",
+      "uuid": "d34531d1-45fa-5851-8513-8802535e300b",
+      "uuid_v8": "57eaf724-7cb9-8725-bc80-ea2738b5ba88",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Enterglide NCC-137-K. Sixth Stealth Glider investigation (reserved): knot topology (the K), 137 / Varying-Constants focus, NCC catalogue nod.",
       "prefixed": "gm-enterglide-ncc-137-k",
-      "github": "metadatastician/enterglide-ncc-137-k"
+      "github": "catachresis-colloquium/enterglide-ncc-137-k"
     },
     "tardis-rule-disruption": {
       "name": "tardis-rule-disruption",
-      "uuid": "72f57722-eba3-5656-8e14-354b5f1d6889",
-      "uuid_v8": "9bc34716-7aae-87af-8ab9-58f32c842a9e",
+      "uuid": "4b02f824-6376-5065-a82e-1ab56a6a71b1",
+      "uuid_v8": "2bf482c8-8db7-8e66-b4f7-46b276cc9cff",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "TARDIS — Totally-Adherent Rule-Disruption Imitation System. Seventh Stealth Glider investigation (reserved): make Life look like reality without ever breaking B3/S23.",
       "prefixed": "gm-tardis-rule-disruption",
-      "github": "metadatastician/tardis-rule-disruption"
+      "github": "catachresis-colloquium/tardis-rule-disruption"
     },
     "panic-attacker": {
       "name": "panic-attacker",
@@ -3084,15 +3084,15 @@
     },
     "megadog": {
       "name": "megadog",
-      "uuid": "82d6362e-1a6f-5fbc-959b-f992cc5b9a43",
-      "uuid_v8": "325a405f-2ab5-8e3f-a8c5-7e31030a378e",
+      "uuid": "1c535f63-7b77-50ae-a740-0690f93d7673",
+      "uuid_v8": "0b0582d5-01a9-8a9e-86e6-e04b11dd71ce",
       "clade": "rm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Large-scale repo management",
       "prefixed": "rm-megadog",
-      "github": "hyperpolymath/megadog"
+      "github": "catachresis-colloquium/megadog"
     },
     "polystack": {
       "name": "polystack",
@@ -3208,8 +3208,8 @@
     },
     "game-server-admin": {
       "name": "game-server-admin",
-      "uuid": "09f76bd7-df4b-5494-8aff-1dca67b00488",
-      "uuid_v8": "75f0c63c-f1ab-89cc-b0d7-18829c2ca82c",
+      "uuid": "8af3e89b-bbcf-5422-aef4-3b3dde4392e7",
+      "uuid_v8": "c33c9a41-6277-8fbf-a32f-47393b5bcbd4",
       "clade": "ix",
       "secondary": [
         "gm",
@@ -3219,7 +3219,7 @@
       "parent": "",
       "description": "Universal game server probe, config management, and administration via Gossamer + VeriSimDB",
       "prefixed": "ix-game-server-admin",
-      "github": "hyperpolymath/game-server-admin"
+      "github": "catachresis-colloquium/game-server-admin"
     },
     ".git-private-farm": {
       "name": ".git-private-farm",
@@ -3367,15 +3367,15 @@
     },
     "airborne-submarine-squadron": {
       "name": "airborne-submarine-squadron",
-      "uuid": "d3bf177f-9258-5d56-8478-5f5714c4c981",
-      "uuid_v8": "f3cea77a-4c58-8611-8468-403bc76577ea",
+      "uuid": "13a875c4-8f20-5031-991b-fbcc2ec99c80",
+      "uuid_v8": "cf8be70b-bc87-8d60-ae9d-70094d083da6",
       "clade": "ax",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Airborne Submarine Squadron was originally iintended as a modern resurrection of the classic Sopwith‑era arcade — except your aircraft is also a submarine can e",
       "prefixed": "ax-airborne-submarine-squadron",
-      "github": "hyperpolymath/airborne-submarine-squadron"
+      "github": "catachresis-colloquium/airborne-submarine-squadron"
     },
     "arghda-core": {
       "name": "arghda-core",
@@ -3439,15 +3439,15 @@
     },
     "befunge93-vault-cracker": {
       "name": "befunge93-vault-cracker",
-      "uuid": "25c3b87e-863a-5f47-99a9-0d90b6f17015",
-      "uuid_v8": "7c64d76d-3d73-845f-80f7-57eef5f75482",
+      "uuid": "35fbf607-ab1f-5e92-a3d7-4a832b00e170",
+      "uuid_v8": "001ff7c9-991f-8952-9ca9-a5afce14ceb2",
       "clade": "sc",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Befunge-93 vault cracker — esoteric-language puzzle solver for CTF challenges",
       "prefixed": "sc-befunge93-vault-cracker",
-      "github": "hyperpolymath/befunge93-vault-cracker"
+      "github": "catachresis-colloquium/befunge93-vault-cracker"
     },
     "betlang": {
       "name": "betlang",
@@ -3499,15 +3499,15 @@
     },
     "blue-screen-of-app": {
       "name": "blue-screen-of-app",
-      "uuid": "f5d4765c-7b77-58c3-b91c-cfa16db966e6",
-      "uuid_v8": "afa5967e-9de0-8eca-ac62-1be5b1f8bf88",
+      "uuid": "a2700749-85ab-5ec5-84eb-c7850a52ef26",
+      "uuid_v8": "419ce1c0-dfc7-8265-9f0c-32dde069f5cd",
       "clade": "ap",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Blue Screen of App — application crash analysis and fault injection testing",
       "prefixed": "ap-blue-screen-of-app",
-      "github": "hyperpolymath/blue-screen-of-app"
+      "github": "catachresis-colloquium/blue-screen-of-app"
     },
     "boj-server-cartridges": {
       "name": "boj-server-cartridges",
@@ -3897,15 +3897,15 @@
     },
     "hotchocolabot": {
       "name": "hotchocolabot",
-      "uuid": "9667e2ea-45b3-5212-a8ff-89d988770a41",
-      "uuid_v8": "92e13d6b-0b4f-867a-b801-8a1b893be70f",
+      "uuid": "aca886dc-d66d-587d-b9e0-fc54d7bf7f46",
+      "uuid_v8": "1359fa7b-870d-8b2c-83e5-a883792373d5",
       "clade": "rm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "",
       "prefixed": "rm-hotchocolabot",
-      "github": "hyperpolymath/hotchocolabot"
+      "github": "catachresis-colloquium/hotchocolabot"
     },
     "hpm-crypto-rsr": {
       "name": "hpm-crypto-rsr",
@@ -4281,15 +4281,15 @@
     },
     "pow-the-game": {
       "name": "pow-the-game",
-      "uuid": "43d89c00-baf1-5a6e-aec9-7efb52491ad2",
-      "uuid_v8": "52ea7d76-8011-8d28-9a40-48642a1ecd0b",
+      "uuid": "32ff2c38-c25c-5997-bac3-cda119bcd460",
+      "uuid_v8": "af12c101-e458-85f4-88e6-fd0f75dd05e8",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "Distributed proof-of-work and problem solving via Steam Workshop/API and other gaming platform networks",
       "prefixed": "gm-pow-the-game",
-      "github": "hyperpolymath/pow-the-game"
+      "github": "catachresis-colloquium/pow-the-game"
     },
     "proven-tests-and-benches": {
       "name": "proven-tests-and-benches",
@@ -4461,15 +4461,15 @@
     },
     "thejeffparadox": {
       "name": "thejeffparadox",
-      "uuid": "886bedac-f786-5679-b33c-3742da39d0f6",
-      "uuid_v8": "1c4ecd41-663c-8ff1-85a3-47d6fa81f2b1",
+      "uuid": "ca0897cd-b466-5480-bd13-fd6ee1aeb28d",
+      "uuid_v8": "68cb3645-79c2-8fa8-8578-6b2672f9850c",
       "clade": "fv",
       "secondary": [],
       "lineage": "standalone",
       "parent": "",
       "description": "The Jeff Paradox — exploration of self-referential logic and paradox formalisation",
       "prefixed": "fv-thejeffparadox",
-      "github": "hyperpolymath/thejeffparadox"
+      "github": "catachresis-colloquium/thejeffparadox"
     },
     "tree-sitter-a2ml": {
       "name": "tree-sitter-a2ml",

@@ -98,6 +98,8 @@ description = "Proof-of-work verification tooling"
 lineage = "standalone"
 parent = ""
 completion = 10
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/proof-of-work@2026-11-10"]
 
 [repo.HOL]
 primary = "fv"
@@ -116,7 +118,8 @@ description = "Formally-verified Conway's Game of Life engine (Idris2 constituti
 lineage = "standalone"
 parent = ""
 completion = 40
-owner = "metadatastician"
+owner = "catachresis-colloquium"
+former = ["metadatastician/sr71-blackglider@2026-11-10"]
 
 # ============================================================================
 # nl — Nextgen Languages
@@ -314,6 +317,8 @@ description = "Monorepo — axel-protocol, a2ml, rhodium-standard-repositories, 
 lineage = "monorepo"
 parent = ""
 completion = 60
+owner = "metadatastician"
+former = ["hyperpolymath/standards@2026-11-10"]
 
 [repo.seamstress]
 primary = "gv"
@@ -434,7 +439,8 @@ description = "Voice platform — Elixir control plane, WebRTC media"
 lineage = "standalone"
 parent = ""
 completion = 10
-owner = "metadatastician"
+owner = "hyperpolymath"
+former = ["metadatastician/burble@2026-11-10"]
 
 [repo.branch-newspaper]
 primary = "ap"
@@ -1121,11 +1127,12 @@ parent = ""
 completion = 10
 
 
-# ── Stealth Glider line (metadatastician), registered 2026-09-02 ─────────────
+# ── Stealth Glider line, registered 2026-09-02 under metadatastician ─────────
 # Chain: f19-stealth-glider -> f117a-stealth-glider -> sr71-blackglider (fv, see
 # above) -> x15-rocket-glider -> planer-1 -> enterglide-ncc-137-k ->
-# tardis-rule-disruption. Hub: stealth-glider-ecosystem. uuids per each repo's
-# own CLADE.a2ml (uuid5 URL, "github.com/metadatastician/<name>").
+# tardis-rule-disruption. Hub: stealth-glider-ecosystem. The whole line moved to
+# catachresis-colloquium (recorded 2026-11-10); under ADR 0007 their ids derive
+# from the new path and the metadatastician ids are archived (archive.json).
 
 [repo.stealth-glider-ecosystem]
 primary = "gm"
@@ -1134,7 +1141,8 @@ description = "Coordination hub for the Stealth Glider line: canonical seven-sta
 lineage = "standalone"
 parent = ""
 completion = 10
-owner = "metadatastician"
+owner = "catachresis-colloquium"
+former = ["metadatastician/stealth-glider-ecosystem@2026-11-10"]
 
 [repo.f19-stealth-glider]
 primary = "gm"
@@ -1143,7 +1151,8 @@ description = "Operation Nightstep — a stealth puzzle on a live Conway's Game 
 lineage = "standalone"
 parent = ""
 completion = 90
-owner = "metadatastician"
+owner = "catachresis-colloquium"
+former = ["metadatastician/f19-stealth-glider@2026-11-10"]
 
 [repo.f117a-stealth-glider]
 primary = "gm"
@@ -1152,7 +1161,8 @@ description = "Operation Nightglass — stealth puzzle on a live Game of Life fi
 lineage = "standalone"
 parent = ""
 completion = 90
-owner = "metadatastician"
+owner = "catachresis-colloquium"
+former = ["metadatastician/f117a-stealth-glider@2026-11-10"]
 
 [repo.x15-rocket-glider]
 primary = "gm"
@@ -1161,7 +1171,8 @@ description = "Fourth Stealth Glider investigation (reserved): introduces resour
 lineage = "standalone"
 parent = ""
 completion = 0
-owner = "metadatastician"
+owner = "catachresis-colloquium"
+former = ["metadatastician/x15-rocket-glider@2026-11-10"]
 
 [repo.planer-1]
 primary = "gm"
@@ -1170,7 +1181,8 @@ description = "Планер-1 (Glider-1, a Sputnik-1 nod). Fifth Stealth Glider 
 lineage = "standalone"
 parent = ""
 completion = 0
-owner = "metadatastician"
+owner = "catachresis-colloquium"
+former = ["metadatastician/planer-1@2026-11-10"]
 
 [repo.enterglide-ncc-137-k]
 primary = "gm"
@@ -1179,7 +1191,8 @@ description = "Enterglide NCC-137-K. Sixth Stealth Glider investigation (reserve
 lineage = "standalone"
 parent = ""
 completion = 0
-owner = "metadatastician"
+owner = "catachresis-colloquium"
+former = ["metadatastician/enterglide-ncc-137-k@2026-11-10"]
 
 [repo.tardis-rule-disruption]
 primary = "gm"
@@ -1188,7 +1201,8 @@ description = "TARDIS — Totally-Adherent Rule-Disruption Imitation System. Sev
 lineage = "standalone"
 parent = ""
 completion = 0
-owner = "metadatastician"
+owner = "catachresis-colloquium"
+former = ["metadatastician/tardis-rule-disruption@2026-11-10"]
 
 # ============================================================================
 # sc — Security
@@ -1746,6 +1760,8 @@ description = "Large-scale repo management"
 lineage = "standalone"
 parent = ""
 completion = 10
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/megadog@2026-11-10"]
 
 [repo.polystack]
 primary = "dx"
@@ -1827,6 +1843,8 @@ lineage = "standalone"
 parent = ""
 completion = 75
 evolved-from = "gossamer/examples/game-server-admin"
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/game-server-admin@2026-11-10"]
 
 # ============================================================================
 # Backfill 2026-06-25 — repos previously missing from the registry.
@@ -1937,6 +1955,8 @@ description = "Airborne Submarine Squadron was originally iintended as a modern 
 lineage = "standalone"
 parent = ""
 completion = 0
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/airborne-submarine-squadron@2026-11-10"]
 
 [repo.arghda-core]
 primary = "fv"
@@ -1985,6 +2005,8 @@ description = "Befunge-93 vault cracker — esoteric-language puzzle solver for 
 lineage = "standalone"
 parent = ""
 completion = 0
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/befunge93-vault-cracker@2026-11-10"]
 
 [repo.betlang]
 primary = "nl"
@@ -2025,6 +2047,8 @@ description = "Blue Screen of App — application crash analysis and fault injec
 lineage = "standalone"
 parent = ""
 completion = 0
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/blue-screen-of-app@2026-11-10"]
 
 [repo.boj-server-cartridges]
 primary = "dx"
@@ -2290,6 +2314,8 @@ description = ""
 lineage = "standalone"
 parent = ""
 completion = 0
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/hotchocolabot@2026-11-10"]
 
 [repo.hpm-crypto-rsr]
 primary = "rm"
@@ -2547,6 +2573,8 @@ description = "Distributed proof-of-work and problem solving via Steam Workshop/
 lineage = "standalone"
 parent = ""
 completion = 0
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/pow-the-game@2026-11-10"]
 
 [repo.proven-tests-and-benches]
 primary = "fv"
@@ -2667,6 +2695,8 @@ description = "The Jeff Paradox — exploration of self-referential logic and pa
 lineage = "standalone"
 parent = ""
 completion = 0
+owner = "catachresis-colloquium"
+former = ["hyperpolymath/thejeffparadox@2026-11-10"]
 
 [repo.tree-sitter-a2ml]
 primary = "nl"

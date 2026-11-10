@@ -73,4 +73,51 @@ jq --arg n "$first" --arg u "$bad8" '.by_name[$n].uuid_v8=$u' \
   "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
 expect_fail "tampered uuid_v8" "is stale\|uuid_v8 for $first"
 
-echo "check-registry-test: PASS (baseline passes, 4 planted failures fire)"
+# Append a planted repo with the given owner and former list, bump total-repos
+# and regenerate worker/data inside the scratch copy.
+plant_moved() {
+  printf '\n[repo.zz-planted-moved-probe]\nprimary = "fv"\ndescription = "planted by check-registry-test"\nowner = "%s"\nformer = %s\n' \
+    "$1" "$2" >> "$work/repo/verisim/seed/repos.a2ml"
+  sed -i -E 's/^(total-repos *= *)([0-9]+)/echo "\1$((\2+1))"/e' "$work/repo/verisim/seed/repos.a2ml"
+}
+
+# 6. ADR 0007 path reuse: a repo that moved away and came back is legal, and
+#    its archive lists both earlier generations.
+fresh
+plant_moved hyperpolymath '["hyperpolymath/zz-planted-moved-probe@2026-01-01", "metadatastician/zz-planted-moved-probe@2026-02-01"]'
+bash "$work/repo/sync/export-json.sh" >/dev/null 2>&1 || { echo "FAIL: [path reuse] export refused a legal return to an earlier path"; exit 1; }
+bash "$work/repo/scripts/check-registry.sh" >/dev/null || { echo "FAIL: [path reuse] gate refused a legal return to an earlier path"; exit 1; }
+gens=$(jq -c '.[] | select(.name == "zz-planted-moved-probe") | [.generation, (.former | map(.generation))]' "$work/repo/worker/data/archive.json")
+[[ "$gens" = '[3,[1,2]]' ]] || { echo "FAIL: [path reuse] expected generations [3,[1,2]], got $gens"; exit 1; }
+echo "ok: [path reuse] a return to an earlier path passes, generations $gens"
+
+# 7. A malformed former entry stops the export, so the gate fails
+fresh
+plant_moved catachresis-colloquium '["metadatastician/zz-planted-moved-probe"]'
+expect_fail "malformed former" "export-json.sh failed"
+
+# 8. An archived uuid edited by hand in archive.json
+fresh
+plant_moved catachresis-colloquium '["metadatastician/zz-planted-moved-probe@2026-11-10"]'
+bash "$work/repo/sync/export-json.sh" >/dev/null 2>&1
+jq --arg u "$bad" 'map(if .name=="zz-planted-moved-probe" then .former[0].uuid=$u else . end)' \
+  "$work/repo/worker/data/archive.json" > "$work/a.json" && mv "$work/a.json" "$work/repo/worker/data/archive.json"
+expect_fail "tampered archived uuid" "archive.json is stale\|archived uuid for zz-planted-moved-probe"
+
+# 9. A generation gap edited by hand in archive.json
+fresh
+plant_moved catachresis-colloquium '["metadatastician/zz-planted-moved-probe@2026-11-10"]'
+bash "$work/repo/sync/export-json.sh" >/dev/null 2>&1
+jq 'map(if .name=="zz-planted-moved-probe" then .former[0].generation=2 else . end)' \
+  "$work/repo/worker/data/archive.json" > "$work/a.json" && mv "$work/a.json" "$work/repo/worker/data/archive.json"
+expect_fail "archive generation gap" "archive.json is stale\|generations must count"
+
+# 10. Archive data leaked into the served repos.json (mirrored into index.json)
+fresh
+jq --arg n "$first" 'map(if .name==$n then .former=[] else . end)' \
+  "$work/repo/worker/data/repos.json" > "$work/r.json" && mv "$work/r.json" "$work/repo/worker/data/repos.json"
+jq --arg n "$first" '.by_name[$n].former=[]' \
+  "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
+expect_fail "archive leaked into repos.json" "is stale\|archive data reached repos.json"
+
+echo "check-registry-test: PASS (baseline and path reuse pass, 8 planted failures fire)"
