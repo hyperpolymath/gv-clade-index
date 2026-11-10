@@ -42,20 +42,6 @@
     ]
   },
   {
-    "name": "burble",
-    "github": "hyperpolymath/burble",
-    "generation": 2,
-    "former": [
-      {
-        "generation": 1,
-        "github": "metadatastician/burble",
-        "uuid": "34331e3d-fb8f-5f0c-ad56-521de5a156ac",
-        "uuid_v8": "717d905d-0a60-8078-bba0-a715c3d8c335",
-        "until": "2026-11-10"
-      }
-    ]
-  },
-  {
     "name": "enterglide-ncc-137-k",
     "github": "catachresis-colloquium/enterglide-ncc-137-k",
     "generation": 2,

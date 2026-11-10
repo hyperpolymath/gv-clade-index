@@ -1,7 +1,7 @@
 {
   "total_repos": 327,
   "total_clades": 12,
-  "generated": "2026-11-10T18:48:08Z",
+  "generated": "2026-11-10T19:48:27Z",
   "clades": [
     {
       "code": "fv",
@@ -1175,8 +1175,8 @@
     },
     "burble": {
       "name": "burble",
-      "uuid": "0a37e17d-8ee5-5c30-9daf-571315a88a84",
-      "uuid_v8": "1e207a32-dd26-8c8a-b8d9-5f77f88dbd58",
+      "uuid": "34331e3d-fb8f-5f0c-ad56-521de5a156ac",
+      "uuid_v8": "717d905d-0a60-8078-bba0-a715c3d8c335",
       "clade": "ap",
       "secondary": [
         "pt"
@@ -1185,7 +1185,7 @@
       "parent": "",
       "description": "Voice platform — Elixir control plane, WebRTC media",
       "prefixed": "ap-burble",
-      "github": "hyperpolymath/burble"
+      "github": "metadatastician/burble"
     },
     "branch-newspaper": {
       "name": "branch-newspaper",
