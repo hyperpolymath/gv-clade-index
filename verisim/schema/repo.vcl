@@ -4,8 +4,10 @@
 
 DEFINE SCHEMA repo VERSION 1.1.0;
 -- 1.1.0: lifecycle — 8-phase status enum + companion fields + status_history.
--- Identity (uuid) and status are SEPARATE layers: uuid is immortal, status is a
--- mutable current-phase pointer; transitions in both directions are legal.
+-- Identity (uuid) and status are SEPARATE layers: uuid follows the forge path
+-- (a move or rename mints a new one, ADR 0007; a phase change never does),
+-- status is a mutable current-phase pointer; transitions in both directions are
+-- legal.
 
 -- Graph modality: relationships between repos
 DEFINE GRAPH repo {
