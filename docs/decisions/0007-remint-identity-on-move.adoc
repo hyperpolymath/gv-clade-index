@@ -105,8 +105,10 @@ entry holds the same path, and the gate does not refuse that case.
 
 === Negative
 
-* A consumer that stored an old id loses the match after a move. It must look
-  the repository up again by name (`GET /v1/repo/:name`).
+* A consumer that stored an old id loses the match with the moved repository.
+  The id may instead match a new repository that takes the vacated path. The
+  consumer must look the moved repository up again by name
+  (`GET /v1/repo/:name`).
 * Each move needs a PR in the moved repository as well as in the registry.
 * This reverses one rule of an accepted ADR (0006). Any document that says the
   `uuid` never changes must be corrected.
