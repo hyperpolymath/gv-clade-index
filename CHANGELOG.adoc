@@ -32,6 +32,11 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 ==== Changed
 
+* *ADR 0007 accepted* (owner ruling of 2026-11-10). Its status was
+  "Proposed" in the ADR and in `docs/decisions/README.adoc`. It now
+  supersedes ADR 0006's "`uuid` is immortal" rule, as ADR 0006 already
+  records.
+
 * *18 moved repositories recorded* (census of 2026-11-10): the 8 Stealth
   Glider repositories and 9 more (airborne-submarine-squadron,
   befunge93-vault-cracker, blue-screen-of-app, game-server-admin,
