@@ -9,7 +9,8 @@ Date: 2026-11-10
 Proposed. Owner ruling of 2026-11-10: a move mints a new id, and only the
 latest id is in use. When accepted, this ADR supersedes one rule of ADR 0006:
 "`uuid` is immortal ... not on rename". The rest of ADR 0006 (the 8 phases,
-`status_history`, `aliases[]` for prefixed-names) does not change.
+`status_history`, `aliases[]` for prefixed-names) does not change. It also
+makes one exception to ADR 0004, for the identity fields only (ruling 3).
 
 == Context
 
@@ -113,8 +114,8 @@ entry holds the same path, and the gate does not refuse that case.
   record of the earlier repository holds the same id as the new repository's
   current id. A person who traces an old reference by hand must read the
   record's `until` date.
-* A remint is a breaking change for a `/v1` consumer that stored an id. Open
-  question 3 asks how that fits ADR 0004.
+* A remint is a breaking change for a `/v1` consumer that stored an id. Ruling
+  3 below records the exception to ADR 0004 that permits it.
 
 === Neutral
 
@@ -122,26 +123,22 @@ entry holds the same path, and the gate does not refuse that case.
   across reclassification". That stays true, because a clade change does not
   change the forge path. It must also say that a move or rename mints a new id.
 
-== Open questions
+== Rulings on the questions this ADR raised
 
-. *Rename on the same owner.* The derivation cannot tell a move from a rename,
-  so this ADR treats both the same. Proposed: a rename also remints. A change
-  of prefixed-name (clade code) does not change the forge path and does not
-  remint; ADR 0006 `aliases[]` still covers it.
-. *Archive visibility.* Proposed: `archive.json` stays in the repository and is
-  not served. If the owner wants it served, that is a new additive route.
-. *ADR 0004 compatibility.* ADR 0004 forbids removing or retyping a field
-  inside `/v1`, and it says that breaking changes ship as `/v2`. A remint keeps
-  the type and the documented derivation of `uuid` and `uuid_v8`, but a
-  consumer that stored an id loses the match. So a remint is a breaking change
-  for that consumer. The 2 ways to resolve this are:
-.. record an explicit exception to ADR 0004 for the identity fields: `/v1`
-   serves the current id at once, and no route serves an old id. This fits
-   the owner ruling that no old id is in use;
-.. serve remints only from `/v2`, and keep the old ids in `/v1` until its
-   deprecation window closes (at least 90 days). This keeps ADR 0004 as it
-   is, but `/v1` serves old ids in that window, which is against the owner
-   ruling.
+The owner decided these 3 questions on 2026-11-10.
+
+. *A rename on the same owner also remints.* The derivation cannot tell a
+  rename from a move, so one rule covers both. A change of prefixed-name
+  (clade code) does not change the forge path and does not remint; ADR 0006
+  `aliases[]` still covers it.
+. *The archive is not served.* `archive.json` stays in the repository for
+  reference. No route serves it.
+. *An explicit exception to ADR 0004 for the identity fields.* ADR 0004 says
+  that breaking changes ship as `/v2`, and a remint breaks a consumer that
+  stored an id. For `uuid` and `uuid_v8` only, `/v1` serves the current id at
+  once, and no route serves an old id. Every other field keeps the ADR 0004
+  rules. The other choice, remints only in `/v2`, was rejected: `/v1` would
+  serve old ids for at least 90 days, which is against the owner ruling.
 
 == Implementation (after acceptance, not part of this ADR)
 
@@ -155,6 +152,7 @@ entry holds the same path, and the gate does not refuse that case.
 
 == References
 
-* ADR 0004: API Versioning Strategy (the `/v1` additive-only rule).
+* ADR 0004: API Versioning Strategy (the `/v1` additive-only rule, with one
+  exception made here).
 * ADR 0006: Clade Lifecycle Status (the rule this ADR supersedes).
 * `sync/export-json.sh`, `scripts/check-registry.sh` (the derivation and gate).
