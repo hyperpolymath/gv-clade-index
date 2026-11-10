@@ -25,11 +25,12 @@ parent = ""
 born = "2026-03-16"
 
 # Lifecycle status. Identity (uuid) and status are SEPARATE layers: the uuid above
-# follows the forge path (ADR 0007: a move or rename remints it; phase changes
-# never do); `phase` is a mutable pointer to the current life-phase. Transitions
-# are legal in both directions — no phase is terminal (extinct -> active is a valid
-# "Gitassic Park" resurrection on the same uuid). A rename is NOT a phase change:
-# the old prefixed-name goes to `aliases`, the uuid and phase are untouched.
+# follows the GitHub path (ADR 0007: a move or rename there remints it; a mirror
+# move or a phase change never does); `phase` is a mutable pointer to the current
+# life-phase. Transitions are legal in both directions — no phase is terminal
+# (extinct -> active is a valid "Gitassic Park" resurrection on the same uuid). A
+# prefixed-name (clade code) change with the GitHub path unchanged is NOT a phase
+# change: the old prefixed-name goes to `aliases`, the uuid and phase are untouched.
 [status]
 # One of: reserved incubating active dormant | merged superseded archived extinct
 #   living  -> reserved  incubating  active  dormant
