@@ -6,7 +6,10 @@ Date: 2026-06-24
 
 == Status
 
-Accepted.
+Accepted. Superseded in part by link:0007-remint-identity-on-move.adoc[ADR 0007]
+(2026-11-10): `uuid` no longer survives a move or rename of the forge path; a
+move or rename mints new ids and archives the earlier ones. The 8 phases,
+`status_history` and `aliases[]` are unchanged.
 
 == Context
 

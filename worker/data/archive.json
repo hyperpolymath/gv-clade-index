@@ -1,0 +1,268 @@
+[
+  {
+    "name": "airborne-submarine-squadron",
+    "github": "catachresis-colloquium/airborne-submarine-squadron",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/airborne-submarine-squadron",
+        "uuid": "d3bf177f-9258-5d56-8478-5f5714c4c981",
+        "uuid_v8": "f3cea77a-4c58-8611-8468-403bc76577ea",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "befunge93-vault-cracker",
+    "github": "catachresis-colloquium/befunge93-vault-cracker",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/befunge93-vault-cracker",
+        "uuid": "25c3b87e-863a-5f47-99a9-0d90b6f17015",
+        "uuid_v8": "7c64d76d-3d73-845f-80f7-57eef5f75482",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "blue-screen-of-app",
+    "github": "catachresis-colloquium/blue-screen-of-app",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/blue-screen-of-app",
+        "uuid": "f5d4765c-7b77-58c3-b91c-cfa16db966e6",
+        "uuid_v8": "afa5967e-9de0-8eca-ac62-1be5b1f8bf88",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "burble",
+    "github": "hyperpolymath/burble",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/burble",
+        "uuid": "34331e3d-fb8f-5f0c-ad56-521de5a156ac",
+        "uuid_v8": "717d905d-0a60-8078-bba0-a715c3d8c335",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "enterglide-ncc-137-k",
+    "github": "catachresis-colloquium/enterglide-ncc-137-k",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/enterglide-ncc-137-k",
+        "uuid": "93fcdafb-697b-59b8-96f6-8936935ec4e6",
+        "uuid_v8": "eb3cdafc-86f4-8e7d-bc66-ebc48afa1c0d",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "f117a-stealth-glider",
+    "github": "catachresis-colloquium/f117a-stealth-glider",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/f117a-stealth-glider",
+        "uuid": "4dcf4ed6-89ce-548e-9bba-6a4fc6a2d74f",
+        "uuid_v8": "c8a94cc4-a2df-84ff-8dce-a319916330ce",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "f19-stealth-glider",
+    "github": "catachresis-colloquium/f19-stealth-glider",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/f19-stealth-glider",
+        "uuid": "5f715988-a5b9-5b0a-acd6-b2c0a91bfa5d",
+        "uuid_v8": "26d905e8-27bd-8658-bd8b-1e4edabc2c5b",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "game-server-admin",
+    "github": "catachresis-colloquium/game-server-admin",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/game-server-admin",
+        "uuid": "09f76bd7-df4b-5494-8aff-1dca67b00488",
+        "uuid_v8": "75f0c63c-f1ab-89cc-b0d7-18829c2ca82c",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "hotchocolabot",
+    "github": "catachresis-colloquium/hotchocolabot",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/hotchocolabot",
+        "uuid": "9667e2ea-45b3-5212-a8ff-89d988770a41",
+        "uuid_v8": "92e13d6b-0b4f-867a-b801-8a1b893be70f",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "megadog",
+    "github": "catachresis-colloquium/megadog",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/megadog",
+        "uuid": "82d6362e-1a6f-5fbc-959b-f992cc5b9a43",
+        "uuid_v8": "325a405f-2ab5-8e3f-a8c5-7e31030a378e",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "planer-1",
+    "github": "catachresis-colloquium/planer-1",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/planer-1",
+        "uuid": "89c673f7-1ef9-590e-b3af-c31e174c155a",
+        "uuid_v8": "0ee475d8-cbaa-84d1-9479-40301322505e",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "pow-the-game",
+    "github": "catachresis-colloquium/pow-the-game",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/pow-the-game",
+        "uuid": "43d89c00-baf1-5a6e-aec9-7efb52491ad2",
+        "uuid_v8": "52ea7d76-8011-8d28-9a40-48642a1ecd0b",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "proof-of-work",
+    "github": "catachresis-colloquium/proof-of-work",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/proof-of-work",
+        "uuid": "8512bde0-7023-5704-a7d7-592e5a222672",
+        "uuid_v8": "11010eef-56db-8f7e-b6a5-d9a21986c0c7",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "sr71-blackglider",
+    "github": "catachresis-colloquium/sr71-blackglider",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/sr71-blackglider",
+        "uuid": "ad26514c-ba53-541e-aee9-d4686911a9a4",
+        "uuid_v8": "e2917173-e57a-8cac-b17d-c782e6e4e8e7",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "standards",
+    "github": "metadatastician/standards",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/standards",
+        "uuid": "d9e987dc-bb7b-51aa-839b-3d8bbfe774c3",
+        "uuid_v8": "b32d6be4-73ba-873e-9d61-e57f43c75cd1",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "stealth-glider-ecosystem",
+    "github": "catachresis-colloquium/stealth-glider-ecosystem",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/stealth-glider-ecosystem",
+        "uuid": "c6eab5fc-ff7e-51c8-9710-955959e07be7",
+        "uuid_v8": "f60b2ec7-16a8-8a93-bebc-237b72716ece",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "tardis-rule-disruption",
+    "github": "catachresis-colloquium/tardis-rule-disruption",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/tardis-rule-disruption",
+        "uuid": "72f57722-eba3-5656-8e14-354b5f1d6889",
+        "uuid_v8": "9bc34716-7aae-87af-8ab9-58f32c842a9e",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "thejeffparadox",
+    "github": "catachresis-colloquium/thejeffparadox",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/thejeffparadox",
+        "uuid": "886bedac-f786-5679-b33c-3742da39d0f6",
+        "uuid_v8": "1c4ecd41-663c-8ff1-85a3-47d6fa81f2b1",
+        "until": "2026-11-10"
+      }
+    ]
+  },
+  {
+    "name": "x15-rocket-glider",
+    "github": "catachresis-colloquium/x15-rocket-glider",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "metadatastician/x15-rocket-glider",
+        "uuid": "4516116f-185d-5777-95ee-f90376a96539",
+        "uuid_v8": "a254644c-fa00-8730-ae97-1d664caae3ff",
+        "until": "2026-11-10"
+      }
+    ]
+  }
+]

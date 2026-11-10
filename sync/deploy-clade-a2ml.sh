@@ -250,7 +250,7 @@ echo ""
 # US (0x1f) is not IFS whitespace, so runs are not collapsed and empty fields
 # survive. It cannot occur in the data (checked: 0 occurrences in repos.a2ml) and
 # is exactly what the ASCII unit separator is for.
-while IFS=$'\037' read -r name primary secondary lineage parent description owner; do
+while IFS=$'\037' read -r name primary secondary lineage parent description owner _former; do
     deploy_clade "$name" "$primary" "$secondary" "$lineage" "$parent" "$description" "$owner"
 done < <(parse_repos | tr '\t' '\037')
 

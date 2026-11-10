@@ -22,8 +22,29 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
   added beside it. `/v2` makes it the `uuid`. `docs/api/openapi.yaml`
   declares `uuid_v8` (1.1.0). Every other field is byte-identical.
 
+* *ADR 0007: ids follow the forge path.* A move or rename mints new `uuid`
+  and `uuid_v8` values from the new path. The earlier ids are written to
+  `worker/data/archive.json` for reference only: the file is not loaded into
+  KV and no route serves it. The seed gains an optional `former` list
+  (`"owner/name@YYYY-MM-DD"`, oldest first), read by `sync/parse-repos.sh`.
+  `docs/api/openapi.yaml` 1.2.0 describes the change, an explicit exception
+  to the `/v1` additive-only rule for these 2 fields only.
+
 ==== Changed
 
+* *19 moved repositories recorded* (census of 2026-11-10): the 8 Stealth
+  Glider repositories and 9 more (airborne-submarine-squadron,
+  befunge93-vault-cracker, blue-screen-of-app, game-server-admin,
+  hotchocolabot, megadog, pow-the-game, proof-of-work, thejeffparadox) now
+  under `catachresis-colloquium`; `standards` under `metadatastician`;
+  `burble` under `hyperpolymath`. Their ids are reminted and their earlier
+  ids archived. Each repository's own records still carry the old id until
+  its own follow-up PR.
+* `scripts/check-registry.sh` checks the archive: every archived id
+  re-derives from its earlier path, generations count 1..n with the current
+  one n+1, each entry names a current repository at its current path, and no
+  archive data reaches `repos.json` or `index.json`. The test adds a legal
+  return to an earlier path and 4 planted archive faults.
 * `scripts/check-registry.sh` re-derives both ids for every entry instead of
   spot-checking three. `tests/check-registry-test.sh` plants a tampered
   `uuid_v8` as well. Worker CI installs Bun 1.4.2, sha256-verified, for the
