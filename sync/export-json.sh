@@ -91,27 +91,27 @@ while IFS=$'\t' read -r name owner list; do
       echo "export-json: $name: former entry '$entry' is not \"owner/name@YYYY-MM-DD\"" >&2; exit 1
     fi
     until_date="${BASH_REMATCH[3]}"
-    if [ -n "$prev" ] && [[ "$until_date" < "$prev" ]]; then
+    if [[ -n "$prev" ]] && [[ "$until_date" < "$prev" ]]; then
       echo "export-json: $name: former entries must be oldest first ($until_date after $prev)" >&2; exit 1
     fi
     prev="$until_date"; gen=$((gen + 1))
     printf '%s\t%s\t%d\t%s\t%s\t%s\n' "$name" "$owner" "$gen" "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "$until_date"
   done < <(grep -oE '"[^"]*"' <<<"$list" | tr -d '"')
-  if [ "$gen" -eq 0 ]; then
+  if [[ "$gen" -eq 0 ]]; then
     echo "export-json: $name: former is present but lists no entries" >&2; exit 1
   fi
 done < <(awk -F'\t' '$8 != "" { print $1 "\t" ($7 != "" ? $7 : "hyperpolymath") "\t" $8 }' "$PARSED") > "$FORMER"
 
-if [ -s "$FORMER" ]; then
+if [[ -s "$FORMER" ]]; then
   cut -f4,5 "$FORMER" | bash "$SCRIPT_DIR/uuid-v8.sh" > "$FORMER_V8" \
     || { echo "export-json: sync/uuid-v8.sh failed for archive entries" >&2; exit 1; }
-  [ "$(wc -l < "$FORMER_V8")" = "$(wc -l < "$FORMER")" ] \
+  [[ "$(wc -l < "$FORMER_V8")" = "$(wc -l < "$FORMER")" ]] \
     || { echo "export-json: uuid-v8.sh returned the wrong number of archive ids" >&2; exit 1; }
 fi
 paste "$FORMER" "$FORMER_V8" | while IFS=$'\t' read -r name owner gen fowner fname until_date v8; do
-  [ -n "$name" ] || continue
+  [[ -n "$name" ]] || continue
   v5="$(uuidgen --sha1 --namespace @url --name "github.com/$fowner/$fname")"
-  [ -n "$v5" ] && [ -n "$v8" ] || { echo "export-json: no archive id derived for $fowner/$fname" >&2; exit 1; }
+  [[ -n "$v5" ]] && [[ -n "$v8" ]] || { echo "export-json: no archive id derived for $fowner/$fname" >&2; exit 1; }
   printf '%s\t%s\t%s\t%s/%s\t%s\t%s\t%s\n' "$name" "$owner" "$gen" "$fowner" "$fname" "$v5" "$v8" "$until_date"
 done | jq -R -s '
   split("\n") | map(select(length > 0) | split("\t")

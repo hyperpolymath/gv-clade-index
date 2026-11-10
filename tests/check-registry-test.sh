@@ -88,7 +88,7 @@ plant_moved hyperpolymath '["hyperpolymath/zz-planted-moved-probe@2026-01-01", "
 bash "$work/repo/sync/export-json.sh" >/dev/null 2>&1 || { echo "FAIL: [path reuse] export refused a legal return to an earlier path"; exit 1; }
 bash "$work/repo/scripts/check-registry.sh" >/dev/null || { echo "FAIL: [path reuse] gate refused a legal return to an earlier path"; exit 1; }
 gens=$(jq -c '.[] | select(.name == "zz-planted-moved-probe") | [.generation, (.former | map(.generation))]' "$work/repo/worker/data/archive.json")
-[ "$gens" = '[3,[1,2]]' ] || { echo "FAIL: [path reuse] expected generations [3,[1,2]], got $gens"; exit 1; }
+[[ "$gens" = '[3,[1,2]]' ]] || { echo "FAIL: [path reuse] expected generations [3,[1,2]], got $gens"; exit 1; }
 echo "ok: [path reuse] a return to an earlier path passes, generations $gens"
 
 # 7. A malformed former entry stops the export, so the gate fails

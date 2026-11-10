@@ -99,19 +99,19 @@ echo "check-registry: uuid_v8 is profile C UUIDv8 for all $json_repos repos"
 # an archived id may equal a current id exactly when the current entry holds
 # that same path, so this checks derivation, not uniqueness against current ids.
 leak=$(jq -r '[.[] | select(has("former") or has("generation")) | .name] | join(" ")' "$DATA/repos.json")
-[ -z "$leak" ] || fail "archive data reached repos.json (served): $leak"
+[[ -z "$leak" ]] || fail "archive data reached repos.json (served): $leak"
 leak=$(jq -r '[.by_name[] | select(has("former") or has("generation")) | .name] | join(" ")' "$DATA/index.json")
-[ -z "$leak" ] || fail "archive data reached index.json (served): $leak"
+[[ -z "$leak" ]] || fail "archive data reached index.json (served): $leak"
 while IFS=$'\t' read -r name github; do
   cur=$(jq -r --arg n "$name" '.[] | select(.name == $n) | .github' "$DATA/repos.json")
-  [ -n "$cur" ] || fail "archive entry $name is not a current repo"
-  [ "$cur" = "$github" ] || fail "archive entry $name says its current path is $github, repos.json says $cur"
+  [[ -n "$cur" ]] || fail "archive entry $name is not a current repo"
+  [[ "$cur" = "$github" ]] || fail "archive entry $name says its current path is $github, repos.json says $cur"
 done < <(jq -r '.[] | [.name, .github] | @tsv' "$DATA/archive.json")
 bad=$(jq -r '.[] | select((.former | map(.generation)) != [range(1; (.former | length) + 1)]
                           or .generation != (.former | length) + 1) | .name' "$DATA/archive.json" | tr '\n' ' ')
-[ -z "${bad// }" ] || fail "archive generations must count 1..n with the current one n+1: $bad"
+[[ -z "${bad// }" ]] || fail "archive generations must count 1..n with the current one n+1: $bad"
 records=$(jq '[.[].former[]] | length' "$DATA/archive.json")
-if [ "$records" -gt 0 ]; then
+if [[ "$records" -gt 0 ]]; then
   while IFS=$'\t' read -r name github uuid; do
     expect=$(uuidgen --sha1 --namespace @url --name "github.com/$github")
     [[ "$uuid" = "$expect" ]] || fail "archived uuid for $name at $github is ${uuid:-<missing>}, UUIDv5 derivation gives $expect"
