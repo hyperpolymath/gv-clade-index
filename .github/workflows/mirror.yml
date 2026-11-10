@@ -7,11 +7,263 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  actions: read
-  contents: read
+# INLINED from metadatastician/standards
+#   .github/workflows/mirror-reusable.yml @ 092dedada188f56c5915f74a5fd40aac093742c3
+# A job-level call to a remote reusable workflow cannot be recorded in
+# actions.lock, and since 2026-10-19 such calls failed at startup with zero
+# jobs. The jobs below are that reusable's jobs, unchanged except: runs-on is
+# the input's default (ubuntu-latest), job.workflow_sha is the pin above, the
+# standards owner is metadatastician, and each job keeps its old check name
+# "mirror / <job>". Re-sync from standards by re-inlining at a new pin.
+# Also changed, for SonarCloud: workflow-level read permissions moved onto the
+# jobs that inherited them (same rights per job), and the Radicle key is written
+# from the job env (printf "$RADICLE_KEY") instead of expanding the secret in
+# the script text.
+
+permissions: {}
+
 
 jobs:
-  mirror:
-    uses: hyperpolymath/standards/.github/workflows/mirror-reusable.yml@092dedada188f56c5915f74a5fd40aac093742c3
-    secrets: inherit
+  mirror-gitlab:
+    permissions:
+      actions: read
+      contents: read
+    name: "mirror / mirror-gitlab"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    if: vars.GITLAB_MIRROR_ENABLED == 'true'
+    # Map the secret to env so step `if:`s can gate on its presence: the
+    # `secrets` context is NOT available in `if:` (using it is an
+    # "Unrecognized named-value: 'secrets'" startup failure). `env` IS
+    # available in step `if:`, and secrets are valid in job-level `env`.
+    env:
+      GITLAB_KEY: ${{ secrets.GITLAB_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555 # v0.10.0
+        if: ${{ env.GITLAB_KEY != '' }}
+        with:
+          ssh-private-key: ${{ secrets.GITLAB_SSH_KEY }}
+      - name: Mirror to GitLab
+        # continue-on-error: GitLab branch protection on the mirror repo may block
+        # force-push even for a deploy key. Owner action required: in GitLab go to
+        # Settings → Repository → Protected branches → main and either allow force-push
+        # for Maintainers/Developers or remove the protection on the mirror repo.
+        # Until then this step is advisory-only; failures do not red main.
+        continue-on-error: true
+        if: ${{ env.GITLAB_KEY != '' }}
+        run: |
+          ssh-keyscan -t ed25519 gitlab.com >> ~/.ssh/known_hosts
+          git remote add gitlab git@gitlab.com:hyperpolymath/${{ github.event.repository.name }}.git || true
+          git push --force gitlab main
+      - name: Skipped (GITLAB_SSH_KEY not configured)
+        if: ${{ env.GITLAB_KEY == '' }}
+        run: |
+          echo "::notice::GITLAB_MIRROR_ENABLED=true but secrets.GITLAB_SSH_KEY is empty. Skipping GitLab mirror. Configure the GITLAB_SSH_KEY org/repo secret to enable."
+
+  mirror-bitbucket:
+    permissions:
+      actions: read
+      contents: read
+    name: "mirror / mirror-bitbucket"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    if: vars.BITBUCKET_MIRROR_ENABLED == 'true'
+    # See mirror-gitlab: the `secrets` context is not valid in step `if:`;
+    # hoist to job-level `env` and gate steps on `env.BITBUCKET_KEY`.
+    env:
+      BITBUCKET_KEY: ${{ secrets.BITBUCKET_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555 # v0.10.0
+        if: ${{ env.BITBUCKET_KEY != '' }}
+        with:
+          ssh-private-key: ${{ secrets.BITBUCKET_SSH_KEY }}
+      - name: Mirror to Bitbucket
+        if: ${{ env.BITBUCKET_KEY != '' }}
+        run: |
+          ssh-keyscan -t ed25519 bitbucket.org >> ~/.ssh/known_hosts
+          git remote add bitbucket git@bitbucket.org:hyperpolymath/${{ github.event.repository.name }}.git || true
+          git push --force bitbucket main
+      - name: Skipped (BITBUCKET_SSH_KEY not configured)
+        if: ${{ env.BITBUCKET_KEY == '' }}
+        run: |
+          echo "::notice::BITBUCKET_MIRROR_ENABLED=true but secrets.BITBUCKET_SSH_KEY is empty. Skipping Bitbucket mirror. Configure the BITBUCKET_SSH_KEY org/repo secret to enable."
+
+  mirror-codeberg:
+    permissions:
+      actions: read
+      contents: read
+    name: "mirror / mirror-codeberg"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    if: vars.CODEBERG_MIRROR_ENABLED == 'true'
+    # See mirror-gitlab: the `secrets` context is not valid in step `if:`;
+    # hoist to job-level `env` and gate steps on `env.CODEBERG_KEY`.
+    env:
+      CODEBERG_KEY: ${{ secrets.CODEBERG_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555 # v0.10.0
+        if: ${{ env.CODEBERG_KEY != '' }}
+        with:
+          ssh-private-key: ${{ secrets.CODEBERG_SSH_KEY }}
+      - name: Mirror to Codeberg
+        if: ${{ env.CODEBERG_KEY != '' }}
+        run: |
+          ssh-keyscan -t ed25519 codeberg.org >> ~/.ssh/known_hosts
+          git remote add codeberg git@codeberg.org:hyperpolymath/${{ github.event.repository.name }}.git || true
+          git push --force codeberg main
+      - name: Skipped (CODEBERG_SSH_KEY not configured)
+        if: ${{ env.CODEBERG_KEY == '' }}
+        run: |
+          echo "::notice::CODEBERG_MIRROR_ENABLED=true but secrets.CODEBERG_SSH_KEY is empty. Skipping Codeberg mirror. Configure the CODEBERG_SSH_KEY org/repo secret to enable."
+
+  mirror-sourcehut:
+    permissions:
+      actions: read
+      contents: read
+    name: "mirror / mirror-sourcehut"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    if: vars.SOURCEHUT_MIRROR_ENABLED == 'true'
+    # See mirror-gitlab: the `secrets` context is not valid in step `if:`;
+    # hoist to job-level `env` and gate steps on `env.SOURCEHUT_KEY`.
+    env:
+      SOURCEHUT_KEY: ${{ secrets.SOURCEHUT_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555 # v0.10.0
+        if: ${{ env.SOURCEHUT_KEY != '' }}
+        with:
+          ssh-private-key: ${{ secrets.SOURCEHUT_SSH_KEY }}
+      - name: Mirror to SourceHut
+        if: ${{ env.SOURCEHUT_KEY != '' }}
+        run: |
+          ssh-keyscan -t ed25519 git.sr.ht >> ~/.ssh/known_hosts
+          git remote add sourcehut git@git.sr.ht:~hyperpolymath/${{ github.event.repository.name }} || true
+          git push --force sourcehut main
+      - name: Skipped (SOURCEHUT_SSH_KEY not configured)
+        if: ${{ env.SOURCEHUT_KEY == '' }}
+        run: |
+          echo "::notice::SOURCEHUT_MIRROR_ENABLED=true but secrets.SOURCEHUT_SSH_KEY is empty. Skipping SourceHut mirror. Configure the SOURCEHUT_SSH_KEY org/repo secret to enable."
+
+  mirror-disroot:
+    permissions:
+      actions: read
+      contents: read
+    name: "mirror / mirror-disroot"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    if: vars.DISROOT_MIRROR_ENABLED == 'true'
+    # See mirror-gitlab: the `secrets` context is not valid in step `if:`;
+    # hoist to job-level `env` and gate steps on `env.DISROOT_KEY`.
+    env:
+      DISROOT_KEY: ${{ secrets.DISROOT_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555 # v0.10.0
+        if: ${{ env.DISROOT_KEY != '' }}
+        with:
+          ssh-private-key: ${{ secrets.DISROOT_SSH_KEY }}
+      - name: Mirror to Disroot
+        if: ${{ env.DISROOT_KEY != '' }}
+        run: |
+          ssh-keyscan -t ed25519 git.disroot.org >> ~/.ssh/known_hosts
+          git remote add disroot git@git.disroot.org:hyperpolymath/${{ github.event.repository.name }}.git || true
+          git push --force disroot main
+      - name: Skipped (DISROOT_SSH_KEY not configured)
+        if: ${{ env.DISROOT_KEY == '' }}
+        run: |
+          echo "::notice::DISROOT_MIRROR_ENABLED=true but secrets.DISROOT_SSH_KEY is empty. Skipping Disroot mirror. Configure the DISROOT_SSH_KEY org/repo secret to enable."
+
+  mirror-gitea:
+    permissions:
+      actions: read
+      contents: read
+    name: "mirror / mirror-gitea"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    if: vars.GITEA_MIRROR_ENABLED == 'true'
+    # See mirror-gitlab: the `secrets` context is not valid in step `if:`;
+    # hoist to job-level `env` and gate steps on `env.GITEA_KEY`.
+    env:
+      GITEA_KEY: ${{ secrets.GITEA_SSH_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555 # v0.10.0
+        if: ${{ env.GITEA_KEY != '' }}
+        with:
+          ssh-private-key: ${{ secrets.GITEA_SSH_KEY }}
+      - name: Mirror to Gitea
+        if: ${{ env.GITEA_KEY != '' }}
+        run: |
+          ssh-keyscan -t ed25519 ${{ vars.GITEA_HOST }} >> ~/.ssh/known_hosts
+          git remote add gitea git@${{ vars.GITEA_HOST }}:hyperpolymath/${{ github.event.repository.name }}.git || true
+          git push --force gitea main
+      - name: Skipped (GITEA_SSH_KEY not configured)
+        if: ${{ env.GITEA_KEY == '' }}
+        run: |
+          echo "::notice::GITEA_MIRROR_ENABLED=true but secrets.GITEA_SSH_KEY is empty. Skipping Gitea mirror. Configure the GITEA_SSH_KEY org/repo secret to enable."
+
+  mirror-radicle:
+    permissions:
+      actions: read
+      contents: read
+    name: "mirror / mirror-radicle"
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    if: vars.RADICLE_MIRROR_ENABLED == 'true'
+    # Map the secret to env so step `if:`s can gate on its presence: the
+    # `secrets` context is NOT available in `if:` (using it is an
+    # "Unrecognized named-value: 'secrets'" startup failure). `env` IS
+    # available in step `if:`, and secrets are valid in job-level `env`.
+    env:
+      RADICLE_KEY: ${{ secrets.RADICLE_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      # All Radicle steps gate on secrets.RADICLE_KEY being set on the
+      # caller repo (resolved via `secrets: inherit`). Without this gate
+      # the workflow burned ~3 minutes of Rust+Radicle install on every
+      # push to every RADICLE_MIRROR_ENABLED repo only to fail at
+      # `~/.radicle/keys/radicle: No such file or directory` because the
+      # `echo "" > ...` write into a non-existent dir errors out — and
+      # even if the dir existed, the empty-key write would never sync.
+      # Caught 26 estate repos on the 2026-05-30 audit. The vars gate
+      # answers "is Radicle mirror desired here?"; the secret gate
+      # answers "are we configured to actually do it?".
+      - name: Setup Rust
+        if: ${{ env.RADICLE_KEY != '' }}
+        uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # stable
+        with:
+          toolchain: stable
+      - name: Install Radicle
+        if: ${{ env.RADICLE_KEY != '' }}
+        run: |
+          cargo install radicle-cli --locked
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      - name: Mirror to Radicle
+        if: ${{ env.RADICLE_KEY != '' }}
+        run: |
+          mkdir -p ~/.radicle/keys
+          printf '%s\n' "$RADICLE_KEY" > ~/.radicle/keys/radicle
+          chmod 600 ~/.radicle/keys/radicle
+          rad sync --announce || echo "Radicle sync attempted"
+      - name: Skipped (RADICLE_KEY not configured)
+        if: ${{ env.RADICLE_KEY == '' }}
+        run: |
+          echo "::notice::RADICLE_MIRROR_ENABLED=true but secrets.RADICLE_KEY is empty. Skipping Radicle mirror. Configure the RADICLE_KEY org/repo secret to enable."
