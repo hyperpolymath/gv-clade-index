@@ -41,7 +41,7 @@ present = true             # derived here/not-here-as-itself:
                            #   here     = reserved|incubating|active|dormant|archived
                            #   not-here = merged|superseded|extinct
 # Companion fields — fill only the ones the current phase makes meaningful:
-aliases = []               # former prefixed-names (renames; uuid is permanent)
+aliases = []               # former prefixed-names (GitHub path unchanged; uuid kept)
 merged-into = ""           # uuid or binomial of target when phase=merged
 superseded-by = ""         # uuid or binomial of successor when phase=superseded
 successors = []            # forward links (splits / spinoffs)

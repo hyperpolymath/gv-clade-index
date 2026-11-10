@@ -52,8 +52,9 @@ DEFINE SEMANTIC repo {
   languages: [STRING],          -- programming languages used
   version: STRING?,             -- current version if applicable
   -- Lifecycle phase: mutually exclusive, exhaustive. Living = reserved..dormant;
-  -- ended = merged..extinct. Rename is NOT a phase (uuid is permanent → the old
-  -- prefixed-name goes to aliases[], status stays where it was).
+  -- ended = merged..extinct. A prefixed-name change with the GitHub path
+  -- unchanged is NOT a phase (uuid unchanged → the old prefixed-name goes to
+  -- aliases[], status stays where it was); a GitHub rename remints the uuid.
   status: ENUM("reserved", "incubating", "active", "dormant",
                "merged", "superseded", "archived", "extinct"),
   status_since: TIMESTAMP,      -- when the CURRENT phase began
