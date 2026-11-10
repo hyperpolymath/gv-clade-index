@@ -32,14 +32,20 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 ==== Changed
 
-* *19 moved repositories recorded* (census of 2026-11-10): the 8 Stealth
+* *18 moved repositories recorded* (census of 2026-11-10): the 8 Stealth
   Glider repositories and 9 more (airborne-submarine-squadron,
   befunge93-vault-cracker, blue-screen-of-app, game-server-admin,
   hotchocolabot, megadog, pow-the-game, proof-of-work, thejeffparadox) now
-  under `catachresis-colloquium`; `standards` under `metadatastician`;
-  `burble` under `hyperpolymath`. Their ids are reminted and their earlier
-  ids archived. Each repository's own records still carry the old id until
-  its own follow-up PR.
+  under `catachresis-colloquium`; `standards` under `metadatastician`.
+  Their ids are reminted and their earlier ids archived. Each repository's
+  own records still carry the old id until its own follow-up PR.
+* *Correction:* the same census also recorded `burble` as moved from
+  `metadatastician` to `hyperpolymath`. That was backwards:
+  `hyperpolymath/burble` redirects to `metadatastician/burble`, so the
+  registered path was right. The census compared full `git ls-remote` ref
+  lists, which match in both directions of a redirect, so it showed that two
+  names were one repository but not which name was canonical. `burble` is
+  restored to `metadatastician` with its original ids and no archive record.
 * `scripts/check-registry.sh` checks the archive: every archived id
   re-derives from its earlier path, generations count 1..n with the current
   one n+1, each entry names a current repository at its current path, and no

@@ -439,8 +439,7 @@ description = "Voice platform — Elixir control plane, WebRTC media"
 lineage = "standalone"
 parent = ""
 completion = 10
-owner = "hyperpolymath"
-former = ["metadatastician/burble@2026-11-10"]
+owner = "metadatastician"
 
 [repo.branch-newspaper]
 primary = "ap"
