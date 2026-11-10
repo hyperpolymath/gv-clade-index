@@ -1,0 +1,133 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+= ADR 0007: Remint identity when a repository moves
+
+Date: 2026-11-10
+
+== Status
+
+Proposed. Owner ruling of 2026-11-10: a move mints a new id, and only the
+latest id is in use. When accepted, this ADR supersedes one rule of ADR 0006:
+"`uuid` is immortal ... not on rename". The rest of ADR 0006 (the 8 phases,
+`status_history`, `aliases[]` for prefixed-names) does not change.
+
+== Context
+
+The registry derives each repository's identity from its forge path,
+`github.com/<owner>/<name>`:
+
+* `uuid` is the UUIDv5 of that path in the @url namespace (`sync/export-json.sh`);
+* `uuid_v8` is the ADR-008 profile C UUIDv8 of the same path (D320).
+
+`scripts/check-registry.sh` fails if either value does not re-derive from the
+current `github` field.
+
+ADR 0006 also says that a `uuid` never changes. The two rules cannot both hold
+when a repository moves. On 2026-11-10, 5 repositories were found to have moved
+from `metadatastician` to `catachresis-colloquium`:
+
+* `enterglide-ncc-137-k`
+* `planer-1`
+* `stealth-glider-ecosystem`
+* `tardis-rule-disruption`
+* `x15-rocket-glider`
+
+The registry still lists them under `metadatastician`. GitHub redirects the old
+names, but tools that do not follow the redirect fail. A repo-scoped GitHub
+proxy refused a push to the old names.
+
+The owner considered 2 models:
+
+. keep one id for life, and archive only the old location;
+. mint a new id on each move, and archive the old id for reference only.
+
+The owner chose the second model.
+
+== Decision
+
+. *Identity follows the forge path.* `uuid` and `uuid_v8` derive from the
+  current `github.com/<owner>/<name>`, as they do now. When that path changes,
+  the registry mints both ids again from the new path.
+
+. *Only the latest id is in use.* The API, `worker/data/`, the clade index,
+  lineage links, each repository's own deed and CLADE record, and every other
+  consumer use the current id only. Nothing resolves an old id, and no route
+  looks one up.
+
+. *Old ids are archival, for reference only.* Each repository keeps an
+  append-only list of its earlier forge paths. Each archive record holds:
+** `generation`: 1 for the birth path, then 1 more for each remint;
+** `github`: the earlier `owner/name`;
+** `uuid` and `uuid_v8`: the ids derived from that path;
+** `until`: the date the registry recorded the move.
+
+. *The seed is the source.* A move changes `owner` (or the name) in
+  `verisim/seed/repos.a2ml` and appends the earlier path to a new optional
+  field, `former`. `sync/export-json.sh` writes the archive to a separate file,
+  `worker/data/archive.json`. That file is not loaded into KV and no route
+  serves it.
+
+. *The gate enforces this.* `scripts/check-registry.sh` also checks that:
+** every archive `uuid` and `uuid_v8` re-derives from its `github` path;
+** no archived id appears in `repos.json` or `index.json`;
+** `generation` counts up from 1 with no gap, and the current generation is
+   1 more than the number of archive records.
+
+. *A move is finished only when the repository agrees.* The registry change is
+  one PR. Each moved repository then needs its own PR that updates its deed
+  `(identity)` uuid literal and its CLADE record to the new id. Until that PR
+  merges, the registry and the repository disagree, and the move is open.
+
+== Consequences
+
+=== Positive
+
+* One id per repository is in use at any time, and it always matches the
+  forge path. A reader can derive it from the path alone.
+* The derivation rule and `check-registry.sh` stay as they are. Only the
+  archive check is new.
+* The earlier ids stay on record, so a person can trace an old reference by
+  hand.
+
+=== Negative
+
+* A consumer that stored an old id loses the match after a move. It must look
+  the repository up again by name (`GET /v1/repo/:name`).
+* Each move needs a PR in the moved repository as well as in the registry.
+* This reverses one rule of an accepted ADR (0006). Any document that says the
+  `uuid` never changes must be corrected.
+
+=== Neutral
+
+* ADR 0004 forbids removing or retyping a field inside `/v1`. A remint changes
+  the value of `uuid` and `uuid_v8`, not their type, and the documented
+  meaning ("derived from `github.com/<owner>/<name>`") stays true. So no `/v2`
+  is needed.
+* The `Uuid` description in `docs/api/openapi.yaml` says the id is "stable
+  across reclassification". That stays true, because a clade change does not
+  change the forge path. It must also say that a move or rename mints a new id.
+
+== Open questions
+
+. *Rename on the same owner.* The derivation cannot tell a move from a rename,
+  so this ADR treats both the same. Proposed: a rename also remints. A change
+  of prefixed-name (clade code) does not change the forge path and does not
+  remint; ADR 0006 `aliases[]` still covers it.
+. *Archive visibility.* Proposed: `archive.json` stays in the repository and is
+  not served. If the owner wants it served, that is a new additive route.
+
+== Implementation (after acceptance, not part of this ADR)
+
+. `sync/parse-repos.sh`: read the optional `former` field.
+. `sync/export-json.sh`: write `worker/data/archive.json`.
+. `scripts/check-registry.sh`: the 3 archive checks above, with a negative
+  test in `tests/check-registry-test.sh` for each.
+. `docs/api/openapi.yaml`: the `Uuid` and `UuidV8` descriptions.
+. Seed: record the 5 moves above, then regenerate `worker/data/`.
+. One PR in each of the 5 moved repositories for its own records.
+
+== References
+
+* ADR 0004: API Versioning Strategy (the `/v1` additive-only rule).
+* ADR 0006: Clade Lifecycle Status (the rule this ADR supersedes).
+* `sync/export-json.sh`, `scripts/check-registry.sh` (the derivation and gate).
