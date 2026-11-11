@@ -4,8 +4,9 @@
 
 DEFINE SCHEMA repo VERSION 1.1.0;
 -- 1.1.0: lifecycle — 8-phase status enum + companion fields + status_history.
--- Identity (uuid) and status are SEPARATE layers: uuid follows the forge path
--- (a move or rename mints a new one, ADR 0007; a phase change never does),
+-- Identity (uuid) and status are SEPARATE layers: uuid follows the GitHub path
+-- (a move or rename there mints a new one, ADR 0007; a mirror move or a phase
+-- change never does),
 -- status is a mutable current-phase pointer; transitions in both directions are
 -- legal.
 
@@ -51,8 +52,9 @@ DEFINE SEMANTIC repo {
   languages: [STRING],          -- programming languages used
   version: STRING?,             -- current version if applicable
   -- Lifecycle phase: mutually exclusive, exhaustive. Living = reserved..dormant;
-  -- ended = merged..extinct. Rename is NOT a phase (uuid is permanent → the old
-  -- prefixed-name goes to aliases[], status stays where it was).
+  -- ended = merged..extinct. A prefixed-name change with the GitHub path
+  -- unchanged is NOT a phase (uuid unchanged → the old prefixed-name goes to
+  -- aliases[], status stays where it was); a GitHub rename remints the uuid.
   status: ENUM("reserved", "incubating", "active", "dormant",
                "merged", "superseded", "archived", "extinct"),
   status_since: TIMESTAMP,      -- when the CURRENT phase began
