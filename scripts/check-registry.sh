@@ -24,6 +24,12 @@
 #      a retired id or another repo's id, so a vacated path's id is never minted
 #      for a new repo; and no archive data reaches repos.json or index.json,
 #      the files that are served.
+#   7. Nothing registered is lost (ADR 0008, owner decision of 2026-11-12):
+#      given the base branch's worker/data/repos.json in GV_BASE_REPOS_JSON,
+#      every repo it lists is still listed, with the same uuid and uuid_v8.
+#      A deleted repository stays in the seed with its status; it is never
+#      removed, so its ids stay checked against every new entry. Skipped,
+#      with a notice, when no base is given (a local run).
 #
 # Exit 0 only when every check passes. Never writes inside the repository.
 
@@ -142,5 +148,29 @@ if [[ "$retired" -gt 0 ]]; then
   [[ -z "$reused" ]] || fail "a retired id is never minted again: $reused"
 fi
 echo "check-registry: archive holds $(jq length "$DATA/archive.json") moved repo(s) and $retired retired id pair(s); all re-derive, none reused, none served"
+
+# 7. Nothing registered is lost (ADR 0008) ----------------------------------
+# The uniqueness and retired-id checks above see only what the seed lists, so
+# a repo removed from the seed would free its ids for a newcomer on its birth
+# path. A registered repo is therefore never removed, and its ids never
+# change. CI passes the base branch's repos.json; a local run may omit it.
+if [[ -n "${GV_BASE_REPOS_JSON:-}" ]]; then
+  [[ -f "$GV_BASE_REPOS_JSON" ]] || fail "GV_BASE_REPOS_JSON names a missing file: $GV_BASE_REPOS_JSON"
+  jq empty "$GV_BASE_REPOS_JSON" 2>/dev/null || fail "GV_BASE_REPOS_JSON is not valid JSON"
+  removed=$(jq -r --slurpfile head "$DATA/repos.json" '
+    ($head[0] | map(.name)) as $h
+    | [.[].name | select(. as $n | $h | index($n) | not)] | join(" ")' "$GV_BASE_REPOS_JSON")
+  [[ -z "$removed" ]] || fail "registered repo(s) removed from the seed: $removed (ADR 0008: a registered repo is never removed; record its status instead)"
+  changed=$(jq -r --slurpfile head "$DATA/repos.json" '
+    ($head[0] | map({key: .name, value: .}) | from_entries) as $h
+    | [.[] | . as $b | $h[$b.name] as $c
+       | select(($b.uuid // null) != null and $b.uuid != $c.uuid
+                or ($b.uuid_v8 // null) != null and $b.uuid_v8 != $c.uuid_v8)
+       | "\($b.name) (\($b.uuid) -> \($c.uuid))"] | join("; ")' "$GV_BASE_REPOS_JSON")
+  [[ -z "$changed" ]] || fail "a registered id changed: $changed (ADR 0008: an id is minted once)"
+  echo "check-registry: all $(jq length "$GV_BASE_REPOS_JSON") repos of the base are still registered, ids unchanged"
+else
+  echo "check-registry: NOTICE: GV_BASE_REPOS_JSON unset, so the never-removed check (section 7) did not run"
+fi
 
 echo "check-registry: PASS"

@@ -79,6 +79,15 @@ The owner then ruled the other way:
   hashed. A path in a deed would have to change on a move, which is what this
   ADR rules out.
 
+. *A registered repository is never removed* (owner decision of
+  2026-11-12, after review of #111). The checks above see only what the
+  seed lists, so removing an entry would free its ids for a newcomer on its
+  birth path. A deleted or abandoned repository therefore stays in the seed
+  and records its state in its description or status, as `megadog` does.
+  CI passes the base branch's `worker/data/repos.json` to
+  `scripts/check-registry.sh`, which fails if any repository it lists is
+  missing or has a different `uuid` or `uuid_v8`.
+
 == Consequences
 
 === Positive

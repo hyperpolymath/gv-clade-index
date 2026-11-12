@@ -32,6 +32,13 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 ==== Changed
 
+* *A registered repository is never removed* (ADR 0008, owner decision of
+  2026-11-12). `scripts/check-registry.sh` section 7 compares the registry
+  with the base branch's `worker/data/repos.json` (`GV_BASE_REPOS_JSON`,
+  set by Worker CI) and fails if a repository is missing or its `uuid` or
+  `uuid_v8` changed. Without a base (a local run) it prints a notice and
+  skips the check. The planted-failure test covers both refusals.
+
 * *ADR 0008: identity is minted once* (owner rulings U1 to U4, 2026-11-11 and
   2026-11-12). It supersedes ADR 0007 and restores the immortal rule of ADR
   0006. `uuid` and `uuid_v8` derive from the birth path, the first `former`

@@ -168,4 +168,29 @@ jq --arg n "$first" '.by_name[$n].birth="x/y"' \
   "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
 expect_fail "archive leaked into repos.json" "is stale\|archive data reached repos.json"
 
-echo "check-registry-test: PASS (baseline, path reuse and birth id pass; 13 planted failures fire)"
+# 16. ADR 0008: the base's repos are all still registered, with the same ids
+fresh
+cp "$work/repo/worker/data/repos.json" "$work/base-repos.json"
+GV_BASE_REPOS_JSON="$work/base-repos.json" bash "$work/repo/scripts/check-registry.sh" >/dev/null \
+  || { echo "FAIL: [never removed] gate refused an unchanged registry"; exit 1; }
+echo "ok: [never removed] an unchanged registry passes against its base"
+
+# 17. A repo in the base that the head no longer lists: refused
+jq '. + [{"name": "zz-planted-removed-probe", "uuid": "00000000-0000-5000-8000-000000000001"}]' \
+  "$work/repo/worker/data/repos.json" > "$work/base-repos.json"
+out=$(GV_BASE_REPOS_JSON="$work/base-repos.json" bash "$work/repo/scripts/check-registry.sh" 2>&1) \
+  && { echo "FAIL: [repo removed] gate passed"; exit 1; }
+grep -q "removed from the seed: zz-planted-removed-probe" <<<"$out" \
+  || { echo "FAIL: [repo removed] wrong reason: $out"; exit 1; }
+echo "ok: [repo removed] gate fails with: $(grep 'removed from the seed' <<<"$out")"
+
+# 18. A registered repo whose id differs from the base: refused
+jq --arg n "$first" 'map(if .name==$n then .uuid="00000000-0000-5000-8000-000000000002" else . end)' \
+  "$work/repo/worker/data/repos.json" > "$work/base-repos.json"
+out=$(GV_BASE_REPOS_JSON="$work/base-repos.json" bash "$work/repo/scripts/check-registry.sh" 2>&1) \
+  && { echo "FAIL: [id changed] gate passed"; exit 1; }
+grep -q "a registered id changed: $first" <<<"$out" \
+  || { echo "FAIL: [id changed] wrong reason: $out"; exit 1; }
+echo "ok: [id changed] gate fails with: $(grep 'registered id changed' <<<"$out" | cut -c1-120)"
+
+echo "check-registry-test: PASS (baseline, path reuse, birth id and an unchanged base pass; 15 planted failures fire)"
