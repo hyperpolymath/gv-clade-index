@@ -73,6 +73,12 @@ deploy_clade() {
     # Forge owner/org hosting this repo. Optional in repos.a2ml; parse-repos.sh
     # defaults it to "hyperpolymath", so existing entries are unaffected.
     local owner="${7:-hyperpolymath}"
+    # ADR 0008: the id is minted from the birth path, the first `former`
+    # entry ("owner/name@date") when the repo has moved, else the current path.
+    local former="${8:-}" birth="$owner/$1"
+    if [[ "$former" =~ \"([A-Za-z0-9._-]+/[A-Za-z0-9._-]+)@ ]]; then
+        birth="${BASH_REMATCH[1]}"
+    fi
 
     local repo_path="$REPOS_DIR/$repo_name"
 
@@ -118,7 +124,8 @@ deploy_clade() {
         fi
     done
 
-    # Generate deterministic UUID v5.
+    # Generate deterministic UUID v5 from the birth path (ADR 0008: minted
+    # once, never changed by a move or rename).
     #
     # The owner segment is part of the derived name, so it is part of the
     # IDENTITY — get it wrong and the repo gets a uuid that belongs to nothing.
@@ -127,7 +134,7 @@ deploy_clade() {
     # from the registry entry, still defaulting to "hyperpolymath" so every
     # existing entry derives byte-identically.
     local uuid
-    uuid=$(uuidgen --sha1 --namespace @url --name "github.com/$owner/$repo_name")
+    uuid=$(uuidgen --sha1 --namespace @url --name "github.com/$birth")
 
     # Fail loudly if the registry disagrees with the repo's actual remote — a
     # silently wrong owner means a silently wrong identity, which is worse than
@@ -250,8 +257,8 @@ echo ""
 # US (0x1f) is not IFS whitespace, so runs are not collapsed and empty fields
 # survive. It cannot occur in the data (checked: 0 occurrences in repos.a2ml) and
 # is exactly what the ASCII unit separator is for.
-while IFS=$'\037' read -r name primary secondary lineage parent description owner _former; do
-    deploy_clade "$name" "$primary" "$secondary" "$lineage" "$parent" "$description" "$owner"
+while IFS=$'\037' read -r name primary secondary lineage parent description owner former _retired; do
+    deploy_clade "$name" "$primary" "$secondary" "$lineage" "$parent" "$description" "$owner" "$former"
 done < <(parse_repos | tr '\t' '\037')
 
 echo ""

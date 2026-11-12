@@ -1,7 +1,7 @@
 {
   "total_repos": 327,
   "total_clades": 12,
-  "generated": "2026-11-10T19:48:27Z",
+  "generated": "2026-11-12T01:20:03Z",
   "clades": [
     {
       "code": "fv",
@@ -671,8 +671,8 @@
     },
     "proof-of-work": {
       "name": "proof-of-work",
-      "uuid": "75fa4461-7923-5042-b99d-adc82b88d15d",
-      "uuid_v8": "f73d3bcb-1065-8781-b308-abe84a29ebe9",
+      "uuid": "8512bde0-7023-5704-a7d7-592e5a222672",
+      "uuid_v8": "11010eef-56db-8f7e-b6a5-d9a21986c0c7",
       "clade": "fv",
       "secondary": [],
       "lineage": "standalone",
@@ -695,8 +695,8 @@
     },
     "sr71-blackglider": {
       "name": "sr71-blackglider",
-      "uuid": "768f0f8e-61ff-5433-b375-4732da9103fd",
-      "uuid_v8": "b0cbea03-ce7c-8445-b4e6-09aa6fbca37a",
+      "uuid": "ad26514c-ba53-541e-aee9-d4686911a9a4",
+      "uuid_v8": "e2917173-e57a-8cac-b17d-c782e6e4e8e7",
       "clade": "fv",
       "secondary": [],
       "lineage": "standalone",
@@ -993,8 +993,8 @@
     },
     "standards": {
       "name": "standards",
-      "uuid": "e5a3bf06-6a14-5846-ab95-c6dd9cca97b0",
-      "uuid_v8": "58bc518a-9ca1-8765-865d-fc26a0177a04",
+      "uuid": "d9e987dc-bb7b-51aa-839b-3d8bbfe774c3",
+      "uuid_v8": "b32d6be4-73ba-873e-9d61-e57f43c75cd1",
       "clade": "gv",
       "secondary": [],
       "lineage": "monorepo",
@@ -1175,8 +1175,8 @@
     },
     "burble": {
       "name": "burble",
-      "uuid": "34331e3d-fb8f-5f0c-ad56-521de5a156ac",
-      "uuid_v8": "717d905d-0a60-8078-bba0-a715c3d8c335",
+      "uuid": "0a37e17d-8ee5-5c30-9daf-571315a88a84",
+      "uuid_v8": "1e207a32-dd26-8c8a-b8d9-5f77f88dbd58",
       "clade": "ap",
       "secondary": [
         "pt"
@@ -2230,8 +2230,8 @@
     },
     "stealth-glider-ecosystem": {
       "name": "stealth-glider-ecosystem",
-      "uuid": "79c1cead-4f6c-50c2-bf0c-d99fbb4eff27",
-      "uuid_v8": "2cb3ad05-1320-80d0-99ec-5680f6628a34",
+      "uuid": "c6eab5fc-ff7e-51c8-9710-955959e07be7",
+      "uuid_v8": "f60b2ec7-16a8-8a93-bebc-237b72716ece",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
@@ -2242,8 +2242,8 @@
     },
     "f19-stealth-glider": {
       "name": "f19-stealth-glider",
-      "uuid": "985a41dc-21ad-5048-b305-be94e8ac35b8",
-      "uuid_v8": "9df13630-668c-8319-a62a-0ef5a68951e2",
+      "uuid": "5f715988-a5b9-5b0a-acd6-b2c0a91bfa5d",
+      "uuid_v8": "26d905e8-27bd-8658-bd8b-1e4edabc2c5b",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
@@ -2254,8 +2254,8 @@
     },
     "f117a-stealth-glider": {
       "name": "f117a-stealth-glider",
-      "uuid": "62b8d733-7153-50b2-bc15-1a832935e668",
-      "uuid_v8": "54b0139f-7241-8d35-8835-b57b07308a1c",
+      "uuid": "4dcf4ed6-89ce-548e-9bba-6a4fc6a2d74f",
+      "uuid_v8": "c8a94cc4-a2df-84ff-8dce-a319916330ce",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
@@ -2266,8 +2266,8 @@
     },
     "x15-rocket-glider": {
       "name": "x15-rocket-glider",
-      "uuid": "1729b409-e08d-569a-82c9-fc150dde9eea",
-      "uuid_v8": "fb0e6ce5-4424-8d19-8034-ff278df07f92",
+      "uuid": "4516116f-185d-5777-95ee-f90376a96539",
+      "uuid_v8": "a254644c-fa00-8730-ae97-1d664caae3ff",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
@@ -2278,8 +2278,8 @@
     },
     "planer-1": {
       "name": "planer-1",
-      "uuid": "be5f34f8-dfb3-5a2c-a5dc-e3bbc12eda3a",
-      "uuid_v8": "b7860fe5-e243-8ceb-ab2b-1ced2e618474",
+      "uuid": "89c673f7-1ef9-590e-b3af-c31e174c155a",
+      "uuid_v8": "0ee475d8-cbaa-84d1-9479-40301322505e",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
@@ -2290,8 +2290,8 @@
     },
     "enterglide-ncc-137-k": {
       "name": "enterglide-ncc-137-k",
-      "uuid": "d34531d1-45fa-5851-8513-8802535e300b",
-      "uuid_v8": "57eaf724-7cb9-8725-bc80-ea2738b5ba88",
+      "uuid": "93fcdafb-697b-59b8-96f6-8936935ec4e6",
+      "uuid_v8": "eb3cdafc-86f4-8e7d-bc66-ebc48afa1c0d",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
@@ -2302,8 +2302,8 @@
     },
     "tardis-rule-disruption": {
       "name": "tardis-rule-disruption",
-      "uuid": "4b02f824-6376-5065-a82e-1ab56a6a71b1",
-      "uuid_v8": "2bf482c8-8db7-8e66-b4f7-46b276cc9cff",
+      "uuid": "72f57722-eba3-5656-8e14-354b5f1d6889",
+      "uuid_v8": "9bc34716-7aae-87af-8ab9-58f32c842a9e",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
@@ -3084,8 +3084,8 @@
     },
     "megadog": {
       "name": "megadog",
-      "uuid": "1c535f63-7b77-50ae-a740-0690f93d7673",
-      "uuid_v8": "0b0582d5-01a9-8a9e-86e6-e04b11dd71ce",
+      "uuid": "82d6362e-1a6f-5fbc-959b-f992cc5b9a43",
+      "uuid_v8": "325a405f-2ab5-8e3f-a8c5-7e31030a378e",
       "clade": "rm",
       "secondary": [],
       "lineage": "standalone",
@@ -3208,8 +3208,8 @@
     },
     "game-server-admin": {
       "name": "game-server-admin",
-      "uuid": "8af3e89b-bbcf-5422-aef4-3b3dde4392e7",
-      "uuid_v8": "c33c9a41-6277-8fbf-a32f-47393b5bcbd4",
+      "uuid": "09f76bd7-df4b-5494-8aff-1dca67b00488",
+      "uuid_v8": "75f0c63c-f1ab-89cc-b0d7-18829c2ca82c",
       "clade": "ix",
       "secondary": [
         "gm",
@@ -3367,8 +3367,8 @@
     },
     "airborne-submarine-squadron": {
       "name": "airborne-submarine-squadron",
-      "uuid": "13a875c4-8f20-5031-991b-fbcc2ec99c80",
-      "uuid_v8": "cf8be70b-bc87-8d60-ae9d-70094d083da6",
+      "uuid": "d3bf177f-9258-5d56-8478-5f5714c4c981",
+      "uuid_v8": "f3cea77a-4c58-8611-8468-403bc76577ea",
       "clade": "ax",
       "secondary": [],
       "lineage": "standalone",
@@ -3439,8 +3439,8 @@
     },
     "befunge93-vault-cracker": {
       "name": "befunge93-vault-cracker",
-      "uuid": "35fbf607-ab1f-5e92-a3d7-4a832b00e170",
-      "uuid_v8": "001ff7c9-991f-8952-9ca9-a5afce14ceb2",
+      "uuid": "25c3b87e-863a-5f47-99a9-0d90b6f17015",
+      "uuid_v8": "7c64d76d-3d73-845f-80f7-57eef5f75482",
       "clade": "sc",
       "secondary": [],
       "lineage": "standalone",
@@ -3499,8 +3499,8 @@
     },
     "blue-screen-of-app": {
       "name": "blue-screen-of-app",
-      "uuid": "a2700749-85ab-5ec5-84eb-c7850a52ef26",
-      "uuid_v8": "419ce1c0-dfc7-8265-9f0c-32dde069f5cd",
+      "uuid": "f5d4765c-7b77-58c3-b91c-cfa16db966e6",
+      "uuid_v8": "afa5967e-9de0-8eca-ac62-1be5b1f8bf88",
       "clade": "ap",
       "secondary": [],
       "lineage": "standalone",
@@ -3897,8 +3897,8 @@
     },
     "hotchocolabot": {
       "name": "hotchocolabot",
-      "uuid": "aca886dc-d66d-587d-b9e0-fc54d7bf7f46",
-      "uuid_v8": "1359fa7b-870d-8b2c-83e5-a883792373d5",
+      "uuid": "9667e2ea-45b3-5212-a8ff-89d988770a41",
+      "uuid_v8": "92e13d6b-0b4f-867a-b801-8a1b893be70f",
       "clade": "rm",
       "secondary": [],
       "lineage": "standalone",
@@ -4281,8 +4281,8 @@
     },
     "pow-the-game": {
       "name": "pow-the-game",
-      "uuid": "32ff2c38-c25c-5997-bac3-cda119bcd460",
-      "uuid_v8": "af12c101-e458-85f4-88e6-fd0f75dd05e8",
+      "uuid": "43d89c00-baf1-5a6e-aec9-7efb52491ad2",
+      "uuid_v8": "52ea7d76-8011-8d28-9a40-48642a1ecd0b",
       "clade": "gm",
       "secondary": [],
       "lineage": "standalone",
@@ -4461,8 +4461,8 @@
     },
     "thejeffparadox": {
       "name": "thejeffparadox",
-      "uuid": "ca0897cd-b466-5480-bd13-fd6ee1aeb28d",
-      "uuid_v8": "68cb3645-79c2-8fa8-8578-6b2672f9850c",
+      "uuid": "886bedac-f786-5679-b33c-3742da39d0f6",
+      "uuid_v8": "1c4ecd41-663c-8ff1-85a3-47d6fa81f2b1",
       "clade": "fv",
       "secondary": [],
       "lineage": "standalone",

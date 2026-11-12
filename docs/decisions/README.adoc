@@ -13,5 +13,6 @@ link:0000-template.adoc[the template].
 | link:0003-verisimdb-kv-architecture.adoc[0003] | VeriSimDB + KV Architecture | Accepted _(sketch)_
 | link:0004-api-versioning.adoc[0004] | API Versioning Strategy | Proposed _(open)_
 | link:0005-governance-exceptions.adoc[0005] | Org-wide Governance Exceptions | Proposed _(open)_
-| link:0007-remint-identity-on-move.adoc[0007] | Remint identity when a repository moves | Accepted _(owner ruling 2026-11-10)_
+| link:0007-remint-identity-on-move.adoc[0007] | Remint identity when a repository moves | Superseded by 0008 _(owner ruling U1, 2026-11-11)_
+| link:0008-identity-is-minted-once.adoc[0008] | Identity is minted once | Accepted _(owner rulings U1 to U4, 2026-11-11 and 2026-11-12)_
 |===

@@ -23,7 +23,7 @@ jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
 
 info:
   title: Clade Registry API
-  version: 1.2.0
+  version: 1.3.0
   summary: >-
     Read-only registry mapping the hyperpolymath ecosystem's repositories to
     clade groupings. Map and territory — this is the map.
@@ -595,11 +595,11 @@ components:
     Uuid:
       type: string
       format: uuid
-      description: Deterministic UUIDv5 over the CURRENT `github.com/<owner>/<name>` in the @url namespace. Clade-independent, so stable across reclassification; a move or rename of the forge path mints a new one (ADR 0007, an explicit exception to the `/v1` additive-only rule for `uuid` and `uuid_v8`). Earlier ids are archived for reference only and no route serves them.
+      description: Deterministic UUIDv5 over `github.com/<owner>/<name>` at the repository's birth path, in the @url namespace. Minted once and never changed (ADR 0008, which supersedes ADR 0007): a move or rename changes `github` only, and a clade change never touches it. The birth path is not served. An id the registry once served and withdrew is never minted again.
     UuidV8:
       type: string
       format: uuid
-      description: ADR-008 profile C UUIDv8 of `github.com/<owner>/<name>` (the current path) in the `gv-clade-index` domain (owner ruling D320), the id a deed writes as `#u8"gv-clade-index:github.com/<owner>/<name>"`. Added beside `uuid` under the additive-only `/v1` rule (ADR 0004); `/v2` makes it the `uuid`. Like `uuid`, it is reminted when the forge path changes (ADR 0007).
+      description: ADR-008 profile C UUIDv8 of `github.com/<owner>/<name>` at the birth path, in the `gv-clade-index` domain (owner ruling D320). Added beside `uuid` under the additive-only `/v1` rule (ADR 0004); `/v2` makes it the `uuid`. Like `uuid`, it is minted once and never changed (ADR 0008). A deed carries it as an opaque value, not as the path it was derived from.
     Iso8601:
       type: string
       format: date-time

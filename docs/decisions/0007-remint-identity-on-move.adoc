@@ -6,7 +6,12 @@ Date: 2026-11-10
 
 == Status
 
-Accepted (2026-11-10). Owner ruling of 2026-11-10: a move mints a new id, and
+Superseded by link:0008-identity-is-minted-once.adoc[ADR 0008] (2026-11-12).
+Owner ruling U1 of 2026-11-11 rejects this ADR: an id is immutable, and a
+move or rename never changes it. The text below is kept as the record of the
+decision of 2026-11-10.
+
+Was: Accepted (2026-11-10). Owner ruling of 2026-11-10: a move mints a new id, and
 only the latest id is in use. This ADR supersedes one rule of ADR 0006:
 "`uuid` is immortal ... not on rename". The rest of ADR 0006 (the 8 phases,
 `status_history`, `aliases[]` for prefixed-names) does not change. It also

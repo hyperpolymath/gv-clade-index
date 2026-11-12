@@ -100,6 +100,7 @@ parent = ""
 completion = 10
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/proof-of-work@2026-11-10"]
+retired = ["catachresis-colloquium/proof-of-work@2026-11-12"]
 
 [repo.HOL]
 primary = "fv"
@@ -120,6 +121,7 @@ parent = ""
 completion = 40
 owner = "catachresis-colloquium"
 former = ["metadatastician/sr71-blackglider@2026-11-10"]
+retired = ["catachresis-colloquium/sr71-blackglider@2026-11-12"]
 
 # ============================================================================
 # nl — Nextgen Languages
@@ -319,6 +321,7 @@ parent = ""
 completion = 60
 owner = "metadatastician"
 former = ["hyperpolymath/standards@2026-11-10"]
+retired = ["metadatastician/standards@2026-11-12"]
 
 [repo.seamstress]
 primary = "gv"
@@ -440,6 +443,8 @@ lineage = "standalone"
 parent = ""
 completion = 10
 owner = "metadatastician"
+former = ["hyperpolymath/burble@2026-11-12"]
+retired = ["metadatastician/burble@2026-11-12"]
 
 [repo.branch-newspaper]
 primary = "ap"
@@ -1130,8 +1135,9 @@ completion = 10
 # Chain: f19-stealth-glider -> f117a-stealth-glider -> sr71-blackglider (fv, see
 # above) -> x15-rocket-glider -> planer-1 -> enterglide-ncc-137-k ->
 # tardis-rule-disruption. Hub: stealth-glider-ecosystem. The whole line moved to
-# catachresis-colloquium (recorded 2026-11-10); under ADR 0007 their ids derive
-# from the new path and the metadatastician ids are archived (archive.json).
+# catachresis-colloquium (recorded 2026-11-10). Under ADR 0008 they keep the ids
+# minted from their metadatastician birth paths; the ids reminted from the new
+# path under ADR 0007 are retired (archive.json) and never minted again.
 
 [repo.stealth-glider-ecosystem]
 primary = "gm"
@@ -1142,6 +1148,7 @@ parent = ""
 completion = 10
 owner = "catachresis-colloquium"
 former = ["metadatastician/stealth-glider-ecosystem@2026-11-10"]
+retired = ["catachresis-colloquium/stealth-glider-ecosystem@2026-11-12"]
 
 [repo.f19-stealth-glider]
 primary = "gm"
@@ -1152,6 +1159,7 @@ parent = ""
 completion = 90
 owner = "catachresis-colloquium"
 former = ["metadatastician/f19-stealth-glider@2026-11-10"]
+retired = ["catachresis-colloquium/f19-stealth-glider@2026-11-12"]
 
 [repo.f117a-stealth-glider]
 primary = "gm"
@@ -1162,6 +1170,7 @@ parent = ""
 completion = 90
 owner = "catachresis-colloquium"
 former = ["metadatastician/f117a-stealth-glider@2026-11-10"]
+retired = ["catachresis-colloquium/f117a-stealth-glider@2026-11-12"]
 
 [repo.x15-rocket-glider]
 primary = "gm"
@@ -1172,6 +1181,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["metadatastician/x15-rocket-glider@2026-11-10"]
+retired = ["catachresis-colloquium/x15-rocket-glider@2026-11-12"]
 
 [repo.planer-1]
 primary = "gm"
@@ -1182,6 +1192,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["metadatastician/planer-1@2026-11-10"]
+retired = ["catachresis-colloquium/planer-1@2026-11-12"]
 
 [repo.enterglide-ncc-137-k]
 primary = "gm"
@@ -1192,6 +1203,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["metadatastician/enterglide-ncc-137-k@2026-11-10"]
+retired = ["catachresis-colloquium/enterglide-ncc-137-k@2026-11-12"]
 
 [repo.tardis-rule-disruption]
 primary = "gm"
@@ -1202,6 +1214,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["metadatastician/tardis-rule-disruption@2026-11-10"]
+retired = ["catachresis-colloquium/tardis-rule-disruption@2026-11-12"]
 
 # ============================================================================
 # sc — Security
@@ -1761,6 +1774,7 @@ parent = ""
 completion = 10
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/megadog@2026-11-10"]
+retired = ["catachresis-colloquium/megadog@2026-11-12"]
 
 [repo.polystack]
 primary = "dx"
@@ -1844,6 +1858,7 @@ completion = 75
 evolved-from = "gossamer/examples/game-server-admin"
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/game-server-admin@2026-11-10"]
+retired = ["catachresis-colloquium/game-server-admin@2026-11-12"]
 
 # ============================================================================
 # Backfill 2026-06-25 — repos previously missing from the registry.
@@ -1956,6 +1971,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/airborne-submarine-squadron@2026-11-10"]
+retired = ["catachresis-colloquium/airborne-submarine-squadron@2026-11-12"]
 
 [repo.arghda-core]
 primary = "fv"
@@ -2006,6 +2022,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/befunge93-vault-cracker@2026-11-10"]
+retired = ["catachresis-colloquium/befunge93-vault-cracker@2026-11-12"]
 
 [repo.betlang]
 primary = "nl"
@@ -2048,6 +2065,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/blue-screen-of-app@2026-11-10"]
+retired = ["catachresis-colloquium/blue-screen-of-app@2026-11-12"]
 
 [repo.boj-server-cartridges]
 primary = "dx"
@@ -2315,6 +2333,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/hotchocolabot@2026-11-10"]
+retired = ["catachresis-colloquium/hotchocolabot@2026-11-12"]
 
 [repo.hpm-crypto-rsr]
 primary = "rm"
@@ -2574,6 +2593,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/pow-the-game@2026-11-10"]
+retired = ["catachresis-colloquium/pow-the-game@2026-11-12"]
 
 [repo.proven-tests-and-benches]
 primary = "fv"
@@ -2696,6 +2716,7 @@ parent = ""
 completion = 0
 owner = "catachresis-colloquium"
 former = ["hyperpolymath/thejeffparadox@2026-11-10"]
+retired = ["catachresis-colloquium/thejeffparadox@2026-11-12"]
 
 [repo.tree-sitter-a2ml]
 primary = "nl"
