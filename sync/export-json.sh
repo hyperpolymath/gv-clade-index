@@ -33,8 +33,16 @@ bash "$SCRIPT_DIR/parse-repos.sh" "$SEED/repos.a2ml" > "$PARSED" \
 awk -F'\t' '{
     owner = ($7 != "" ? $7 : "hyperpolymath"); path = owner "/" $1
     if ($8 != "" && match($8, /"[^"@]*@/)) path = substr($8, RSTART + 1, RLENGTH - 2)
+    # The path reaches a double-quoted shell command below, so refuse
+    # anything that could leave the quotes or expand: " $ ` and backslash.
+    # (A stricter owner/name check would reject the existing entry
+    # "games & trivia", which is a seed problem of its own.)
+    if (path !~ /^[^\/"$`\\]+\/[^\/"$`\\]+$/) {
+        printf "export-json: %s: birth path \"%s\" is not a safe owner/name\n", $1, path > "/dev/stderr"
+        exit 1
+    }
     print path
-}' "$PARSED" > "$BIRTH"
+}' "$PARSED" > "$BIRTH" || { echo "export-json: invalid birth path in the seed" >&2; exit 1; }
 # uuid_v8 is the ADR-008 profile C id (D320): domain gv-clade-index, name
 # github.com/<birth owner>/<birth name>, from standards' shared generator.
 sed 's#/#\t#' "$BIRTH" | bash "$SCRIPT_DIR/uuid-v8.sh" > "$IDS" \

@@ -595,11 +595,13 @@ components:
     Uuid:
       type: string
       format: uuid
-      description: Deterministic UUIDv5 over `github.com/<owner>/<name>` at the repository's birth path, in the @url namespace. Minted once and never changed (ADR 0008, which supersedes ADR 0007): a move or rename changes `github` only, and a clade change never touches it. The birth path is not served. An id the registry once served and withdrew is never minted again.
+      description: >-
+        Deterministic UUIDv5 over `github.com/<owner>/<name>` at the repository's birth path, in the @url namespace. Minted once and never changed (ADR 0008, which supersedes ADR 0007): a move or rename changes `github` only, and a clade change never touches it. The birth path is not served. An id the registry once served and withdrew is never minted again.
     UuidV8:
       type: string
       format: uuid
-      description: ADR-008 profile C UUIDv8 of `github.com/<owner>/<name>` at the birth path, in the `gv-clade-index` domain (owner ruling D320). Added beside `uuid` under the additive-only `/v1` rule (ADR 0004); `/v2` makes it the `uuid`. Like `uuid`, it is minted once and never changed (ADR 0008). A deed carries it as an opaque value, not as the path it was derived from.
+      description: >-
+        ADR-008 profile C UUIDv8 of `github.com/<owner>/<name>` at the birth path, in the `gv-clade-index` domain (owner ruling D320). Added beside `uuid` under the additive-only `/v1` rule (ADR 0004); `/v2` makes it the `uuid`. Like `uuid`, it is minted once and never changed (ADR 0008). A deed carries it as an opaque value, not as the path it was derived from.
     Iso8601:
       type: string
       format: date-time

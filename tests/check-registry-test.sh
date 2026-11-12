@@ -120,6 +120,12 @@ fresh
 plant_moved catachresis-colloquium '["metadatastician/zz-planted-moved-probe"]'
 expect_fail "malformed former" "export-json.sh failed"
 
+# 9b. A shell expansion in a former path is refused before any id derives
+fresh
+plant_moved catachresis-colloquium '["metadatastician/$(touch planted-probe)@2026-11-10"]'
+expect_fail "unsafe birth path" "export-json.sh failed"
+[[ ! -e "$work/repo/planted-probe" && ! -e planted-probe ]] || { echo "FAIL: [unsafe birth path] the seed value ran as a command"; exit 1; }
+
 # 10. A new repo on a path another repo left (a rename here) would mint the
 #     same id as the repo born there: refused.
 fresh
@@ -162,4 +168,4 @@ jq --arg n "$first" '.by_name[$n].birth="x/y"' \
   "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
 expect_fail "archive leaked into repos.json" "is stale\|archive data reached repos.json"
 
-echo "check-registry-test: PASS (baseline, path reuse and birth id pass; 12 planted failures fire)"
+echo "check-registry-test: PASS (baseline, path reuse and birth id pass; 13 planted failures fire)"
