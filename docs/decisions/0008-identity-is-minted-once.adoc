@@ -1,0 +1,133 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+= ADR 0008: Identity is minted once
+
+Date: 2026-11-12
+
+== Status
+
+Accepted (owner rulings U1 of 2026-11-11 and U2 to U4 of 2026-11-12).
+Supersedes link:0007-remint-identity-on-move.adoc[ADR 0007] in full. Restores
+the rule of link:0006-clade-lifecycle-status.adoc[ADR 0006] that a `uuid` is
+immortal.
+
+== Context
+
+ADR 0007 (2026-11-10) made a repository's `uuid` and `uuid_v8` follow its
+current forge path: a move or rename minted new ids, and the earlier ids were
+archived. #106 applied it to 18 repositories that had moved, and reminted
+their ids. The registry also never recorded that `burble` had moved: GitHub
+redirects `hyperpolymath/burble` to `metadatastician/burble`, the registry
+listed only the second path, and it served the id derived from that path
+(#106, #107).
+
+The owner then ruled the other way:
+
+* *U1* (2026-11-11): a repository UUID is immutable. A transfer, rename or
+  move never changes it. This rejects ADR 0007.
+* *U2* (2026-11-12): the 18 repositories reminted under ADR 0007 get their
+  birth ids back. A repository's id is the UUIDv5 (namespace @url) of
+  `github.com/<birth owner>/<name>`. These are the generation 1 records that
+  ADR 0007 wrote to `worker/data/archive.json`. The new locations stay.
+* *U3* (2026-11-12): the id of `standards` is
+  `d9e987dc-bb7b-51aa-839b-3d8bbfe774c3`, the UUIDv5 of
+  `github.com/hyperpolymath/standards`. The older value
+  `01a0eaa4-72da-76fc-ae12-78d537f16cf6` in its own files is not its id.
+* *U4* (2026-11-12): a deed carries an opaque id value. The birth path stays
+  only in the registry archive, which no route serves.
+
+== Decision
+
+. *An id is minted once, from the birth path.* `uuid` is the UUIDv5 (@url)
+  and `uuid_v8` the ADR-008 profile C UUIDv8 (D320) of
+  `github.com/<owner>/<name>` at the path where the registry first recorded
+  the repository. A move or rename changes the location (`github`) and never
+  the id. A clade change never touches it, as before.
+
+. *The birth path is recorded, not served.* The seed lists a moved
+  repository's earlier paths in `former`, oldest first, so the first entry is
+  the birth path. `sync/export-json.sh` writes it to `worker/data/archive.json`
+  as `birth`, beside the earlier paths. As under ADR 0007, that file is not
+  loaded into KV and no route serves it.
+
+. *The gate re-derives from the birth path.* `scripts/check-registry.sh`
+  re-derives both ids of every entry from its recorded birth path: the archive
+  `birth` for a moved repository, else the current path. It no longer derives
+  from the current path.
+
+. *An id belongs to one repository, for good.* No two entries share a `uuid`
+  or a `uuid_v8`. A new repository on a path that another repository left
+  would derive that repository's id, so the gate refuses it. ADR 0007 allowed
+  this reuse; this ADR withdraws it.
+
+. *Withdrawn ids are retired, never reused.* The ids that ADR 0007 minted
+  from a current path, and the id the registry served for `burble` before it
+  recorded the move, were served by `/v1` and are now withdrawn. The seed
+  lists each such path in `retired` (`"owner/name@YYYY-MM-DD"`, the date of
+  withdrawal). The archive records the path and its ids, and the gate refuses
+  any entry whose id equals a retired id.
+
+. *Restore the 19.* The 18 repositories reminted under ADR 0007 take back the
+  ids of their birth paths, and keep their current locations. `burble` keeps
+  its location `metadatastician/burble`, records its birth path
+  `hyperpolymath/burble` and takes its birth id
+  `0a37e17d-8ee5-5c30-9daf-571315a88a84`, which its own CLADE record already
+  holds. The ids they carried until now are retired.
+
+. *A deed carries an opaque value.* A repository's deed writes its id as an
+  opaque UUID literal (standards deed grammar v1.3.0), not as a name to be
+  hashed. A path in a deed would have to change on a move, which is what this
+  ADR rules out.
+
+== Consequences
+
+=== Positive
+
+* A consumer that stored an id keeps the match for good, whatever the
+  repository's later path or name.
+* A vacated path's id can never be handed to another repository.
+* The gate checks the ids against a recorded preimage, so a move needs a seed
+  change only: no id changes, and no follow-up PR in the moved repository
+  beyond what a location change needs.
+
+=== Negative
+
+* A reader can no longer derive a moved repository's id from its current path
+  alone. The birth path is in the archive, which is not served; the id itself
+  is served on every entry.
+* A new repository created on a vacated path cannot be registered under this
+  derivation. If that case arises, it needs its own ruling.
+* Restoring the 19 changes `uuid` and `uuid_v8` once more for those entries
+  under `/v1`, two days after ADR 0007 changed them. This uses the identity
+  exception to ADR 0004 that ADR 0007 made, for the last time: with ids
+  minted once, nothing under this ADR changes an id again.
+
+=== Neutral
+
+* `archive.json` changes shape. A `former` record holds a location
+  (`generation`, `github`, `until`) and no longer an id; each entry gains
+  `uuid`, `uuid_v8`, `birth` and `retired`.
+* The comments that ADR 0007 placed in CLADE records across the estate (that a
+  `uuid` follows the GitHub path) stay until `CLADE.a2ml` is retired. This
+  repository's own `CLADE.a2ml` and `verisim/schema/repo.vcl` comments are
+  among them and are not changed here.
+
+== Implementation
+
+. `sync/parse-repos.sh`: the optional `retired` field (column 9).
+. `sync/export-json.sh`: both ids from the birth path; `archive.json` with
+  `birth`, `former` locations and `retired` ids.
+. `sync/deploy-clade-a2ml.sh`: a new CLADE record takes the birth-path id.
+. `scripts/check-registry.sh`: re-derive from the birth path; unique ids;
+  retired ids re-derive and are never reused; the archive's `birth` is its
+  first `former` path. `tests/check-registry-test.sh`: a planted case for each.
+. Seed and regenerated `worker/data/`: the 19 restorations, `burble`'s move,
+  and 19 retired id pairs.
+. One PR in each of the 19 repositories, for its own identity values.
+
+== References
+
+* ADR 0004: API Versioning Strategy.
+* ADR 0006: Clade Lifecycle Status (whose immortal rule this restores).
+* ADR 0007: Remint identity when a repository moves (superseded).
+* Owner rulings U1 to U4; A1, the chora specification, section 9.

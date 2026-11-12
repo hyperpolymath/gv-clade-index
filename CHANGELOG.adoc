@@ -32,6 +32,26 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 ==== Changed
 
+* *ADR 0008: identity is minted once* (owner rulings U1 to U4, 2026-11-11 and
+  2026-11-12). It supersedes ADR 0007 and restores the immortal rule of ADR
+  0006. `uuid` and `uuid_v8` derive from the birth path, the first `former`
+  entry, and a move or rename never changes them.
+  `scripts/check-registry.sh` re-derives from the recorded birth path instead
+  of the current path, and refuses an entry whose id equals another entry's
+  id or a retired id, so a vacated path's id is never minted again.
+* *19 birth ids restored.* The 18 repositories reminted under ADR 0007 take
+  back the ids of their birth paths (`standards`:
+  `d9e987dc-bb7b-51aa-839b-3d8bbfe774c3`) and keep their current locations.
+  `burble` records its move from `hyperpolymath/burble` and takes its birth id
+  `0a37e17d-8ee5-5c30-9daf-571315a88a84`. The 19 ids they carried until now
+  are retired: the seed's new `retired` field lists them, `archive.json`
+  records them, and no repository may take one again.
+* `worker/data/archive.json` changes shape: each entry has `uuid`, `uuid_v8`,
+  `birth`, `former` locations (no ids) and `retired` ids. It is still not
+  served. `docs/api/openapi.yaml` 1.3.0 describes the ids.
+* `sync/deploy-clade-a2ml.sh` derives a new CLADE record's id from the birth
+  path.
+
 * *ADR 0007 accepted* (owner ruling of 2026-11-10). Its status was
   "Proposed" in the ADR and in `docs/decisions/README.adoc`. It now
   supersedes ADR 0006's "`uuid` is immortal" rule, as ADR 0006 already
