@@ -21,7 +21,6 @@ maturity = "alpha"
 [route-to-mvp]
 milestones = [
   { name = "Phase 0: Clade taxonomy, repo seed, VQL schema, queries", completion = 100 },
-  { name = "Phase 1: Deploy CLADE.a2ml to all 200 repos", completion = 0 },
   { name = "Phase 2: VeriSimDB instance on VPS, ingest data", completion = 0 },
   { name = "Phase 3: Cloudflare Worker API endpoints", completion = 60 },
   { name = "Phase 4: ReScript/WASM portal on github.io", completion = 0 },
@@ -46,7 +45,6 @@ blockers = [
 actions = [
   "Add CLOUDFLARE_API_TOKEN secret to enable Worker auto-deploy to staging/production",
   "Stand up VeriSimDB instance on Verpex VPS (Phase 2) so the Worker reads live data",
-  "Deploy CLADE.a2ml to all 200 repos (sync/deploy-clade-a2ml.sh)",
   "Write sync/ingest tooling in Rust",
 ]
 

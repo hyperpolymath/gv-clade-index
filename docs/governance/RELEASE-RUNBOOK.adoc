@@ -15,7 +15,8 @@ and how to update it. Filed as #31.
 == Operating rules (all phases)
 
 * **One phase at a time, gates before volume.** No phase's batch operations
-  start until the previous phase's go-gate is signed off here.
+  start until the go-gate of every earlier phase that is not withdrawn is
+  signed off here.
 * **Status bookkeeping is part of the work.** Merging a phase changes three
   records in the same PR or the follow-up that closes the phase:
   `[route-to-mvp]` completion in `STATE.a2ml`, the README phase table, and
@@ -62,7 +63,7 @@ and how to update it. Filed as #31.
 
 |0 |Clade taxonomy, repo seed, VCL schema |*Complete* (100%) |—
 
-|1 |Deploy CLADE.a2ml to all estate repos |*Pending* (0%) |<<phase-1>>
+|1 |Deploy CLADE.a2ml to all estate repos |*Withdrawn* (A2ML retired) |<<phase-1>>
 
 |2 |VeriSimDB on VPS + ingest |*Pending* (0%) |<<phase-2>>
 
@@ -80,42 +81,26 @@ and how to update it. Filed as #31.
 |===
 
 [[phase-1]]
-== Phase 1 — Deploy CLADE.a2ml to all estate repos
+== Phase 1 — Withdrawn: no CLADE.a2ml is deployed
 
-*Goal:* every repo in the seed carries `.machine_readable/CLADE.a2ml`
-declaring its real identity (`primary` + `primary-name`, CLADE-003/006
-hygiene), so downstream consumers and VeriSimDB can trust per-repo
-declarations.
+Phase 1 is withdrawn. It deployed `.machine_readable/CLADE.a2ml` into every
+estate repo with `sync/deploy-clade-a2ml.sh`, which committed and pushed per
+repo. A2ML is retired estate-wide (standards rulings D99, D269c, D312, D313),
+and identity is the repo's chora deed: `<repo>_chora.deed` carries one opaque
+`:repo-uuid`, minted once from the birth path (ADR 0008 here). The clade is an
+outward finding aid only, an optional `(clade …)` clause in that deed. So the
+script is deleted, and this index writes nothing into other repositories.
 
-*Depends on:* Phase 0 (done). Nothing else — this phase is pure estate
-plumbing and can start immediately.
+The registry keeps its job: the seed and `sync/export-json.sh` still record
+each repo's clade for discovery. Each `clade:repos` document is keyed by the
+repo's `name`, and carries its ids in the `uuid` and `uuid_v8` fields.
 
-*Procedure*
-
-. `git pull` every estate clone into the directory `REPOS_DIR` (the script
-  expects sibling clones; see script header).
-. Dry run: `./sync/deploy-clade-a2ml.sh --dry-run` — review the plan and
-  counts against the seed (`total-repos`).
-. Classify exclusions *before* the real pass: mirrors, forks held for
-  others, archived repos. Record the exclusion list in this file (appendix)
-  so the next pass is deterministic.
-. Real pass: `./sync/deploy-clade-a2ml.sh`. The script commits per repo.
-. Spot-audit ≥10 random repos with the CLADE-003/006 hygiene checks from
-  `contractiles/must/clade-hygiene.a2ml` (code ∈ taxonomy AND code/name
-  pair consistent — e.g. reclassified repos like haec → `fv` must carry
-  `Formal Verification & Proofs`, not the scaffold-era value).
-. Reconcile drift: repos whose in-repo CLADE.a2ml disagrees with the seed
-  are *seed wins* — fix the repo, never hand-edit both.
-
-*Go-gate*
-
-- [ ] dry-run count == seed `total-repos` minus recorded exclusions
-- [ ] real pass reports 0 failures
-- [ ] hygiene spot-audit: 10/10 pass
-- [ ] `STATE.a2ml` `[route-to-mvp]` Phase 1 completion updated
-
-*Rollback:* per-repo `git revert` of the CLADE.a2ml commit; no shared state
-is mutated, so rollback is trivial and uncoordinated.
+Existing `CLADE.a2ml` files in other repos are legacy and are not swept. They
+stay in place for now: `contractiles/must/clade-hygiene.a2ml` still blocks on
+CLADE-001 (the file is present) and CLADE-002 (it declares a primary clade).
+Retiring those two checks in favour of the deed's `(identity)` and
+`:repo-uuid` is an open owner decision (standards A7, section 10). Until it is
+made, no repo removes its `CLADE.a2ml`.
 
 [[phase-2]]
 == Phase 2 — Stand up VeriSimDB on the VPS + ingest
@@ -124,8 +109,7 @@ is mutated, so rollback is trivial and uncoordinated.
 registry (3 collections: `clade:repos`, `clade:clades`, `clade:index`), and
 declares its pointer authority per `verisim/config.a2ml`.
 
-*Depends on:* Phase 0 (done). Can run in parallel with Phase 1, but the
-post-ingest audit is cheaper after Phase 1 lands (fewer re-seeds).
+*Depends on:* Phase 0 (done).
 
 *Known blocker:* no VPS instance exists yet. Provisioning decision (Verpex
 VPS per `STATE.a2ml`) is the platform operator's.
@@ -272,7 +256,7 @@ end-to-end.
 actions permissions) *informed by* the registry — the map finally steers the
 territory.
 
-*Depends on:* **all** previous phases — lockdown is last because it raises
+*Depends on:* **all** previous phases that are not withdrawn — lockdown is last because it raises
 walls that make earlier phases harder.
 
 *Hazard:* self-lockout. Every ruleset change must be rehearsed on one
@@ -286,7 +270,7 @@ exempted from anything that would break the sync/propagation bots.
 == Cross-phase dependency graph
 
 ....
-Phase 0 ─┬─> Phase 1 (estate plumbing)
+Phase 0 ─┬─> Phase 1 (withdrawn)
          └─> Phase 2 (VeriSimDB) ──┐
                                    ├─> Phase 3 (Worker live) ─> Phase 4 (portal)
                                    │                        └─> Phase 5 (LLM tier)
@@ -299,7 +283,3 @@ Phase 3's *deployment* is not gated on Phase 2 (KV mode is honest and
 observable via `/v1/ready`); Phase 3's *completion* is (a public API that
 says `degraded` forever is not done).
 
-== Appendix — Phase 1 exclusion list
-
-*(empty — to be filled during the first Phase 1 dry run; recorded here so
-passes are deterministic)*

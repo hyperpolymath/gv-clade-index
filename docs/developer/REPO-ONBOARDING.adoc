@@ -18,9 +18,14 @@ index.
 
 == Outline (to be completed)
 
-. *Add `.machine_readable/CLADE.a2ml`* to the new repo, satisfying the
-  clade-hygiene contractile (CLADE-001 present, CLADE-002 primary clade declared,
-  CLADE-003 code is one of the 12 valid codes).
+. *Declare identity in the repo's chora deed* (`<repo>_chora.deed`): its
+  `:repo-uuid` and `(identity …)` clause. A clade, if you choose one, is an
+  optional `(clade :primary <code> :primary-name "<name>")` clause there; the
+  code is one of the 12 valid codes (CLADE-003). Do not add
+  `.machine_readable/CLADE.a2ml`: A2ML is retired and no new `.a2ml` file may be
+  added (a governance gate for this is proposed in
+  metadatastician/standards#1488). The clade-hygiene contractile's CLADE-001 and CLADE-002 still name that file; retiring them is an open owner
+  decision (standards A7, section 10).
 . *Choose clade codes* — one primary + zero-or-more secondary (the 12 codes are
   listed in `README.adoc`).
 . *Register in seed data* (`verisim/seed/repos.a2ml`): primary key
@@ -29,7 +34,7 @@ index.
   profile C) are derived by `sync/export-json.sh`, not written by hand.
 . *Set lineage* — standalone / monorepo / monorepo-child / inflated / deflated,
   and when each applies.
-. *Deploy & ingest* — `sync/deploy-clade-a2ml.sh`, then `sync/seed-verisim.sh`.
+. *Ingest* — `sync/seed-verisim.sh`. The repo declares its own identity in its chora deed (`<repo>_chora.deed`, `:repo-uuid`); a `(clade …)` clause there is an optional finding aid. Nothing here writes into the repo.
 . *Verify* — clade-hygiene contractile passes and the repo appears in
   `dashboard.vcl` (and not in `orphans.vcl`).
 

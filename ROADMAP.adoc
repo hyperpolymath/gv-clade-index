@@ -18,7 +18,7 @@ CI-deployed Cloudflare Worker API backed by a live VeriSimDB.
 | Phase | Deliverable | Status
 
 | 0 | Clade taxonomy, repo seed, VCL schema, named queries | *Complete*
-| 1 | Deploy CLADE.a2ml to all ~200 repos | Pending
+| 1 | Deploy CLADE.a2ml to all ~200 repos | Withdrawn (A2ML retired; see docs/governance/RELEASE-RUNBOOK.adoc)
 | 2 | VeriSimDB instance on VPS + ingest | Pending (external infra)
 | 3 | Cloudflare Worker API (hardened, tested, deployed) | In progress (~60%)
 | 4 | ReScript/typed-WASM portal on github.io | Pending

@@ -24,7 +24,6 @@ gv-clade-index/
 │       ├── index.js               # Worker entry point + request routing
 │       └── verisim.js           # VeriSimDB client for the worker
 ├── sync/                          # Sync scripts (GitHub → VeriSimDB)
-│   ├── deploy-clade-a2ml.sh       # Deploy A2ML manifests to clades
 │   ├── export-json.sh             # Export registry as JSON
 │   ├── parse-repos.sh             # Parse repo metadata
 │   └── seed-verisim.sh          # Seed the VeriSimDB instance
