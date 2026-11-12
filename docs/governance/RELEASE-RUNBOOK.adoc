@@ -15,7 +15,8 @@ and how to update it. Filed as #31.
 == Operating rules (all phases)
 
 * **One phase at a time, gates before volume.** No phase's batch operations
-  start until the previous phase's go-gate is signed off here.
+  start until the go-gate of every earlier phase that is not withdrawn is
+  signed off here.
 * **Status bookkeeping is part of the work.** Merging a phase changes three
   records in the same PR or the follow-up that closes the phase:
   `[route-to-mvp]` completion in `STATE.a2ml`, the README phase table, and
@@ -91,9 +92,15 @@ outward finding aid only, an optional `(clade …)` clause in that deed. So the
 script is deleted, and this index writes nothing into other repositories.
 
 The registry keeps its job: the seed and `sync/export-json.sh` still record
-each repo's clade for discovery, keyed by the repo id. Existing `CLADE.a2ml`
-files in other repos are legacy; they are not swept, and each goes when its
-repo moves its facts into the deed.
+each repo's clade for discovery. Each `clade:repos` document is keyed by the
+repo's `name`, and carries its ids in the `uuid` and `uuid_v8` fields.
+
+Existing `CLADE.a2ml` files in other repos are legacy and are not swept. They
+stay in place for now: `contractiles/must/clade-hygiene.a2ml` still blocks on
+CLADE-001 (the file is present) and CLADE-002 (it declares a primary clade).
+Retiring those two checks in favour of the deed's `(identity)` and
+`:repo-uuid` is an open owner decision (standards A7, section 10). Until it is
+made, no repo removes its `CLADE.a2ml`.
 
 [[phase-2]]
 == Phase 2 — Stand up VeriSimDB on the VPS + ingest
@@ -249,7 +256,7 @@ end-to-end.
 actions permissions) *informed by* the registry — the map finally steers the
 territory.
 
-*Depends on:* **all** previous phases — lockdown is last because it raises
+*Depends on:* **all** previous phases that are not withdrawn — lockdown is last because it raises
 walls that make earlier phases harder.
 
 *Hazard:* self-lockout. Every ruleset change must be rehearsed on one

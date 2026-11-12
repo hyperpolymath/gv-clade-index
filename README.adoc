@@ -132,7 +132,7 @@ This repo includes a `+clade-hygiene.a2ml+` contractile:
 |Phase |Deliverable |Status
 |0 |Clade taxonomy, repo seed, VCL schema |*Complete*
 
-|1 |Deploy CLADE.a2ml to all 200 repos |Pending
+|1 |Deploy CLADE.a2ml to all 200 repos |Withdrawn (A2ML retired; see the release runbook)
 
 |2 |VeriSimDB instance on VPS |Pending
 
