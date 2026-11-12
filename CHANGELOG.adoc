@@ -88,6 +88,18 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
   `uuid_v8` as well. Worker CI installs Bun 1.4.2, sha256-verified, for the
   gate, and `just deps` checks for `bun`.
 
+==== Removed
+
+* *`sync/deploy-clade-a2ml.sh` and release Phase 1.* The script wrote
+  `.machine_readable/CLADE.a2ml` into every estate repo and committed and
+  pushed it, so it kept recreating a retired format (standards rulings D99,
+  D269c, D312, D313). Identity is the repo's chora deed; the clade is an
+  optional `(clade …)` finding aid there. The runbook's Phase 1 is withdrawn,
+  and `TOPOLOGY.adoc`, `docs/developer/REPO-ONBOARDING.adoc` and the
+  `STATE.a2ml` next actions no longer name the script. The registry still
+  records clades for discovery. Existing `CLADE.a2ml` files elsewhere are not
+  swept.
+
 ==== Fixed
 
 * `sync/export-json.sh` no longer writes an empty identifier when `uuidgen`

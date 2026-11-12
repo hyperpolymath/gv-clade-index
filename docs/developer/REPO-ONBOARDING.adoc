@@ -29,7 +29,7 @@ index.
   profile C) are derived by `sync/export-json.sh`, not written by hand.
 . *Set lineage* — standalone / monorepo / monorepo-child / inflated / deflated,
   and when each applies.
-. *Deploy & ingest* — `sync/deploy-clade-a2ml.sh`, then `sync/seed-verisim.sh`.
+. *Ingest* — `sync/seed-verisim.sh`. The repo declares its own identity in its chora deed (`<repo>_chora.deed`, `:repo-uuid`); a `(clade …)` clause there is an optional finding aid. Nothing here writes into the repo.
 . *Verify* — clade-hygiene contractile passes and the repo appears in
   `dashboard.vcl` (and not in `orphans.vcl`).
 
