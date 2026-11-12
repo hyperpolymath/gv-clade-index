@@ -106,7 +106,26 @@ jobs:
       - name: Lint (shellcheck, sync/ scripts/ tests/)
         run: git ls-files -z 'sync/*.sh' 'scripts/*.sh' 'tests/*.sh' | xargs -0 shellcheck -S warning
 
-      - name: Registry gate (parse round-trip, no drift, counts, uuid v5 + uuid_v8 identities)
+      # ADR 0008: a registered repo is never removed and its ids never change.
+      # The gate compares this tree with the base branch's (PR) or the previous
+      # commit's (push) worker/data/repos.json.
+      - name: Base registry for the never-removed check (ADR 0008)
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = 0000000000000000000000000000000000000000 ]; then
+            echo "no base commit for this event; the never-removed check is skipped"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          if git cat-file -e "$BASE_SHA:worker/data/repos.json" 2>/dev/null; then
+            git show "$BASE_SHA:worker/data/repos.json" > "$RUNNER_TEMP/base-repos.json"
+            echo "GV_BASE_REPOS_JSON=$RUNNER_TEMP/base-repos.json" >> "$GITHUB_ENV"
+          else
+            echo "the base has no worker/data/repos.json; the never-removed check is skipped"
+          fi
+
+      - name: Registry gate (parse round-trip, no drift, counts, uuid v5 + uuid_v8 identities, nothing removed)
         run: bash scripts/check-registry.sh
 
       - name: Planted-failure test of the registry gate
