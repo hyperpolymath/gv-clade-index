@@ -440,7 +440,7 @@ gv-clade-index/
       lineage.vcl            # Inflate/deflate history
     seed/
       clades.a2ml            # 12 clade definitions
-      repos.a2ml             # Initial 202 repo registrations
+      chora-registry_praxis.deed  # The repo register (seed deed; was repos.a2ml)
       forges.a2ml            # GitHub/GitLab/Bitbucket accounts
     queries/
       dashboard.vcl          # Full ecosystem overview

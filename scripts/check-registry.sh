@@ -5,7 +5,9 @@
 # Registry integrity gate. Proves that the committed registry is one coherent
 # artefact, from the hand-edited seed to the generated JSON the Worker serves.
 #
-#   1. repos.a2ml parses to exactly `total-repos` rows, with unique names.
+#   1. The seed deed (verisim/seed/chora-registry_praxis.deed) parses to
+#      exactly `:total-repos` rows, with unique names, and its scheme clade-12
+#      names the categories of clades.json.
 #   2. worker/data/{repos,clades,index}.json are valid JSON.
 #   3. worker/data is NOT stale: a fresh export into a scratch directory is
 #      byte-identical (index.json compared without its `generated` stamp).
@@ -36,7 +38,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SEED="$ROOT/verisim/seed/repos.a2ml"
+SEED="$ROOT/verisim/seed/chora-registry_praxis.deed"
 DATA="$ROOT/worker/data"
 
 # Print the supplied failure message to stderr and terminate the gate with status 1.
@@ -46,13 +48,20 @@ need() { command -v "$1" >/dev/null 2>&1 || fail "required tool missing: $1"; }
 need jq; need uuidgen; need cmp; need bun
 
 # 1. Parse round-trip ------------------------------------------------------
+# parse-repos.sh refuses a seed that is not a valid deed of the registry form.
+bash "$ROOT/sync/parse-repos.sh" "$SEED" >/dev/null || fail "sync/parse-repos.sh refused the seed"
 rows=$(bash "$ROOT/sync/parse-repos.sh" "$SEED" | wc -l | tr -d ' ')
-declared=$(grep -E '^total-repos *= *[0-9]+' "$SEED" | head -1 | sed -E 's/.*= *//')
-[ -n "$declared" ] || fail "repos.a2ml has no 'total-repos = N' line"
-[ "$rows" = "$declared" ] || fail "repos.a2ml declares total-repos = $declared but parses to $rows rows"
+declared=$(bash "$ROOT/sync/parse-repos.sh" "$SEED" --total) || fail "the seed has no :total-repos"
+[[ "$rows" = "$declared" ]] || fail "the seed declares :total-repos $declared but parses to $rows rows"
 dups=$(bash "$ROOT/sync/parse-repos.sh" "$SEED" | cut -f1 | sort | uniq -d | tr '\n' ' ')
-[ -z "$dups" ] || fail "duplicate repo names in repos.a2ml: $dups"
-echo "check-registry: seed parses to $rows rows = total-repos, names unique"
+[[ -z "$dups" ]] || fail "duplicate repo names in the seed: $dups"
+echo "check-registry: seed parses to $rows rows = :total-repos, names unique"
+# The scheme clade-12 in the seed and the clade definitions served from
+# clades.a2ml (legacy, still A2ML) name the same categories.
+diff <(bash "$ROOT/sync/parse-repos.sh" "$SEED" --categories | sort) \
+     <(jq -r '.[] | [.code, .name] | @tsv' "$DATA/clades.json" | sort) >/dev/null \
+  || fail "scheme clade-12 in the seed and worker/data/clades.json disagree on the categories"
+echo "check-registry: scheme clade-12 holds the same $(jq length "$DATA/clades.json") categories as clades.json"
 
 # 2. JSON validity --------------------------------------------------------
 for f in repos clades index archive; do
@@ -98,8 +107,18 @@ while IFS=$'\t' read -r name birth uuid _; do
   [[ "$uuid" = "$expect" ]] || fail "uuid for $name is ${uuid:-<missing>}, UUIDv5 of its birth path $birth gives $expect"
 done < "$scratch/ids.tsv"
 echo "check-registry: uuid re-derives as UUIDv5 of the birth path for all $json_repos repos"
-cut -f2 "$scratch/ids.tsv" | sed 's#/#\t#' \
+# The seed stores each repo's v8 id and the domain that minted it (V9): the
+# id must be the profile C UUIDv8 of the birth path in that domain, and must
+# be the uuid_v8 served.
+bash "$ROOT/sync/parse-repos.sh" "$SEED" --ids > "$scratch/seed-ids.tsv" || fail "sync/parse-repos.sh --ids failed"
+jq -r '.[].name' "$DATA/repos.json" | diff - <(cut -f1 "$scratch/seed-ids.tsv") >/dev/null \
+  || fail "repos.json and the seed list different repos, or in a different order"
+paste <(cut -f2 "$scratch/ids.tsv" | sed 's#/#\t#') <(cut -f3 "$scratch/seed-ids.tsv") \
   | bash "$ROOT/sync/uuid-v8.sh" > "$scratch/v8.txt" || fail "sync/uuid-v8.sh failed"
+while IFS=$'\t' read -r name stored domain expect; do
+  [[ "$stored" = "$expect" ]] || fail "the seed stores uuid $stored for $name, profile C of its birth path in $domain gives $expect"
+done < <(paste "$scratch/seed-ids.tsv" "$scratch/v8.txt")
+echo "check-registry: the seed's stored id is the UUIDv8 of the birth path in its minting domain for all $json_repos repos"
 while IFS=$'\t' read -r name birth uuid_v8 expect; do
   [[ "$uuid_v8" = "$expect" ]] || fail "uuid_v8 for $name is ${uuid_v8:-<missing>}, profile C of its birth path $birth gives $expect"
 done < <(paste <(cut -f1,2,4 "$scratch/ids.tsv") "$scratch/v8.txt")

@@ -62,7 +62,7 @@ gv-clade-index/
 │   │   └── forge-identity.vcl   # PK/FK forge mapping
 │   ├── seed/                    # Initial data
 │   │   ├── clades.a2ml          # 12 clade definitions
-│   │   ├── repos.a2ml           # 200 repo registrations
+│   │   ├── chora-registry_praxis.deed  # the repo register (seed deed)
 │   │   └── forges.a2ml          # Forge account definitions
 │   └── queries/                 # Pre-built VCL queries
 │       ├── dashboard.vcl        # Ecosystem overview

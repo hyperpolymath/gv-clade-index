@@ -100,7 +100,7 @@ jobs:
           while IFS= read -r -d '' f; do
             if grep -nE '[[:space:]]+$' "$f"; then echo "trailing whitespace: $f"; bad=1; fi
             if [ -s "$f" ] && [ "$(tail -c1 "$f" | od -An -c | tr -d ' ')" != '\n' ]; then echo "no final newline: $f"; bad=1; fi
-          done < <(git ls-files -z 'sync/*.sh' 'scripts/*.sh' 'tests/*.sh' Justfile 'verisim/seed/*.a2ml')
+          done < <(git ls-files -z 'sync/*.sh' 'scripts/*.sh' 'tests/*.sh' Justfile 'verisim/seed/*.a2ml' 'verisim/seed/*.deed' 'sync/*.js')
           [ "$bad" = 0 ]
 
       - name: Lint (shellcheck, sync/ scripts/ tests/)

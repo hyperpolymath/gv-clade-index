@@ -43,16 +43,37 @@ fresh
 bash "$work/repo/scripts/check-registry.sh" >/dev/null || { echo "FAIL: gate rejects the committed tree"; exit 1; }
 echo "ok: [baseline] gate passes on the tracked tree"
 
+SEED="$work/repo/verisim/seed/chora-registry_praxis.deed"
+
+# Append a planted (repo …) record to the seed deed and bump :total-repos.
+# $1 name, $2 owner, $3 birth path (owner/name), $4 extra member lines such
+# as (former …) or (retired …), $5 minting domain (default gv-clade-index),
+# $6 a stored id to use instead of the derived one. The seed's last line is
+# the closing ")" of the praxis-deed.
+plant() {
+  local domain="${5:-gv-clade-index}" id="${6:-}"
+  if [[ -z "$id" ]]; then
+    id=$(printf '%s\t%s\t%s\n' "${3%%/*}" "${3#*/}" "$domain" | bash "$ROOT/sync/uuid-v8.sh")
+  fi
+  sed -i '$d' "$SEED"
+  printf '  (repo :name "%s" :owner "%s"\n        :uuid #uuid"%s" :minted-in %s\n        :description "planted by check-registry-test"\n        (lineage :type standalone)\n        (placement :scheme clade-12 :category fv :primary #t)%s)\n)\n' \
+    "$1" "$2" "$id" "$domain" "$4" >> "$SEED"
+  sed -i -E 's/^(  :total-repos +)([0-9]+)$/echo "\1$((\2+1))"/e' "$SEED"
+}
+# A (former …) member line: $1 generation, $2 path, $3 date.
+former() { printf '\n        (former :generation %s :path "%s" :until "%s")' "$1" "$2" "$3"; }
+retired() { printf '\n        (retired :path "%s" :until "%s")' "$1" "$2"; }
+regen() { bash "$work/repo/sync/export-json.sh" >/dev/null 2>&1; }
+
 # 2. A repo added to the seed without regenerating worker/data → stale
 fresh
-printf '\n[repo.zz-planted-stale-probe]\nprimary = "fv"\ndescription = "planted by check-registry-test"\n' >> "$work/repo/verisim/seed/repos.a2ml"
-sed -i -E 's/^(total-repos *= *)([0-9]+)/echo "\1$((\2+1))"/e' "$work/repo/verisim/seed/repos.a2ml"
+plant zz-planted-stale-probe hyperpolymath hyperpolymath/zz-planted-stale-probe ''
 expect_fail "stale worker/data" "is stale"
 
 # 3. total-repos count lies
 fresh
-sed -i -E '0,/^total-repos *= *[0-9]+/s//total-repos = 1/' "$work/repo/verisim/seed/repos.a2ml"
-expect_fail "total-repos mismatch" "declares total-repos = 1"
+sed -i -E 's/^(  :total-repos +)[0-9]+$/\11/' "$SEED"
+expect_fail "total-repos mismatch" "declares :total-repos 1"
 
 # 4. A uuid edited by hand in repos.json (and mirrored into index.json so drift stays quiet)
 fresh
@@ -73,20 +94,12 @@ jq --arg n "$first" --arg u "$bad8" '.by_name[$n].uuid_v8=$u' \
   "$work/repo/worker/data/index.json" > "$work/i.json" && mv "$work/i.json" "$work/repo/worker/data/index.json"
 expect_fail "tampered uuid_v8" "is stale\|uuid_v8 for $first"
 
-# Append a planted repo: $1 name, $2 owner, $3 extra seed lines (former,
-# retired), then bump total-repos. Regenerate with regen.
-plant() {
-  printf '\n[repo.%s]\nprimary = "fv"\ndescription = "planted by check-registry-test"\nowner = "%s"\n%s' \
-    "$1" "$2" "$3" >> "$work/repo/verisim/seed/repos.a2ml"
-  sed -i -E 's/^(total-repos *= *)([0-9]+)/echo "\1$((\2+1))"/e' "$work/repo/verisim/seed/repos.a2ml"
-}
-plant_moved() { plant zz-planted-moved-probe "$1" "former = $2"$'\n'; }
-regen() { bash "$work/repo/sync/export-json.sh" >/dev/null 2>&1; }
 
 # 6. Path reuse by the same repo: a repo that moved away and came back is
 #    legal, keeps its birth id, and its archive lists both earlier generations.
 fresh
-plant_moved hyperpolymath '["hyperpolymath/zz-planted-moved-probe@2026-01-01", "metadatastician/zz-planted-moved-probe@2026-02-01"]'
+plant zz-planted-moved-probe hyperpolymath hyperpolymath/zz-planted-moved-probe \
+  "$(former 1 hyperpolymath/zz-planted-moved-probe 2026-01-01)$(former 2 metadatastician/zz-planted-moved-probe 2026-02-01)"
 regen || { echo "FAIL: [path reuse] export refused a legal return to an earlier path"; exit 1; }
 bash "$work/repo/scripts/check-registry.sh" >/dev/null || { echo "FAIL: [path reuse] gate refused a legal return to an earlier path"; exit 1; }
 gens=$(jq -c '.[] | select(.name == "zz-planted-moved-probe") | [.generation, (.former | map(.generation))]' "$work/repo/worker/data/archive.json")
@@ -95,7 +108,8 @@ echo "ok: [path reuse] a return to an earlier path passes, generations $gens"
 
 # 7. ADR 0008: a moved repo keeps the id of its birth path, not its current path
 fresh
-plant_moved catachresis-colloquium '["metadatastician/zz-planted-moved-probe@2026-11-10"]'
+plant zz-planted-moved-probe catachresis-colloquium metadatastician/zz-planted-moved-probe \
+  "$(former 1 metadatastician/zz-planted-moved-probe 2026-11-10)"
 regen || { echo "FAIL: [birth id] export failed on a legal move"; exit 1; }
 got=$(jq -r '.[] | select(.name == "zz-planted-moved-probe") | .uuid' "$work/repo/worker/data/repos.json")
 want=$(uuidgen --sha1 --namespace @url --name "github.com/metadatastician/zz-planted-moved-probe")
@@ -115,29 +129,33 @@ jq --arg u "$remint" 'map(if .name=="standards" then .uuid=$u else . end)' \
   "$work/repo/worker/data/archive.json" > "$work/a.json" && mv "$work/a.json" "$work/repo/worker/data/archive.json"
 expect_fail "reminted from current path" "is stale\|uuid for standards"
 
-# 9. A malformed former entry stops the export, so the gate fails
+# 9. A malformed former entry: the seed is refused
 fresh
-plant_moved catachresis-colloquium '["metadatastician/zz-planted-moved-probe"]'
-expect_fail "malformed former" "export-json.sh failed"
+plant zz-planted-moved-probe catachresis-colloquium metadatastician/zz-planted-moved-probe \
+  "$(former 1 metadatastician/zz-planted-moved-probe 2026-11)"
+expect_fail "malformed former" "refused the seed"
 
 # 9b. A shell expansion in a former path is refused before any id derives
 fresh
-plant_moved catachresis-colloquium '["metadatastician/$(touch planted-probe)@2026-11-10"]'
-expect_fail "unsafe birth path" "export-json.sh failed"
+plant zz-planted-moved-probe catachresis-colloquium metadatastician/zz-planted-moved-probe \
+  "$(former 1 'metadatastician/$(touch planted-probe)' 2026-11-10)"
+expect_fail "unsafe birth path" "refused the seed"
 [[ ! -e "$work/repo/planted-probe" && ! -e planted-probe ]] || { echo "FAIL: [unsafe birth path] the seed value ran as a command"; exit 1; }
 
 # 10. A new repo on a path another repo left (a rename here) would mint the
 #     same id as the repo born there: refused.
 fresh
-plant zz-planted-renamed-probe hyperpolymath 'former = ["hyperpolymath/zz-planted-vacated-probe@2026-11-10"]'$'\n'
-plant zz-planted-vacated-probe hyperpolymath ''
+plant zz-planted-renamed-probe hyperpolymath hyperpolymath/zz-planted-vacated-probe \
+  "$(former 1 hyperpolymath/zz-planted-vacated-probe 2026-11-10)"
+plant zz-planted-vacated-probe hyperpolymath hyperpolymath/zz-planted-vacated-probe ''
 regen
 expect_fail "vacated path reused" "uuid is shared by more than one repo"
 
 # 11. A new repo whose id equals a retired id: refused.
 fresh
-plant zz-planted-moved-probe catachresis-colloquium 'former = ["hyperpolymath/zz-planted-moved-probe@2026-11-10"]'$'\n''retired = ["hyperpolymath/zz-planted-retired-probe@2026-11-12"]'$'\n'
-plant zz-planted-retired-probe hyperpolymath ''
+plant zz-planted-moved-probe catachresis-colloquium hyperpolymath/zz-planted-moved-probe \
+  "$(former 1 hyperpolymath/zz-planted-moved-probe 2026-11-10)$(retired hyperpolymath/zz-planted-retired-probe 2026-11-12)"
+plant zz-planted-retired-probe hyperpolymath hyperpolymath/zz-planted-retired-probe ''
 regen
 expect_fail "retired id reused" "a retired id is never minted again"
 
@@ -193,4 +211,44 @@ grep -q "a registered id changed: $first" <<<"$out" \
   || { echo "FAIL: [id changed] wrong reason: $out"; exit 1; }
 echo "ok: [id changed] gate fails with: $(grep 'registered id changed' <<<"$out" | cut -c1-120)"
 
-echo "check-registry-test: PASS (baseline, path reuse, birth id and an unchanged base pass; 15 planted failures fire)"
+# 19. The seed stores an id that is not the derivation of the birth path
+fresh
+plant zz-planted-wrong-id-probe hyperpolymath hyperpolymath/zz-planted-wrong-id-probe '' \
+  gv-clade-index 00000000-0000-8000-8000-000000000000
+regen
+expect_fail "stored id wrong" "the seed stores uuid"
+
+# 20. A placement in a category the scheme does not hold: the seed is refused
+fresh
+plant zz-planted-category-probe hyperpolymath hyperpolymath/zz-planted-category-probe \
+  $'\n        (placement :scheme clade-12 :category zz :rank 1)'
+expect_fail "unknown category" "refused the seed"
+
+# 21. V9: a repo born after V9 is minted in chora-registry and passes
+fresh
+plant zz-planted-v9-probe hyperpolymath hyperpolymath/zz-planted-v9-probe '' chora-registry
+regen || { echo "FAIL: [V9 mint] export refused a chora-registry id"; exit 1; }
+got=$(jq -r '.[] | select(.name == "zz-planted-v9-probe") | .uuid_v8' "$work/repo/worker/data/repos.json")
+want=$(printf 'hyperpolymath\tzz-planted-v9-probe\tchora-registry\n' | bash "$ROOT/sync/uuid-v8.sh")
+[[ "$got" = "$want" ]] || { echo "FAIL: [V9 mint] served $got, chora-registry derivation gives $want"; exit 1; }
+bash "$work/repo/scripts/check-registry.sh" >/dev/null || { echo "FAIL: [V9 mint] gate refused a chora-registry id"; exit 1; }
+echo "ok: [V9 mint] a repo minted in chora-registry derives and serves that id"
+
+# 22. A repo whose stored domain does not match the domain its id was minted in
+fresh
+plant zz-planted-domain-probe hyperpolymath hyperpolymath/zz-planted-domain-probe '' chora-registry \
+  "$(printf 'hyperpolymath\tzz-planted-domain-probe\n' | bash "$ROOT/sync/uuid-v8.sh")"
+regen
+expect_fail "wrong minting domain" "the seed stores uuid"
+
+# 23. Deed string escapes round-trip into JSON: a description with backslashes
+fresh
+plant zz-planted-escape-probe hyperpolymath hyperpolymath/zz-planted-escape-probe ''
+awk 'BEGIN{n=0} /zz-planted-escape-probe/ {p=1} p && /:description/ && !n {sub(/"planted by check-registry-test"/, "\"Use C:\\\\temp and Regex \\\\d+ \\\"q\\\"\""); n=1} {print}' "$SEED" > "$work/s" && mv "$work/s" "$SEED"
+regen || { echo "FAIL: [escapes] export failed"; exit 1; }
+got=$(jq -r '.[] | select(.name == "zz-planted-escape-probe") | .description' "$work/repo/worker/data/repos.json")
+[[ "$got" = 'Use C:\temp and Regex \d+ "q"' ]] || { echo "FAIL: [escapes] description came back as: $got"; exit 1; }
+bash "$work/repo/scripts/check-registry.sh" >/dev/null || { echo "FAIL: [escapes] gate refused it"; exit 1; }
+echo "ok: [escapes] backslashes and quotes in a description round-trip into repos.json"
+
+echo "check-registry-test: PASS (baseline, path reuse, birth id and an unchanged base pass; 19 planted failures fire; a chora-registry mint and string escapes pass)"
