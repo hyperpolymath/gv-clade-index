@@ -64,6 +64,9 @@ NR > 1 { printf ",\n" }
     name = $1; primary = $2; secondary = $3; lineage = $4; parent = $5; desc = $6
     owner = ($7 != "" ? $7 : "hyperpolymath")
     birth = $10; uuid_v8 = $11
+    # The seed reader decodes deed string escapes, so escape for JSON here:
+    # backslash first, then the double quote.
+    gsub(/\\/, "\\\\", desc)
     gsub(/"/, "\\\"", desc)
     # uuid is the UUIDv5 of github.com/<birth path> in the @url namespace. It
     # is minted once and never changes (ADR 0008, which restores the ADR 0006

@@ -241,4 +241,14 @@ plant zz-planted-domain-probe hyperpolymath hyperpolymath/zz-planted-domain-prob
 regen
 expect_fail "wrong minting domain" "the seed stores uuid"
 
-echo "check-registry-test: PASS (baseline, path reuse, birth id and an unchanged base pass; 19 planted failures fire; a chora-registry mint passes)"
+# 23. Deed string escapes round-trip into JSON: a description with backslashes
+fresh
+plant zz-planted-escape-probe hyperpolymath hyperpolymath/zz-planted-escape-probe ''
+awk 'BEGIN{n=0} /zz-planted-escape-probe/ {p=1} p && /:description/ && !n {sub(/"planted by check-registry-test"/, "\"Use C:\\\\temp and Regex \\\\d+ \\\"q\\\"\""); n=1} {print}' "$SEED" > "$work/s" && mv "$work/s" "$SEED"
+regen || { echo "FAIL: [escapes] export failed"; exit 1; }
+got=$(jq -r '.[] | select(.name == "zz-planted-escape-probe") | .description' "$work/repo/worker/data/repos.json")
+[[ "$got" = 'Use C:\temp and Regex \d+ "q"' ]] || { echo "FAIL: [escapes] description came back as: $got"; exit 1; }
+bash "$work/repo/scripts/check-registry.sh" >/dev/null || { echo "FAIL: [escapes] gate refused it"; exit 1; }
+echo "ok: [escapes] backslashes and quotes in a description round-trip into repos.json"
+
+echo "check-registry-test: PASS (baseline, path reuse, birth id and an unchanged base pass; 19 planted failures fire; a chora-registry mint and string escapes pass)"

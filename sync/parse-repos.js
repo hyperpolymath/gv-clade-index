@@ -138,6 +138,8 @@ for (const [name, body] of clauses) {
   const ltype = want(lf, "type", "symbol", `${at} lineage`);
   if (!LINEAGE.has(ltype)) die(`${at}: lineage type ${ltype}`);
   const parent = want(lf, "parent", "string", `${at} lineage`, false) ?? "";
+  // The parent is a repo name and reaches the JSON unescaped, as :name does.
+  if (/["\\]/.test(parent)) die(`${at}: lineage parent ${parent} holds a quote or backslash`);
   want(lf, "evolved-from", "string", `${at} lineage`, false);
 
   let primary = null;
