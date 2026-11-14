@@ -13,7 +13,7 @@ ENVIRONMENT = "production"
 # Worker serves from the Cloudflare KV snapshot. Override per-env / via secret.
 VERISIMDB_URL = "http://localhost:8080"
 # Canonical JSON snapshot base URL used by the scheduled refresh (raw worker/data/).
-DATA_SOURCE_URL = "https://raw.githubusercontent.com/hyperpolymath/gv-clade-index/main/worker/data"
+DATA_SOURCE_URL = "https://raw.githubusercontent.com/hyperpolymath/chora-registry/main/worker/data"
 
 [[kv_namespaces]]
 binding = "CLADE_KV"
@@ -41,7 +41,7 @@ name = "clade-registry-api-staging"
 [env.staging.vars]
 ENVIRONMENT = "staging"
 VERISIMDB_URL = "http://localhost:8080"
-DATA_SOURCE_URL = "https://raw.githubusercontent.com/hyperpolymath/gv-clade-index/main/worker/data"
+DATA_SOURCE_URL = "https://raw.githubusercontent.com/hyperpolymath/chora-registry/main/worker/data"
 
 [[env.staging.kv_namespaces]]
 binding = "CLADE_KV"

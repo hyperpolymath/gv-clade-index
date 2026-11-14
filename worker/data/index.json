@@ -1,7 +1,7 @@
 {
   "total_repos": 327,
   "total_clades": 12,
-  "generated": "2026-11-12T01:20:03Z",
+  "generated": "2026-11-14T20:38:00Z",
   "clades": [
     {
       "code": "fv",
@@ -180,7 +180,7 @@
       ],
       "member_count": 16,
       "members": [
-        "gv-clade-index",
+        "chora-registry",
         "palimpsest-license",
         "palimpsest-plasma",
         "standards",
@@ -951,8 +951,8 @@
       "prefixed": "rm-v3-templater",
       "github": "hyperpolymath/v3-templater"
     },
-    "gv-clade-index": {
-      "name": "gv-clade-index",
+    "chora-registry": {
+      "name": "chora-registry",
       "uuid": "c88e9ff3-9aac-5de8-b891-19b5de64aedd",
       "uuid_v8": "a65b74d8-351a-89d9-a38d-aea470863b03",
       "clade": "gv",
@@ -961,9 +961,9 @@
       ],
       "lineage": "standalone",
       "parent": "",
-      "description": "THIS REPO — clade taxonomy + VeriSimDB portal registry",
-      "prefixed": "gv-gv-clade-index",
-      "github": "hyperpolymath/gv-clade-index"
+      "description": "THIS REPO — the register of repo identities and their classification schemes (VeriSimDB portal)",
+      "prefixed": "gv-chora-registry",
+      "github": "hyperpolymath/chora-registry"
     },
     "palimpsest-license": {
       "name": "palimpsest-license",

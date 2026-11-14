@@ -92,6 +92,22 @@
     ]
   },
   {
+    "name": "chora-registry",
+    "github": "hyperpolymath/chora-registry",
+    "uuid": "c88e9ff3-9aac-5de8-b891-19b5de64aedd",
+    "uuid_v8": "a65b74d8-351a-89d9-a38d-aea470863b03",
+    "birth": "hyperpolymath/gv-clade-index",
+    "generation": 2,
+    "former": [
+      {
+        "generation": 1,
+        "github": "hyperpolymath/gv-clade-index",
+        "until": "2026-11-14"
+      }
+    ],
+    "retired": []
+  },
+  {
     "name": "enterglide-ncc-137-k",
     "github": "catachresis-colloquium/enterglide-ncc-137-k",
     "uuid": "93fcdafb-697b-59b8-96f6-8936935ec4e6",
