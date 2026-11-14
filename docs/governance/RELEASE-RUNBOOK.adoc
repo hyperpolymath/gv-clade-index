@@ -18,9 +18,9 @@ to update it. Filed as #31.
   start until the go-gate of every earlier phase that is not withdrawn is
   signed off here.
 * **Status bookkeeping is part of the work.** Merging a phase changes three
-  records in the same PR or the follow-up that closes the phase:
-  `[route-to-mvp]` completion in `STATE.a2ml`, the README phase table, and
-  the phase checklist below.
+  records in the same PR or the follow-up that closes the phase: the
+  phase's Status cell in the phase table of the root `ROADMAP.adoc`, the
+  README phase table, and the phase checklist below.
 * **Dry-run first, always.** Every batch script in `sync/` has a dry-run or
   refuses to run without an explicit target. Use it before every real pass.
 * **The registry never lies.** `scripts/check-registry.sh` must pass before
@@ -112,7 +112,7 @@ declares its pointer authority per `verisim/config.a2ml`.
 *Depends on:* Phase 0 (done).
 
 *Known blocker:* no VPS instance exists yet. Provisioning decision (Verpex
-VPS per `STATE.a2ml`) is the platform operator's.
+VPS per `docs/SPEC-clade-verisim-portal.adoc`, Layer 3) is the platform operator's.
 
 *Procedure*
 
@@ -135,7 +135,7 @@ VPS per `STATE.a2ml`) is the platform operator's.
 - [ ] seed reports 0 errors; document counts match the seed
 - [ ] TLS + auth verified from outside the VPS
 - [ ] scratch Worker serves `ready` from VeriSimDB
-- [ ] `STATE.a2ml` blockers list: drop "VeriSimDB not stood up", Phase 2 completion updated
+- [ ] `ROADMAP.adoc`: Phase 2 status updated; the VeriSimDB item dropped from "External prerequisites" and "Current status"
 
 *Rollback:* the Worker degrades to the KV snapshot by design — shutting the
 VPS off is itself the rollback. Re-seed is idempotent (PUT per document).
@@ -183,7 +183,7 @@ scope; `CLOUDFLARE_ACCOUNT_ID` if the token spans accounts). Until set,
 - [ ] staging + production `/v1/ready` green (or honestly `degraded` with Phase 2 open)
 - [ ] worker-ci + governance + hypatia-scan + staleness all green on main
 - [ ] contract served/linked from the API index matches `docs/api/openapi.yaml` version
-- [ ] `STATE.a2ml` Phase 3 completion = 100; README table updated
+- [ ] `ROADMAP.adoc` Phase 3 status = *Complete*; README table updated
 
 *Rollback:* `wrangler rollback` (worker-level) or redeploy previous
 `compatibility_date`; KV snapshot is untouched by deploys.
@@ -204,7 +204,7 @@ build-time snapshot export (`sync/export-json.sh` → static JSON). Default:
 build-time snapshot for first paint, API for live search.
 
 *Go-gate:* every `portal_url` emitted by the API resolves to a rendered
-page; the 327-repo set renders without console errors; `STATE.a2ml` updated.
+page; the 327-repo set renders without console errors; `ROADMAP.adoc` Phase 4 status updated.
 
 [[phase-5]]
 == Phase 5 — LLM query endpoint (LLM tier)
@@ -235,7 +235,7 @@ collection namespace (`observation`), cap body size, and require the
 staleness/Hypatia gates green before enabling.
 
 *Go-gate:* a bot can create an observation, a human can see it in
-`bot-findings.vcl` output; a forged/replayed JWT fails; `STATE.a2ml` updated.
+`bot-findings.vcl` output; a forged/replayed JWT fails; `ROADMAP.adoc` Phase 6 status updated.
 
 [[phase-7]]
 == Phase 7 — Contributor OAuth (CONTRIB tier)

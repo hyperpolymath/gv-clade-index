@@ -54,11 +54,16 @@ jobs:
           for f in *-STATUS-*.md *-COMPLETION-*.md *-COMPLETE.md *-VERIFIED-*.md; do
             [ -f "$f" ] && warn "stale snapshot present: $f (would be deleted)"
           done
-          # retired: A2ML manifests (the front door is 0-AI-MANIFEST.deed;
-          # docs/history/A2ML-REMOVED.adoc)
-          for f in AI.a2ml 0-AI-MANIFEST.a2ml; do
-            [ -f "$f" ] && warn "retired A2ML manifest present: $f (the front door is 0-AI-MANIFEST.deed)"
-          done
+          # retired: A2ML. No .a2ml file may exist anywhere in the tree,
+          # 9-archive/ included, except the three kept files listed in
+          # docs/history/A2ML-REMOVED.adoc. The front door is 0-AI-MANIFEST.deed.
+          while IFS= read -r -d '' f; do
+            f="${f#./}"
+            case "$f" in
+              verisim/config.a2ml|verisim/seed/clades.a2ml|verisim/seed/forges.a2ml) ;;
+              *) warn "retired A2ML file present: $f (A2ML is retired; only the three kept files in docs/history/A2ML-REMOVED.adoc may remain)" ;;
+            esac
+          done < <(find . -path ./.git -prune -o \( -type f -o -type l \) -iname '*.a2ml' -print0)
           # would-DELETE: duplicate community files
           [ -f "CONTRIBUTING.md" ] && [ -f "CONTRIBUTING.adoc" ] && warn "duplicate CONTRIBUTING.md + CONTRIBUTING.adoc (one would be removed)"
           if [ -f "README.md" ] && [ -f "README.adoc" ] && [ "$(wc -l < README.md)" -lt 5 ]; then

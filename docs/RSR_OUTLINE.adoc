@@ -119,7 +119,12 @@ The template Justfile provides:
 * **Cookbook generation**: `just cookbook` -> `docs/just-cookbook.adoc`
 * **Man page generation**: `just man` -> `docs/man/project.1`
 * **RSR validation**: `just validate-rsr`
-* **STATE.a2ml management**: `just state-touch`, `just state-phase`
+* **STATE.deed review**: `just state-phase` reads the lifecycle phase from
+  `.machine_readable/descriptiles/STATE.deed`, and `just validate-state` checks
+  it. There is no `state-touch`: the deed's `:affirmed` date and
+  `:affirmed-by` record a review, so you change them by hand, and only after
+  re-checking the values (`docs/history/A2ML-REMOVED.adoc` records where each
+  came from), never as a timestamp bump.
 * **Container support**: `just container-build`, `just container-push`
 * **CI matrix**: `just ci-matrix [stage] [depth]`
 
