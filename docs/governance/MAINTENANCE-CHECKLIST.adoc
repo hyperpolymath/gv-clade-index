@@ -6,7 +6,6 @@ Use this as a repeatable maintenance runbook for any repo.
 Companion policy:
 
 - `docs/practice/SOFTWARE-DEVELOPMENT-APPROACH.adoc` (human-readable)
-- `.machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml` (machine-readable)
 
 ## Canonical Repo Baseline (Final)
 

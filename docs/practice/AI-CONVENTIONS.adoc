@@ -9,13 +9,10 @@ Per-tool config files (.cursorrules, .clinerules, etc.) reference this document.
 
 ## Session Startup
 
-1. Read `0-AI-MANIFEST.a2ml` FIRST (mandatory gatekeeper).
-2. Read `.machine_readable/STATE.a2ml` for current status and blockers.
-3. Read `.machine_readable/anchors/ANCHOR.a2ml` for canonical authority boundaries.
-4. Read `.machine_readable/policies/MAINTENANCE-AXES.a2ml` for maintenance/audit sequencing.
-5. Read `.machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml` for baseline controls.
-6. Read `.machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml` for execution order.
-7. Read `.machine_readable/AGENTIC.a2ml` for agent constraints.
+1. Read `0-AI-MANIFEST.deed` FIRST (the pointer-only front door).
+2. Read `gv-clade-index_chora.deed` for repo facts, including the `(agentic)` permissions and integrity axioms.
+3. Read `.machine_readable/descriptiles/STATE.deed` for the lifecycle status and maturity, and `ROADMAP.adoc` for blockers.
+4. Read `docs/governance/TSDM.adoc`, `MAINTENANCE-CHECKLIST.adoc` and `SOFTWARE-DEVELOPMENT-APPROACH.adoc` for maintenance and audit sequencing.
 
 ## License
 
@@ -33,10 +30,9 @@ Per-tool config files (.cursorrules, .clinerules, etc.) reference this document.
 
 ## State Files
 
-State/metadata files, anchors, and policies (.a2ml) belong in `.machine_readable/` ONLY.
-NEVER create STATE.a2ml, META.a2ml, ECOSYSTEM.a2ml, AGENTIC.a2ml,
-NEUROSYM.a2ml, PLAYBOOK.a2ml, ANCHOR.a2ml, MAINTENANCE-AXES.a2ml,
-MAINTENANCE-CHECKLIST.a2ml, or SOFTWARE-DEVELOPMENT-APPROACH.a2ml in the repository root.
+Repo metadata is deed: `gv-clade-index_chora.deed` at the root, and descriptile
+deeds (`STATE.deed` and the like) in `.machine_readable/descriptiles/` ONLY.
+A2ML is retired: NEVER create a `.a2ml` file (`docs/history/A2ML-REMOVED.adoc`).
 
 ## Banned Patterns
 
@@ -76,10 +72,7 @@ Use `just` (Justfile) for all build, test, lint, and format tasks.
 
 ## References
 
-- `0-AI-MANIFEST.a2ml` -- universal AI entry point
-- `.machine_readable/AGENTIC.a2ml` -- agent permissions and constraints
-- `.machine_readable/STATE.a2ml` -- current project state
-- `.machine_readable/anchors/ANCHOR.a2ml` -- canonical authority and policy boundary
-- `.machine_readable/policies/MAINTENANCE-AXES.a2ml` -- canonical axis sequencing and audit requirements
-- `.machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml` -- baseline maintenance checklist policy
-- `.machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml` -- axis execution approach policy
+- `0-AI-MANIFEST.deed` -- universal AI entry point (pointer-only)
+- `gv-clade-index_chora.deed` -- repo facts, agent permissions and integrity axioms
+- `.machine_readable/descriptiles/STATE.deed` -- lifecycle status and maturity
+- `docs/governance/TSDM.adoc` -- axis sequencing and audit requirements

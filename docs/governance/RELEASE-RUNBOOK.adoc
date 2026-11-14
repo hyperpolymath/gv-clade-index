@@ -7,9 +7,9 @@
 ====
 *Status: ACTIVE.* This is the operational runbook for the coordinated
 gv-clade-index rollout. It supersedes the README phase *table* for rollout
-operations only — `.machine_readable/6a2/STATE.a2ml` `[route-to-mvp]` remains
-the machine-readable status source of truth, and this runbook tells you when
-and how to update it. Filed as #31.
+operations only. `ROADMAP.adoc` tracks phase status (the A2ML `[route-to-mvp]`
+it replaced was retired 2026-11-14), and this runbook tells you when and how
+to update it. Filed as #31.
 ====
 
 == Operating rules (all phases)

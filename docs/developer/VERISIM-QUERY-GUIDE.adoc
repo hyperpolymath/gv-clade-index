@@ -26,7 +26,7 @@ Developers extending the registry, or building dashboards / drift detection.
 . *The entity model* — how a repository is represented (`verisim/schema/repo.vcl`)
   and the seven entity types: repo, clade, todo, observation, feedback, lineage,
   forge-identity.
-. *Reading the seed data* — `verisim/seed/{clades,repos,forges}.a2ml`.
+. *Reading the seed data* — `verisim/seed/chora-registry_praxis.deed` (the repos), `clades.a2ml` and `forges.a2ml`.
 . *Basic queries* — filter repos by clade / language / status; walk through
   `dashboard.vcl`, `stale.vcl`, `orphans.vcl`.
 . *Pointer authority in practice* — `pointer` vs `local` vs `derived`, and how

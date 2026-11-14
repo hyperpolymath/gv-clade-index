@@ -15,7 +15,7 @@
 #     marked `x-enforced: false`; endpoints that will consume them say so.
 #   * The API is not yet publicly deployed (Phase 3, blocked on
 #     CLOUDFLARE_API_TOKEN + a VeriSimDB instance — see
-#     .machine_readable/6a2/STATE.a2ml and docs/governance/RELEASE-RUNBOOK.adoc).
+#     ROADMAP.adoc and docs/governance/RELEASE-RUNBOOK.adoc).
 # ----------------------------------------------------------------------------
 openapi: 3.1.0
 

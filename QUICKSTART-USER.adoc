@@ -14,7 +14,7 @@ locally. (For local development, see link:QUICKSTART-DEV.adoc[QUICKSTART-DEV].)
 ====
 *Alpha / in development (~18%).* The public HTTP API is Phase 3 and is *not yet
 deployed* — it needs a Cloudflare token and a live VeriSimDB instance (see
-`.machine_readable/6a2/STATE.a2ml`). Until then, browse the registry data and
+`ROADMAP.adoc`). Until then, browse the registry data and
 docs directly in this repository.
 ====
 
@@ -23,7 +23,8 @@ docs directly in this repository.
 * Browse the taxonomy and architecture: link:README.adoc[README]
 * Inspect the registry data: `verisim/seed/` (clades, repos, forges) and the
   pre-built queries in `verisim/queries/`
-* See how a repo is classified: its `.machine_readable/CLADE.a2ml`
+* See how a repo is classified: its `(clade …)` placement in
+  `verisim/seed/chora-registry_praxis.deed` (and in the repo's own chora deed)
 
 == Use it later (the API)
 

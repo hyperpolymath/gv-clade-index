@@ -54,10 +54,11 @@ jobs:
           for f in *-STATUS-*.md *-COMPLETION-*.md *-COMPLETE.md *-VERIFIED-*.md; do
             [ -f "$f" ] && warn "stale snapshot present: $f (would be deleted)"
           done
-          # would-RENAME: legacy manifest name
-          if [ -f "AI.a2ml" ] && [ ! -f "0-AI-MANIFEST.a2ml" ]; then
-            warn "AI.a2ml present without 0-AI-MANIFEST.a2ml (would be renamed)"
-          fi
+          # retired: A2ML manifests (the front door is 0-AI-MANIFEST.deed;
+          # docs/history/A2ML-REMOVED.adoc)
+          for f in AI.a2ml 0-AI-MANIFEST.a2ml; do
+            [ -f "$f" ] && warn "retired A2ML manifest present: $f (the front door is 0-AI-MANIFEST.deed)"
+          done
           # would-DELETE: duplicate community files
           [ -f "CONTRIBUTING.md" ] && [ -f "CONTRIBUTING.adoc" ] && warn "duplicate CONTRIBUTING.md + CONTRIBUTING.adoc (one would be removed)"
           if [ -f "README.md" ] && [ -f "README.adoc" ] && [ "$(wc -l < README.md)" -lt 5 ]; then
@@ -74,7 +75,7 @@ jobs:
           [ -f "CONTRIBUTING.md" ] || [ -f ".github/CONTRIBUTING.md" ] || warn "no CONTRIBUTING.md (would be created)"
 
           # --- unfixable compliance gaps (also drift) ---
-          [ -f "0-AI-MANIFEST.a2ml" ] || [ -f "AI.a2ml" ] || warn "missing AI manifest (0-AI-MANIFEST.a2ml)"
+          [ -f "0-AI-MANIFEST.deed" ] || warn "missing AI manifest (0-AI-MANIFEST.deed)"
           [ -f "LICENSE" ] || [ -f "LICENSE.md" ] || [ -f "LICENSE.txt" ] || warn "missing LICENSE file"
           [ -f "README.adoc" ] || [ -f "README.md" ] || warn "missing README"
 

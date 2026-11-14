@@ -1,0 +1,37 @@
+;; SPDX-License-Identifier: MPL-2.0
+;; SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+;;
+;; STATE.deed of gv-clade-index (A7 J14, J15; profile deed_lint.js --state).
+;;
+;; (status) is the [status] block of the retired .machine_readable/CLADE.a2ml,
+;; field for field, under standards 1-formats/deed/mappings/clade-to-repo-deed.adoc
+;; (its lifecycle rows go here, not to the chora deed). (maturity) is
+;; [position] maturity of the retired .machine_readable/6a2/STATE.a2ml under
+;; state-v1-decision.adoc option B; the source gave it no date, so there is no
+;; :since. STATE.a2ml's [metadata] status and [position] phase double-track the
+;; lifecycle claim above and are dropped; its milestones, blockers, next
+;; actions and notes are journal, archived by reference in
+;; docs/history/A2ML-REMOVED.adoc. The live roadmap is ROADMAP.adoc.
+;;
+;; :affirmed is the date of the translation, by an agent; it says the values
+;; were carried over as the sources held them, not that they were re-audited.
+(descriptile-deed
+  :schema-version "1.0.0"
+  :canonical-name "gv-clade-index"
+  :of-chora #uuid"a65b74d8-351a-89d9-a38d-aea470863b03"
+  :affirmed "2026-11-14" :affirmed-by agent
+  (status
+    :phase active
+    :since "2026-03-16"
+    :present #t
+    :aliases ()
+    :merged-into ""
+    :superseded-by ""
+    :successors ()
+    :ended ""
+    (history
+      (entry :phase active
+             :since "2026-03-16"
+             :note "initial registration")))
+  (maturity
+    :level alpha))

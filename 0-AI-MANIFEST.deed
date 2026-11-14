@@ -1,0 +1,17 @@
+;; SPDX-License-Identifier: MPL-2.0
+;; SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+;;
+;; The machine front door of gv-clade-index (the chora-registry): pointer-only
+;; (A7 ruling Q15). It names where to read and carries no facts of its own.
+;; Repository facts are in gv-clade-index_chora.deed and
+;; .machine_readable/descriptiles/STATE.deed; the registry itself is
+;; verisim/seed/chora-registry_praxis.deed. It replaces 0-AI-MANIFEST.a2ml,
+;; retired 2026-11-14 (docs/history/A2ML-REMOVED.adoc).
+(repo-deed
+  :schema-version "1.0.0"
+  :canonical-name "gv-clade-index"
+  :repo-uuid #uuid"a65b74d8-351a-89d9-a38d-aea470863b03"
+  :beholding-chora #uuid"0889b37b-defb-831f-973c-e119500db00e"
+  (front-doors
+    :machine "gv-clade-index_chora.deed"
+    :human "README.adoc"))

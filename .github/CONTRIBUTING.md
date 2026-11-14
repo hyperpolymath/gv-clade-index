@@ -30,7 +30,7 @@ gv-clade-index/
 ├── spec/                # Spec tests (Perimeter 3)
 ├── tests/               # Test suite (Perimeter 2-3)
 ├── .machine_readable/   # ALL machine-readable content (Perimeter 1)
-│   ├── *.a2ml           # State files (STATE, META, ECOSYSTEM, etc.)
+│   ├── descriptiles/    # Descriptile deeds (STATE.deed, …)
 │   ├── bot_directives/  # Bot configs
 │   └── contractiles/    # Policy contracts (k9, dust, lust, must, trust)
 ├── .well-known/         # Protocol files (Perimeter 1-3)

@@ -52,7 +52,7 @@ info:
     @echo "Version: {{version}}"
     @echo "RSR Tier: {{tier}}"
     @echo "Recipes: $(just --summary | wc -w)"
-    @[ -f ".machine_readable/STATE.a2ml" ] && grep -oP 'phase\s*=\s*"\K[^"]+' .machine_readable/STATE.a2ml | head -1 | xargs -I{} echo "Phase: {}" || true
+    @[ -f ".machine_readable/descriptiles/STATE.deed" ] && grep -oP ':phase\s+\K[a-z]+' .machine_readable/descriptiles/STATE.deed | head -1 | xargs -I{} echo "Phase: {}" || true
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # INIT — Bootstrap a new project from this template
@@ -226,16 +226,12 @@ init:
         fi
     done
 
-    # Also replace [YOUR-REPO-NAME] and [YOUR-NAME/ORG] in AI manifest
-    sed -i "s|\[YOUR-REPO-NAME\]|${PROJECT_NAME}|g" 0-AI-MANIFEST.a2ml 2>/dev/null || true
-    sed -i "s|\[YOUR-NAME/ORG\]|${OWNER}|g" 0-AI-MANIFEST.a2ml 2>/dev/null || true
-
     echo ""
     echo "── Validation ───────────────────────────────────"
 
     # Check for remaining placeholders
     PATTERN="${LB}[A-Z_]*${RB}"
-    REMAINING=$(grep -rl "$PATTERN" . --include='*.md' --include='*.adoc' --include='*.yml' --include='*.yaml' --include='*.a2ml' --include='*.toml' --include='*.scm' --include='*.ncl' --include='*.nix' --include='*.json' --include='*.sh' 2>/dev/null | grep -v '.git/' | grep -v '.machine_readable/ai/PLACEHOLDERS.adoc' || true)
+    REMAINING=$(grep -rl "$PATTERN" . --include='*.md' --include='*.adoc' --include='*.yml' --include='*.yaml' --include='*.deed' --include='*.toml' --include='*.scm' --include='*.ncl' --include='*.nix' --include='*.json' --include='*.sh' 2>/dev/null | grep -v '.git/' | grep -v '.machine_readable/ai/PLACEHOLDERS.adoc' || true)
     if [ -n "$REMAINING" ]; then
         echo "WARNING: Remaining placeholders in:"
         echo "$REMAINING" | sed 's/^/  /'
@@ -657,10 +653,11 @@ validate-rsr:
     #!/usr/bin/env bash
     echo "=== RSR Compliance Check ==="
     MISSING=""
-    for f in .editorconfig .gitignore Justfile README.adoc LICENSE 0-AI-MANIFEST.a2ml; do
+    for f in .editorconfig .gitignore Justfile README.adoc LICENSE 0-AI-MANIFEST.deed; do
         [ -f "$f" ] || MISSING="$MISSING $f"
     done
-    for f in .machine_readable/STATE.a2ml .machine_readable/META.a2ml .machine_readable/ECOSYSTEM.a2ml .machine_readable/anchors/ANCHOR.a2ml .machine_readable/policies/MAINTENANCE-AXES.a2ml .machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml .machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml; do
+    # Repo metadata is deed, not A2ML (docs/history/A2ML-REMOVED.adoc).
+    for f in {{project}}_chora.deed .machine_readable/descriptiles/STATE.deed; do
         [ -f "$f" ] || MISSING="$MISSING $f"
     done
     for f in licensing/exhibits/EXHIBIT-A-ETHICAL-USE.txt licensing/exhibits/EXHIBIT-B-QUANTUM-SAFE.txt licensing/texts/MPL-2.0.txt; do
@@ -672,34 +669,21 @@ validate-rsr:
     for f in docs/maintenance/MAINTENANCE-CHECKLIST.adoc docs/practice/SOFTWARE-DEVELOPMENT-APPROACH.adoc; do
         [ -f "$f" ] || MISSING="$MISSING $f"
     done
-    if [ -f ".machine_readable/META.a2ml" ]; then
-        grep -q 'axis-1 = "must > intend > like"' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:axis-1"
-        grep -q 'axis-2 = "corrective > adaptive > perfective"' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:axis-2"
-        grep -q 'axis-3 = "systems > compliance > effects"' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:axis-3"
-        grep -q 'scoping-first = true' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:scoping-first"
-        grep -q 'idris-unsound-scan = "believe_me/assert_total"' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:idris-unsound-scan"
-        grep -q 'audit-focus = "systems in place, documentation explains actual state, safety/security accounted for, observed effects reviewed"' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:audit-focus"
-        grep -q 'compliance-focus = "seams/compromises/exception register, bounded exceptions, anti-drift checks"' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:compliance-focus"
-        grep -q 'effects-evidence = "benchmark execution/results and maintainer status dialogue/review"' .machine_readable/META.a2ml || MISSING="$MISSING META.a2ml:effects-evidence"
-        grep -q 'compliance-tooling = "panic-attack"' .machine_readable/policies/MAINTENANCE-AXES.a2ml || MISSING="$MISSING MAINTENANCE-AXES.a2ml:compliance-tooling"
-        grep -q 'effects-tooling = "ecological checking with sustainabot guidance"' .machine_readable/policies/MAINTENANCE-AXES.a2ml || MISSING="$MISSING MAINTENANCE-AXES.a2ml:effects-tooling"
-        grep -q 'source-human = "docs/maintenance/MAINTENANCE-CHECKLIST.adoc"' .machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml || MISSING="$MISSING MAINTENANCE-CHECKLIST.a2ml:source-human"
-        grep -q 'source-human = "docs/practice/SOFTWARE-DEVELOPMENT-APPROACH.adoc"' .machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml || MISSING="$MISSING SOFTWARE-DEVELOPMENT-APPROACH.a2ml:source-human"
-    fi
     if [ -n "$MISSING" ]; then
         echo "MISSING:$MISSING"
         exit 1
     fi
     echo "RSR compliance: PASS"
 
-# Validate STATE.a2ml syntax
+# Validate STATE.deed: a descriptile deed with one (status) clause
 validate-state:
-    @if [ -f ".machine_readable/STATE.a2ml" ]; then \
-        grep -q '^\[metadata\]' .machine_readable/STATE.a2ml && \
-        grep -q 'project\s*=' .machine_readable/STATE.a2ml && \
-        echo "STATE.a2ml: valid" || echo "STATE.a2ml: INVALID (missing required sections)"; \
+    @if [ -f ".machine_readable/descriptiles/STATE.deed" ]; then \
+        grep -q '^(descriptile-deed' .machine_readable/descriptiles/STATE.deed && \
+        grep -q '^  (status' .machine_readable/descriptiles/STATE.deed && \
+        echo "STATE.deed: has its (status) clause (full check: standards deed_lint.js --state)" || \
+        { echo "STATE.deed: INVALID (no descriptile-deed head or (status) clause)"; exit 1; }; \
     else \
-        echo "No .machine_readable/STATE.a2ml found"; \
+        echo "No .machine_readable/descriptiles/STATE.deed found"; exit 1; \
     fi
 
 # Validate AI installation guide completeness (finishbot pre-release check)
@@ -774,16 +758,11 @@ validate: validate-rsr validate-state validate-ai-install
 # STATE MANAGEMENT
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# Update STATE.a2ml timestamp
-state-touch:
-    @if [ -f ".machine_readable/STATE.a2ml" ]; then \
-        sed -i 's/last-updated = "[^"]*"/last-updated = "'"$(date +%Y-%m-%d)"'"/' .machine_readable/STATE.a2ml && \
-        echo "STATE.a2ml timestamp updated"; \
-    fi
-
-# Show current phase from STATE.a2ml
+# Show the current lifecycle phase from STATE.deed. (The old state-touch recipe,
+# which bumped a date in STATE.a2ml, is gone: STATE.deed's :affirmed date records
+# a review, so it is changed by hand, never by a timestamp bump.)
 state-phase:
-    @grep -oP 'phase\s*=\s*"\K[^"]+' .machine_readable/STATE.a2ml 2>/dev/null | head -1 || echo "unknown"
+    @grep -oP ':phase\s+\K[a-z]+' .machine_readable/descriptiles/STATE.deed 2>/dev/null | head -1 || echo "unknown"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # GUIX & NIX
@@ -809,7 +788,7 @@ nix-shell:
 automate task="all":
     #!/usr/bin/env bash
     case "{{task}}" in
-        all) just fmt && just lint && just test && just docs && just state-touch ;;
+        all) just fmt && just lint && just test && just docs ;;
         cleanup) just clean && find . -name "*.orig" -delete && find . -name "*~" -delete ;;
         update) just deps && just validate ;;
         *) echo "Unknown: {{task}}. Use: all, cleanup, update" && exit 1 ;;

@@ -48,8 +48,9 @@ implementations
 
 ....
 gv-clade-index/
-├── 0-AI-MANIFEST.a2ml           # AI agent entry point
-├── .machine_readable/           # State, meta, ecosystem, clade declaration
+├── 0-AI-MANIFEST.deed           # AI agent entry point (pointer-only)
+├── gv-clade-index_chora.deed    # This repo's deed: identity, clade, agentic, ...
+├── .machine_readable/           # descriptiles/STATE.deed (status), contractiles
 ├── verisim/
 │   ├── config.a2ml              # VeriSimDB instance config
 │   ├── schema/                  # VCL schemas (7 entity types)
@@ -74,11 +75,12 @@ gv-clade-index/
 │       ├── cross-clade-deps.vcl # Cross-boundary dependencies
 │       └── feedback-status.vcl  # Feedback resolution tracking
 ├── sync/                        # Sync tooling (Phase 2)
-├── views/                       # Generated outputs (not committed)
-└── contractiles/
-    └── must/
-        └── clade-hygiene.a2ml   # Every repo MUST have CLADE.a2ml
+└── views/                       # Generated outputs (not committed)
 ....
+
+The three `.a2ml` files left under `verisim/` are registry data that wait for
+their own mapping specs. Every other `.a2ml` file was retired on 2026-11-14
+(`docs/history/A2ML-REMOVED.adoc`).
 
 == Portal Architecture
 
@@ -117,13 +119,13 @@ drift-detects)
 * `+local+` — VeriSimDB owns it (TODOs, bot observations)
 * `+derived+` — computed from other values (clade health scores)
 
-== Contractile System
+== Clade placements
 
-This repo includes a `+clade-hygiene.a2ml+` contractile:
-
-* *CLADE-001*: Every repo must have `+.machine_readable/CLADE.a2ml+`
-* *CLADE-002*: CLADE.a2ml must declare a primary clade code
-* *CLADE-003*: Primary clade code must be one of the 12 valid codes
+A repo's clade placement is an identity fact in its own chora deed
+(`<repo>_chora.deed`, the `(clade …)` clause), checked against this
+registry's scheme `clade-12`, which is authoritative (owner ruling W10). The
+old `+clade-hygiene.a2ml+` contractile, which required every repo to carry a
+`+CLADE.a2ml+`, was retired with A2ML (`docs/history/A2ML-REMOVED.adoc`).
 
 == Implementation Phases
 
@@ -153,8 +155,8 @@ This repo includes a `+clade-hygiene.a2ml+` contractile:
 Rollout operations — timelines, dependencies, ownership and go/no-go gates
 for each phase — live in
 `docs/governance/RELEASE-RUNBOOK.adoc`; this table is the summary, the
-runbook is the procedure, `.machine_readable/6a2/STATE.a2ml`
-`[route-to-mvp]` is the machine-readable status.
+runbook is the procedure, and `ROADMAP.adoc` tracks progress. The
+lifecycle status is `.machine_readable/descriptiles/STATE.deed`.
 
 == License
 
