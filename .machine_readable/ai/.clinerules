@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 # Authoritative source: docs/AI-CONVENTIONS.md
 
-# STARTUP: Read 0-AI-MANIFEST.a2ml first, then .machine_readable/STATE.a2ml.
+# STARTUP: Read 0-AI-MANIFEST.deed first, then gv-clade-index_chora.deed.
 
 # LICENSE
 # All original code: MPL-2.0.
@@ -10,9 +10,9 @@
 # SPDX header required on every source file.
 # Copyright: Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 
-# STATE FILES (.machine_readable/ ONLY)
-# Never create in repo root: STATE.a2ml, META.a2ml, ECOSYSTEM.a2ml,
-# AGENTIC.a2ml, NEUROSYM.a2ml, PLAYBOOK.a2ml.
+# STATE FILES (.machine_readable/descriptiles/ ONLY)
+# Repo metadata is deed (gv-clade-index_chora.deed, descriptiles/STATE.deed).
+# A2ML is retired: never create a .a2ml file.
 # The .machine_readable/ directory is the single source of truth.
 
 # BANNED PATTERNS

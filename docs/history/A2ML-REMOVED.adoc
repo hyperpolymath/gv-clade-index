@@ -1,0 +1,741 @@
+// SPDX-License-Identifier: CC-BY-SA-4.0
+// SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+= The A2ML files removed from gv-clade-index on 2026-11-14
+
+A2ML is retired (owner rulings D99, D269c, D312, D313): no `.a2ml` file
+should exist. Each `.a2ml` file in this repository was translated into deed
+form where a mapping spec in standards `1-formats/deed/mappings/` says it
+translates, its readers were moved, and it was deleted. A field a spec does
+not list does not translate; it was dropped, not re-homed. A file with no
+mapping spec was deleted (A7 ruling Q7). This follows the hypatia migration
+(hyperpolymath/hypatia#1113).
+
+This record lists each removed file, what it was, and where its content
+went. The contents are not copied here. Git history keeps them. To read one,
+use its blob id, or read its path at the last commit that held it:
+
+[source,bash]
+----
+git cat-file -p <blob id>
+git show fb1c397d8fb3e571b66a55e66ed65debe7268bbb:<path>
+----
+
+Size is in bytes. The sha256 is of the file as it was tracked.
+
+The new deeds are `gv-clade-index_chora.deed` (identity, clade, forges,
+lineage, agentic, neurosym, playbook), `.machine_readable/descriptiles/STATE.deed`
+(status, maturity) and the pointer-only `0-AI-MANIFEST.deed`. Each passes
+`deed_lint.js`; `STATE.deed` also passes `--state --strict` against the chora
+deed.
+
+== Removed: files with content of their own
+
+[cols="4,1,3,3,4,5",options="header"]
+|===
+| Path | Size | sha256 | Git blob id | What it was | Where it went
+
+| `.machine_readable/CLADE.a2ml`
+| 2395
+| `94bcbc363468a7a6d5bf93e7708eccc8c5635c355f2f8d0c5ce03655ce3cc154`
+| `b58a451543c07479c49644078c94f384d47ff21d`
+| Clade declaration of this repo: identity (v5 uuid, forge, owner, names), clade (gv, secondary db), forges, lineage, lifecycle status and its history.
+| `clade-to-repo-deed.adoc`: `(identity) (clade) (forges) (lineage)` in `gv-clade-index_chora.deed`; `[status]` and its history to `(status)` in `.machine_readable/descriptiles/STATE.deed` (A7 J15). `:repo-uuid` is the registry's v8 id for this repo, not the v5 the file held. `canonical-name` is the deed's `:canonical-name`. Not emitted: the v5 `[identity] uuid` and the guidance comments.
+
+| `.machine_readable/6a2/AGENTIC.a2ml`
+| 1492
+| `75162b754c5007bda2688916a028d18d35d61df4897a164199239bf33b27c1f1`
+| `01f0d2e41c714052c9986f5417f5965992112598`
+| AGENTIC descriptile: agent permissions, comment-only constraints, the five integrity axioms, comment-only automation hooks.
+| `(agentic)` per `agentic-neurosym-playbook-to-repo-deed.adoc`: version, last-updated, permissions, the five integrity axioms (`:allow-silent-skip #f` kept). Dropped: `[agent-constraints]` and `[automation-hooks]`, comment-carried template canon (D4-1).
+
+| `.machine_readable/6a2/NEUROSYM.a2ml`
+| 666
+| `3708cf31fbb06e03ee6e1123ec49859cbcd19666363ddb6c94ebf9a3d00d4307`
+| `1acf7a3006cb94523077eb4371c0eb21eeae43fb`
+| NEUROSYM descriptile: Hypatia scan config; symbolic-rules and neural-config held only comments.
+| `(neurosym)` per the same spec: version, last-updated, scan-enabled, scan-depth `standard`, report-format. Dropped: the two unpopulated sections.
+
+| `.machine_readable/6a2/PLAYBOOK.a2ml`
+| 1144
+| `2131e30c6d8feff92fc70a6f3b878d9050cbb13cc39dafa1272b116b23f19bba`
+| `6408e1c72e84c697ca947d29cef2f88a037f7b99`
+| PLAYBOOK descriptile: deployment, incident-response, release-process and maintenance-operations sections, each only comments.
+| `(playbook)` per the same spec: version, last-updated and the four sections as empty position clauses. The source had no docs-format section, so none is emitted.
+
+| `.machine_readable/6a2/STATE.a2ml`
+| 4154
+| `d07d6dd1d6bedd96853a5a66ed8fd3f95f477ff00237af15164a386477b0f612`
+| `79f9225d84d300c3264ef67831a0341225ea5753`
+| STATE descriptile v1: status, phase, maturity, completion, milestones (Phases 0 to 8), verification notes, blockers, next actions, recent changes, documentation sketches.
+| `state-v1-decision.adoc` option B: maturity to `(maturity :level alpha)` in `STATE.deed`. Dropped: `status` and `phase` (the lifecycle claim is `(status)`, from CLADE), `completion-percentage` (derivable). The rest is journal, archived here by reference; the live roadmap is `ROADMAP.adoc`.
+
+| `.machine_readable/6a2/META.a2ml`
+| 2180
+| `637ef5a26e094318dfa6d4d70f3dda3cb186696c4cddb0d1028a5249448099eb`
+| `295c3732b9a9951de88b2a1cb3412b8c4d889388`
+| META descriptile: project name, description, licence, standard, author, and ADR-001 to ADR-005 (VeriSimDB as registry, pointer authority, 2-character prefix, ReScript/WASM portal, map and territory).
+| Nothing translated. `meta-ecosystem-to-repo-deed.adoc` lists `[metadata]`, `[project-info]`, `[development-practices]`, `[maintenance-axes]` and an `[architecture-decisions]` array whose entries carry `id`; this file has `[project]`, `[author]` and keyed `[architecture-decisions.adr-NNN]` tables with no `id`, shapes the table does not list, so the translator refuses them (P-2a, "corner shapes … never translate ad-hoc"). The repo's ADRs of record are `docs/decisions/`.
+
+| `.machine_readable/6a2/ECOSYSTEM.a2ml`
+| 1449
+| `2e4fb239796d69c27d2a583cd981aa21c460ae249209b09d3c68e9cbf1be2516`
+| `a28802bd17f46b70c8e10beb2ad5d0fb43490a7e`
+| ECOSYSTEM descriptile: name, type `registry`, purpose, position, and seven related projects (verisimdb depends-on; hyperpolymath.github.io, gitbot-fleet and hypatia feeds-into; reposystem, palimpsest-plasma and seamstress sibling).
+| Nothing translated. The table lists `[metadata] project/ecosystem` and `[position] type/purpose`; this file has an `[ecosystem]` section instead, and no `ecosystem` value, which the `(ecosystem)` clause requires and a translator never invents. The related projects are keyed tables, and `depends-on`, `feeds-into` and `sibling` are outside the closed `:relationship` set (`clauses/ecosystem.abnf`), so no `(related)` clause can carry them. Recorded as an owner question.
+
+| `0-AI-MANIFEST.a2ml`
+| 3012
+| `f9a026f3bd5bcfa242fcb39119c9e3fabb06ecf1f6e18b64c9a491102fa010f9`
+| `7ddf1758d9b7eee3a98fb7954c30465e217ff5a3`
+| AI manifest (Markdown prose): purpose, canonical locations, invariants, the 12 clade codes, a session checklist.
+| Replaced by the pointer-only `0-AI-MANIFEST.deed` (A7 ruling Q15). Its sections are not the `[metadata] [project] [ai-allocation] [policy] [work-allocation]` table of `ai-manifest-decision.adoc`, so nothing was translated. The clade codes are scheme `clade-12` in `verisim/seed/chora-registry_praxis.deed`.
+
+| `.machine_readable/anchors/ANCHOR.a2ml`
+| 1696
+| `ac79a6f90fc2660d4227c1c396155e54aed8caa92df9c6fa746cbfb815ae7098`
+| `2c76375e0830ec397476eae564c9d9453fb90e8e`
+| Anchor v1: authority `upstream-canonical`, purpose, identity, semantic authority, implementation policy, golden path, satellite policy, semantic-authority files (several naming files this repo does not have).
+| Deleted: no mapping spec in `1-formats/deed/mappings/`. A7 section 6.4 gives the `(anchor)` clause translation, to move into `mappings/` on ratification; the values here are template defaults (allowed languages, `just test` golden path, files that do not exist), so they are left for the owner rather than carried into the chora deed.
+
+| `.machine_readable/ENSAID_CONFIG.a2ml`
+| 5548
+| `c35b59568f610df59f0abdfa2b1a577af0767714e58cae9d3ac614d046372cc2`
+| `4f134eb0ec8149c2467df68a4fec2c11743c7c84`
+| eNSAID/PanLL workspace configuration (mode, protection, panels, preferences).
+| Deleted: no mapping spec. The file is optional; eNSAID tools apply defaults without it (standards `1-formats/sub-specs/ensaid-config/`). No reader in this repo.
+
+| `.machine_readable/ai/AI.a2ml`
+| 970
+| `605d949275fdae1f8a9a85cac098914943361cca63d2ef51dc1affd6f8132fa4`
+| `c683d30f13fdd276b19d524649fc05acc63b54ab`
+| Template AI-assistant instructions, written for rsr-template-repo, pointing at STATE.a2ml and AGENTIC.a2ml.
+| Deleted: no mapping spec; template residue. Agents start from `0-AI-MANIFEST.deed`.
+
+| `.machine_readable/agent_instructions/methodology.a2ml`
+| 4675
+| `0a5d15346f3dabbabbb13bffd54e0504dc725d0596a15ae3dc53a9fccc7ff783`
+| `4d0b79e83a43c23a0609cbd4f3d29c7d6a2965b5`
+| Agent methodology template: mode, ring ceiling, priority weights, budgets.
+| Deleted: template boilerplate; no mapping spec. Its README, which only described these three files, is removed too.
+
+| `.machine_readable/agent_instructions/coverage.a2ml`
+| 2233
+| `ce9e1e2124e3a7d7dc86e3704d0bb68cf81eae1185fe6e6ddcf98c505ff1975d`
+| `69796642033856ce09e8282f9dc2479500e07747`
+| Agent methodology template: session coverage (all counts zero).
+| Deleted: template boilerplate; no mapping spec.
+
+| `.machine_readable/agent_instructions/debt.a2ml`
+| 1879
+| `ae4680c353b887ddc636d5e0002dd79c94e917c69a33cb24d0a58e53e2178e9f`
+| `c0238c5dfa488ecb12ab9e8f45d9fefac2b71f0e`
+| Agent methodology template: meander debt (no entries).
+| Deleted: template boilerplate; no mapping spec.
+
+| `.machine_readable/contractiles/bust/Bustfile.a2ml`
+| 1582
+| `47714a0fed24d932bedaf5842893b28cedacf9260e8bdba85ce438dadc7e4b68`
+| `bb6c1222ec9e833a1627919a0decaf9bc5e2cef3`
+| Bust contractile: meta-repo rollback scenarios and escalation ladder (template residue: this repo has no submodules).
+| Deleted: no mapping spec. `bust.ncl` now names `Bustfile.deed` (A7 8.1), not yet written.
+
+| `.machine_readable/contractiles/dust/Dustfile.a2ml`
+| 1298
+| `767655c8a49c4f12d63b24ba8ae8487aa439c676727b9c8c1d4c51656dcac6ae`
+| `be38a8ca7c565d6a1f5083536109cc86429e729f`
+| Dust contractile: stale-file housekeeping checks.
+| Deleted: no mapping spec. `contractile.just` keeps its generated recipes.
+
+| `.machine_readable/contractiles/must/Mustfile.a2ml`
+| 2077
+| `c23d432dc282ad405eba73a2e39e24b20a0f9e3b70f4f210b53c3fe364a7d6b8`
+| `215c51062810264d76f98b8f2d02697404f9bc4e`
+| Must contractile: file-presence and banned-file checks.
+| Deleted: no mapping spec. `contractile.just` keeps its generated recipes.
+
+| `.machine_readable/contractiles/trust/Trustfile.a2ml`
+| 1724
+| `32445f549ea53083edcc2660acdd343a42fa1dd3c164c118751f87f982bab81d`
+| `f2a4f9592c1c2004da64062db4fa7bb667f83f4d`
+| Trust contractile: secret, key and token checks.
+| Deleted: no mapping spec. `contractile.just` keeps its generated recipes.
+
+| `.machine_readable/integrations/feedback-o-tron.a2ml`
+| 381
+| `e0befb80a2138f359524d6db4e5fdc598c4a233079990afe6303e382821e1550`
+| `5381604eda94e014b309b62ffa43e41fdbed5e63`
+| Integration note: feedback-o-tron bug-reporter config.
+| Deleted: no mapping spec, no reader.
+
+| `.machine_readable/integrations/proven.a2ml`
+| 612
+| `11fabb802ac4a0285caa64c4000436c3e1b386b7a6190d735e10be0fb910dbd9`
+| `9af33ffdc7e9faced46b474f2a07df389c9e1631`
+| Integration note: proven safety-library adoption guidance.
+| Deleted: no mapping spec, no reader.
+
+| `.machine_readable/integrations/verisim.a2ml`
+| 387
+| `48f716912dbe895d0f4f59a767c22cea517fcb9bc3637b1540558cd3f647cc51`
+| `164c5229a7e2a507cb9f123ccd681159a3376005`
+| Integration note: VeriSimDB data-feed config.
+| Deleted: no mapping spec, no reader.
+
+| `.machine_readable/integrations/vexometer.a2ml`
+| 444
+| `3f85155335da36a216049bc4434f976d19580b6bcd49c020117a5c133e3b9145`
+| `238b3d2cdd3a9c59f5e21dcdadba8aaf81d24214`
+| Integration note: vexometer measurement config.
+| Deleted: no mapping spec, no reader.
+
+| `.machine_readable/policies/MAINTENANCE-AXES.a2ml`
+| 1795
+| `2a2c5719fd120509e1fc72212d62f4e5df154b6346b248bb76951f9026dcadc9`
+| `0e2a48aa15dded96347ef14c485140e4d29e8cd2`
+| Maintenance-axes policy: the three axes, scoping, maintenance and audit rules.
+| Deleted: no mapping spec. The axes are in `docs/governance/TSDM.adoc` and `MAINTENANCE-CHECKLIST.adoc`. `just validate-rsr` no longer greps it.
+
+| `.machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml`
+| 3575
+| `66cff62b709cd470138b37e9c5953d592983a7244aa50ed05b8b498efed6f99c`
+| `eaee72059cbfbae9bb5c2ec907281efe8bb9d69f`
+| Maintenance checklist policy (machine copy).
+| Deleted: no mapping spec; the human source is `docs/governance/MAINTENANCE-CHECKLIST.adoc`.
+
+| `.machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml`
+| 1582
+| `b8840c589be930c7c6a4384485c84afbf0da19d5eb2790cf98a8a6d2b28c8f8f`
+| `093573a07ef2c3cf189dd37cabfb1b40159e0f9b`
+| Software-development approach policy (machine copy).
+| Deleted: no mapping spec; the human source is `docs/governance/SOFTWARE-DEVELOPMENT-APPROACH.adoc`.
+
+| `contractiles/must/clade-hygiene.a2ml`
+| 3900
+| `6b8adf6b2b8d61ccc5e8a636732c88cffee3509f35c0811f75eabf40b1aa08f3`
+| `1e040ff2df5b2b60867af538c5be44c18c143739`
+| Must edict CLADE-001 to CLADE-006: every repo must carry `.machine_readable/CLADE.a2ml`, with a primary code from the 12 and a matching name.
+| Deleted: no mapping spec, and it demands an A2ML file, which is retired. A repo's placement is now an identity fact in its chora deed, checked against this registry's scheme `clade-12` (W10). `worker/src/validate.js` no longer names it.
+
+| `docs/governance/CRG-CRITERIA.a2ml`
+| 4213
+| `9f13976e7d60bfe80923372126b12de6f13a771a104c52e6bd03cb2619283521`
+| `61625859454d7c5339c496a9938670360331d297`
+| Component Readiness Grades v1.0, machine copy of `CRG-CRITERIA.adoc`.
+| Deleted: no mapping spec; the `.adoc` beside it stays, and the canon is standards `4-readiness/`.
+
+| `docs/governance/MAINTENANCE-CHECKLIST.a2ml`
+| 3606
+| `8127b20eed1901a777fd85e10c68ac5b1dcc0786e2161469df6cf3727839fce6`
+| `f46eecee48d70aceb448b6cc71e8d39e1e533db2`
+| Maintenance checklist, machine copy of `MAINTENANCE-CHECKLIST.adoc`.
+| Deleted: no mapping spec; the `.adoc` stays.
+
+| `docs/governance/SOFTWARE-DEVELOPMENT-APPROACH.a2ml`
+| 1582
+| `b8840c589be930c7c6a4384485c84afbf0da19d5eb2790cf98a8a6d2b28c8f8f`
+| `093573a07ef2c3cf189dd37cabfb1b40159e0f9b`
+| Software-development approach, machine copy (byte-identical to the policies/ copy).
+| Deleted: no mapping spec; the `.adoc` stays.
+
+| `docs/governance/TSDM.a2ml`
+| 542
+| `4c842eae6a7bf4c415728a41a49e54af44d1dd1cccc8274591eb69a623ca87a1`
+| `f27036cc73444f211a8e61693db356555895b5eb`
+| Triaxial Software Development Methodology axes, machine copy of `TSDM.adoc`.
+| Deleted: no mapping spec; the `.adoc` stays.
+
+| `docs/templates/contractiles/dust/Dustfile.a2ml`
+| 353
+| `ab9c7b7f814159986137f923676e991196a2ba697a8d4a44a1d7f77cad9bfa7d`
+| `903af2c3f888df3b859b717952aaf35fad34dec5`
+| Blank Dustfile template.
+| Deleted: an A2ML template; no mapping spec.
+
+| `docs/templates/contractiles/must/Mustfile.a2ml`
+| 353
+| `62e07fedf533d8928ba78d17b8d727bb06457245c77968b921a3cf0666c3ab0e`
+| `d08796f92abfccd8f56fdb662aded3ec980708fe`
+| Blank Mustfile template.
+| Deleted: an A2ML template; no mapping spec.
+
+| `docs/templates/contractiles/trust/Trustfile.a2ml`
+| 357
+| `9e02f59f3435932bf35c9d08833724ecda840511a4ec210c823cb3dd0dbcee3c`
+| `842c6b06a0b867c84e0b33971dc987563eb99caa`
+| Blank Trustfile template.
+| Deleted: an A2ML template; no mapping spec.
+|===
+
+== Removed as one class: the directory manifests
+
+Eighty-one `0.N-AI-MANIFEST.a2ml` files (N from 1 to 4, 25878 bytes in all)
+sat one per directory of the scaffold: `.github/`, `.machine_readable/`,
+`container/`, `docs/`, `examples/`, `features/`, `src/`, `verification/` and
+their subdirectories. They are the scaffold's directory-manifest family,
+which `ai-manifest-decision.adoc` section 0 names as a different family from
+the root AI manifest, with no mapping spec of its own. Each held a `[META]`
+id, level and parent and an `[AI_MANIFEST]` description, sometimes with
+`canonical_locations` and template `invariants` (for example "ABI MUST be
+Idris2"). None carries a fact about this repository: they are the template's
+text, the same in every repo minted from it. Two are a single comment line
+(`.github/` and `examples/`). `container/0.1-AI-MANIFEST.a2ml` describes the
+stapeln container templates. The `features/` manifests (`boj-server`,
+`panic-attacker`, `ssg`) describe the template's optional feature bootstrap
+guides, whose `README.adoc` files stay; `panic-attacker` is panic-attack's
+old name. All 81 were deleted, untranslated.
+
+[cols="5,1,3,3",options="header"]
+|===
+| Path | Size | sha256 | Git blob id
+
+| `.github/0.1-AI-MANIFEST.a2ml`
+| 33
+| `4a01e142d7aa5bd591588351050775e02a3421160d6ea2e9ba1fc97dcc40b748`
+| `85b2f0f0a097ea65882ef51128b002576e372198`
+
+| `.machine_readable/0.1-AI-MANIFEST.a2ml`
+| 658
+| `0823ff4f0119047b8c2cfbaa4cabbc19c7166adfd687e62313d5cb2d9d1dd2fa`
+| `9d2bc7a077aa84426cacd49d072e14cf7f945301`
+
+| `.machine_readable/ai/0.2-AI-MANIFEST.a2ml`
+| 181
+| `740b966f4ab66d7bbb61450da9dcf912116e108d67efa943e37261a7994ab122`
+| `869cbee6163012180c5efbb32d5fcdf68e2c2af1`
+
+| `.machine_readable/anchors/0.2-AI-MANIFEST.a2ml`
+| 191
+| `edc709d516f64168a239dbde5244a6231d57a8795e0e31854c7c4ee75a77daf6`
+| `45038e1eb3d1f348a3a080e8a880b21ef2b99ad4`
+
+| `.machine_readable/configs/0.2-AI-MANIFEST.a2ml`
+| 191
+| `43e5323c8c189297afebd91ba719e4652139caa511b4dd4037f20d957e98ec53`
+| `6e41e6c25b483cee8c48acf26fb48332fb367dc1`
+
+| `.machine_readable/policies/0.2-AI-MANIFEST.a2ml`
+| 193
+| `9bab97ba3f0d3a130991de23a7333f186d92fd6feb3218e07a7730e506f39985`
+| `01a19140acedd9cc4c23a529e2abe48de2aa9e25`
+
+| `.machine_readable/scripts/0.2-AI-MANIFEST.a2ml`
+| 398
+| `df879a53ce1dbc169a160164a1f161e97dba17e83e60808886abff74b871c54b`
+| `615df84f01893de2968f783c8017f61be7f592d9`
+
+| `.machine_readable/scripts/forge/0.3-AI-MANIFEST.a2ml`
+| 206
+| `6bd8128d0a4eed6ee42f7355c1fdd687573657cfdd54c8950c8bfb084671f35b`
+| `4bbd6cf394f6417ee141b7f4a65e2e5a2b031a22`
+
+| `.machine_readable/scripts/lifecycle/0.3-AI-MANIFEST.a2ml`
+| 214
+| `376064428be7f0f23ef5a2d34591422a3165b36c3bab6fa855356f5df6f3d5c0`
+| `3182d1754dfcaf846d6561b73f431d57e7f7d36d`
+
+| `.machine_readable/scripts/verification/0.3-AI-MANIFEST.a2ml`
+| 220
+| `3c9c71c5c55c35e577b7ed53b07220f1ec8e5fc6691b9214a13a5c60f9e78052`
+| `460e0694090ab32ff28c1a30e31439aa9a490927`
+
+| `container/0.1-AI-MANIFEST.a2ml`
+| 5227
+| `45b20fa0d1f8db8e250407ef80454e21cff9f1f4aa53d4859dfa346a4e13eef0`
+| `ccb5bc51d49dc343c3e96e924ca8b5e198193219`
+
+| `docs/0.1-AI-MANIFEST.a2ml`
+| 832
+| `6a778966ddd95804ea340f836656be5d3b06ef7803fabbb457366b52b2404351`
+| `7f79301eee4986d4ab205e1e3892ae6b9bb7636e`
+
+| `docs/architecture/0.2-AI-MANIFEST.a2ml`
+| 360
+| `b6c0f401c2b229afd57074977266cc3bc7f9a80f515ede981d6f017b2b843cd8`
+| `028b503d6da67b4d6644fc93f653a29a4ebaa08a`
+
+| `docs/attribution/0.2-AI-MANIFEST.a2ml`
+| 209
+| `294f049bfd4f27c72c941e6ffbe94273b850eac130afe628f422ef86cd8f7168`
+| `52beaea4bee93d92aea55bfdf241c5bd23637f8e`
+
+| `docs/decisions/0.2-AI-MANIFEST.a2ml`
+| 205
+| `41e93d56f58f740f55dcfea7351b8f74bb37d1970a875fbf65fab887857d7ea3`
+| `ac26298b425e4468c665fa943c1515e4be24e6de`
+
+| `docs/developer/0.2-AI-MANIFEST.a2ml`
+| 205
+| `df741a1885af79ce9e2033b238768433dcab47ce5d36453631243a1889579878`
+| `c16fcc747290e1474d473bab9c286e6340c38f49`
+
+| `docs/governance/0.1-AI-MANIFEST.a2ml`
+| 537
+| `0c5f405160ce59b5b485ae5c460cd7bebd37a4b8024968d0bb2be70bb9c65d7b`
+| `6e373bd2fd3d29fc3df932927fe089e8ea618e90`
+
+| `docs/governance/audit/0.2-AI-MANIFEST.a2ml`
+| 179
+| `3d53caf64313669fa8e92d0d3fd3d253037b173f47ee58bb9f7bba8b24db4981`
+| `47224869992ee80c9d7b2056045c89752fc737f1`
+
+| `docs/governance/audit/compliance/0.3-AI-MANIFEST.a2ml`
+| 210
+| `a9e946712cb85154b101c176d5e23788fc17221337537e70b1f4d1f3fea1ad98`
+| `b13ec695f410b02473f9a07a7010b25aef7cbf25`
+
+| `docs/governance/audit/effects/0.3-AI-MANIFEST.a2ml`
+| 204
+| `957bca95a8d5aba602b3fe0e795c266a154f07544981de60f164d5a39dcfad4d`
+| `0bccae0d02d57fa270e59c2eae8ae2a8c05e5970`
+
+| `docs/governance/audit/systems/0.3-AI-MANIFEST.a2ml`
+| 204
+| `97eff44cd1c6961a29559a9568e42f9e4ad8485b7e3c7faba0f04ca610420064`
+| `f97bc9ccbfbc2bd64a567590dbaf44dc6efb1908`
+
+| `docs/governance/maintenance/0.2-AI-MANIFEST.a2ml`
+| 191
+| `2637c542f877adfe782781d242235538c7bd8bed3ae27b1208348928b11c7780`
+| `8e0dff5ec71b474ed6d81dfd9078b7f761bd4ac4`
+
+| `docs/governance/maintenance/adaptive/0.3-AI-MANIFEST.a2ml`
+| 212
+| `7044efa2e80b332279e5d122e64b0a4020df7823576aca1f46825f7875c0c358`
+| `63d1a9992f920d73a4869e3d672fc3314bdd1ee2`
+
+| `docs/governance/maintenance/corrective/0.3-AI-MANIFEST.a2ml`
+| 216
+| `9033b551ebec6b63c72291a174b30d0689c0866a5c1f2fd8b94b8fd4c1bb4093`
+| `05cb89da1a070424c871b407d2d1262d20507daf`
+
+| `docs/governance/maintenance/perfective/0.3-AI-MANIFEST.a2ml`
+| 216
+| `65e36530572105cfe4a8efbf3689f62cce7709906e06f24769b047c546b9e5ec`
+| `832762feba6fd994ac3c7678b5501609d1deef0a`
+
+| `docs/governance/planning/0.2-AI-MANIFEST.a2ml`
+| 185
+| `9a5a216b8ac1eafba1f2ba943c66c129b2447cccecbd26c4036d2c1f82848ac9`
+| `80339e77c5e3ea453f85b82409900dc010cb4710`
+
+| `docs/governance/planning/could/0.3-AI-MANIFEST.a2ml`
+| 203
+| `334139889c6524262a5fd5eeb59b573ea1acf31463fc7e5e39b0627d7f311a57`
+| `fc17a27d07a0cbc239b94126ee01c6ba6727c1e5`
+
+| `docs/governance/planning/must/0.3-AI-MANIFEST.a2ml`
+| 201
+| `f0f80259f2f1767339a2977b03c017927c5fba57954963be7f2d933622ef905f`
+| `0987daeedca51fd6833504cb8d8eeda69dd0047e`
+
+| `docs/governance/planning/should/0.3-AI-MANIFEST.a2ml`
+| 205
+| `d6e33a5936d69c4f311099021279ae93711d4ef70a8631537d2a41eb7b765b1f`
+| `f492289a3fdeda6ce03e6aec4b751ad83158a8cc`
+
+| `docs/legal/0.2-AI-MANIFEST.a2ml`
+| 321
+| `49e25170aadb89ea7842fc7734b42ad1a5f68ce82427b4e21684a5c836dc12ec`
+| `e547798339695a8b94ae35b111b23a31ef5ca721`
+
+| `docs/practice/0.2-AI-MANIFEST.a2ml`
+| 203
+| `4390033f8571b7f35b3ef77329a133e05078e0d77f969ae7ed4ecfa61b3bbab3`
+| `257f3a4f45c2136e41c20eac22988655ed7d7d29`
+
+| `docs/reports/0.2-AI-MANIFEST.a2ml`
+| 395
+| `2fb1fd5c33272dce17c46ada60026ada486b22e6a11d87159921f05a7f0b907e`
+| `5eb265dced303300a119a716b8bd3e5f6ad0e9f0`
+
+| `docs/reports/compliance/0.3-AI-MANIFEST.a2ml`
+| 223
+| `ce2f6eba5d2fc818577731df1fc66874861e046d21c17f109fa6cd09d757b5ba`
+| `6b3975282272e7cde4ceab8ef6438fa6177ccc40`
+
+| `docs/reports/maintenance/0.3-AI-MANIFEST.a2ml`
+| 184
+| `d64bf6f223d568230e1464c41c9b1a9a7599dc9d761e95211fbe5fcc7d679112`
+| `43eefe29a87473bd8fe2227a5bfbcc2f99e79915`
+
+| `docs/reports/performance/0.3-AI-MANIFEST.a2ml`
+| 225
+| `7d30f5e7053206e2c3114ca9bf3dffb04d67a054b3dbd8d3edb411f48a8e488a`
+| `40c09540c6729d114e36688912f22494c3ddd941`
+
+| `docs/reports/quality/0.3-AI-MANIFEST.a2ml`
+| 217
+| `a8f31b22b66a20a9f3b65e161071d11b53f5b0c6275728ef6a1b30fe7f2c5669`
+| `d460edcfa09a6b79aa5de77f0256d113ddf887e4`
+
+| `docs/reports/security/0.3-AI-MANIFEST.a2ml`
+| 219
+| `2a76a6917fd5e2733cd5df3264ee267209faba0975f03a8459831b8a4eefe466`
+| `696ab590cce2fe0cb8f6e3c3c8db414ef786864a`
+
+| `docs/standards/0.2-AI-MANIFEST.a2ml`
+| 198
+| `e1c9676243b0293fdb9ce5754726384c71b3c24e7bd65a18b8aeeed6f21c8f48`
+| `c147c6f8b1b1345bee2dd668f54613ad43ffd600`
+
+| `docs/theory/0.2-AI-MANIFEST.a2ml`
+| 542
+| `594ed90af208ee4e07567c9c71745d3394ff17f53473137cc838435880289a8d`
+| `93df18706e356c0a30ec71ee9ba3a6a625669fc1`
+
+| `docs/theory/computing/0.3-AI-MANIFEST.a2ml`
+| 199
+| `7fa644a782f8854f81eb50613f3c17ddce28e9e021cf31a49d78f636b22336d1`
+| `f387d08e9c17756c09be34d867ed2cecdc69c8e8`
+
+| `docs/theory/formalisms/0.3-AI-MANIFEST.a2ml`
+| 201
+| `a97f055d1517ab0088f0ea051fd479bcfa922c81a85e9f87260aa6c14867dddd`
+| `cdc2baa1492b37ea39d6bf7f3eef2d08fa2a229c`
+
+| `docs/theory/mathematics/0.3-AI-MANIFEST.a2ml`
+| 203
+| `842e5e61289a793973e13aac3048c9b2cb04c97c36fec91d99a26186992f4b4b`
+| `677a4dacbabcc2d2820e89066a8e560170277918`
+
+| `docs/theory/ontologies/0.3-AI-MANIFEST.a2ml`
+| 201
+| `b87607ebde247388a026a41df7252154a7dec71398c26c9ca6f39dd97a325c75`
+| `d888cee5699f2614564606f649646aa2ed98db03`
+
+| `docs/theory/other/0.3-AI-MANIFEST.a2ml`
+| 191
+| `885947311e8fcdbe49d07a8fe22739d4b5a02adf391c05b038179ddae3c876ba`
+| `166ed9e8b0cabbbfb72b9d6c2738bae52f6460ab`
+
+| `docs/theory/socio-technical/0.3-AI-MANIFEST.a2ml`
+| 211
+| `1b146d705286965485e6cc8851dff21f58f130701da1bfb9bb5b928522de65fc`
+| `891952224e39b2da79bb3fef9a5ebc09f3f9e35a`
+
+| `docs/whitepapers/0.2-AI-MANIFEST.a2ml`
+| 454
+| `2367e88a518ca29a1e414c16e8709413bf5705cac53027dbf8220661c5c89146`
+| `c936101d8878013bc05c6db911cfd3998b5210a2`
+
+| `docs/whitepapers/academic/0.3-AI-MANIFEST.a2ml`
+| 180
+| `d24cc852a2e72a94abbe73118b4eefa2c7f60f77b6854dbf8163d734872d87df`
+| `ceb8a1e71f6ec0fd860148213c662230db68f8cf`
+
+| `docs/whitepapers/industry/0.3-AI-MANIFEST.a2ml`
+| 180
+| `3701b02dfa536aa37c57424b187678c1070c75716f059e8184f6b783ac6ade24`
+| `20156dd51da50143a3138a427feb91cf73f8b3d5`
+
+| `docs/whitepapers/outreach/0.3-AI-MANIFEST.a2ml`
+| 450
+| `af6b5532559a28e2485d59053a585a0985474f5a546243281299cfba089116d2`
+| `ed7e1529f6470c0a9e913e9a39d433f8aa27ea42`
+
+| `docs/wikis/0.2-AI-MANIFEST.a2ml`
+| 349
+| `18ff555c2eb0e1c663a9fea24167560194825286085b6a665d0e22a0ea574f91`
+| `f071ca8a9f4544c5bf4f6cc607205aa39e9164b6`
+
+| `examples/0.1-AI-MANIFEST.a2ml`
+| 34
+| `79d5e3b60bfb4d36e7030901f18324d400b7850e9e4cde3029cbe605b2191339`
+| `0d69c9050d933b29d1e6d4873f11839adf358d48`
+
+| `features/0.1-AI-MANIFEST.a2ml`
+| 392
+| `57cad6411ff86d234fd96d35cf8f60c1c8d3f3435c9215b15f8d12464bb5e79a`
+| `dc3e4ee3a0472917a2124b8cc79869eb96fa9549`
+
+| `features/boj-server/0.2-AI-MANIFEST.a2ml`
+| 235
+| `bcd2bc7c43fe050f532bf293896ba134512af4c517aae6e0106bb9bb97e1f67b`
+| `c77798cdfad945d57713c7e5f9a1f8a0e338d868`
+
+| `features/panic-attacker/0.2-AI-MANIFEST.a2ml`
+| 243
+| `2d18c00e263d67a0e40a8d6d4d70a03f2477d6103bcef4e47e41faadef4dbaa6`
+| `e61ad2440328d8de702f2defe6ac65694b871619`
+
+| `features/ssg/0.2-AI-MANIFEST.a2ml`
+| 221
+| `608c4436f1319e1faa6f950b9d5ebdc89285def65816b8935bbdf2ded6dfa938`
+| `121c5ae273daeaa3ac51193956959064535ce583`
+
+| `src/0.1-AI-MANIFEST.a2ml`
+| 611
+| `b873b586f5847251715a07c88e9d050a02c90ed365f4ac6544579a6b1be3b844`
+| `c92e124d169105a49c823d018cb90fc797cf84bd`
+
+| `src/aspects/0.2-AI-MANIFEST.a2ml`
+| 356
+| `5b95454aac384aca1190abfc9b94245740b30d8a73913d8c95e9674c7d5b3217`
+| `3d5b209e23764858ba1fe36b41b85844d6160956`
+
+| `src/aspects/integrity/0.3-AI-MANIFEST.a2ml`
+| 208
+| `8b9fd56a987f208d1d9b147c4e4b9c6125bb4d320c22dbc83d4fb85de836ecf7`
+| `f114cbd2472ca76d93bbb1b7bc3be80dd0e8a85a`
+
+| `src/aspects/observability/0.3-AI-MANIFEST.a2ml`
+| 216
+| `bc1543f319ed77f5887425abd88e9c4d2d8fd8ad432b8e4563069036e0904d2a`
+| `e16cbdf9d7401849e66bce138efcaf1425ed0a42`
+
+| `src/aspects/security/0.3-AI-MANIFEST.a2ml`
+| 206
+| `2e481c7379b9f66a19dfbef455df2fa9a3df0a78840fcf732d482caf6d9b88ec`
+| `0996536363dea355b985767e6349895c847e5d2a`
+
+| `src/bridges/0.2-AI-MANIFEST.a2ml`
+| 226
+| `3c338c33fc2ca688a334ab237e398389afc70fdfb4645bfe2a0a42f8e1943fcc`
+| `3d3e27a077f68a58eda75a65b2c18b1dc84339a1`
+
+| `src/contracts/0.2-AI-MANIFEST.a2ml`
+| 204
+| `926a3f364aa33bcaa4f1a39deb9aaf4463c123403e9974b82b0d0ab0022a5f3a`
+| `0bd9198f8363642fc2ab020debaa41a6778bc319`
+
+| `src/core/0.2-AI-MANIFEST.a2ml`
+| 206
+| `a07a4742b1882846de3c0067615440db553b08af7dc69003caa73e715cc057fa`
+| `22846c785bfc95fad225c17cb93000a023ccf1d2`
+
+| `src/definitions/0.2-AI-MANIFEST.a2ml`
+| 208
+| `55c1374763728159f14d0e3c53c58953dd77e325dcb172e20a77e76392f72eb7`
+| `e54f4dabbae9b83fae8e1ca352f0e165cae98cd4`
+
+| `src/errors/0.2-AI-MANIFEST.a2ml`
+| 198
+| `9ee5b544aaa19f2dece17ee491c3c9dba7eb502154112206e31597ee64e8f2c2`
+| `dddcc6c43a957a224d8222405f478a495cc704e0`
+
+| `src/interface/0.2-AI-MANIFEST.a2ml`
+| 604
+| `4520667c5293a8331d251cc7a2830e0db3b74fc2f5575ba05dd404d1e8d6b858`
+| `7f0f471b3af7caea55d7f9410144d58c5245563f`
+
+| `src/interface/abi/0.3-AI-MANIFEST.a2ml`
+| 184
+| `076aaf2be6595159072269348407c48990984cbc7ad9fb8d23531a0e7dc3de11`
+| `91cafa0148c84d3c48114d80c53ae51432bc49cd`
+
+| `src/interface/ffi/0.3-AI-MANIFEST.a2ml`
+| 184
+| `8dd84ad81ea6518906b7ef5460bf363a873112a3cf03c124d774a91d5fa54b36`
+| `bf456ae240b9a4ef8033f223dff8f5d6f1d4ac9c`
+
+| `src/interface/ffi/src/0.4-AI-MANIFEST.a2ml`
+| 170
+| `e95be2e7dbe7fb6bf3ca69fedc6b2f2e6fbac383f0f353ae378eaac80a92b552`
+| `5b5f1b1e5542d0b6a09727521b048e2945027ba5`
+
+| `src/interface/ffi/test/0.4-AI-MANIFEST.a2ml`
+| 172
+| `cfb693402a4ff60a50cf6a86811ad97f451a1a83b93706ec76203c0214dd0f8c`
+| `e02427f84061ce09549d6d9a90acc88b15b46a67`
+
+| `src/interface/generated/0.3-AI-MANIFEST.a2ml`
+| 196
+| `f54a6b786c324fdb5e4878990451d12c28599a667ac5eb86be1018362d6380d1`
+| `0088b80c7d17b56d76d62c15fcfc25a0af529bed`
+
+| `src/interface/generated/abi/0.4-AI-MANIFEST.a2ml`
+| 170
+| `60324440b4bb1b172663ec6bf90dbe76e9d9329da2b36ced1f983da8e7eec00d`
+| `4eeb58088e41d848c3161cb8059992da26e7f1e2`
+
+| `verification/0.1-AI-MANIFEST.a2ml`
+| 740
+| `dcfc7a5a3cf7480ce21a0502a3ba0c699bd5f577eb0e059df39470ad31b61f1f`
+| `3435bdb41bc22273454fc25416ff43f0fe1687f7`
+
+| `verification/benchmarks/0.2-AI-MANIFEST.a2ml`
+| 170
+| `cce3a2380d24b123bfa544e3fd1804ccc65a09787983a0f6e7136fc2eefc0d55`
+| `d922a4c74ecb92d4cf23333a2e3354088ba07324`
+
+| `verification/coverage/0.2-AI-MANIFEST.a2ml`
+| 286
+| `f246a8fc101ffb74858c936b5856043430b7f79b3fb00a8b4d53de451a692485`
+| `32b819e4e0b9737e50c7bb0bd5c94415752633b0`
+
+| `verification/fuzzing/0.2-AI-MANIFEST.a2ml`
+| 194
+| `d13f11a5e4b89c462c62316170cd38479df9fc9bcf91a6eb253a5d8c7fb5f7fd`
+| `5178d400e913379938d4a170dabbbf4f3f582a1e`
+
+| `verification/proofs/0.2-AI-MANIFEST.a2ml`
+| 193
+| `1ca920ad7ee6fd38761c0c4b9c783e8855d66719997c4e8c363de935556355b7`
+| `135e181bdb33ad26c55732e36f4a1731de53f47d`
+
+| `verification/safety_case/0.2-AI-MANIFEST.a2ml`
+| 292
+| `05535208c8fc81dfaa4ac54dd394aafa70d2cbff1f1a9c65a1a661f971e2c53e`
+| `d461915b8a1a93db9749878b4833c2908e28364b`
+
+| `verification/simulations/0.2-AI-MANIFEST.a2ml`
+| 202
+| `121289312bd69584a180208a51c6d3d8b9ed1347d6257a06461b52810acfd357`
+| `f890ecace2b8d193f19902872e8a8b629b02a339`
+
+| `verification/tests/0.2-AI-MANIFEST.a2ml`
+| 31
+| `0f89582da96de1f765583999e8f8020e7ce2f96ba3a66feba6d55190670f48a6`
+| `0008fcfaf28d6f8cf4c65c0f0ca5e2542f166a09`
+
+| `verification/traceability/0.2-AI-MANIFEST.a2ml`
+| 294
+| `9634abe63221a8c456d10749ee2dd8d559e8e813f3b9aeed34076be683700763`
+| `966776651b42a3fdea4191028eb00770b9f5caf3`
+|===
+
+== Retained, with the reason
+
+Three `.a2ml` files stay. Each is registry data with a live reader, and each
+needs its own mapping spec before it can go; standards
+`registry-seed-to-deed.adoc` converted only the seed (`repos.a2ml`) and says
+the other two seed files wait for their own conversion.
+
+[cols="3,5",options="header"]
+|===
+| Path | Why it stays
+
+| `verisim/seed/clades.a2ml`
+| The served clade definitions. `sync/export-json.sh` builds
+`worker/data/clades.json` from it, the Worker serves that file, and
+`scripts/check-registry.sh` checks that scheme `clade-12` in the seed names
+the same categories. Its conversion needs its own mapping spec.
+
+| `verisim/seed/forges.a2ml`
+| The registry's forge accounts (GitHub primary; GitLab, Bitbucket, Codeberg
+and SourceHut mirrors). Registry data, not repo metadata, and named by the
+`verisim/seed/*.a2ml` whitespace-lint glob in `worker-ci.yml` and the
+Justfile's `fmt` and `fmt-check`. It waits for its own conversion
+(`registry-seed-to-deed.adoc`).
+
+| `verisim/config.a2ml`
+| The VeriSimDB instance configuration of record: `worker/wrangler.toml`
+times its cron against its sync interval, and
+`docs/governance/RELEASE-RUNBOOK.adoc` names it as where the instance's
+pointer authority, ports and auth are configured. Registry configuration
+with no mapping spec.
+|===
+
+== Open questions for the owner
+
+. ECOSYSTEM's seven related-project edges use `depends-on`, `feeds-into` and
+  `sibling`, outside the closed `:relationship` set, so they are dropped until
+  the set is extended or each edge is restated in an existing term.
+. META's five ADRs are keyed tables with no `id`, a shape the mapping table
+  does not list. A table row would let them translate.
+. The anchor: A7 6.4 translates `ANCHOR.a2ml` once it is ratified into
+  `mappings/`. The source's values were template defaults, so the authority
+  and golden path need the owner's word.
+. The chora deed's file name: it takes the canonical name `gv-clade-index`
+  from the retired `CLADE.a2ml`; it moves to `chora-registry_chora.deed` when
+  GitHub renames the repository, with the same `:repo-uuid`.

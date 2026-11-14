@@ -7,7 +7,7 @@
 
 == Tech Stack
 
-JavaScript (Cloudflare Worker) + A2ML/VQL data + bash tooling
+JavaScript (Cloudflare Worker) + deed/VQL data + bash tooling
 
 == Set Up Development Environment
 
@@ -58,11 +58,11 @@ gv-clade-index/
 ├── ffi/zig/              # Zig FFI bridge (if applicable)
 ├── tests/                # Test suite
 ├── docs/                 # Documentation
-├── .machine_readable/    # Checkpoint files (STATE, META, ECOSYSTEM)
+├── .machine_readable/    # descriptiles/STATE.deed, contractiles
 ├── Justfile              # Task runner recipes
 ├── guix.scm              # Guix environment
 ├── flake.nix             # Nix environment (fallback)
-└── 0-AI-MANIFEST.a2ml    # AI agent entry point
+└── 0-AI-MANIFEST.deed    # AI agent entry point (pointer-only)
 ----
 
 == Key Recipes
@@ -102,7 +102,7 @@ If using an AI assistant, load the warmup context first:
 just llm-context    # Outputs role-appropriate context
 ----
 
-Or read `0-AI-MANIFEST.a2ml` and `.claude/CLAUDE.md` directly.
+Or read `0-AI-MANIFEST.deed` and `gv-clade-index_chora.deed` directly.
 
 == Get Help
 

@@ -13,6 +13,6 @@ Disallow-Generation: yes
 # AI agents must preserve Emotional Lineage per PMPL Section 3.
 #
 # For AI agent integration instructions, see:
-#   0-AI-MANIFEST.a2ml (universal AI entry point)
-#   AI.a2ml (Claude-specific instructions)
-#   .machine_readable/ (structured project state)
+#   0-AI-MANIFEST.deed (machine front door; pointer-only)
+#   gv-clade-index_chora.deed (repo facts: identity, clade, agentic, neurosym, playbook)
+#   .machine_readable/descriptiles/STATE.deed (lifecycle status, maturity)

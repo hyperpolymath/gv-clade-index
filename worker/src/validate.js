@@ -3,8 +3,9 @@
 //
 // Input validation helpers for untrusted path / query parameters.
 
-// The 12 canonical clade codes. Mirrors contractiles/must/clade-hygiene.a2ml
-// and verisim/seed/clades.a2ml — keep in sync if the taxonomy changes.
+// The 12 canonical clade codes. Mirrors scheme clade-12 in
+// verisim/seed/chora-registry_praxis.deed and verisim/seed/clades.a2ml — keep
+// in sync if the taxonomy changes.
 export const VALID_CLADES = Object.freeze([
   'fv',
   'nl',

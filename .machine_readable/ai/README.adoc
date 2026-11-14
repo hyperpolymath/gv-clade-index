@@ -7,16 +7,14 @@ Examples:
 * `CLAUDE.md`
 * `COPILOT.md`
 * `GEMINI.md`
-* `AI.a2ml`
-* `AI.djot`
 
 Avoid scattering agent instruction files around the repo root.
 
 Recommended machine read order:
 
-* `.machine_readable/anchors/ANCHOR.a2ml`
-* `.machine_readable/policies/MAINTENANCE-AXES.a2ml`
-* `.machine_readable/policies/MAINTENANCE-CHECKLIST.a2ml`
-* `.machine_readable/policies/SOFTWARE-DEVELOPMENT-APPROACH.a2ml`
-* `.machine_readable/STATE.a2ml`
-* `.machine_readable/META.a2ml`
+* `0-AI-MANIFEST.deed` (pointer-only front door)
+* `gv-clade-index_chora.deed` (repo facts, including the `(agentic)` clause)
+* `.machine_readable/descriptiles/STATE.deed` (lifecycle status, maturity)
+
+A2ML is retired; never add a `.a2ml` file here
+(`docs/history/A2ML-REMOVED.adoc`).

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 = gv-clade-index Roadmap
 
-Mirrors the canonical phase plan in `.machine_readable/6a2/STATE.a2ml`. The registry
+The phase plan (it mirrored `STATE.a2ml` until A2ML was retired). The registry
 is the *map* of the hyperpolymath ecosystem; "production" means a hardened, observable,
 CI-deployed Cloudflare Worker API backed by a live VeriSimDB.
 
@@ -42,4 +42,4 @@ CI-deployed Cloudflare Worker API backed by a live VeriSimDB.
 * VeriSimDB instance on a VPS — the declared source of truth (Phase 2).
 * GitHub OAuth app + JWT signing key — Phases 6–7.
 
-See `.machine_readable/6a2/STATE.a2ml` for live status and blockers.
+The lifecycle status is `.machine_readable/descriptiles/STATE.deed`.

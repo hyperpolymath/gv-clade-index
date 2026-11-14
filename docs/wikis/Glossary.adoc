@@ -18,7 +18,9 @@ Lineage:: A repo's structural history — standalone, monorepo, monorepo-child,
   inflated, or deflated.
 Contractile:: A machine-readable policy contract (e.g. `must`, `trust`, `dust`,
   `bust`) under `.machine_readable/contractiles/`.
-CLADE.a2ml:: The per-repo clade declaration; clade-hygiene rules CLADE-001..003.
+CLADE.a2ml:: The retired per-repo clade declaration (A2ML is retired). A repo's
+  clade placement is now the `(clade …)` clause of its chora deed, checked
+  against this registry's scheme `clade-12`.
 VeriSimDB:: The backing database (Rust + Elixir) that holds the registry.
 VCL:: The VeriSim schema/query language (`verisim/schema/`, `verisim/queries/`).
 KV snapshot:: The edge cache the Worker serves public reads from.

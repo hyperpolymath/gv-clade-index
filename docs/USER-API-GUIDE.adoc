@@ -7,7 +7,7 @@
 ====
 *Status: alpha.* The HTTP API is Phase 3 (~60% built) and is *not yet publicly
 deployed* (blocked on a `CLOUDFLARE_API_TOKEN` secret and a VeriSimDB instance
-— see `.machine_readable/6a2/STATE.a2ml`). The endpoints below are
+— see `ROADMAP.adoc`). The endpoints below are
 *implemented and contract-bound*, but the production URL does not answer yet;
 locally you can run `wrangler dev` in `worker/`.
 ====

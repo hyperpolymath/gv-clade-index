@@ -1,0 +1,87 @@
+;; SPDX-License-Identifier: MPL-2.0
+;; SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
+;;
+;; The repo deed of gv-clade-index, the chora-registry (one deed per repo,
+;; D312). The file takes the canonical name the retired CLADE.a2ml held and
+;; GitHub still uses; when the repository is renamed to chora-registry the file
+;; is renamed with it and its :repo-uuid does not change (U1, U4).
+;;
+;; Every clause below is translated field for field from a retired A2ML
+;; descriptile under the mapping spec that governs its family, in standards
+;; 1-formats/deed/mappings/ (the only authority a family translation may cite).
+;; A field a table does not list does not translate: it was dropped, not
+;; re-homed. docs/history/A2ML-REMOVED.adoc records each removed file, its git
+;; blob id and what was dropped from it.
+;;
+;;   CLADE.a2ml      -> (identity) (clade) (forges) (lineage)
+;;                      clade-to-repo-deed.adoc. Its [status] rows went to
+;;                      .machine_readable/descriptiles/STATE.deed (A7 J15), as
+;;                      that spec now directs. :repo-uuid is this repo's v8 id
+;;                      as chora-registry holds it (verisim/seed/
+;;                      chora-registry_praxis.deed, :minted-in gv-clade-index),
+;;                      written as the opaque #uuid (U4); it is not the v5
+;;                      that CLADE.a2ml held. Nothing was minted or reminted.
+;;                      :beholding-chora is the hyperpolymath estate chora, as
+;;                      the seed records it.
+;;   AGENTIC.a2ml    -> (agentic)    agentic-neurosym-playbook-to-repo-deed.adoc
+;;   NEUROSYM.a2ml   -> (neurosym)   agentic-neurosym-playbook-to-repo-deed.adoc
+;;   PLAYBOOK.a2ml   -> (playbook)   agentic-neurosym-playbook-to-repo-deed.adoc
+;;   STATE.a2ml      -> (maturity) in STATE.deed, state-v1-decision.adoc
+;;                      option B; the journal is archived, not translated.
+;;   META.a2ml, ECOSYSTEM.a2ml: no clause. Their sections are shapes the
+;;                      meta-ecosystem-to-repo-deed.adoc tables do not list, so
+;;                      nothing translated (P-2a); the ledger names each field.
+(repo-deed
+  :schema-version "1.0.0"
+  :canonical-name "gv-clade-index"
+  :repo-uuid #uuid"a65b74d8-351a-89d9-a38d-aea470863b03"
+  :beholding-chora #uuid"0889b37b-defb-831f-973c-e119500db00e"
+  (identity :owner "hyperpolymath" :primary-forge github :prefixed-name "gv-clade-index")
+  (clade
+    :primary gv
+    :secondary (db)
+    :assigned "2026-03-16"
+    :rationale "This is a governance registry backed by a database; governance is the primary purpose")
+  (forges
+    :github "hyperpolymath/gv-clade-index"
+    :gitlab "hyperpolymath/gv-clade-index"
+    :bitbucket "hyperpolymath/gv-clade-index")
+  ; [lineage] had no previous-names or instantiated-from, so neither is emitted.
+  (lineage
+    :type standalone
+    :parent ""
+    :born "2026-03-16")
+  ; AGENTIC.a2ml: [metadata] version and last-updated, [agent-permissions]
+  ; and the five [maintenance-integrity] axioms. The source has no @profile
+  ; line, so there is no (profile). Not translated: [agent-constraints] and
+  ; [automation-hooks], which carry their content only as comments: template
+  ; canon under D4-1 (the on-commit hook is the template's `just validate-rsr`,
+  ; so the block does not diverge, and every hook named a retired .a2ml file).
+  (agentic
+    :version "0.1.0"
+    :last-updated "2026-04-11"
+    (permissions :source #t :tests #t :docs #t :config #t :create-files #t)
+    (integrity
+      :fail-closed #t
+      :require-evidence-per-step #t
+      :allow-silent-skip #f
+      :require-rerun-after-fix #t
+      :release-claim-requires-hard-pass #t))
+  ; NEUROSYM.a2ml: [metadata] version and last-updated, [hypatia-config]
+  ; scan-enabled, scan-depth and report-format. [symbolic-rules] and
+  ; [neural-config] held only comments, so they are dropped as unpopulated.
+  (neurosym
+    :version "0.1.0"
+    :last-updated "2026-04-11"
+    (hypatia :scan-enabled #t :scan-depth standard :report-format "logtalk"))
+  ; PLAYBOOK.a2ml: [metadata] version and last-updated, and its four
+  ; operational sections kept as positions (the family-1 slot doctrine). The
+  ; source had no [docs-format] section, so none is emitted. The sections held
+  ; only comments, so no content translated.
+  (playbook
+    :version "0.1.0"
+    :last-updated "2026-04-11"
+    (deployment)
+    (incident-response)
+    (release-process)
+    (maintenance-operations)))

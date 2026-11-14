@@ -6,8 +6,8 @@
 
 ## Before Writing Code
 
-- Read `0-AI-MANIFEST.a2ml` in the repo root for canonical file locations.
-- State files (.a2ml) live in `.machine_readable/` ONLY, never the root.
+- Read `0-AI-MANIFEST.deed` in the repo root first: it points at the repo deed.
+- Repo metadata is deed (`gv-clade-index_chora.deed`, `.machine_readable/descriptiles/STATE.deed`). A2ML is retired: never create a `.a2ml` file.
 
 ## License
 
@@ -52,6 +52,6 @@
 
 ## State Files
 
-Never create these in the repo root:
-STATE.a2ml, META.a2ml, ECOSYSTEM.a2ml, AGENTIC.a2ml, NEUROSYM.a2ml, PLAYBOOK.a2ml.
-They belong in `.machine_readable/` only.
+Repo facts live in `gv-clade-index_chora.deed`; descriptiles (`STATE.deed` and
+the like) live in `.machine_readable/descriptiles/` only, never the root. Never
+create a `.a2ml` file (A2ML is retired; `docs/history/A2ML-REMOVED.adoc`).

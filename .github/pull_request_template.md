@@ -26,9 +26,9 @@
 
 ### As Applicable
 
-- [ ] `.machine_readable/STATE.a2ml` updated (if project state changed)
-- [ ] `.machine_readable/ECOSYSTEM.a2ml` updated (if integrations changed)
-- [ ] `.machine_readable/META.a2ml` updated (if architectural decisions changed)
+- [ ] `.machine_readable/descriptiles/STATE.deed` updated (if the lifecycle status or maturity changed)
+- [ ] `ROADMAP.adoc` updated (if phase progress changed)
+- [ ] An ADR in `docs/decisions/` (if an architectural decision changed)
 - [ ] Documentation updated for user-facing changes
 - [ ] `TOPOLOGY.md` updated (if architecture changed)
 - [ ] `CHANGELOG` or release notes updated
