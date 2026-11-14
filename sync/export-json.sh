@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: MPL-2.0
-# export-json.sh — Convert seed A2ML to JSON for Cloudflare KV
+# export-json.sh — Convert the registry seed (verisim/seed/chora-registry_praxis.deed,
+# read by sync/parse-repos.sh) and the clade definitions (clades.a2ml, legacy)
+# to JSON for Cloudflare KV
 #
 # Produces:
 #   worker/data/repos.json   — all repos with clade assignments
@@ -20,12 +22,16 @@ OUT="${GV_EXPORT_OUT:-$ROOT/worker/data}"
 
 mkdir -p "$OUT"
 
-# Parse repos.a2ml into JSON array
+# Parse the seed deed into JSON array
 echo "Exporting repos..."
-PARSED="$(mktemp)"; BIRTH="$(mktemp)"; IDS="$(mktemp)"; FORMER="$(mktemp)"; RETIRED="$(mktemp)"; RETIRED_V8="$(mktemp)"
-trap 'rm -f "$PARSED" "$BIRTH" "$IDS" "$FORMER" "$RETIRED" "$RETIRED_V8"' EXIT
-bash "$SCRIPT_DIR/parse-repos.sh" "$SEED/repos.a2ml" > "$PARSED" \
+PARSED="$(mktemp)"; DOMAINS="$(mktemp)"; BIRTH="$(mktemp)"; IDS="$(mktemp)"; FORMER="$(mktemp)"; RETIRED="$(mktemp)"; RETIRED_V8="$(mktemp)"
+trap 'rm -f "$PARSED" "$DOMAINS" "$BIRTH" "$IDS" "$FORMER" "$RETIRED" "$RETIRED_V8"' EXIT
+bash "$SCRIPT_DIR/parse-repos.sh" "$SEED/chora-registry_praxis.deed" > "$PARSED" \
   || { echo "export-json: parse-repos.sh failed" >&2; exit 1; }
+# The domain that minted each id (V9): gv-clade-index for a repo born before
+# V9, chora-registry for one born after it. Same order as $PARSED.
+bash "$SCRIPT_DIR/parse-repos.sh" "$SEED/chora-registry_praxis.deed" --ids | cut -f3 > "$DOMAINS" \
+  || { echo "export-json: parse-repos.sh --ids failed" >&2; exit 1; }
 # Identity is minted once, from the BIRTH path (ADR 0008): the first `former`
 # entry when the repo has moved or been renamed, else the current
 # github.com/<owner>/<repo>. The owner defaults to "hyperpolymath". A move or
@@ -43,9 +49,9 @@ awk -F'\t' '{
     }
     print path
 }' "$PARSED" > "$BIRTH" || { echo "export-json: invalid birth path in the seed" >&2; exit 1; }
-# uuid_v8 is the ADR-008 profile C id (D320): domain gv-clade-index, name
+# uuid_v8 is the ADR-008 profile C id (D320): the repo's minting domain, name
 # github.com/<birth owner>/<birth name>, from standards' shared generator.
-sed 's#/#\t#' "$BIRTH" | bash "$SCRIPT_DIR/uuid-v8.sh" > "$IDS" \
+paste <(sed 's#/#\t#' "$BIRTH") "$DOMAINS" | bash "$SCRIPT_DIR/uuid-v8.sh" > "$IDS" \
   || { echo "export-json: sync/uuid-v8.sh failed" >&2; exit 1; }
 [ "$(wc -l < "$IDS")" = "$(wc -l < "$PARSED")" ] \
   || { echo "export-json: uuid-v8.sh returned $(wc -l < "$IDS") ids for $(wc -l < "$PARSED") repos" >&2; exit 1; }

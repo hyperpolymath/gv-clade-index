@@ -19,19 +19,26 @@ index.
 == Outline (to be completed)
 
 . *Declare identity in the repo's chora deed* (`<repo>_chora.deed`): its
-  `:repo-uuid` and `(identity …)` clause. A clade, if you choose one, is an
-  optional `(clade :primary <code> :primary-name "<name>")` clause there; the
-  code is one of the 12 valid codes (CLADE-003). Do not add
+  `:repo-uuid` and `(identity …)` clause. A clade placement, if the repo
+  carries one, is an identity fact in a `(clade …)` clause there: where the
+  repo sits, never its id (A7 W10). It is a copy, checked against the
+  registry's scheme for it; the registry is authoritative. Do not add
   `.machine_readable/CLADE.a2ml`: A2ML is retired and no new `.a2ml` file may be
   added (a governance gate for this is proposed in
   metadatastician/standards#1488). The clade-hygiene contractile's CLADE-001 and CLADE-002 still name that file; retiring them is an open owner
   decision (standards A7, section 10).
 . *Choose clade codes* — one primary + zero-or-more secondary (the 12 codes are
   listed in `README.adoc`).
-. *Register in seed data* (`verisim/seed/repos.a2ml`): primary key
-  (`gh:hyperpolymath/{name}`), foreign keys (GitLab/Bitbucket/Codeberg/SourceHut
-  mirrors). The deterministic `uuid` (UUIDv5) and `uuid_v8` (ADR-008
-  profile C) are derived by `sync/export-json.sh`, not written by hand.
+. *Register in the seed* (`verisim/seed/chora-registry_praxis.deed`): add one
+  `(repo …)` record with `:name`, `:owner`, `:description`, `(lineage …)` and
+  its `(placement :scheme clade-12 …)` records, bump `:total-repos`, then run
+  `bash sync/export-json.sh`. The record stores the id opaquely as
+  `:uuid #uuid"…"` with `:minted-in`, the domain that minted it: the ADR-008
+  profile C UUIDv8 of `github.com/<birth owner>/<name>` in `chora-registry`
+  for a repo born after ruling V9, or in `gv-clade-index` for one born before
+  it (late registrations included). `printf 'owner\tname\tdomain\n' | bash
+  sync/uuid-v8.sh` mints it; `scripts/check-registry.sh` re-derives it. The
+  served `uuid` (UUIDv5) is derived by `sync/export-json.sh`.
 . *Set lineage* — standalone / monorepo / monorepo-child / inflated / deflated,
   and when each applies.
 . *Ingest* — `sync/seed-verisim.sh`. The repo declares its own identity in its chora deed (`<repo>_chora.deed`, `:repo-uuid`); a `(clade …)` clause there is an optional finding aid. Nothing here writes into the repo.
@@ -42,4 +49,3 @@ index.
 
 * `README.adoc` — identity model & clade taxonomy
 * `docs/SPEC-clade-verisim-portal.adoc` — full spec
-* `.machine_readable/CLADE.a2ml` — this repo's own declaration (worked example)

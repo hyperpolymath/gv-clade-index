@@ -1,96 +1,45 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: MPL-2.0
-# Parse repos.a2ml and emit TSV:
+# SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+#
+# Read the registry seed, verisim/seed/chora-registry_praxis.deed, and emit TSV:
 #   name\tprimary\tsecondary\tlineage\tparent\tdescription\towner\tformer\tretired
 #
-# `owner` is the forge owner/org that hosts the repo. It is OPTIONAL in
-# repos.a2ml and defaults to "hyperpolymath", so every existing entry parses
-# exactly as before and derives exactly the same uuid. Set it per-entry only for
-# repos hosted elsewhere:
+#   bash sync/parse-repos.sh [SEED] [--ids | --total | --categories]
 #
-#   [repo.cadastra]
-#   primary = "rm"
-#   owner   = "metadatastician"
+# The rows keep the column contract of the A2ML parser this replaces (the seed
+# was repos.a2ml until its conversion under the single recorded D313
+# exception, owner ruling 2026-11-14), so consumers are unchanged. The modes
+# and the checks made while reading are described in sync/parse-repos.js.
 #
-# `former` (column 8, after `owner`) is OPTIONAL too: the repo's earlier forge
-# paths, oldest first, each as "owner/name@YYYY-MM-DD" (the date the registry
-# recorded the move), for example
-#
-#   former = ["metadatastician/planer-1@2026-11-10"]
-#
-# It is emitted raw (the bracketed list, or empty). ADR 0008: an id is minted
-# once, from the birth path. The birth path is the first `former` entry, or the
-# current path when there is none, and a move or rename never changes the id.
-# The earlier paths are archived for reference in worker/data/archive.json,
-# never served.
-#
-# `retired` (column 9) is OPTIONAL: forge paths whose derived ids the registry
-# once served for this repo and has withdrawn, each as "owner/name@YYYY-MM-DD"
-# (the date of withdrawal). They are the ids reminted under the superseded ADR
-# 0007. A retired id is archived and is never minted again for any repo.
-#
-# Consumers that read only the first six, seven or eight fields are unaffected.
+# The deed parser is standards' own, 1-formats/deed/tools/deed_lint.js, never
+# a copy: it is fetched at a pinned standards commit into the user cache,
+# outside the checkout, and its sha256 is checked on every run, as
+# sync/uuid-v8.sh does for the id generator. GV_DEED_LINT_JS names an existing
+# copy. Needs bun, the estate's tier-1 runtime.
 
-# Default to this repo's seed file (script lives in sync/, seed in verisim/seed/).
+set -euo pipefail
+
+STANDARDS_REV=490b952b99eb22052c0ec5a1001b95dab1561097
+DEED_LINT_SHA256=6b6481b188b8228f2b0c5063835c312d966ffd19a96a9e26018b06316f4852a5
+JS="${GV_DEED_LINT_JS:-${XDG_CACHE_HOME:-$HOME/.cache}/gv-clade-index/deed_lint-$STANDARDS_REV.js}"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SEED_FILE="${1:-$SCRIPT_DIR/../verisim/seed/repos.a2ml}"
+SEED_FILE="${1:-$SCRIPT_DIR/../verisim/seed/chora-registry_praxis.deed}"
+MODE="${2:---rows}"
 
-awk '
-BEGIN { FS="=" }
-/^\[repo\./ {
-    if (current_repo != "") {
-        printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", current_repo, primary, secondary, lineage, parent, description, owner, former, retired
-    }
-    line = $0
-    gsub(/^\[repo\./, "", line)
-    gsub(/\]$/, "", line)
-    gsub(/"/, "", line)
-    current_repo = line
-    primary = ""; secondary = "[]"; description = ""; lineage = "standalone"; parent = ""; owner = "hyperpolymath"; former = ""; retired = ""
-}
-current_repo != "" && /^primary / {
-    val = $2
-    gsub(/^ *"/, "", val); gsub(/".*$/, "", val)
-    primary = val
-}
-current_repo != "" && /^secondary / {
-    val = $0
-    gsub(/^secondary *= */, "", val)
-    secondary = val
-}
-current_repo != "" && /^description / {
-    val = $0
-    gsub(/^description *= *"/, "", val); gsub(/"$/, "", val)
-    description = val
-}
-current_repo != "" && /^lineage / {
-    val = $2
-    gsub(/^ *"/, "", val); gsub(/".*$/, "", val)
-    lineage = val
-}
-current_repo != "" && /^parent / {
-    val = $2
-    gsub(/^ *"/, "", val); gsub(/".*$/, "", val)
-    parent = val
-}
-current_repo != "" && /^owner / {
-    val = $2
-    gsub(/^ *"/, "", val); gsub(/".*$/, "", val)
-    owner = val
-}
-current_repo != "" && /^former / {
-    val = $0
-    gsub(/^former *= */, "", val)
-    former = val
-}
-current_repo != "" && /^retired / {
-    val = $0
-    gsub(/^retired *= */, "", val)
-    retired = val
-}
-END {
-    if (current_repo != "") {
-        printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n", current_repo, primary, secondary, lineage, parent, description, owner, former, retired
-    }
-}
-' "$SEED_FILE"
+# Print the supplied failure message to stderr and terminate with status 1.
+fail() { echo "parse-repos: $*" >&2; exit 1; }
+command -v bun >/dev/null 2>&1 || fail "bun is required (estate tier-1 runtime)"
+
+if [ ! -f "$JS" ]; then
+  mkdir -p "$(dirname "$JS")"
+  curl --proto '=https' --proto-redir '=https' --fail --silent --show-error --location \
+    "https://raw.githubusercontent.com/metadatastician/standards/$STANDARDS_REV/1-formats/deed/tools/deed_lint.js" \
+    --output "$JS.part" || fail "could not fetch deed_lint.js at standards@$STANDARDS_REV"
+  mv "$JS.part" "$JS"
+fi
+echo "$DEED_LINT_SHA256  $JS" | sha256sum --check --strict --status \
+  || fail "$JS is not standards@$STANDARDS_REV 1-formats/deed/tools/deed_lint.js (sha256 mismatch)"
+
+DEED_LINT_JS="$JS" exec bun "$SCRIPT_DIR/parse-repos.js" "$SEED_FILE" "$MODE"
