@@ -176,18 +176,25 @@ echo "check-registry: archive holds $(jq length "$DATA/archive.json") moved repo
 if [[ -n "${GV_BASE_REPOS_JSON:-}" ]]; then
   [[ -f "$GV_BASE_REPOS_JSON" ]] || fail "GV_BASE_REPOS_JSON names a missing file: $GV_BASE_REPOS_JSON"
   jq empty "$GV_BASE_REPOS_JSON" 2>/dev/null || fail "GV_BASE_REPOS_JSON is not valid JSON"
+  # A repo is followed by its id, not its name: a rename keeps the id (U1)
+  # and changes `name` and `github` only. A base entry whose uuid the head no
+  # longer lists was removed, unless the head lists its name under another id,
+  # which is an id change.
   removed=$(jq -r --slurpfile head "$DATA/repos.json" '
-    ($head[0] | map(.name)) as $h
-    | [.[].name | select(. as $n | $h | index($n) | not)] | join(" ")' "$GV_BASE_REPOS_JSON")
+    ($head[0] | map(.uuid)) as $ids | ($head[0] | map(.name)) as $names
+    | [.[] | select((.uuid as $u | $ids | index($u) | not)
+                    and (.name as $n | $names | index($n) | not)) | .name] | join(" ")' "$GV_BASE_REPOS_JSON")
   [[ -z "$removed" ]] || fail "registered repo(s) removed from the seed: $removed (ADR 0008: a registered repo is never removed; record its status instead)"
   changed=$(jq -r --slurpfile head "$DATA/repos.json" '
-    ($head[0] | map({key: .name, value: .}) | from_entries) as $h
-    | [.[] | . as $b | $h[$b.name] as $c
+    ($head[0] | map({key: .uuid, value: .}) | from_entries) as $byid
+    | ($head[0] | map({key: .name, value: .}) | from_entries) as $byname
+    | [.[] | . as $b | ($byid[$b.uuid] // $byname[$b.name]) as $c
+       | select($c != null)
        | select(($b.uuid // null) != null and $b.uuid != $c.uuid
                 or ($b.uuid_v8 // null) != null and $b.uuid_v8 != $c.uuid_v8)
        | "\($b.name) (\($b.uuid) -> \($c.uuid))"] | join("; ")' "$GV_BASE_REPOS_JSON")
   [[ -z "$changed" ]] || fail "a registered id changed: $changed (ADR 0008: an id is minted once)"
-  echo "check-registry: all $(jq length "$GV_BASE_REPOS_JSON") repos of the base are still registered, ids unchanged"
+  echo "check-registry: all $(jq length "$GV_BASE_REPOS_JSON") repos of the base are still registered (followed by id), ids unchanged"
 else
   echo "check-registry: NOTICE: GV_BASE_REPOS_JSON unset, so the never-removed check (section 7) did not run"
 fi

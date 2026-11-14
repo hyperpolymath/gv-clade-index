@@ -1,10 +1,10 @@
 ;; SPDX-License-Identifier: MPL-2.0
 ;; SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 ;;
-;; The repo deed of gv-clade-index, the chora-registry (one deed per repo,
-;; D312). The file takes the canonical name the retired CLADE.a2ml held and
-;; GitHub still uses; when the repository is renamed to chora-registry the file
-;; is renamed with it and its :repo-uuid does not change (U1, U4).
+;; The repo deed of chora-registry (one deed per repo, D312). The repository
+;; was born hyperpolymath/gv-clade-index and renamed to chora-registry on
+;; 2026-11-14; the file was renamed with it and its :repo-uuid did not change
+;; (U1, U4). The id keeps its gv-clade-index minting domain for good (V9).
 ;;
 ;; Every clause below is translated field for field from a retired A2ML
 ;; descriptile under the mapping spec that governs its family, in standards
@@ -33,22 +33,24 @@
 ;;                      nothing translated (P-2a); the ledger names each field.
 (repo-deed
   :schema-version "1.0.0"
-  :canonical-name "gv-clade-index"
+  :canonical-name "chora-registry"
   :repo-uuid #uuid"a65b74d8-351a-89d9-a38d-aea470863b03"
   :beholding-chora #uuid"0889b37b-defb-831f-973c-e119500db00e"
-  (identity :owner "hyperpolymath" :primary-forge github :prefixed-name "gv-clade-index")
+  (identity :owner "hyperpolymath" :primary-forge github :prefixed-name "chora-registry")
   (clade
     :primary gv
     :secondary (db)
     :assigned "2026-03-16"
     :rationale "This is a governance registry backed by a database; governance is the primary purpose")
   (forges
-    :github "hyperpolymath/gv-clade-index"
+    :github "hyperpolymath/chora-registry"
     :gitlab "hyperpolymath/gv-clade-index"
     :bitbucket "hyperpolymath/gv-clade-index")
-  ; [lineage] had no previous-names or instantiated-from, so neither is emitted.
+  ; [lineage] had no previous-names or instantiated-from when translated; the
+  ; rename of 2026-11-14 adds the earlier name.
   (lineage
     :type standalone
+    :previous-names ("gv-clade-index")
     :parent ""
     :born "2026-03-16")
   ; AGENTIC.a2ml: [metadata] version and last-updated, [agent-permissions]

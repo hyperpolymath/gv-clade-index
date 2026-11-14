@@ -251,4 +251,13 @@ got=$(jq -r '.[] | select(.name == "zz-planted-escape-probe") | .description' "$
 bash "$work/repo/scripts/check-registry.sh" >/dev/null || { echo "FAIL: [escapes] gate refused it"; exit 1; }
 echo "ok: [escapes] backslashes and quotes in a description round-trip into repos.json"
 
-echo "check-registry-test: PASS (baseline, path reuse, birth id and an unchanged base pass; 19 planted failures fire; a chora-registry mint and string escapes pass)"
+# 24. A rename keeps the id (U1): a base that lists the repo under its old
+#     name passes, because the never-removed check follows the id.
+fresh
+jq --arg n "$first" 'map(if .name==$n then .name="zz-planted-old-name" | .github="hyperpolymath/zz-planted-old-name" else . end)' \
+  "$work/repo/worker/data/repos.json" > "$work/base-repos.json"
+GV_BASE_REPOS_JSON="$work/base-repos.json" bash "$work/repo/scripts/check-registry.sh" >/dev/null \
+  || { echo "FAIL: [rename] gate refused a renamed repo that kept its id"; exit 1; }
+echo "ok: [rename] a repo renamed since the base, with its id unchanged, passes"
+
+echo "check-registry-test: PASS (baseline, path reuse, birth id and an unchanged base pass; 19 planted failures fire; a chora-registry mint, string escapes and a rename pass)"

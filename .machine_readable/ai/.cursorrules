@@ -10,7 +10,7 @@
 # Copyright: Jonathan D.A. Jewell (hyperpolymath) <j.d.a.jewell@open.ac.uk>
 
 # STATE FILES
-# Repo metadata is deed: gv-clade-index_chora.deed at the root, descriptiles
+# Repo metadata is deed: chora-registry_chora.deed at the root, descriptiles
 # (STATE.deed, …) in .machine_readable/descriptiles/ ONLY.
 # A2ML is retired: never create a .a2ml file.
 

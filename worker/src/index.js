@@ -315,7 +315,7 @@ async function route(request, env, log, requestId) {
         endpoints: ENDPOINT_DOCS,
         total_repos: index.total_repos,
         total_clades: index.total_clades,
-        source: 'https://github.com/hyperpolymath/gv-clade-index',
+        source: 'https://github.com/hyperpolymath/chora-registry',
       },
       { requestId },
     );

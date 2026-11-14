@@ -41,7 +41,7 @@ index.
   served `uuid` (UUIDv5) is derived by `sync/export-json.sh`.
 . *Set lineage* — standalone / monorepo / monorepo-child / inflated / deflated,
   and when each applies.
-. *Ingest* — `sync/seed-verisim.sh`. The repo declares its own identity in its chora deed (`<repo>_chora.deed`, `:repo-uuid`); a `(clade …)` clause there is an optional finding aid. Nothing here writes into the repo.
+. *Ingest* — `sync/seed-verisim.sh`. The repo declares its own identity in its chora deed (`<repo>_chora.deed`, `:repo-uuid`); a `(clade …)` clause there records its placements, identity facts checked against the registry (A7 W10). Nothing here writes into the repo.
 . *Verify* — clade-hygiene contractile passes and the repo appears in
   `dashboard.vcl` (and not in `orphans.vcl`).
 

@@ -270,12 +270,16 @@
   ;; gv — Governance & Standards
   ;; ============================================================================
 
-  (repo :name "gv-clade-index" :owner "hyperpolymath"
+  ;; Renamed from gv-clade-index on 2026-11-14 (the GitHub rename). The id is
+  ;; minted once from the birth path and does not change (U1); its domain stays
+  ;; gv-clade-index (V9).
+  (repo :name "chora-registry" :owner "hyperpolymath"
         :uuid #uuid"a65b74d8-351a-89d9-a38d-aea470863b03" :minted-in gv-clade-index
-        :description "THIS REPO — clade taxonomy + VeriSimDB portal registry"
+        :description "THIS REPO — the register of repo identities and their classification schemes (VeriSimDB portal)"
         (lineage :type standalone)
         (placement :scheme clade-12 :category gv :primary #t)
-        (placement :scheme clade-12 :category db :rank 1))
+        (placement :scheme clade-12 :category db :rank 1)
+        (former :generation 1 :path "hyperpolymath/gv-clade-index" :until "2026-11-14"))
 
   (repo :name "palimpsest-license" :owner "hyperpolymath"
         :uuid #uuid"5a0be662-f3a0-861c-85e7-8896d839fe1c" :minted-in gv-clade-index

@@ -19,9 +19,9 @@ set positional-arguments := true
 import? "contractile.just"
 
 # Project metadata — customize these
-project := "gv-clade-index"
+project := "chora-registry"
 OWNER := "hyperpolymath"
-REPO := "gv-clade-index"
+REPO := "chora-registry"
 version := "0.1.0"
 tier := "infrastructure"  # 1 | 2 | infrastructure
 
@@ -886,7 +886,7 @@ assail:
 
 # Self-diagnostic — checks dependencies, permissions, paths
 doctor:
-    @echo "Running diagnostics for gv-clade-index..."
+    @echo "Running diagnostics for chora-registry..."
     @echo "Checking required tools..."
     @command -v just >/dev/null 2>&1 && echo "  [OK] just" || echo "  [FAIL] just not found"
     @command -v git >/dev/null 2>&1 && echo "  [OK] git" || echo "  [FAIL] git not found"
@@ -896,7 +896,7 @@ doctor:
 
 # Auto-repair common issues
 heal:
-    @echo "Attempting auto-repair for gv-clade-index..."
+    @echo "Attempting auto-repair for chora-registry..."
     @echo "Fixing permissions..."
     @find . -name "*.sh" -exec chmod +x {} \; 2>/dev/null || true
     @echo "Cleaning stale caches..."
@@ -905,7 +905,7 @@ heal:
 
 # Guided tour of key features
 tour:
-    @echo "=== gv-clade-index Tour ==="
+    @echo "=== chora-registry Tour ==="
     @echo ""
     @echo "1. Project structure:"
     @ls -la
@@ -920,12 +920,12 @@ tour:
 
 # Open feedback channel with diagnostic context
 help-me:
-    @echo "=== gv-clade-index Help ==="
+    @echo "=== chora-registry Help ==="
     @echo "Platform: $(uname -s) $(uname -m)"
     @echo "Shell: $SHELL"
     @echo ""
     @echo "To report an issue:"
-    @echo "  https://github.com/hyperpolymath/gv-clade-index/issues/new"
+    @echo "  https://github.com/hyperpolymath/chora-registry/issues/new"
     @echo ""
     @echo "Include the output of 'just doctor' in your report."
 

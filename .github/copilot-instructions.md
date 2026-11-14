@@ -7,7 +7,7 @@
 ## Before Writing Code
 
 - Read `0-AI-MANIFEST.deed` in the repo root first: it points at the repo deed.
-- Repo metadata is deed (`gv-clade-index_chora.deed`, `.machine_readable/descriptiles/STATE.deed`). A2ML is retired: never create a `.a2ml` file.
+- Repo metadata is deed (`chora-registry_chora.deed`, `.machine_readable/descriptiles/STATE.deed`). A2ML is retired: never create a `.a2ml` file.
 
 ## License
 
@@ -52,6 +52,6 @@
 
 ## State Files
 
-Repo facts live in `gv-clade-index_chora.deed`; descriptiles (`STATE.deed` and
+Repo facts live in `chora-registry_chora.deed`; descriptiles (`STATE.deed` and
 the like) live in `.machine_readable/descriptiles/` only, never the root. Never
 create a `.a2ml` file (A2ML is retired; `docs/history/A2ML-REMOVED.adoc`).

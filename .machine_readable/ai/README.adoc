@@ -13,7 +13,7 @@ Avoid scattering agent instruction files around the repo root.
 Recommended machine read order:
 
 * `0-AI-MANIFEST.deed` (pointer-only front door)
-* `gv-clade-index_chora.deed` (repo facts, including the `(agentic)` clause)
+* `chora-registry_chora.deed` (repo facts, including the `(agentic)` clause)
 * `.machine_readable/descriptiles/STATE.deed` (lifecycle status, maturity)
 
 A2ML is retired; never add a `.a2ml` file here

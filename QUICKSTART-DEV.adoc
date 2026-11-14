@@ -102,7 +102,7 @@ If using an AI assistant, load the warmup context first:
 just llm-context    # Outputs role-appropriate context
 ----
 
-Or read `0-AI-MANIFEST.deed` and `gv-clade-index_chora.deed` directly.
+Or read `0-AI-MANIFEST.deed` and `chora-registry_chora.deed` directly.
 
 == Get Help
 
