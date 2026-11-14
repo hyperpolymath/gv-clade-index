@@ -31,7 +31,7 @@ gv-clade-index is the **map** of the hyperpolymath territory. It contains:
 
 ### VeriSimDB: `verisimdb/` ONLY
 - `schema/` — VQL schema definitions (repo, clade, todo, observation, feedback, lineage, forge-identity)
-- `seed/` — Initial data (clades.a2ml, repos.a2ml, forges.a2ml)
+- `seed/` — Initial data (clades.a2ml, forges.a2ml)
 - `queries/` — Pre-built VQL queries (dashboard, stale, orphans, drift, bot-findings, blocked, cross-clade-deps, feedback-status)
 - `config.a2ml` — VeriSimDB instance configuration
 

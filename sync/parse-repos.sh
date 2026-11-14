@@ -32,7 +32,7 @@ MODE="${2:---rows}"
 fail() { echo "parse-repos: $*" >&2; exit 1; }
 command -v bun >/dev/null 2>&1 || fail "bun is required (estate tier-1 runtime)"
 
-if [ ! -f "$JS" ]; then
+if [[ ! -f "$JS" ]]; then
   mkdir -p "$(dirname "$JS")"
   curl --proto '=https' --proto-redir '=https' --fail --silent --show-error --location \
     "https://raw.githubusercontent.com/metadatastician/standards/$STANDARDS_REV/1-formats/deed/tools/deed_lint.js" \

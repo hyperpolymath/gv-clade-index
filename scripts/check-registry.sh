@@ -52,9 +52,9 @@ need jq; need uuidgen; need cmp; need bun
 bash "$ROOT/sync/parse-repos.sh" "$SEED" >/dev/null || fail "sync/parse-repos.sh refused the seed"
 rows=$(bash "$ROOT/sync/parse-repos.sh" "$SEED" | wc -l | tr -d ' ')
 declared=$(bash "$ROOT/sync/parse-repos.sh" "$SEED" --total) || fail "the seed has no :total-repos"
-[ "$rows" = "$declared" ] || fail "the seed declares :total-repos $declared but parses to $rows rows"
+[[ "$rows" = "$declared" ]] || fail "the seed declares :total-repos $declared but parses to $rows rows"
 dups=$(bash "$ROOT/sync/parse-repos.sh" "$SEED" | cut -f1 | sort | uniq -d | tr '\n' ' ')
-[ -z "$dups" ] || fail "duplicate repo names in the seed: $dups"
+[[ -z "$dups" ]] || fail "duplicate repo names in the seed: $dups"
 echo "check-registry: seed parses to $rows rows = :total-repos, names unique"
 # The scheme clade-12 in the seed and the clade definitions served from
 # clades.a2ml (legacy, still A2ML) name the same categories.

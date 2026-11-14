@@ -66,7 +66,7 @@ function want(f, k, t, where, required = true) {
   return v;
 }
 const PATH = /^[A-Za-z0-9._-]+\/[A-Za-z0-9._-]+$/;
-const DATE = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const LINEAGE = new Set(["standalone", "monorepo", "monorepo-child", "inflated", "deflated"]);
 const DOMAINS = new Set(["gv-clade-index", "chora-registry"]);
 
@@ -111,7 +111,7 @@ if (mode === "--categories") {
   process.exit(0);
 }
 
-const list = (xs) => `[${xs.map((x) => `"${x}"`).join(", ")}]`;
+const list = (xs) => "[" + xs.map((x) => `"${x}"`).join(", ") + "]";
 const names = new Set();
 const out = [];
 for (const [name, body] of clauses) {
